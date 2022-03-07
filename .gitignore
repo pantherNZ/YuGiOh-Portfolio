@@ -127,3 +127,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+src/TrelloKey.py
+src/20220106_234555.sqlite
