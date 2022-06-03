@@ -97,8 +97,8 @@ def generate_next_trello_card(list_id:str, card_name:str, idx:int, total:int):
 def generate_trello_cards(list_id:str, card_names:list):
     print(f'Adding {len(card_names)} new cards to "Current" list with id: {list_id}')
         
-    for card in card_names:
-        if not generate_next_trello_card(list_id, card):
+    for idx, card in enumerate( card_names ):
+        if not generate_next_trello_card(list_id, card, idx, len(card_names)):
             return
 
     print(f'SUCCESS Finished adding {len(card_names)} new cards')
