@@ -53,7 +53,7 @@
     <UnityVersion>2021.3.3f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Utility\UndoRedoSystem.cs" />
+    <Compile Include="Assets\Scripts\UI\EventTypes.cs" />
     <Compile Include="Assets\Utility\FunctionTimer.cs" />
     <Compile Include="Assets\Utility\Extensions.cs" />
     <Compile Include="Assets\Utility\Quad.cs" />
@@ -66,6 +66,7 @@
     <Compile Include="Assets\Utility\SecureHash.cs" />
     <Compile Include="Assets\Utility\SyncSolutionUtilities.cs" />
     <Compile Include="Assets\Utility\EventDispatcher.cs" />
+    <Compile Include="Assets\Scripts\UI\BinderPage.cs" />
     <Compile Include="Assets\Utility\EventSystem.cs" />
     <Compile Include="Assets\Utility\SimplexNoise.cs" />
     <Compile Include="Assets\Utility\InputPriority.cs" />
@@ -73,9 +74,9 @@
     <Compile Include="Assets\Utility\Bezier.cs" />
     <Compile Include="Assets\Utility\xxHash.cs" />
     <Compile Include="Assets\Utility\CustomGravity.cs" />
+    <Compile Include="Assets\Utility\UndoRedoSystem.cs" />
     <Compile Include="Assets\Utility\Touchable.cs" />
-    <Compile Include="Assets\Scripts\UI\BinderPage.cs" />
-    <Compile Include="Assets\Scripts\UI\EventTypes.cs" />
+    <Compile Include="Assets\Utility\SaveGame.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

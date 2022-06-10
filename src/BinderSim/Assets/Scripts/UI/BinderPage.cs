@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class BinderPage : EventReceiverInstance
 {
-    [SerializeField] GameObject binderPage;
-    [SerializeField] GameObject bindersList;
+    [SerializeField] GameObject binderPage = null;
+
+    public void SaveAndExit()
+    {
+        EventSystem.Instance.TriggerEvent( new PageChangeRequestEvent() { page = PageType.MainMenu } );
+    }
 
     public override void OnEventReceived( IBaseEvent e )
     {
@@ -21,7 +25,7 @@ public class BinderPage : EventReceiverInstance
                     break;
             }
         }
-        else if( e is PageChangeRequestEvent pageChangeRequest )
+        else if( e is BinderDataUpdateEvent binderUpdateEvent )
         {
         }
     }

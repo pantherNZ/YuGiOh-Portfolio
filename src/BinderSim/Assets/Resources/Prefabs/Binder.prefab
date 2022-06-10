@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3400530714703336217}
   - component: {fileID: 1411841505587433534}
   - component: {fileID: 6684062745893922173}
-  - component: {fileID: 3343891767207106797}
+  - component: {fileID: -4512743748725380990}
   m_Layer: 5
   m_Name: Binder
   m_TagString: Untagged
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &3343891767207106797
+--- !u!114 &-4512743748725380990
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,14 +118,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 77367982061662051}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Script: {fileID: 11500000, guid: 206a3bfbc74d5cc4d9129393f83d4212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
+  doubleClickInterval: 0.5
 --- !u!1 &3911979509889501469
 GameObject:
   m_ObjectHideFlags: 0
