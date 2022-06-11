@@ -62,6 +62,7 @@
     <Compile Include="Assets\Utility\Utility.cs" />
     <Compile Include="Assets\Utility\UtilityCoroutines.cs" />
     <Compile Include="Assets\Utility\HashedString.cs" />
+    <Compile Include="Assets\Utility\SaveGame.cs" />
     <Compile Include="Assets\Utility\FPSCounter.cs" />
     <Compile Include="Assets\Utility\SecureHash.cs" />
     <Compile Include="Assets\Utility\SyncSolutionUtilities.cs" />
@@ -76,7 +77,9 @@
     <Compile Include="Assets\Utility\CustomGravity.cs" />
     <Compile Include="Assets\Utility\UndoRedoSystem.cs" />
     <Compile Include="Assets\Utility\Touchable.cs" />
-    <Compile Include="Assets\Utility\SaveGame.cs" />
+    <Compile Include="Assets\Utility\AdvancedGridLayout.cs" />
+    <Compile Include="Assets\Utility\AdvancedGridLayoutCustomEditor.cs" />
+    <Compile Include="Assets\Scripts\UI\SearchPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

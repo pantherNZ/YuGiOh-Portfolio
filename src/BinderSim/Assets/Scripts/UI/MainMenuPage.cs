@@ -16,7 +16,7 @@ public class MainMenuPage : EventReceiverInstance, ISavableComponent
     [SerializeField] Color selectedEntryColour = new Color();
 
     private List<BinderData> binderData = new List<BinderData>();
-    private Image currentlySelectedBinder = null;
+    private int? currentlySelectedBinderIdx;
 
     protected override void Start()
     {
@@ -31,6 +31,8 @@ public class MainMenuPage : EventReceiverInstance, ISavableComponent
             else
                 EventSystem.Instance.TriggerEvent( new BinderLoadedEvent() );
         }
+
+        mainMenuPage.SetActive( true );
     }
 
     void ISavableComponent.Serialise( BinaryWriter writer )
@@ -45,15 +47,27 @@ public class MainMenuPage : EventReceiverInstance, ISavableComponent
 
     public void EditBinder()
     {
-        EventSystem.Instance.TriggerEvent( new PageChangeRequestEvent() { page = PageType.BinderPage } );
+        EventSystem.Instance.TriggerEvent( new PageChangeRequestEvent()
+        { 
+            page = PageType.BinderPage,
+            binder = binderData[currentlySelectedBinderIdx.Value]
+        } );
+    }
+
+    private GameObject GetSelectedBinder()
+    {
+        return currentlySelectedBinderIdx.HasValue ? bindersList.transform.GetChild( currentlySelectedBinderIdx.Value + 1 ).gameObject : null;
     }
 
     public void DeleteBinder()
     {
-        if( currentlySelectedBinder == null )
+        if( currentlySelectedBinderIdx == null )
             return;
 
-        currentlySelectedBinder.gameObject.Destroy();
+        GetSelectedBinder().Destroy();
+        currentlySelectedBinderIdx = null;
+        editButton.interactable = false;
+        deleteButton.interactable = false;
     }
 
     public void NewBinder()
@@ -61,27 +75,44 @@ public class MainMenuPage : EventReceiverInstance, ISavableComponent
         var newBinder = Instantiate( binderEntryPrefab );
         newBinder.transform.SetParent(bindersList.transform);
 
-        var texts = newBinder.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
-        texts[0].text = "New binder";
-        texts[1].text = Constants.DefaultStartingNumPages.ToString();
-        texts[2].text = string.Format( "{0}x{1}", Constants.DefaultStartingPageWidth, Constants.DefaultStartingPageHeight );
-        texts[2].text = DateTime.Now.ToShortDateString();
+        binderData.Add( new BinderData()
+        {
+            name = "New binder",
+            dateCreated = DateTime.Now,
+            pageCount = Constants.DefaultStartingNumPages,
+            pageWidth = Constants.DefaultStartingPageWidth,
+            pageHeight = Constants.DefaultStartingPageHeight,
+            cardList = new List<CardData>(),
+        } );
 
-        var images = newBinder.GetComponentsInChildren<Image>();
-        // Preview icon
-        images[1].gameObject.Destroy();
+        binderData.Back().cardList.Resize( Constants.DefaultStartingNumCards );
+        UpdateBinderUIEntry( newBinder, binderData.Back() );
 
+        int thisIdx = binderData.Count - 1;
         newBinder.GetComponent<EventDispatcher>().OnPointerUpEvent += ( PointerEventData e ) =>
         {
-            bool unselect = currentlySelectedBinder == images[0];
-            if( currentlySelectedBinder != null || unselect )
-                currentlySelectedBinder.color = new Color( 0.0f, 0.0f, 0.0f, 0.0f );
+            bool unselect = currentlySelectedBinderIdx == thisIdx;
+            if( currentlySelectedBinderIdx != null || unselect )
+                GetSelectedBinder().GetComponent<Image>().color = new Color( 0.0f, 0.0f, 0.0f, 0.0f );
             if( !unselect )
-                images[0].color = selectedEntryColour;
-            currentlySelectedBinder = unselect ? null : images[0];
+                newBinder.GetComponent<Image>().color = selectedEntryColour;
+            currentlySelectedBinderIdx = unselect ? null : thisIdx;
             editButton.interactable = !unselect;
             deleteButton.interactable = !unselect;
         };
+    }
+
+    private void UpdateBinderUIEntry(GameObject entry, BinderData data)
+    {
+        var texts = entry.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
+        texts[0].text = data.name;
+        texts[1].text = data.pageCount.ToString();
+        texts[2].text = string.Format( "{0}x{1}", data.pageWidth, data.pageHeight );
+        texts[3].text = data.dateCreated.ToShortDateString();
+
+        var images = entry.GetComponentsInChildren<Image>();
+        // Preview icon
+        images[1].gameObject.Destroy();
     }
 
     public override void OnEventReceived( IBaseEvent e )
