@@ -53,12 +53,14 @@
     <UnityVersion>2021.3.3f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\UI\EventTypes.cs" />
+    <Compile Include="Assets\Scripts\EventTypes.cs" />
     <Compile Include="Assets\Utility\FunctionTimer.cs" />
     <Compile Include="Assets\Utility\Extensions.cs" />
     <Compile Include="Assets\Utility\Quad.cs" />
     <Compile Include="Assets\Scripts\UI\MainMenuPage.cs" />
+    <Compile Include="Assets\Scripts\UI\SearchPage.cs" />
     <Compile Include="Assets\Utility\SwipeManager.cs" />
+    <Compile Include="Assets\Utility\AdvancedGridLayoutCustomEditor.cs" />
     <Compile Include="Assets\Utility\Utility.cs" />
     <Compile Include="Assets\Utility\UtilityCoroutines.cs" />
     <Compile Include="Assets\Utility\HashedString.cs" />
@@ -74,12 +76,12 @@
     <Compile Include="Assets\Utility\SQLExtensions.cs" />
     <Compile Include="Assets\Utility\Bezier.cs" />
     <Compile Include="Assets\Utility\xxHash.cs" />
+    <Compile Include="Assets\Utility\AdvancedGridLayout.cs" />
     <Compile Include="Assets\Utility\CustomGravity.cs" />
     <Compile Include="Assets\Utility\UndoRedoSystem.cs" />
     <Compile Include="Assets\Utility\Touchable.cs" />
-    <Compile Include="Assets\Utility\AdvancedGridLayout.cs" />
-    <Compile Include="Assets\Utility\AdvancedGridLayoutCustomEditor.cs" />
-    <Compile Include="Assets\Scripts\UI\SearchPage.cs" />
+    <Compile Include="Assets\Scripts\RequestJsonFormat.cs" />
+    <Compile Include="Assets\Scripts\DataTypes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

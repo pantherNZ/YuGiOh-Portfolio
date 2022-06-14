@@ -29,11 +29,6 @@ public struct BinderData
 public struct CardData
 {
     public string name;
-    public uint cardId;
+    public int cardId;
     public string imagePath;
 }
-
-public class BinderLoadedEvent : IBaseEvent {  }
-public class PageChangeRequestEvent : IBaseEvent { public PageType page; public BinderData? binder = null; }
-public class BinderDataUpdateEvent : IBaseEvent {  }
-public class CardSelectedEvent : IBaseEvent { public CardData card; }
