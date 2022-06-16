@@ -44,7 +44,7 @@ public class BinderPage : EventReceiverInstance
                     break;
                 case PageType.BinderPage:
                     binderPage.SetActive( true );
-                    LoadBinder( pageChangeRequest.binder.Value );                    
+                    LoadBinder( pageChangeRequest.binder.Value );
                     break;
             }
         }
@@ -55,6 +55,10 @@ public class BinderPage : EventReceiverInstance
         {
             searchListPage.SetActive( false );
             LoadCard( cardSelectedEvent.card );
+        }
+        else if( e is BinderLoadedEvent binderLoadedEvent )
+        {
+            //LoadBinder( binderLoadedEvent.data );
         }
     }
 
@@ -83,7 +87,7 @@ public class BinderPage : EventReceiverInstance
         // TODO: Resetup grid X/Y
         if( width != currentbinder.pageWidth || height != currentbinder.pageHeight )
         {
-           
+
         }
         else
         {
@@ -133,5 +137,26 @@ public class BinderPage : EventReceiverInstance
             imagePath = "test",
         };
         currentModifyCardIdx = null;
+    }
+    private void OnApplicationPause( bool paused )
+    {
+        if( paused )
+            Save();
+    }
+
+    private void OnApplicationFocus( bool hasFocus )
+    {
+        if( !hasFocus )
+            Save();
+    }
+
+    private void OnApplicationQuit()
+    {
+        Save();
+    }
+
+    private void Save()
+    {
+        SaveGameSystem.SaveGame( "test" );
     }
 }
