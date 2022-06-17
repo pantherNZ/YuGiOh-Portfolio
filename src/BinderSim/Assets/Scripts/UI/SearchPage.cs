@@ -16,7 +16,7 @@ public class SearchPage : EventReceiverInstance
     [SerializeField] Button selectCardButton = null;
     [SerializeField] Color selectedEntryColour = new Color();
 
-    private List<CardData> cardData = new List<CardData>();
+    private List<CardDataRuntime> cardData = new List<CardDataRuntime>();
     private int? currentCardSelectedIdx;
 
     public void SearchCards()
@@ -28,7 +28,7 @@ public class SearchPage : EventReceiverInstance
 
         // https://db.ygoprodeck.com/api-guide/
         var url = String.Format( "https://db.ygoprodeck.com/api/v7/cardinfo.php?fname={0}", searchInput.text );
-        StartCoroutine( SendGetRequest( url, HandleSearchResult ) );
+        StartCoroutine( SendGetRequest( url, OnSearchResultReceived ) );
 
 
         //byte[] results = request.downloadHandler.data;
@@ -36,29 +36,38 @@ public class SearchPage : EventReceiverInstance
         //SaveImage( "Images/" + filename, results );
     }
 
-    private void HandleSearchResult( string result )
+    private void OnSearchResultReceived( string result )
     {
         Root data = JsonConvert.DeserializeObject<Root>( result );
 
         if( data.data.IsEmpty() )
         {
-            AddCard( new CardData()
-            {
-                name = "No results found"
-            } );
+            AddCard( new CardDataRuntime(){ name = "No results found" } );
         }
         else
         {
             foreach( var card in data.data )
             {
-                AddCard( new CardData()
+                var newCard = new CardDataRuntime()
                 {
                     name = card.name,
                     cardId = card.id,
-                    imagePath = "test",
-                } );
+                    imageId = card.card_images[0].id,
+                };
+                AddCard( newCard );
+
+                var smallImageUrl = card.card_images[0].image_url_small;
+                //StartCoroutine( DownloadImage( smallImageUrl, ( texture ) => OnImageDownloaded( texture, newCard ) ) );
             }
         }
+    }
+
+    private void OnImageDownloaded( Texture2D texture, CardDataRuntime cardData )
+    {
+        // Idx 1 because 0 is the UI entry background (1 is the preview card image)
+        var cardPreview = cardData.cardUI.GetComponentsInChildren<Image>()[1];
+        cardPreview.sprite = Utility.CreateSprite( texture );
+        cardPreview.color = Color.white;
     }
 
     IEnumerator SendGetRequest( string url, Action<string> callback = null)
@@ -84,10 +93,8 @@ public class SearchPage : EventReceiverInstance
         }
     }
 
-    IEnumerator DownloadImage( string url, Action<Texture> callback)
+    IEnumerator DownloadImage( string url, Action<Texture2D> callback)
     {
-        Debug.Log( "Start Downloading Images" );
-
         using( UnityWebRequest request = UnityWebRequestTexture.GetTexture( url ) )
         {
             // uwr2.downloadHandler = new DownloadHandlerBuffer();
@@ -99,7 +106,6 @@ public class SearchPage : EventReceiverInstance
             }
             else
             {
-                Debug.Log( "Success" );
                 callback?.Invoke( DownloadHandlerTexture.GetContent( request ) );
             }
         }
@@ -132,23 +138,26 @@ public class SearchPage : EventReceiverInstance
 
     private GameObject GetSelectedCard()
     {
-        return currentCardSelectedIdx.HasValue ? cardList.transform.GetChild( currentCardSelectedIdx.Value + 1 ).gameObject : null;
+        return currentCardSelectedIdx.HasValue ? cardList.transform.GetChild( currentCardSelectedIdx.Value ).gameObject : null;
     }
 
-    public void AddCard( CardData card )
+    public void AddCard( CardDataRuntime card )
     {
-        cardData.Add( card );
         var newCardUIEntry = AddCardUI( card );
+        card.cardUI = newCardUIEntry;
+        cardData.Add( card );
 
         // On click
         var eventDispatcher = newCardUIEntry.GetComponent<EventDispatcher>();
         int thisIdx = cardData.Count - 1;
 
+        newCardUIEntry.GetComponentsInChildren<Image>()[1].color =  Color.clear;
+
         eventDispatcher.OnPointerUpEvent += ( PointerEventData e ) =>
         {
             bool unselect = currentCardSelectedIdx == thisIdx;
             if( currentCardSelectedIdx != null || unselect )
-                GetSelectedCard().GetComponent<Image>().color = new Color( 0.0f, 0.0f, 0.0f, 0.0f );
+                GetSelectedCard().GetComponent<Image>().color = Color.clear;
             if( !unselect )
                 newCardUIEntry.GetComponent<Image>().color = selectedEntryColour;
             currentCardSelectedIdx = unselect ? null : thisIdx;
@@ -180,7 +189,7 @@ public class SearchPage : EventReceiverInstance
         newCardUIEntry.transform.SetParent( cardList.transform );
 
         var texts = newCardUIEntry.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
-        texts[0].text = cardData.Back().name;
+        texts[0].text = card.name;
 
         return newCardUIEntry;
     }

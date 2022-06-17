@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Constants
 {
@@ -26,9 +27,14 @@ public struct BinderData
     public string imagePath;
 }
 
-public struct CardData
+public class CardData
 {
     public string name;
     public int cardId;
-    public string imagePath;
+    public int imageId;
+}
+
+public class CardDataRuntime : CardData
+{
+    public GameObject cardUI;
 }

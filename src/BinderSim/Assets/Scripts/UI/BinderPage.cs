@@ -1,36 +1,118 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class BinderPage : EventReceiverInstance
+public class BinderPage : EventReceiverInstance, ISavableComponent
 {
-    [SerializeField] GameObject binderPage = null;
-    [SerializeField] AdvancedGridLayout cardsDisplayGridLeft = null;
-    [SerializeField] AdvancedGridLayout cardsDisplayGridRight = null;
-    [SerializeField] GameObject searchListPage = null;
-    [SerializeField] TMPro.TMP_InputField binderNameText = null;
-    [SerializeField] TMPro.TMP_InputField pageCountText = null;
-    [SerializeField] TMPro.TMP_InputField pageSizeText = null;
-    [SerializeField] TMPro.TextMeshProUGUI dateCreatedText = null;
+    [SerializeField] GameObject mainMenuPage = null;
+    [SerializeField] GameObject bindersList = null;
+    [SerializeField] GameObject binderEntryPrefab = null;
+    [SerializeField] Button editButton = null;
+    [SerializeField] Button deleteButton = null;
+    [SerializeField] Color selectedEntryColour = new Color();
 
-    private BinderData currentbinder;
-    private int width = Constants.DefaultStartingPageWidth;
-    private int height = Constants.DefaultStartingPageHeight;
-    private int currentPage;
-    private int? currentModifyCardIdx;
+    private List<BinderData> binderData = new List<BinderData>();
+    private int? currentlySelectedBinderIdx;
 
     protected override void Start()
     {
         base.Start();
-        binderPage.SetActive( false );
-        searchListPage.SetActive( false );
+
+        SaveGameSystem.AddSaveableComponent( this );
+
+        //foreach(var save in SaveGameSystem.GetSaveGames() )
+        //{
+        //    if( !SaveGameSystem.LoadGame( save ) )
+        //        Debug.LogError( "Failed to load save file: " + save );
+        //    else
+        //        EventSystem.Instance.TriggerEvent( new BinderLoadedEvent() );
+        //}
+
+        mainMenuPage.SetActive( true );
     }
 
-    public void SaveAndExit()
+    void ISavableComponent.Serialise( BinaryWriter writer )
     {
-        EventSystem.Instance.TriggerEvent( new PageChangeRequestEvent() { page = PageType.MainMenu } );
+        throw new NotImplementedException();
+    }
+
+    void ISavableComponent.Deserialise( int saveVersion, BinaryReader reader )
+    {
+        throw new NotImplementedException();
+    }
+
+    public void EditBinder()
+    {
+        EventSystem.Instance.TriggerEvent( new PageChangeRequestEvent()
+        { 
+            page = PageType.BinderPage,
+            binder = binderData[currentlySelectedBinderIdx.Value]
+        } );
+    }
+
+    private GameObject GetSelectedBinder()
+    {
+        return currentlySelectedBinderIdx.HasValue ? bindersList.transform.GetChild( currentlySelectedBinderIdx.Value + 1 ).gameObject : null;
+    }
+
+    public void DeleteBinder()
+    {
+        if( currentlySelectedBinderIdx == null )
+            return;
+
+        GetSelectedBinder().Destroy();
+        currentlySelectedBinderIdx = null;
+        editButton.interactable = false;
+        deleteButton.interactable = false;
+    }
+
+    public void NewBinder()
+    {
+        var newBinder = Instantiate( binderEntryPrefab );
+        newBinder.transform.SetParent(bindersList.transform);
+
+        binderData.Add( new BinderData()
+        {
+            name = "New binder",
+            dateCreated = DateTime.Now,
+            pageCount = Constants.DefaultStartingNumPages,
+            pageWidth = Constants.DefaultStartingPageWidth,
+            pageHeight = Constants.DefaultStartingPageHeight,
+            cardList = new List<CardData>(),
+        } );
+
+        binderData.Back().cardList.Resize( Constants.DefaultStartingNumCards );
+        UpdateBinderUIEntry( newBinder, binderData.Back() );
+
+        int thisIdx = binderData.Count - 1;
+        newBinder.GetComponent<EventDispatcher>().OnPointerUpEvent += ( PointerEventData e ) =>
+        {
+            bool unselect = currentlySelectedBinderIdx == thisIdx;
+            if( currentlySelectedBinderIdx != null || unselect )
+                GetSelectedBinder().GetComponent<Image>().color = Color.clear;
+            if( !unselect )
+                newBinder.GetComponent<Image>().color = selectedEntryColour;
+            currentlySelectedBinderIdx = unselect ? null : thisIdx;
+            editButton.interactable = !unselect;
+            deleteButton.interactable = !unselect;
+        };
+    }
+
+    private void UpdateBinderUIEntry(GameObject entry, BinderData data)
+    {
+        var texts = entry.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
+        texts[0].text = data.name;
+        texts[1].text = data.pageCount.ToString();
+        texts[2].text = string.Format( "{0}x{1}", data.pageWidth, data.pageHeight );
+        texts[3].text = data.dateCreated.ToShortDateString();
+
+        var images = entry.GetComponentsInChildren<Image>();
+        // Preview icon
+        images[1].gameObject.Destroy();
     }
 
     public override void OnEventReceived( IBaseEvent e )
@@ -40,123 +122,20 @@ public class BinderPage : EventReceiverInstance
             switch( pageChangeRequest.page )
             {
                 case PageType.MainMenu:
-                    binderPage.SetActive( false );
+                    mainMenuPage.SetActive( true );
                     break;
                 case PageType.BinderPage:
-                    binderPage.SetActive( true );
-                    LoadBinder( pageChangeRequest.binder.Value );
+                    mainMenuPage.SetActive( false );
                     break;
             }
         }
-        else if( e is BinderDataUpdateEvent binderUpdateEvent )
-        {
-        }
-        else if( e is CardSelectedEvent cardSelectedEvent )
-        {
-            searchListPage.SetActive( false );
-            LoadCard( cardSelectedEvent.card );
-        }
-        else if( e is BinderLoadedEvent binderLoadedEvent )
-        {
-            //LoadBinder( binderLoadedEvent.data );
-        }
-    }
-
-    private void LoadBinder( BinderData data )
-    {
-        currentbinder = data;
-        currentPage = 0;
-        binderNameText.text = currentbinder.name;
-        pageCountText.text = data.pageCount.ToString();
-        pageSizeText.text = string.Format( "{0}x{1}", data.pageWidth, data.pageHeight );
-        dateCreatedText.text = data.dateCreated.ToShortDateString();
-        PopulateGrid();
-    }
-
-    private void LoadCard( CardData data )
-    {
-        Debug.Assert( currentModifyCardIdx != null );
-        // TODO: Load new image
-        //cardsDisplayGrid.transform.GetChild( currentModifyCardIdx.Value ).GetComponent<Image>().sprite
-        cardsDisplayGridLeft.transform.GetChild( currentModifyCardIdx.Value ).GetComponent<Image>().color = Color.red;
-        currentbinder.cardList[currentModifyCardIdx.Value] = data;
-    }
-
-    private void PopulateGrid()
-    {
-        // TODO: Resetup grid X/Y
-        if( width != currentbinder.pageWidth || height != currentbinder.pageHeight )
+        else if( e is BinderLoadedEvent )
         {
 
         }
-        else
+        else if( e is BinderDataUpdateEvent )
         {
-            // Reset images
-            for( int i = 0; i < cardsDisplayGridLeft.transform.childCount; ++i )
-                cardsDisplayGridLeft.transform.GetChild( i ).GetComponent<Image>().sprite = null;
+
         }
-
-        // Setup buttons
-        for( int i = 0; i < cardsDisplayGridLeft.transform.childCount; ++i )
-        {
-            int idx = i;
-            cardsDisplayGridLeft.transform.GetChild( i ).GetComponent<EventDispatcher>().OnDoubleClickEvent += ( PointerEventData e ) =>
-                {
-                    currentModifyCardIdx = idx;
-                    OpenSearchPanel();
-                };
-        }
-    }
-
-    public void NextPage()
-    {
-        currentPage = Mathf.Clamp( currentPage + 1, 0, currentbinder.pageCount - 1 );
-        PopulateGrid();
-    }
-
-    public void prevPage()
-    {
-        currentPage = Mathf.Clamp( currentPage - 1, 0, currentbinder.pageCount - 1 );
-        PopulateGrid();
-    }
-
-    public void OpenSearchPanel()
-    {
-        searchListPage.SetActive( true );
-    }
-
-    public void Selectcard()
-    {
-        Debug.Assert( currentModifyCardIdx != null );
-        searchListPage.SetActive( false );
-        // TODO
-        currentbinder.cardList[currentModifyCardIdx.Value] = new CardData()
-        {
-            name = "test",
-            cardId = 5,
-            imagePath = "test",
-        };
-        currentModifyCardIdx = null;
-    }
-    private void OnApplicationPause( bool paused )
-    {
-        if( paused )
-            Save();
-    }
-
-    private void OnApplicationFocus( bool hasFocus )
-    {
-        if( !hasFocus )
-            Save();
-    }
-
-    private void OnApplicationQuit()
-    {
-        Save();
-    }
-
-    private void Save()
-    {
-        SaveGameSystem.SaveGame( "test" );
     }
 }
