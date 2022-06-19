@@ -14,6 +14,11 @@ public class CardPage : EventReceiverInstance
     [SerializeField] TMPro.TMP_InputField pageCountText = null;
     [SerializeField] TMPro.TMP_InputField pageSizeText = null;
     [SerializeField] TMPro.TextMeshProUGUI dateCreatedText = null;
+    [SerializeField] Texture2D defaultCardImage = null;
+    [SerializeField] Button prevPageButton = null;
+    [SerializeField] Button nextPageButton = null;
+    [SerializeField] TMPro.TextMeshProUGUI currentPageTextLeft = null;
+    [SerializeField] TMPro.TextMeshProUGUI currentPageTextRight = null;
 
     private BinderData currentbinder;
     private int width = Constants.DefaultStartingPageWidth;
@@ -26,11 +31,14 @@ public class CardPage : EventReceiverInstance
         base.Start();
         binderPage.SetActive( false );
         searchListPage.SetActive( false );
+
+        prevPageButton.onClick.AddListener( PrevPage );
+        nextPageButton.onClick.AddListener( NextPage );
     }
 
     public void SaveAndExit()
     {
-        EventSystem.Instance.TriggerEvent( new PageChangeRequestEvent() { page = PageType.MainMenu } );
+        EventSystem.Instance.TriggerEvent( new PageChangeRequestEvent() { page = PageType.BinderPage } );
     }
 
     public override void OnEventReceived( IBaseEvent e )
@@ -39,12 +47,12 @@ public class CardPage : EventReceiverInstance
         {
             switch( pageChangeRequest.page )
             {
-                case PageType.MainMenu:
+                case PageType.BinderPage:
                     binderPage.SetActive( false );
                     break;
-                case PageType.BinderPage:
+                case PageType.CardPage:
                     binderPage.SetActive( true );
-                    LoadBinder( pageChangeRequest.binder.Value );
+                    LoadBinder( pageChangeRequest.binder );
                     break;
             }
         }
@@ -60,30 +68,82 @@ public class CardPage : EventReceiverInstance
         {
             //LoadBinder( binderLoadedEvent.data );
         }
+        else if( e is CardImageLoadedEvent cardImageLoadedEvent )
+        {
+            if( currentbinder == null )
+                return;
+
+            if( currentPage < currentbinder.pageCount )
+            {
+                var foundCard = currentbinder.cardList[currentPage].FindIndex( x => x == cardImageLoadedEvent.card );
+                if( foundCard != -1 )
+                {
+                    var cardUIEntry = cardsDisplayGridRight.transform.GetChild( foundCard );
+                    cardUIEntry.GetComponent<Image>().sprite = Utility.CreateSprite( cardImageLoadedEvent.card.largeImage );
+                }
+
+            }
+            
+            if( currentPage > 0 )
+            {
+                var foundCard = currentbinder.cardList[currentPage - 1].FindIndex( x => x == cardImageLoadedEvent.card );
+                if( foundCard != -1 )
+                {
+                    var cardUIEntry = cardsDisplayGridLeft.transform.GetChild( foundCard );
+                    cardUIEntry.GetComponent<Image>().sprite = Utility.CreateSprite( cardImageLoadedEvent.card.largeImage );
+                }
+            }
+        }
     }
 
     private void LoadBinder( BinderData data )
     {
         currentbinder = data;
-        currentPage = 0;
         binderNameText.text = currentbinder.name;
         pageCountText.text = data.pageCount.ToString();
         pageSizeText.text = string.Format( "{0}x{1}", data.pageWidth, data.pageHeight );
         dateCreatedText.text = data.dateCreated.ToShortDateString();
-        PopulateGrid();
+        ChangePage( 0 );
     }
 
-    private void LoadCard( CardData data )
+    private void LoadCard( CardDataRuntime data )
     {
         Debug.Assert( currentModifyCardIdx != null );
-        // TODO: Load new image
-        //cardsDisplayGrid.transform.GetChild( currentModifyCardIdx.Value ).GetComponent<Image>().sprite
-        cardsDisplayGridLeft.transform.GetChild( currentModifyCardIdx.Value ).GetComponent<Image>().color = Color.red;
-        currentbinder.cardList[currentModifyCardIdx.Value] = data;
+        var idx = Utility.Mod( currentModifyCardIdx.Value, currentbinder.pageWidth * currentbinder.pageHeight );
+        var rightSide = currentModifyCardIdx.Value >= ( currentbinder.pageWidth * currentbinder.pageHeight );
+        var grid = rightSide ? cardsDisplayGridRight : cardsDisplayGridLeft;
+        var image = grid.transform.GetChild( idx ).GetComponent<Image>();
+        image.sprite = Utility.CreateSprite( data.smallImage );
+        currentbinder.cardList[rightSide ? currentPage : currentPage - 1][idx] = data;
     }
 
     private void PopulateGrid()
     {
+        // Setup page (and secondary/adjacent page)
+        if( currentPage > 0 )
+            SetupGrid( currentPage - 1, cardsDisplayGridLeft );
+
+        if( currentPage < currentbinder.pageCount - 1 )
+            SetupGrid( currentPage, cardsDisplayGridRight );
+
+        // Show/hide page depending on first/last page
+        cardsDisplayGridLeft.gameObject.SetActive( currentPage > 0 );
+        cardsDisplayGridRight.gameObject.SetActive( currentPage < currentbinder.pageCount - 1 );
+
+        // Show/hide next/prev buttons depending on first/last page
+        prevPageButton.gameObject.SetActive( currentPage > 0 );
+        nextPageButton.gameObject.SetActive( currentPage < currentbinder.pageCount - 1 );
+    }
+
+    private void SetupGrid( int page, AdvancedGridLayout grid )
+    {
+        if( !currentbinder.cardList.ContainsKey( page ) )
+        {
+            var newPage = new List<CardDataRuntime>();
+            newPage.Resize( currentbinder.pageWidth * currentbinder.pageHeight );
+            currentbinder.cardList.Add( page, newPage );
+        }
+
         // TODO: Resetup grid X/Y
         if( width != currentbinder.pageWidth || height != currentbinder.pageHeight )
         {
@@ -91,33 +151,46 @@ public class CardPage : EventReceiverInstance
         }
         else
         {
-            // Reset images
-            for( int i = 0; i < cardsDisplayGridLeft.transform.childCount; ++i )
-                cardsDisplayGridLeft.transform.GetChild( i ).GetComponent<Image>().sprite = null;
-        }
+            // Reset/load images based on the stored data
+            foreach( var (idx, card ) in Utility.Enumerate( currentbinder.cardList[page] ) )
+            {
+                var texture = card != null ? ( card.largeImage ?? card.smallImage ) : defaultCardImage;
+                grid.transform.GetChild( idx ).GetComponent<Image>().sprite = Utility.CreateSprite( texture );
+            }
 
-        // Setup buttons
-        for( int i = 0; i < cardsDisplayGridLeft.transform.childCount; ++i )
-        {
-            int idx = i;
-            cardsDisplayGridLeft.transform.GetChild( i ).GetComponent<EventDispatcher>().OnDoubleClickEvent += ( PointerEventData e ) =>
+            // Setup buttons
+            for( int i = 0; i < grid.transform.childCount; ++i )
+            {
+                int idx = i;
+                var dispatcher = grid.transform.GetChild( i ).GetComponent<EventDispatcher>();
+                dispatcher.OnDoubleClickEvent += ( PointerEventData e ) =>
                 {
-                    currentModifyCardIdx = idx;
+                    // Add pageSize to the idx to indicate we are modifying the right page (or don't if left page)
+                    currentModifyCardIdx = Utility.Mod( page + 1, 2 ) * currentbinder.pageWidth * currentbinder.pageHeight + idx;
                     OpenSearchPanel();
                 };
+            }
         }
+    }
+
+    private void ChangePage(int page)
+    {
+        // Deliberately cap at currentbinder.pageCount (not currentbinder.pageCount - 1), because we display pages in multiples of 2
+        // If we are on the last page the index will be currentbinder.pageCount but the right side won't be visible/setup
+        currentPage = Mathf.Clamp( page, 0, currentbinder.pageCount );
+        currentPageTextLeft.text = page == 0 ? string.Empty : string.Format( "Page: {0}", currentPage );
+        currentPageTextRight.text = page >= currentbinder.pageCount ? string.Empty : string.Format( "Page: {0}", currentPage + 1 );
+        PopulateGrid();
     }
 
     public void NextPage()
     {
-        currentPage = Mathf.Clamp( currentPage + 1, 0, currentbinder.pageCount - 1 );
-        PopulateGrid();
+        ChangePage( currentPage + 2 );
     }
 
-    public void prevPage()
+    public void PrevPage()
     {
-        currentPage = Mathf.Clamp( currentPage - 1, 0, currentbinder.pageCount - 1 );
-        PopulateGrid();
+        ChangePage( currentPage - 2 );
     }
 
     public void OpenSearchPanel()
@@ -129,12 +202,6 @@ public class CardPage : EventReceiverInstance
     {
         Debug.Assert( currentModifyCardIdx != null );
         searchListPage.SetActive( false );
-        // TODO
-        currentbinder.cardList[currentModifyCardIdx.Value] = new CardData()
-        {
-            name = "test",
-            cardId = 5,
-        };
         currentModifyCardIdx = null;
     }
     private void OnApplicationPause( bool paused )

@@ -15,7 +15,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     [SerializeField] Button deleteButton = null;
     [SerializeField] Color selectedEntryColour = new Color();
 
-    private List<BinderData> binderData = new List<BinderData>();
+    private List<BinderDataRuntime> binderData = new List<BinderDataRuntime>();
     private int? currentlySelectedBinderIdx;
 
     protected override void Start()
@@ -33,6 +33,11 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         //}
 
         mainMenuPage.SetActive( true );
+
+        // Debug skip menu
+        NewBinder();
+        binderData.Back().binderUI.GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( null );
+        EditBinder();
     }
 
     void ISavableComponent.Serialise( BinaryWriter writer )
@@ -49,7 +54,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     {
         EventSystem.Instance.TriggerEvent( new PageChangeRequestEvent()
         { 
-            page = PageType.BinderPage,
+            page = PageType.CardPage,
             binder = binderData[currentlySelectedBinderIdx.Value]
         } );
     }
@@ -75,21 +80,21 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         var newBinder = Instantiate( binderEntryPrefab );
         newBinder.transform.SetParent(bindersList.transform);
 
-        binderData.Add( new BinderData()
+        binderData.Add( new BinderDataRuntime()
         {
             name = "New binder",
             dateCreated = DateTime.Now,
             pageCount = Constants.DefaultStartingNumPages,
             pageWidth = Constants.DefaultStartingPageWidth,
             pageHeight = Constants.DefaultStartingPageHeight,
-            cardList = new List<CardData>(),
+            cardList = new Dictionary<int, List<CardDataRuntime>>(),
+            binderUI = newBinder,
         } );
 
-        binderData.Back().cardList.Resize( Constants.DefaultStartingNumCards );
         UpdateBinderUIEntry( newBinder, binderData.Back() );
 
         int thisIdx = binderData.Count - 1;
-        newBinder.GetComponent<EventDispatcher>().OnPointerUpEvent += ( PointerEventData e ) =>
+        newBinder.GetComponent<EventDispatcher>().OnPointerUpEvent += ( PointerEventData ) =>
         {
             bool unselect = currentlySelectedBinderIdx == thisIdx;
             if( currentlySelectedBinderIdx != null || unselect )
@@ -121,10 +126,10 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         {
             switch( pageChangeRequest.page )
             {
-                case PageType.MainMenu:
+                case PageType.BinderPage:
                     mainMenuPage.SetActive( true );
                     break;
-                case PageType.BinderPage:
+                case PageType.CardPage:
                     mainMenuPage.SetActive( false );
                     break;
             }

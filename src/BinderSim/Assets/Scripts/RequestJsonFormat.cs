@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+[Serializable]
 public class CardImage
 {
     public int id;
@@ -7,6 +9,7 @@ public class CardImage
     public string image_url_small;
 }
 
+[Serializable]
 public class CardPrice
 {
     public string cardmarket_price;
@@ -16,6 +19,7 @@ public class CardPrice
     public string coolstuffinc_price;
 }
 
+[Serializable]
 public class CardSet
 {
     public string set_name;
@@ -25,6 +29,7 @@ public class CardSet
     public string set_price;
 }
 
+[Serializable]
 public class Datum
 {
     public int id;
@@ -43,6 +48,7 @@ public class Datum
     public int? scale;
 }
 
+[Serializable]
 public class Root
 {
     public List<Datum> data;

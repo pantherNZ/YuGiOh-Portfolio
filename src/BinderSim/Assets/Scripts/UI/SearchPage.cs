@@ -15,25 +15,25 @@ public class SearchPage : EventReceiverInstance
     [SerializeField] TMPro.TMP_InputField searchInput = null;
     [SerializeField] Button selectCardButton = null;
     [SerializeField] Color selectedEntryColour = new Color();
+    [SerializeField] bool downloadImages = true;
+    [SerializeField] bool downloadLargeImages = true;
 
     private List<CardDataRuntime> cardData = new List<CardDataRuntime>();
+    private Dictionary<CardDataRuntime, GameObject> searchUIEntries = new Dictionary<CardDataRuntime, GameObject>();
     private int? currentCardSelectedIdx;
 
     public void SearchCards()
     {
         // Remove current card entries (skip/leave header)
-        for( int i = 1; i < cardList.transform.childCount; ++i )
+        for( int i = 0; i < cardList.transform.childCount; ++i )
             cardList.transform.GetChild( i ).gameObject.Destroy();
         selectCardButton.interactable = false;
+        currentCardSelectedIdx = null;
+        searchUIEntries.Clear();
 
         // https://db.ygoprodeck.com/api-guide/
         var url = String.Format( "https://db.ygoprodeck.com/api/v7/cardinfo.php?fname={0}", searchInput.text );
         StartCoroutine( SendGetRequest( url, OnSearchResultReceived ) );
-
-
-        //byte[] results = request.downloadHandler.data;
-        //string filename = gameObject.name + ".dat";
-        //SaveImage( "Images/" + filename, results );
     }
 
     private void OnSearchResultReceived( string result )
@@ -53,11 +53,15 @@ public class SearchPage : EventReceiverInstance
                     name = card.name,
                     cardId = card.id,
                     imageId = card.card_images[0].id,
+                    cardAPIData = card.DeepCopy(),
                 };
                 AddCard( newCard );
 
-                var smallImageUrl = card.card_images[0].image_url_small;
-                //StartCoroutine( DownloadImage( smallImageUrl, ( texture ) => OnImageDownloaded( texture, newCard ) ) );
+                if( downloadImages )
+                {
+                    var smallImageUrl = card.card_images[0].image_url_small;
+                    StartCoroutine( DownloadImage( smallImageUrl, ( texture ) => OnImageDownloaded( texture, newCard ) ) );
+                }
             }
         }
     }
@@ -65,9 +69,16 @@ public class SearchPage : EventReceiverInstance
     private void OnImageDownloaded( Texture2D texture, CardDataRuntime cardData )
     {
         // Idx 1 because 0 is the UI entry background (1 is the preview card image)
-        var cardPreview = cardData.cardUI.GetComponentsInChildren<Image>()[1];
+        var cardPreview = searchUIEntries[cardData].GetComponentsInChildren<Image>()[1];
         cardPreview.sprite = Utility.CreateSprite( texture );
         cardPreview.color = Color.white;
+        cardData.smallImage = texture;
+
+
+        // TODO: Save/cache image
+        //byte[] results = request.downloadHandler.data;
+        //string filename = gameObject.name + ".dat";
+        //SaveImage( "Images/" + filename, results );
     }
 
     IEnumerator SendGetRequest( string url, Action<string> callback = null)
@@ -84,7 +95,7 @@ public class SearchPage : EventReceiverInstance
                     Debug.LogError( url + ": Error: " + webRequest.error );
                     break;
                 case UnityWebRequest.Result.ProtocolError:
-                    Debug.LogError( url + ": HTTP Error: " + webRequest.error );
+                    //Debug.LogError( url + ": HTTP Error: " + webRequest.error );
                     break;
                 case UnityWebRequest.Result.Success:
                     callback?.Invoke( webRequest.downloadHandler.text );
@@ -97,7 +108,6 @@ public class SearchPage : EventReceiverInstance
     {
         using( UnityWebRequest request = UnityWebRequestTexture.GetTexture( url ) )
         {
-            // uwr2.downloadHandler = new DownloadHandlerBuffer();
             yield return request.SendWebRequest();
 
             if( request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError )
@@ -144,7 +154,7 @@ public class SearchPage : EventReceiverInstance
     public void AddCard( CardDataRuntime card )
     {
         var newCardUIEntry = AddCardUI( card );
-        card.cardUI = newCardUIEntry;
+        searchUIEntries.Add( card, newCardUIEntry );
         cardData.Add( card );
 
         // On click
@@ -167,7 +177,8 @@ public class SearchPage : EventReceiverInstance
         // TODO: Double click to choose
         eventDispatcher.OnDoubleClickEvent += ( PointerEventData e ) =>
         {
-
+            currentCardSelectedIdx = thisIdx;
+            ChooseCard();
         };
 
         // TODO: Hover to show card image?
@@ -197,10 +208,33 @@ public class SearchPage : EventReceiverInstance
     public void ChooseCard()
     {
         Debug.Assert( currentCardSelectedIdx != null );
+
+        var data = cardData[currentCardSelectedIdx.Value];
+
+        if( data.smallImage == null )
+        {
+            Debug.LogWarning( "Failed to choose card as the preview image hasn't finished downloading yet" );
+            return;
+        }
+
         EventSystem.Instance.TriggerEvent( new CardSelectedEvent()
         {
-            card = cardData[currentCardSelectedIdx.Value]
+            card = data,
         } );
+
+        if( downloadImages && downloadLargeImages )
+        {
+            StartCoroutine( DownloadImage( data.cardAPIData.card_images[0].image_url, ( texture ) =>
+            {
+                // TODO: Save/cache image
+                data.largeImage = texture;
+
+                EventSystem.Instance.TriggerEvent( new CardImageLoadedEvent()
+                {
+                    card = data,
+                } );
+            } ) );
+        }
     }
 
     public override void OnEventReceived( IBaseEvent e )

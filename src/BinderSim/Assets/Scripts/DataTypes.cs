@@ -7,24 +7,28 @@ public class Constants
     public static int DefaultStartingNumPages = 20;
     public static int DefaultStartingPageWidth = 3;
     public static int DefaultStartingPageHeight = 3;
-    public static int DefaultStartingNumCards = DefaultStartingNumPages * DefaultStartingPageWidth * DefaultStartingPageHeight;
 }
 
 public enum PageType
 {
-    MainMenu,
     BinderPage,
+    CardPage,
 }
 
-public struct BinderData
+public class BinderData
 {
     public string name;
     public DateTime dateCreated;
     public int pageCount;
     public int pageWidth;
     public int pageHeight;
-    public List<CardData> cardList;
+    public Dictionary<int, List<CardDataRuntime>> cardList;
     public string imagePath;
+}
+
+public class BinderDataRuntime : BinderData
+{
+    public GameObject binderUI;
 }
 
 public class CardData
@@ -36,5 +40,7 @@ public class CardData
 
 public class CardDataRuntime : CardData
 {
-    public GameObject cardUI;
+    public Datum cardAPIData;
+    public Texture2D smallImage;
+    public Texture2D largeImage;
 }
