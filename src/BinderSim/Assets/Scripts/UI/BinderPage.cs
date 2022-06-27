@@ -13,9 +13,9 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     [SerializeField] GameObject binderEntryPrefab = null;
     [SerializeField] Button editButton = null;
     [SerializeField] Button deleteButton = null;
-    [SerializeField] Color selectedEntryColour = new Color();
+    [SerializeField] Color selectedEntryColour = new();
 
-    private List<BinderDataRuntime> binderData = new List<BinderDataRuntime>();
+    private List<BinderDataRuntime> binderData = new();
     private int? currentlySelectedBinderIdx;
 
     protected override void Start()
@@ -31,7 +31,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         //    else
         //        EventSystem.Instance.TriggerEvent( new BinderLoadedEvent() );
         //}
-
+        
         mainMenuPage.SetActive( true );
 
         // Debug skip menu
@@ -42,12 +42,53 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
     void ISavableComponent.Serialise( BinaryWriter writer )
     {
-        throw new NotImplementedException();
+        writer.Write( binderData.Count );
+
+        foreach( var binder in binderData )
+        {
+            writer.Write( binder.name );
+            writer.Write( binder.dateCreated.ToString() );
+            writer.Write( binder.pageCount );
+            writer.Write( binder.pageWidth );
+            writer.Write( binder.pageHeight );
+            writer.Write( binder.imagePath );
+            writer.Write( binder.cardList.Count );
+
+            foreach( var (page, cardList) in binder.cardList )
+            {
+                writer.Write( page );
+                foreach( var card in cardList )
+                {
+                    writer.Write( card.cardId );
+                }
+            }
+        }
     }
 
     void ISavableComponent.Deserialise( int saveVersion, BinaryReader reader )
     {
-        throw new NotImplementedException();
+        int count = reader.ReadInt32();
+
+        for( int i = 0; i < count; ++i )
+        {
+            var newBinder = new BinderData()
+            {
+                name = reader.ReadString(),
+                dateCreated = DateTime.Parse( reader.ReadString() ),
+                pageCount = reader.ReadInt32(),
+                pageWidth = reader.ReadInt32(),
+                pageHeight = reader.ReadInt32(),
+                imagePath = reader.ReadString(),
+            };
+
+            var cardCount = reader.ReadInt32();
+
+            for( int j = 0; j < count; ++j )
+            {
+
+
+            }
+        }
     }
 
     public void EditBinder()

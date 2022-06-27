@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class CardPage : EventReceiverInstance
 {
-    [SerializeField] GameObject binderPage = null;
+    [SerializeField] GameObject cardsPage = null;
     [SerializeField] AdvancedGridLayout cardsDisplayGridLeft = null;
     [SerializeField] AdvancedGridLayout cardsDisplayGridRight = null;
     [SerializeField] GameObject searchListPage = null;
@@ -19,6 +19,7 @@ public class CardPage : EventReceiverInstance
     [SerializeField] Button nextPageButton = null;
     [SerializeField] TMPro.TextMeshProUGUI currentPageTextLeft = null;
     [SerializeField] TMPro.TextMeshProUGUI currentPageTextRight = null;
+    [SerializeField] GameObject CardGridEntryPrefab = null;
 
     private BinderData currentbinder;
     private int width = Constants.DefaultStartingPageWidth;
@@ -26,10 +27,12 @@ public class CardPage : EventReceiverInstance
     private int currentPage;
     private int? currentModifyCardIdx;
 
+    private GameObject dragging;
+
     protected override void Start()
     {
         base.Start();
-        binderPage.SetActive( false );
+        cardsPage.SetActive( false );
         searchListPage.SetActive( false );
 
         prevPageButton.onClick.AddListener( PrevPage );
@@ -48,10 +51,10 @@ public class CardPage : EventReceiverInstance
             switch( pageChangeRequest.page )
             {
                 case PageType.BinderPage:
-                    binderPage.SetActive( false );
+                    cardsPage.SetActive( false );
                     break;
                 case PageType.CardPage:
-                    binderPage.SetActive( true );
+                    cardsPage.SetActive( true );
                     LoadBinder( pageChangeRequest.binder );
                     break;
             }
@@ -169,7 +172,33 @@ public class CardPage : EventReceiverInstance
                     currentModifyCardIdx = Utility.Mod( page + 1, 2 ) * currentbinder.pageWidth * currentbinder.pageHeight + idx;
                     OpenSearchPanel();
                 };
+
+                dispatcher.OnPointerDownEvent += ( PointerEventData e ) =>
+                {
+                    dragging = Instantiate( CardGridEntryPrefab, cardsPage.transform );
+                    var cardToCopy = grid.transform.GetChild( idx );
+                    var texture = cardToCopy.GetComponent<Image>().mainTexture as Texture2D;
+                    dragging.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
+                    dragging.transform.position = Input.mousePosition;
+                    var worldRect = ( cardToCopy.transform as RectTransform ).GetWorldRect();
+                    ( dragging.transform as RectTransform ).sizeDelta = new Vector2( worldRect.width, worldRect.height );
+                };
+
+                dispatcher.OnPointerUpEvent += ( PointerEventData e ) =>
+                {
+                    dragging.Destroy();
+                };
             }
+        }
+    }
+
+    private void Update()
+    {
+        if( dragging != null )
+        {
+            var x = Input.mousePosition.x / Camera.main.pixelWidth * ( cardsPage.transform as RectTransform ).rect.width;
+            var y = Input.mousePosition.y / Camera.main.pixelHeight * ( cardsPage.transform as RectTransform ).rect.height;
+            ( dragging.transform as RectTransform ).anchoredPosition = new Vector2( x, y );
         }
     }
 
@@ -223,6 +252,6 @@ public class CardPage : EventReceiverInstance
 
     private void Save()
     {
-        //SaveGameSystem.SaveGame( "test" );
+        //SaveGameSystem.SaveGame( currentbinder.name );
     }
 }

@@ -18,9 +18,10 @@ public class SearchPage : EventReceiverInstance
     [SerializeField] bool downloadImages = true;
     [SerializeField] bool downloadLargeImages = true;
 
-    private List<CardDataRuntime> cardData = new List<CardDataRuntime>();
-    private Dictionary<CardDataRuntime, GameObject> searchUIEntries = new Dictionary<CardDataRuntime, GameObject>();
+    private List<CardDataRuntime> cardData = new();
+    private Dictionary<CardDataRuntime, GameObject> searchUIEntries = new();
     private int? currentCardSelectedIdx;
+    private RateLimiter rateLimiter = new( 20, TimeSpan.FromSeconds( 1.0 ) );
 
     public void SearchCards()
     {
@@ -83,40 +84,46 @@ public class SearchPage : EventReceiverInstance
 
     IEnumerator SendGetRequest( string url, Action<string> callback = null)
     {
-        using( UnityWebRequest webRequest = UnityWebRequest.Get( url ) )
+        if( rateLimiter.AttemptCall() )
         {
-            // Request and wait for the desired page.
-            yield return webRequest.SendWebRequest();
-
-            switch( webRequest.result )
+            using( UnityWebRequest webRequest = UnityWebRequest.Get( url ) )
             {
-                case UnityWebRequest.Result.ConnectionError:
-                case UnityWebRequest.Result.DataProcessingError:
-                    Debug.LogError( url + ": Error: " + webRequest.error );
-                    break;
-                case UnityWebRequest.Result.ProtocolError:
-                    //Debug.LogError( url + ": HTTP Error: " + webRequest.error );
-                    break;
-                case UnityWebRequest.Result.Success:
-                    callback?.Invoke( webRequest.downloadHandler.text );
-                    break;
+                // Request and wait for the desired page.
+                yield return webRequest.SendWebRequest();
+
+                switch( webRequest.result )
+                {
+                    case UnityWebRequest.Result.ConnectionError:
+                    case UnityWebRequest.Result.DataProcessingError:
+                        Debug.LogError( url + ": Error: " + webRequest.error );
+                        break;
+                    case UnityWebRequest.Result.ProtocolError:
+                        //Debug.LogError( url + ": HTTP Error: " + webRequest.error );
+                        break;
+                    case UnityWebRequest.Result.Success:
+                        callback?.Invoke( webRequest.downloadHandler.text );
+                        break;
+                }
             }
         }
     }
 
     IEnumerator DownloadImage( string url, Action<Texture2D> callback)
     {
-        using( UnityWebRequest request = UnityWebRequestTexture.GetTexture( url ) )
+        if( rateLimiter.AttemptCall() )
         {
-            yield return request.SendWebRequest();
+            using( UnityWebRequest request = UnityWebRequestTexture.GetTexture( url ) )
+            {
+                yield return request.SendWebRequest();
 
-            if( request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError )
-            {
-                Debug.Log( request.error );
-            }
-            else
-            {
-                callback?.Invoke( DownloadHandlerTexture.GetContent( request ) );
+                if( request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError )
+                {
+                    Debug.Log( request.error );
+                }
+                else
+                {
+                    callback?.Invoke( DownloadHandlerTexture.GetContent( request ) );
+                }
             }
         }
     }
@@ -125,19 +132,11 @@ public class SearchPage : EventReceiverInstance
     {
         //Create Directory if it does not exist
         if( !Directory.Exists( Path.GetDirectoryName( path ) ) )
-        {
             Directory.CreateDirectory( Path.GetDirectoryName( path ) );
-            Debug.Log( "Creating now" );
-        }
-        else
-        {
-            Debug.Log( path + " does exist" );
-        }
 
         try
         {
             File.WriteAllBytes( path, imageBytes );
-            Debug.Log( "Saved Data to: " + path.Replace( "/", "\\" ) );
         }
         catch( Exception e )
         {
