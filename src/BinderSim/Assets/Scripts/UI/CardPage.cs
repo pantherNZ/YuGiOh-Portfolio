@@ -212,22 +212,27 @@ public class CardPage : EventReceiverInstance
             // Swap cards (need to handle swap between page)
             if( worldRect.Contains( ( dragging.transform as RectTransform ).GetWorldRect().center ) )
             {
-                if( currentbinder.cardList[page][i] != null)
-                {
-                    var texture = card.GetComponent<Image>().mainTexture as Texture2D;
-                    originCard.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
-                }
-
-                {
-                    var texture = originCard.GetComponent<Image>().mainTexture as Texture2D;
-                    card.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
-                }
+                var originTexture = originCard.GetComponent<Image>().mainTexture as Texture2D;
+                var texture = card.GetComponent<Image>().mainTexture as Texture2D;
+                originCard.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
+                card.GetComponent<Image>().sprite = Utility.CreateSprite( originTexture );
 
                 currentbinder.cardList[page].Swap( i, idx );
-                (currentbinder.cardList[page][i].smallImage, currentbinder.cardList[page][idx].smallImage) = 
-                    (currentbinder.cardList[page][idx].smallImage, currentbinder.cardList[page][i].smallImage);
-                (currentbinder.cardList[page][i].largeImage, currentbinder.cardList[page][idx].largeImage) = 
-                    (currentbinder.cardList[page][idx].largeImage, currentbinder.cardList[page][i].largeImage);
+
+                var originSmallImage = currentbinder.cardList[page][i]?.smallImage;
+                var originLargeImage = currentbinder.cardList[page][i]?.largeImage;
+                var destSmallImage = currentbinder.cardList[page][idx]?.smallImage;
+                var destLargeImage = currentbinder.cardList[page][idx]?.largeImage;
+
+                if( originSmallImage != null )
+                    currentbinder.cardList[page][i].smallImage = destSmallImage;
+                if( destSmallImage != null )
+                    currentbinder.cardList[page][idx].smallImage = originSmallImage;
+                if( originLargeImage != null )
+                    currentbinder.cardList[page][i].largeImage = destLargeImage;
+                if( destLargeImage != null )
+                    currentbinder.cardList[page][idx].largeImage = originLargeImage;
+
                 break;
             }
         }
