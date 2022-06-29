@@ -6,3 +6,4 @@ public class PageChangeRequestEvent : IBaseEvent { public PageType page; public 
 public class BinderDataUpdateEvent : IBaseEvent { }
 public class CardSelectedEvent : IBaseEvent { public CardDataRuntime card; }
 public class CardImageLoadedEvent : IBaseEvent { public CardDataRuntime card; }
+public class OpenSearchPageEvent : IBaseEvent { public bool existingCardIsEmpty; }

@@ -9,7 +9,6 @@ public class CardPage : EventReceiverInstance
     [SerializeField] GameObject cardsPage = null;
     [SerializeField] AdvancedGridLayout cardsDisplayGridLeft = null;
     [SerializeField] AdvancedGridLayout cardsDisplayGridRight = null;
-    [SerializeField] GameObject searchListPage = null;
     [SerializeField] TMPro.TMP_InputField binderNameText = null;
     [SerializeField] TMPro.TMP_InputField pageCountText = null;
     [SerializeField] TMPro.TMP_InputField pageSizeText = null;
@@ -33,7 +32,6 @@ public class CardPage : EventReceiverInstance
     {
         base.Start();
         cardsPage.SetActive( false );
-        searchListPage.SetActive( false );
 
         prevPageButton.onClick.AddListener( PrevPage );
         nextPageButton.onClick.AddListener( NextPage );
@@ -55,7 +53,8 @@ public class CardPage : EventReceiverInstance
                     break;
                 case PageType.CardPage:
                     cardsPage.SetActive( true );
-                    LoadBinder( pageChangeRequest.binder );
+                    if( pageChangeRequest.binder != null )
+                        LoadBinder( pageChangeRequest.binder );
                     break;
             }
         }
@@ -64,7 +63,6 @@ public class CardPage : EventReceiverInstance
         }
         else if( e is CardSelectedEvent cardSelectedEvent )
         {
-            searchListPage.SetActive( false );
             LoadCard( cardSelectedEvent.card );
         }
         else if( e is BinderLoadedEvent binderLoadedEvent )
@@ -116,18 +114,19 @@ public class CardPage : EventReceiverInstance
         var rightSide = currentModifyCardIdx.Value >= ( currentbinder.pageWidth * currentbinder.pageHeight );
         var grid = rightSide ? cardsDisplayGridRight : cardsDisplayGridLeft;
         var image = grid.transform.GetChild( idx ).GetComponent<Image>();
-        image.sprite = Utility.CreateSprite( data.smallImage );
+        image.sprite = Utility.CreateSprite( data == null ? defaultCardImage : data.smallImage );
         currentbinder.cardList[rightSide ? currentPage : currentPage - 1][idx] = data;
+        currentModifyCardIdx = null;
     }
 
     private void PopulateGrid()
     {
         // Setup page (and secondary/adjacent page)
         if( currentPage > 0 )
-            SetupGrid( currentPage - 1, cardsDisplayGridLeft );
+            SetupGrid( cardsDisplayGridLeft, currentPage - 1 );
 
         if( currentPage < currentbinder.pageCount - 1 )
-            SetupGrid( currentPage, cardsDisplayGridRight );
+            SetupGrid( cardsDisplayGridRight, currentPage );
 
         // Show/hide page depending on first/last page
         cardsDisplayGridLeft.gameObject.SetActive( currentPage > 0 );
@@ -138,7 +137,7 @@ public class CardPage : EventReceiverInstance
         nextPageButton.gameObject.SetActive( currentPage < currentbinder.pageCount - 1 );
     }
 
-    private void SetupGrid( int page, AdvancedGridLayout grid )
+    private void SetupGrid( AdvancedGridLayout grid, int page )
     {
         if( !currentbinder.cardList.ContainsKey( page ) )
         {
@@ -170,26 +169,70 @@ public class CardPage : EventReceiverInstance
                 {
                     // Add pageSize to the idx to indicate we are modifying the right page (or don't if left page)
                     currentModifyCardIdx = Utility.Mod( page + 1, 2 ) * currentbinder.pageWidth * currentbinder.pageHeight + idx;
-                    OpenSearchPanel();
+                    OpenSearchPanel( grid, page, idx );
                 };
 
-                dispatcher.OnPointerDownEvent += ( PointerEventData e ) =>
-                {
-                    dragging = Instantiate( CardGridEntryPrefab, cardsPage.transform );
-                    var cardToCopy = grid.transform.GetChild( idx );
-                    var texture = cardToCopy.GetComponent<Image>().mainTexture as Texture2D;
-                    dragging.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
-                    dragging.transform.position = Input.mousePosition;
-                    var worldRect = ( cardToCopy.transform as RectTransform ).GetWorldRect();
-                    ( dragging.transform as RectTransform ).sizeDelta = new Vector2( worldRect.width, worldRect.height );
-                };
-
-                dispatcher.OnPointerUpEvent += ( PointerEventData e ) =>
-                {
-                    dragging.Destroy();
-                };
+                dispatcher.OnPointerDownEvent += ( PointerEventData e ) => StartDragging( grid, page, idx );
+                dispatcher.OnPointerUpEvent += ( PointerEventData e ) => StopDragging( grid, page, idx );
             }
         }
+    }
+
+    private void StartDragging( AdvancedGridLayout grid, int page, int idx )
+    {
+        // Can't move empty cards
+        if( currentbinder.cardList[page][idx] == null )
+            return;
+
+        dragging = Instantiate( CardGridEntryPrefab, cardsPage.transform );
+        var cardToCopy = grid.transform.GetChild( idx );
+        var texture = cardToCopy.GetComponent<Image>().mainTexture as Texture2D;
+        dragging.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
+        dragging.transform.position = Input.mousePosition;
+        var worldRect = ( cardToCopy.transform as RectTransform ).GetWorldRect();
+        ( dragging.transform as RectTransform ).sizeDelta = new Vector2( worldRect.width, worldRect.height );
+    }
+
+    private void StopDragging( AdvancedGridLayout grid, int page, int idx )
+    {
+        if( dragging == null )
+            return;
+
+        var originCard = grid.transform.GetChild( idx ) as RectTransform;
+
+        for( int i = 0; i < currentbinder.pageWidth * currentbinder.pageHeight; ++i )
+        {
+            if( i == idx )
+                continue;
+
+            var card = grid.transform.GetChild( i );
+            var worldRect = ( card.transform as RectTransform ).GetWorldRect();
+
+            // Collision check against other cards (centre within card bounds)
+            // Swap cards (need to handle swap between page)
+            if( worldRect.Contains( ( dragging.transform as RectTransform ).GetWorldRect().center ) )
+            {
+                if( currentbinder.cardList[page][i] != null)
+                {
+                    var texture = card.GetComponent<Image>().mainTexture as Texture2D;
+                    originCard.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
+                }
+
+                {
+                    var texture = originCard.GetComponent<Image>().mainTexture as Texture2D;
+                    card.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
+                }
+
+                currentbinder.cardList[page].Swap( i, idx );
+                (currentbinder.cardList[page][i].smallImage, currentbinder.cardList[page][idx].smallImage) = 
+                    (currentbinder.cardList[page][idx].smallImage, currentbinder.cardList[page][i].smallImage);
+                (currentbinder.cardList[page][i].largeImage, currentbinder.cardList[page][idx].largeImage) = 
+                    (currentbinder.cardList[page][idx].largeImage, currentbinder.cardList[page][i].largeImage);
+                break;
+            }
+        }
+
+        dragging.Destroy();
     }
 
     private void Update()
@@ -222,17 +265,14 @@ public class CardPage : EventReceiverInstance
         ChangePage( currentPage - 2 );
     }
 
-    public void OpenSearchPanel()
+    public void OpenSearchPanel( AdvancedGridLayout grid, int page, int idx )
     {
-        searchListPage.SetActive( true );
+        EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent() 
+        { 
+            existingCardIsEmpty = currentbinder.cardList[page][idx] == null
+        } );
     }
 
-    public void Selectcard()
-    {
-        Debug.Assert( currentModifyCardIdx != null );
-        searchListPage.SetActive( false );
-        currentModifyCardIdx = null;
-    }
     private void OnApplicationPause( bool paused )
     {
         if( paused )

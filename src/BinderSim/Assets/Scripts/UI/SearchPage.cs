@@ -10,10 +10,12 @@ using Newtonsoft.Json;
 
 public class SearchPage : EventReceiverInstance
 {
+    [SerializeField] GameObject searchListPage = null;
     [SerializeField] GameObject cardList = null;
     [SerializeField] GameObject cardEntryPrefab = null;
     [SerializeField] TMPro.TMP_InputField searchInput = null;
     [SerializeField] Button selectCardButton = null;
+    [SerializeField] Button clearCardButton = null;
     [SerializeField] Color selectedEntryColour = new Color();
     [SerializeField] bool downloadImages = true;
     [SerializeField] bool downloadLargeImages = true;
@@ -22,6 +24,13 @@ public class SearchPage : EventReceiverInstance
     private Dictionary<CardDataRuntime, GameObject> searchUIEntries = new();
     private int? currentCardSelectedIdx;
     private RateLimiter rateLimiter = new( 20, TimeSpan.FromSeconds( 1.0 ) );
+
+    override protected void Start()
+    {
+        base.Start();
+
+        searchListPage.SetActive( false );
+    }
 
     public void SearchCards()
     {
@@ -221,6 +230,8 @@ public class SearchPage : EventReceiverInstance
             card = data,
         } );
 
+        searchListPage.SetActive( false );
+
         if( downloadImages && downloadLargeImages )
         {
             StartCoroutine( DownloadImage( data.cardAPIData.card_images[0].image_url, ( texture ) =>
@@ -236,7 +247,24 @@ public class SearchPage : EventReceiverInstance
         }
     }
 
+    public void ClearCard()
+    {
+        searchListPage.SetActive( false );
+        EventSystem.Instance.TriggerEvent( new CardSelectedEvent() { card = null } );
+    }
+
+    public void Cancel()
+    {
+        searchListPage.SetActive( false );
+        EventSystem.Instance.TriggerEvent( new PageChangeRequestEvent() { page = PageType.CardPage } );
+    }
+
     public override void OnEventReceived( IBaseEvent e )
     {
+        if( e is OpenSearchPageEvent openPageRequest )
+        {
+            clearCardButton.interactable = !openPageRequest.existingCardIsEmpty;
+            searchListPage.SetActive( true );
+        }
     }
 }

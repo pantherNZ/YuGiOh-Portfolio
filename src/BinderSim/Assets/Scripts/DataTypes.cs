@@ -12,7 +12,7 @@ public class Constants
 public enum PageType
 {
     BinderPage,
-    CardPage,
+    CardPage
 }
 
 public class BinderData
