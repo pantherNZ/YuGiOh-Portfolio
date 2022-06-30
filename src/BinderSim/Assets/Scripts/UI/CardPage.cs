@@ -26,7 +26,9 @@ public class CardPage : EventReceiverInstance
     private int currentPage;
     private int? currentModifyCardIdx;
 
+    private Camera mainCamera;
     private GameObject dragging;
+    private Vector2 dragOffset;
 
     protected override void Start()
     {
@@ -35,6 +37,8 @@ public class CardPage : EventReceiverInstance
 
         prevPageButton.onClick.AddListener( PrevPage );
         nextPageButton.onClick.AddListener( NextPage );
+
+        mainCamera = Camera.main;
     }
 
     public void SaveAndExit()
@@ -165,15 +169,15 @@ public class CardPage : EventReceiverInstance
             {
                 int idx = i;
                 var dispatcher = grid.transform.GetChild( i ).GetComponent<EventDispatcher>();
-                dispatcher.OnDoubleClickEvent += ( PointerEventData e ) =>
+                dispatcher.OnDoubleClickEvent = ( PointerEventData e ) =>
                 {
                     // Add pageSize to the idx to indicate we are modifying the right page (or don't if left page)
                     currentModifyCardIdx = Utility.Mod( page + 1, 2 ) * currentbinder.pageWidth * currentbinder.pageHeight + idx;
                     OpenSearchPanel( grid, page, idx );
                 };
 
-                dispatcher.OnPointerDownEvent += ( PointerEventData e ) => StartDragging( grid, page, idx );
-                dispatcher.OnPointerUpEvent += ( PointerEventData e ) => StopDragging( grid, page, idx );
+                dispatcher.OnPointerDownEvent = ( PointerEventData e ) => StartDragging( grid, page, idx );
+                dispatcher.OnPointerUpEvent = ( PointerEventData e ) => StopDragging( grid, page, idx );
             }
         }
     }
@@ -184,10 +188,17 @@ public class CardPage : EventReceiverInstance
         if( currentbinder.cardList[page][idx] == null )
             return;
 
-        dragging = Instantiate( CardGridEntryPrefab, cardsPage.transform );
         var cardToCopy = grid.transform.GetChild( idx );
+
+        var x = Input.mousePosition.x / mainCamera.pixelWidth * ( cardsPage.transform as RectTransform ).rect.width;
+        var y = Input.mousePosition.y / mainCamera.pixelHeight * ( cardsPage.transform as RectTransform ).rect.height;
+        dragOffset = cardToCopy.transform.position.ToVector2() - new Vector2( x, y );
+
+        dragging = Instantiate( CardGridEntryPrefab, cardsPage.transform );
+        ( dragging.transform as RectTransform ).anchoredPosition = new Vector2( x, y ) + dragOffset;
         var texture = cardToCopy.GetComponent<Image>().mainTexture as Texture2D;
         dragging.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
+        grid.transform.GetChild( idx ).GetComponent<Image>().sprite = Utility.CreateSprite( defaultCardImage );
         dragging.transform.position = Input.mousePosition;
         var worldRect = ( cardToCopy.transform as RectTransform ).GetWorldRect();
         ( dragging.transform as RectTransform ).sizeDelta = new Vector2( worldRect.width, worldRect.height );
@@ -198,13 +209,10 @@ public class CardPage : EventReceiverInstance
         if( dragging == null )
             return;
 
-        var originCard = grid.transform.GetChild( idx ) as RectTransform;
+        var originCard = dragging; // grid.transform.GetChild( idx ) as RectTransform;
 
         for( int i = 0; i < currentbinder.pageWidth * currentbinder.pageHeight; ++i )
         {
-            if( i == idx )
-                continue;
-
             var card = grid.transform.GetChild( i );
             var worldRect = ( card.transform as RectTransform ).GetWorldRect();
 
@@ -244,9 +252,9 @@ public class CardPage : EventReceiverInstance
     {
         if( dragging != null )
         {
-            var x = Input.mousePosition.x / Camera.main.pixelWidth * ( cardsPage.transform as RectTransform ).rect.width;
-            var y = Input.mousePosition.y / Camera.main.pixelHeight * ( cardsPage.transform as RectTransform ).rect.height;
-            ( dragging.transform as RectTransform ).anchoredPosition = new Vector2( x, y );
+            var x = Input.mousePosition.x / mainCamera.pixelWidth * ( cardsPage.transform as RectTransform ).rect.width;
+            var y = Input.mousePosition.y / mainCamera.pixelHeight * ( cardsPage.transform as RectTransform ).rect.height;
+            ( dragging.transform as RectTransform ).anchoredPosition = new Vector2( x, y ) + dragOffset;
         }
     }
 
