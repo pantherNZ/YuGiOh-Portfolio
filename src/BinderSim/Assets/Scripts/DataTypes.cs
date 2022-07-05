@@ -17,6 +17,7 @@ public enum PageType
 
 public class BinderData
 {
+    public long id;
     public string name;
     public DateTime dateCreated;
     public int pageCount;
@@ -26,8 +27,9 @@ public class BinderData
     public string imagePath;
 }
 
-public class BinderDataRuntime : BinderData
+public class BinderDataRuntime
 {
+    public BinderData data;
     public GameObject binderUI;
 }
 

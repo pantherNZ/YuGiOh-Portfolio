@@ -18,6 +18,8 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     private List<BinderDataRuntime> binderData = new();
     private int? currentlySelectedBinderIdx;
 
+    private System.Random rng = new();
+
     protected override void Start()
     {
         base.Start();
@@ -46,15 +48,15 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
         foreach( var binder in binderData )
         {
-            writer.Write( binder.name );
-            writer.Write( binder.dateCreated.ToString() );
-            writer.Write( binder.pageCount );
-            writer.Write( binder.pageWidth );
-            writer.Write( binder.pageHeight );
-            writer.Write( binder.imagePath );
-            writer.Write( binder.cardList.Count );
+            writer.Write( binder.data.name );
+            writer.Write( binder.data.dateCreated.ToString() );
+            writer.Write( binder.data.pageCount );
+            writer.Write( binder.data.pageWidth );
+            writer.Write( binder.data.pageHeight );
+            writer.Write( binder.data.imagePath );
+            writer.Write( binder.data.cardList.Count );
 
-            foreach( var (page, cardList) in binder.cardList )
+            foreach( var (page, cardList) in binder.data.cardList )
             {
                 writer.Write( page );
                 foreach( var card in cardList )
@@ -96,7 +98,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         EventSystem.Instance.TriggerEvent( new PageChangeRequestEvent()
         { 
             page = PageType.CardPage,
-            binder = binderData[currentlySelectedBinderIdx.Value]
+            binder = binderData[currentlySelectedBinderIdx.Value].data
         } );
     }
 
@@ -123,16 +125,20 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
         binderData.Add( new BinderDataRuntime()
         {
-            name = "New binder",
-            dateCreated = DateTime.Now,
-            pageCount = Constants.DefaultStartingNumPages,
-            pageWidth = Constants.DefaultStartingPageWidth,
-            pageHeight = Constants.DefaultStartingPageHeight,
-            cardList = new Dictionary<int, List<CardDataRuntime>>(),
+            data = new BinderData()
+            {
+                id = rng.NextLong(),
+                name = "New binder",
+                dateCreated = DateTime.Now,
+                pageCount = Constants.DefaultStartingNumPages,
+                pageWidth = Constants.DefaultStartingPageWidth,
+                pageHeight = Constants.DefaultStartingPageHeight,
+                cardList = new Dictionary<int, List<CardDataRuntime>>(),
+            },
             binderUI = newBinder,
         } );
 
-        UpdateBinderUIEntry( newBinder, binderData.Back() );
+        UpdateBinderUIEntry( binderData.Back() );
 
         int thisIdx = binderData.Count - 1;
         newBinder.GetComponent<EventDispatcher>().OnPointerUpEvent += ( PointerEventData ) =>
@@ -148,17 +154,18 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         };
     }
 
-    private void UpdateBinderUIEntry(GameObject entry, BinderData data)
+    private void UpdateBinderUIEntry( BinderDataRuntime binder )
     {
-        var texts = entry.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
-        texts[0].text = data.name;
-        texts[1].text = data.pageCount.ToString();
-        texts[2].text = string.Format( "{0}x{1}", data.pageWidth, data.pageHeight );
-        texts[3].text = data.dateCreated.ToShortDateString();
+        var texts = binder.binderUI.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
+        texts[0].text = binder.data.name;
+        texts[1].text = binder.data.pageCount.ToString();
+        texts[2].text = string.Format( "{0}x{1}", binder.data.pageWidth, binder.data.pageHeight );
+        texts[3].text = binder.data.dateCreated.ToShortDateString();
 
-        var images = entry.GetComponentsInChildren<Image>();
+        var images = binder.binderUI.GetComponentsInChildren<Image>();
         // Preview icon
-        images[1].gameObject.Destroy();
+        if( images.Length > 1 && images[1].gameObject != null )
+            images[1].gameObject.Destroy();
     }
 
     public override void OnEventReceived( IBaseEvent e )
@@ -179,9 +186,21 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         {
 
         }
-        else if( e is BinderDataUpdateEvent )
+        else if( e is BinderDataUpdateEvent binderUpdateEvent )
         {
-
+            foreach( var binder in binderData )
+            {
+                if( binder.data.id == binderUpdateEvent.binder.id )
+                {
+                    UpdateBinderUIEntry( binder );
+                    break;
+                }
+            }
         }
+    }
+
+    public void LoadFromDragonShieldTxtFile()
+    {
+
     }
 }
