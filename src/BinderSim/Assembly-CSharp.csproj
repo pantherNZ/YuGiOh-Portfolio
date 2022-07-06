@@ -67,6 +67,7 @@
     <Compile Include="Assets\Utility\Utility.cs" />
     <Compile Include="Assets\Utility\UtilityCoroutines.cs" />
     <Compile Include="Assets\Utility\HashedString.cs" />
+    <Compile Include="Assets\Scripts\ExternalJavascript.cs" />
     <Compile Include="Assets\Utility\SaveGame.cs" />
     <Compile Include="Assets\Utility\FPSCounter.cs" />
     <Compile Include="Assets\Utility\SecureHash.cs" />
