@@ -2,9 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.Networking;
+using SFB;
+using System.Linq;
+using Newtonsoft.Json;
 
 public class BinderPage : EventReceiverInstance, ISavableComponent
 {
@@ -37,9 +42,9 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         mainMenuPage.SetActive( true );
 
         // Debug skip menu
-        NewBinder();
-        binderData.Back().binderUI.GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( null );
-        EditBinder();
+        //NewBinder();
+        //binderData.Back().binderUI.GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( null );
+        //EditBinder();
     }
 
     void ISavableComponent.Serialise( BinaryWriter writer )
@@ -48,17 +53,16 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
         foreach( var binder in binderData )
         {
+            writer.Write( binder.data.id );
             writer.Write( binder.data.name );
             writer.Write( binder.data.dateCreated.ToString() );
             writer.Write( binder.data.pageCount );
             writer.Write( binder.data.pageWidth );
             writer.Write( binder.data.pageHeight );
             writer.Write( binder.data.imagePath );
-            writer.Write( binder.data.cardList.Count );
 
-            foreach( var (page, cardList) in binder.data.cardList )
+            foreach( var cardList in binder.data.cardList )
             {
-                writer.Write( page );
                 foreach( var card in cardList )
                 {
                     writer.Write( card.cardId );
@@ -73,22 +77,37 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
         for( int i = 0; i < count; ++i )
         {
-            var newBinder = new BinderData()
+            var id = reader.ReadInt64();
+            var name = reader.ReadString();
+            var dateCreated = DateTime.Parse( reader.ReadString() );
+            var pageCount = reader.ReadInt32();
+            var pageWidth = reader.ReadInt32();
+            var pageHeight = reader.ReadInt32();
+            var imagePath = reader.ReadString();
+
+            var newBinder = new BinderData( id, name, pageCount, pageWidth, pageHeight, imagePath );
+
+            for( int page = 0; page < pageCount; ++page)
             {
-                name = reader.ReadString(),
-                dateCreated = DateTime.Parse( reader.ReadString() ),
-                pageCount = reader.ReadInt32(),
-                pageWidth = reader.ReadInt32(),
-                pageHeight = reader.ReadInt32(),
-                imagePath = reader.ReadString(),
-            };
+                for( int card = 0; card < newBinder.pageWidth * newBinder.pageHeight; ++card )
+                {
+                    var cardId = reader.ReadInt32();
 
-            var cardCount = reader.ReadInt32();
+                    StartCoroutine( APICallHandler.Instance.SendCardSearchRequest( cardId, true, ( json ) =>
+                    {
+                        Root data = JsonConvert.DeserializeObject<Root>( json );
+                        Debug.Assert( data.data.Count == 1 );
+                        var cardData = data.data[0];
 
-            for( int j = 0; j < count; ++j )
-            {
-
-
+                        newBinder.cardList[page][card] = new CardDataRuntime()
+                        {
+                            name = cardData.name,
+                            cardId = cardData.id,
+                            imageId = cardData.card_images[0].id,
+                            cardAPIData = cardData.DeepCopy(),
+                        };
+                    } ) );
+                }
             }
         }
     }
@@ -120,21 +139,17 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
     public void NewBinder()
     {
+        NewBinderInternal();
+    }
+
+    private BinderDataRuntime NewBinderInternal( string startName = "New Binder")
+    {
         var newBinder = Instantiate( binderEntryPrefab );
         newBinder.transform.SetParent(bindersList.transform);
 
         binderData.Add( new BinderDataRuntime()
         {
-            data = new BinderData()
-            {
-                id = rng.NextLong(),
-                name = "New binder",
-                dateCreated = DateTime.Now,
-                pageCount = Constants.DefaultStartingNumPages,
-                pageWidth = Constants.DefaultStartingPageWidth,
-                pageHeight = Constants.DefaultStartingPageHeight,
-                cardList = new Dictionary<int, List<CardDataRuntime>>(),
-            },
+            data = new BinderData( rng.NextLong(), startName ),
             binderUI = newBinder,
         } );
 
@@ -152,6 +167,8 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             editButton.interactable = !unselect;
             deleteButton.interactable = !unselect;
         };
+
+        return binderData.Back();
     }
 
     private void UpdateBinderUIEntry( BinderDataRuntime binder )
@@ -199,8 +216,68 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         }
     }
 
+#if UNITY_WEBGL && !UNITY_EDITOR
+    [DllImport("__Internal")]
+    private static extern void UploadFile(string gameObjectName, string methodName, string filter, bool multiple);
+#endif
+
     public void LoadFromDragonShieldTxtFile()
     {
+#if UNITY_WEBGL && !UNITY_EDITOR
+        UploadFile(gameObject.name, "OnFileUpload", ".txt", false);
+#else
+        var extensions = new[] { new ExtensionFilter("Text Files", "txt" ) };
+        StandaloneFileBrowser.OpenFilePanelAsync( "Open File", "", extensions, false, ( paths ) =>
+        {
+            foreach( var path in paths )
+                OnFileUpload( new System.Uri( path ).AbsoluteUri );
+        } );
+       
+#endif
+    }
 
+    public void OnFileUpload(string url) {
+        StartCoroutine( FileLoadedRoutine( url ) );
+    }
+
+    private IEnumerator FileLoadedRoutine( string url )
+    {
+        var loader = new UnityWebRequest( url );
+        yield return loader;
+
+        var newBinder = NewBinderInternal( Path.GetFileNameWithoutExtension( url ) );
+
+        foreach( var( idx, line ) in Utility.Enumerate( loader.downloadHandler.text.Split( '\n' ) ) )
+        {
+            if( line.Length == 0 )
+                continue;
+
+            var data = line.Split( ',' );
+
+            if( data.Length < 8 )
+                continue;
+
+            var value = data[^3].Trim();
+            var condition = data[^4].Trim();
+            var setCode = data[^5].Trim();
+            var cardName = string.Join( ',', data.Skip( 1 ).Take( data.Length - 7 ) );
+            var cardIndex = Utility.Mod( idx, newBinder.data.pageWidth * newBinder.data.pageHeight );
+            var pageIndex = idx / ( newBinder.data.pageWidth * newBinder.data.pageHeight );
+
+            StartCoroutine( APICallHandler.Instance.SendCardSearchRequest( cardName, false, ( json ) =>
+            {
+                Root data = JsonConvert.DeserializeObject<Root>( json );
+                Debug.Assert( data.data.Count == 1 );
+                var card = data.data[0];
+
+                newBinder.data.cardList[pageIndex][cardIndex] = new CardDataRuntime()
+                {
+                    name = card.name,
+                    cardId = card.id,
+                    imageId = card.card_images[0].id,
+                    cardAPIData = card.DeepCopy(),
+                };
+            } ) );
+        }
     }
 }

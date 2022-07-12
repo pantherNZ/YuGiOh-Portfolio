@@ -144,10 +144,12 @@ public class CardPage : EventReceiverInstance
     public void ApplyChanges()
     {
         currentbinder.name = binderNameText.text;
-        currentbinder.pageCount = int.Parse( pageCountText.text );
         var pageSize = pageSizeDropDown.options[pageSizeDropDown.value].text;
-        currentbinder.pageWidth = int.Parse( pageSize[0].ToString() );
-        currentbinder.pageHeight = int.Parse( pageSize[2].ToString() );
+        currentbinder.Resize(
+            int.Parse( pageCountText.text ),
+            int.Parse( pageSize[0].ToString() ),
+            int.Parse( pageSize[2].ToString() ) );
+
         EventSystem.Instance.TriggerEvent( new BinderDataUpdateEvent() { binder = currentbinder } );
         Save();
     }
@@ -193,13 +195,6 @@ public class CardPage : EventReceiverInstance
 
     private void SetupGrid( AdvancedGridLayout grid, int page )
     {
-        if( !currentbinder.cardList.ContainsKey( page ) )
-        {
-            var newPage = new List<CardDataRuntime>();
-            newPage.Resize( currentbinder.pageWidth * currentbinder.pageHeight );
-            currentbinder.cardList.Add( page, newPage );
-        }
-
         // TODO: Resetup grid X/Y
         if( width != currentbinder.pageWidth || height != currentbinder.pageHeight )
         {

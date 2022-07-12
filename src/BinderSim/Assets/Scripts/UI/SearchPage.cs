@@ -23,7 +23,6 @@ public class SearchPage : EventReceiverInstance
     private List<CardDataRuntime> cardData = new();
     private Dictionary<CardDataRuntime, GameObject> searchUIEntries = new();
     private int? currentCardSelectedIdx;
-    private RateLimiter rateLimiter = new( 20, TimeSpan.FromSeconds( 1.0 ) );
 
     override protected void Start()
     {
@@ -40,10 +39,7 @@ public class SearchPage : EventReceiverInstance
         selectCardButton.interactable = false;
         currentCardSelectedIdx = null;
         searchUIEntries.Clear();
-
-        // https://db.ygoprodeck.com/api-guide/
-        var url = String.Format( "https://db.ygoprodeck.com/api/v7/cardinfo.php?fname={0}", searchInput.text );
-        StartCoroutine( SendGetRequest( url, OnSearchResultReceived ) );
+        StartCoroutine( APICallHandler.Instance.SendCardSearchRequestFuzzy( searchInput.text, false, OnSearchResultReceived ) );
     }
 
     private void OnSearchResultReceived( string result )
@@ -70,7 +66,7 @@ public class SearchPage : EventReceiverInstance
                 if( downloadImages )
                 {
                     var smallImageUrl = card.card_images[0].image_url_small;
-                    StartCoroutine( DownloadImage( smallImageUrl, ( texture ) => OnImageDownloaded( texture, newCard ) ) );
+                    StartCoroutine( APICallHandler.Instance.DownloadImage( smallImageUrl, true, ( texture ) => OnImageDownloaded( texture, newCard ) ) );
                 }
             }
         }
@@ -89,52 +85,6 @@ public class SearchPage : EventReceiverInstance
         //byte[] results = request.downloadHandler.data;
         //string filename = gameObject.name + ".dat";
         //SaveImage( "Images/" + filename, results );
-    }
-
-    IEnumerator SendGetRequest( string url, Action<string> callback = null)
-    {
-        if( rateLimiter.AttemptCall() )
-        {
-            using( UnityWebRequest webRequest = UnityWebRequest.Get( url ) )
-            {
-                // Request and wait for the desired page.
-                yield return webRequest.SendWebRequest();
-
-                switch( webRequest.result )
-                {
-                    case UnityWebRequest.Result.ConnectionError:
-                    case UnityWebRequest.Result.DataProcessingError:
-                        Debug.LogError( url + ": Error: " + webRequest.error );
-                        break;
-                    case UnityWebRequest.Result.ProtocolError:
-                        //Debug.LogError( url + ": HTTP Error: " + webRequest.error );
-                        break;
-                    case UnityWebRequest.Result.Success:
-                        callback?.Invoke( webRequest.downloadHandler.text );
-                        break;
-                }
-            }
-        }
-    }
-
-    IEnumerator DownloadImage( string url, Action<Texture2D> callback)
-    {
-        if( rateLimiter.AttemptCall() )
-        {
-            using( UnityWebRequest request = UnityWebRequestTexture.GetTexture( url ) )
-            {
-                yield return request.SendWebRequest();
-
-                if( request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError )
-                {
-                    Debug.Log( request.error );
-                }
-                else
-                {
-                    callback?.Invoke( DownloadHandlerTexture.GetContent( request ) );
-                }
-            }
-        }
     }
 
     void SaveImage( string path, byte[] imageBytes )
@@ -234,7 +184,7 @@ public class SearchPage : EventReceiverInstance
 
         if( downloadImages && downloadLargeImages )
         {
-            StartCoroutine( DownloadImage( data.cardAPIData.card_images[0].image_url, ( texture ) =>
+            StartCoroutine( APICallHandler.Instance.DownloadImage( data.cardAPIData.card_images[0].image_url, true, ( texture ) =>
             {
                 // TODO: Save/cache image
                 data.largeImage = texture;
