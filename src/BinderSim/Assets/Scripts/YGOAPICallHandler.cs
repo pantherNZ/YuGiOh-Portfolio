@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -17,8 +19,9 @@ class APICallHandler
     }
 
     private RateLimiter rateLimiter = new( 20, TimeSpan.FromSeconds( 1.0 ) );
-
     public RateLimiter RateLimiterInst => rateLimiter;
+
+    private Dictionary<string, string> cachedRequests = new();
 
     // https://db.ygoprodeck.com/api-guide/
     public IEnumerator SendCardSearchRequest( string cardName, bool waitForRateLimit, Action<string> callback = null )
@@ -49,6 +52,12 @@ class APICallHandler
 
     private IEnumerator SendGetRequestInternal( string url, Action<string> callback = null )
     {
+        if( cachedRequests.TryGetValue( url, out string data ) )
+        {
+            callback?.Invoke( data );
+            yield return null;
+        }    
+
         using( UnityWebRequest webRequest = UnityWebRequest.Get( url ) )
         {
             // Request and wait for the desired page.
@@ -64,6 +73,7 @@ class APICallHandler
                     //Debug.LogError( url + ": HTTP Error: " + webRequest.error );
                     break;
                 case UnityWebRequest.Result.Success:
+                    cachedRequests.Add( url, webRequest.downloadHandler.text );
                     callback?.Invoke( webRequest.downloadHandler.text );
                     break;
             }
@@ -98,6 +108,29 @@ class APICallHandler
                     callback?.Invoke( DownloadHandlerTexture.GetContent( webRequest ) );
                     break;
             }
+        }
+    }
+
+
+    // TODO: Save/cache image
+    //byte[] results = request.downloadHandler.data;
+    //string filename = gameObject.name + ".dat";
+    //SaveImage( "Images/" + filename, results );
+
+    void SaveImage( string path, byte[] imageBytes )
+    {
+        //Create Directory if it does not exist
+        if( !Directory.Exists( Path.GetDirectoryName( path ) ) )
+            Directory.CreateDirectory( Path.GetDirectoryName( path ) );
+
+        try
+        {
+            File.WriteAllBytes( path, imageBytes );
+        }
+        catch( Exception e )
+        {
+            Debug.LogWarning( "Failed To Save Data to: " + path.Replace( "/", "\\" ) );
+            Debug.LogWarning( "Error: " + e.Message );
         }
     }
 }

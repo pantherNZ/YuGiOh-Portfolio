@@ -168,6 +168,7 @@ public class CardPage : EventReceiverInstance
         var image = grid.transform.GetChild( idx ).GetComponent<Image>();
         image.sprite = Utility.CreateSprite( data == null ? defaultCardImage : data.smallImage );
         currentbinder.cardList[rightSide ? currentPage : currentPage - 1][idx] = data;
+        //currentbinder.inventory.Add( data.cardAPIData );
         currentModifyCardIdx = null;
     }
 

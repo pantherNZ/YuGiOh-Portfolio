@@ -1,0 +1,15 @@
+all
+
+1, A-to-Z-Dragon Buster Cannon, SDKS, NearMint, 0.57, Foil, English, 2022-01-08
+1, Aether, the Empowering Dragon, YS14, NearMint, 0.2, Foil, English, 2022-01-08
+1, Aether, the Evil Empowering Dragon, CT13, NearMint, 0.25, Normal, English, 2022-01-08
+1, Alexandrite Dragon, BP02, NearMint, 0.58, Foil, English, 2022-01-08
+1, All-Eyes Phantom Dragon, BLHR, NearMint, 1.02, Foil, English, 2022-01-08
+1, Amorphactor Pain, the Imagination Dracoverlord, OP15, NearMint, 0.25, Normal, English, 2022-01-24
+1, Amorphactor Pain, the Imagination Dracoverlord, SHVI, NearMint, 0.75, Foil, English, 2022-01-08
+1, Amorphage Lechery, SHVI, NearMint, 0.63, Foil, English, 2022-01-08
+1, Ancient Fairy Dragon, CT06, NearMint, 5.7, Normal, English, 2022-01-08
+1, Ancient Gear Gadjiltron Dragon, SD10, NearMint, 0.46, Normal, English, 2022-01-08
+1, Ancient Pixie Dragon, PGLD, NearMint, 5.74, Foil, English, 2022-01-08
+1, Arc Rebellion Xyz Dragon, PHRA, NearMint, 4.04, Foil, English, 2022-03-05
+1, Arcanite Magician, PGL3, NearMint, 0.57, Foil, English, 2022-03-07

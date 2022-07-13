@@ -1,0 +1,454 @@
+all
+
+1, A-to-Z-Dragon Buster Cannon, SDKS, NearMint, 0.57, Foil, English, 2022-01-08
+1, Aether, the Empowering Dragon, YS14, NearMint, 0.2, Foil, English, 2022-01-08
+1, Aether, the Evil Empowering Dragon, CT13, NearMint, 0.25, Normal, English, 2022-01-08
+1, Alexandrite Dragon, BP02, NearMint, 0.58, Foil, English, 2022-01-08
+1, All-Eyes Phantom Dragon, BLHR, NearMint, 1.02, Foil, English, 2022-01-08
+1, Amorphactor Pain, the Imagination Dracoverlord, OP15, NearMint, 0.25, Normal, English, 2022-01-24
+1, Amorphactor Pain, the Imagination Dracoverlord, SHVI, NearMint, 0.75, Foil, English, 2022-01-08
+1, Amorphage Lechery, SHVI, NearMint, 0.63, Foil, English, 2022-01-08
+1, Ancient Fairy Dragon, CT06, NearMint, 5.7, Normal, English, 2022-01-08
+1, Ancient Gear Gadjiltron Dragon, SD10, NearMint, 0.46, Normal, English, 2022-01-08
+1, Ancient Pixie Dragon, PGLD, NearMint, 5.74, Foil, English, 2022-01-08
+1, Arc Rebellion Xyz Dragon, PHRA, NearMint, 4.04, Foil, English, 2022-03-05
+1, Arcanite Magician, PGL3, NearMint, 0.57, Foil, English, 2022-03-07
+1, Archfiend Emperor, the First Lord of Horror, JOTL, NearMint, 0.36, Normal, English, 2022-01-08
+1, Archfiend's Ascent, FIGA, NearMint, 0.52, Foil, English, 2022-01-08
+1, Archfiend's Awakening, FIGA, NearMint, 0.83, Foil, English, 2022-01-08
+1, Archfiend's Call, FIGA, NearMint, 0.47, Foil, English, 2022-01-08
+1, Archfiend's Manifestation, FIGA, NearMint, 0.77, Foil, English, 2022-01-08
+1, Archnemeses Eschatos, ETCO, NearMint, 4.85, Foil, English, 2022-03-22
+1, Arkbrave Dragon, GFTP, NearMint, 0.21, Foil, English, 2022-01-08
+1, Armed Dragon LV10, GFTP, NearMint, 1.13, Foil, English, 2022-01-08
+1, Armed Dragon LV7, SOD, NearMint, 9.43, Normal, English, 2022-01-08
+1, Armed Dragon Thunder LV10, BLVO, NearMint, 3.24, Foil, English, 2022-01-08
+1, Armed Dragon, the Armored Dragon, HAC1, NearMint, 2.41, Normal, English, 2022-03-22
+1, Armillyre, the Starleader Dragon, DUOV, NearMint, 0.25, Foil, English, 2022-01-24
+1, Armityle the Chaos Phantasm , SDSA, NearMint, 0.78, Foil, English, 2022-01-08
+1, Armityle the Chaos Phantasm - Phantom of Fury, PHRA, NearMint, 0.67, Foil, English, 2022-01-08
+1, Ascension Sky Dragon, LEHD, NearMint, 0.48, Foil, English, 2022-01-08
+1, Assault Wyvern, MVP1, NearMint, 0.44, Foil, English, 2022-01-08
+1, Atomic Scrap Dragon, STOR, NearMint, 4.9, Normal, English, 2022-01-08
+1, Awakening of the Possessed - Rasenryu, DLCS, NearMint, 1.19, Normal, English, 2022-01-24
+1, Azure-Eyes Silver Dragon, SDBE, NearMint, 1.04, Foil, English, 2022-01-08
+1, Bahalutiya, the Grand Radiance, LIOV, NearMint, 1.45, Foil, English, 2022-01-08
+1, Barrel Dragon, HAC1, NearMint, 0.29, Foil, English, 2022-03-22
+1, Beast-Eyes Pendulum Dragon, JUMP, NearMint, 2.92, Normal, English, 2022-01-08
+1, Beelze of the Diabolic Dragons, LCKC, NearMint, 4.42, Normal, English, 2022-01-08
+1, Berserk Dragon, DCR, NearMint, 1.88, Normal, English, 2022-01-08
+1, Black Dragon Collapserpent, BLHR, NearMint, 0.73, Foil, English, 2022-01-08
+1, Black Rose Dragon, CSOC, NearMint, 7.73, Normal, English, 2022-01-08
+1, Black Rose Moonlight Dragon, LDS2, NearMint, 3.37, Foil, English, 2022-01-08
+1, Black Skull Dragon , DLG1, NearMint, 3.09, Normal, English, 2022-01-08
+1, Black Skull Dragon , MRD, Played, 295.0, Foil, English, 2022-01-08
+1, Black-Winged Dragon, DP11, NearMint, 1.41, Foil, English, 2022-01-08
+1, Black-Winged Dragon, LC5D, NearMint, 0.36, Foil, English, 2022-01-24
+1, Blackfeather Darkrage Dragon, PGLD, NearMint, 1.77, Foil, English, 2022-01-08
+1, Blaster, Dragon Ruler of Infernos, CT10, NearMint, 4.42, Normal, English, 2022-01-08
+1, Blue Rose Dragon, LC5D, NearMint, 0.85, Foil, English, 2022-01-24
+1, Blue Rose Dragon, LDS2, NearMint, 0.5, Foil, English, 2022-01-08
+1, Blue-Eyes Alternative Ultimate Dragon, TN19, NearMint, 6.79, Normal, English, 2022-01-08
+1, Blue-Eyes Chaos Dragon, LDS2, NearMint, 8.25, Foil, English, 2022-01-08
+1, Blue-Eyes Chaos Dragon, LED3, NearMint, 9.28, Foil, English, 2022-01-07
+1, Blue-Eyes Jet Dragon, BACH, NearMint, 17.81, Foil, English, 2022-03-07
+1, Blue-Eyes Shining Dragon, LCKC, NearMint, 5.2, Normal, English, 2022-01-08
+1, Blue-Eyes Solid Dragon, LDS2, NearMint, 1.77, Foil, English, 2022-01-08
+1, Blue-Eyes Toon Dragon, SDP, NearMint, 2.03, Foil, English, 2022-01-08
+1, Blue-Eyes Tyrant Dragon, BACH, NearMint, 5.4, Foil, English, 2022-03-07
+1, Blue-Eyes White Dragon, MAGO, NearMint, 21.63, Foil, English, 2022-01-24
+1, Blue-Eyes White Dragon, MGED, NearMint, 3.54, Foil, English, 2022-01-24
+1, Blue-Eyes White Dragon, MVP1, NearMint, 1.95, Normal, English, 2022-03-05
+1, Blue-Eyes White Dragon, SDBE, NearMint, 0.9, Normal, English, 2022-01-08
+1, Blue-Eyes White Dragon, SDK, Poor, 32.64, Normal, English, 2022-01-08
+1, Blue-Eyes White Dragon, SKE, NearMint, 2.01, Normal, English, 2022-01-08
+1, Booster Dragon, DUPO, NearMint, 0.2, Foil, English, 2022-01-08
+1, Borrelcode Dragon, BODE, NearMint, 1.21, Foil, English, 2022-01-24
+1, Borreload Riot Dragon, BODE, NearMint, 0.71, Foil, English, 2022-01-08
+1, Borreload eXcharge Dragon, RIRA
+, NearMint, 0.63, Foil, English, 2022-01-08
+1, Borrelsword Dragon, MAGO, NearMint, 5.45, Foil, English, 2022-01-24
+1, Brigrand the Glory Dragon, PHRA, NearMint, 0.85, Foil, English, 2022-01-08
+1, Brionac, Dragon of the Ice Barrier, DUSA, NearMint, 1.26, Foil, English, 2022-01-08
+1, Buster Dragon, BOSH, NearMint, 1.6, Normal, English, 2022-01-24
+1, Buster Dragon, GFTP, NearMint, 0.91, Foil, English, 2022-01-08
+1, Chaos Dragon Levianeer, MAGO, NearMint, 3.81, Foil, English, 2022-01-08
+1, Chaos Emperor Dragon - Envoy of the End, TOCH, NearMint, 0.69, Foil, English, 2022-01-08
+1, Chaos Ruler, the Chaotic Magical Dragon, MP21, NearMint, 1.04, Foil, English, 2022-01-08
+1, Chimeratech Fortress Dragon, PGL3, NearMint, 5.65, Foil, English, 2022-03-05
+1, Chimeratech Megafleet Dragon, BLAR, NearMint, 5.25, Foil, English, 2022-03-05
+1, Chimeratech Overdragon, PGLD, NearMint, 1.39, Foil, English, 2022-03-05
+1, Chimeratech Rampage Dragon, LEDD, NearMint, 2.39, Foil, English, 2022-03-05
+1, Chthonian Emperor Dragon, TAEV, NearMint, 2.46, Foil, English, 2022-01-08
+1, Clear Vice Dragon, SOVR, NearMint, 10.57, Normal, English, 2022-01-08
+1, Clear Wing Fast Dragon, DUDE, NearMint, 0.2, Foil, English, 2022-01-08
+1, Clear Wing Synchro Dragon, MP16, NearMint, 3.12, Foil, English, 2022-01-08
+1, Coral Dragon, TDIL, NearMint, 11.8, Foil, English, 2022-01-08
+1, Cosmic Blazar Dragon, DUSA, NearMint, 3.21, Foil, English, 2022-01-08
+1, Crossrose Dragon, DUOV, NearMint, 0.62, Foil, English, 2022-01-24
+1, Crossrose Dragon, LDS2, NearMint, 0.67, Foil, English, 2022-01-08
+1, Crystal Clear Wing Synchro Dragon, LED8, NearMint, 4.78, Foil, English, 2022-01-24
+1, Crystal Wing Synchro Dragon, BLLR, NearMint, 10.36, Foil, English, 2022-01-08
+1, Curse of Dragon, the Cursed Dragon, LDS1, NearMint, 0.23, Foil, English, 2022-01-08
+1, Curse of Dragonfire, MIL1, NearMint, 1.95, Foil, English, 2022-03-05
+1, Cyber Dragon Infinity, MAGO, NearMint, 3.48, Foil, English, 2022-01-08
+1, Cyber Dragon Infinity, MP16, NearMint, 8.16, Foil, English, 2022-01-08
+1, Cyber Dragon Nachster, LDS2, NearMint, 2.18, Foil, English, 2022-03-22
+1, Cyber Dragon Sieger, LDS2, NearMint, 1.9, Foil, English, 2022-01-24
+1, Cyber Dragon, HAC1, NearMint, 2.39, Foil, English, 2022-03-22
+1, Cyber End Dragon, SDCS, NearMint, 0.41, Foil, English, 2022-01-08
+1, Cyber Eternity Dragon, LDS2, NearMint, 5.96, Foil, English, 2022-01-08
+1, Cyberdark End Dragon, SDCS, NearMint, 0.31, Foil, English, 2022-01-08
+1, Cyberse Clock Dragon, SOFU, NearMint, 0.52, Normal, English, 2022-01-08
+1, Cyberse Quantum Dragon, MP20, NearMint, 1.72, Foil, English, 2022-01-08
+1, Daigusto Eguls, HA05, NearMint, 0.78, Foil, English, 2022-01-08
+1, Dark Armed Dragon, LCKC, NearMint, 2.89, Foil, English, 2022-01-08
+1, Dark End Dragon, JUMP, NearMint, 2.22, Normal, English, 2022-01-08
+1, Dark Horus, PTDN, NearMint, 11.25, Foil, English, 2022-01-24
+1, Dark Magician Girl the Dragon Knight, DLCS, NearMint, 2.27, Foil, English, 2022-01-08
+1, Dark Magician Girl the Dragon Knight, DRL3, NearMint, 3.75, Foil, English, 2022-01-08
+1, Dark Magician Girl, LART, NearMint, 31.67, Normal, English, 2022-01-08
+1, Dark Rebellion Xyz Dragon, CT12, NearMint, 2.5, Normal, English, 2022-01-08
+1, Dark Requiem Xyz Dragon, GFTP, NearMint, 0.81, Foil, English, 2022-01-08
+1, Dark Requiem Xyz Dragon, INOV, NearMint, 7.65, Normal, English, 2022-01-08
+1, Darkest Diabolos, Lord of the Lair, SR06, NearMint, 3.46, Foil, English, 2022-01-08
+1, Darkflare Dragon, PGLD, NearMint, 0.42, Foil, English, 2022-01-08
+1, Darkness Metal, the Dragon of Dark Steel, BLAR, NearMint, 3.34, Foil, English, 2022-03-05
+1, Darkstorm Dragon, OP03, NearMint, 0.21, Normal, English, 2022-01-24
+1, Darkstorm Dragon, ORCS, NearMint, 0.48, Foil, English, 2022-01-08
+1, Debris Dragon, LC5D, NearMint, 4.98, Foil, English, 2022-01-08
+1, Deep-Eyes White Dragon, MVP1, NearMint, 1.47, Foil, English, 2022-01-08
+1, Des Volstgalph, GLD2, NearMint, 6.82, Normal, English, 2022-01-08
+1, Desperado Barrel Dragon, LDS1, NearMint, 0.67, Foil, English, 2022-01-08
+1, Destruction Dragon, LCKC, NearMint, 2.5, Foil, English, 2022-03-05
+1, Divine Dragon - Excelion, SOI, NearMint, 0.0, Normal, English, 2022-03-05
+1, Divine Dragon Lord Felgrand, SR02, NearMint, 1.31, Foil, English, 2022-01-08
+1, Doom Virus Dragon, LCKC, NearMint, 0.39, Foil, English, 2022-01-08
+1, Doomkaiser Dragon, CSOC, NearMint, 17.11, Normal, English, 2022-01-08
+1, Doomkaiser Dragon/Assault Mode, CRMS, NearMint, 1.62, Foil, English, 2022-01-08
+1, Doublebyte Dragon, DUPO, NearMint, 0.21, Foil, English, 2022-03-22
+1, Dragon Buster Destruction Sword, BLAR, NearMint, 0.69, Foil, English, 2022-01-08
+1, Dragon Buster Destruction Sword, BOSH, NearMint, 0.38, Normal, English, 2022-01-24
+1, Dragon Ice, GLAS, NearMint, 22.98, Normal, English, 2022-03-05
+1, Dragon Knight Draco-Equiste, CT07, NearMint, 1.17, Normal, English, 2022-01-08
+1, Dragon Master Knight, UE02, NearMint, 5.98, Normal, English, 2022-01-08
+1, Dragon Spirit of White, LCKC, NearMint, 3.57, Normal, English, 2022-01-08
+1, Dragonecro Nethersoul Dragon, PGLD, NearMint, 7.39, Foil, English, 2022-01-08
+1, Dragonmaid Nudyarl, MYFI, NearMint, 4.19, Foil, English, 2022-03-05
+1, Dragonmaid Sheou, MP21, NearMint, 0.74, Foil, English, 2022-01-08
+1, Dragunity Arma Gram, GFTP, NearMint, 1.0, Foil, English, 2022-01-08
+1, Dragunity Arma Leyvaten, SDDL, NearMint, 1.0, Foil, English, 2022-03-05
+1, Dragunity Guisarme, HAC1, NearMint, 3.26, Normal, English, 2022-03-22
+1, Dragunity Knight - Areadbhair, GFTP, NearMint, 0.65, Foil, English, 2022-03-05
+1, Dragunity Knight - Ascalon, CYHO, NearMint, 1.75, Foil, English, 2022-03-05
+1, Dragunity Knight - Barcha, HAC1, NearMint, 0.56, Foil, English, 2022-03-22
+1, Dragunity Knight - Gae Bulg, HA03, NearMint, 2.33, Foil, English, 2022-03-05
+1, Dragunity Knight - Gae Dearg, BLLR, NearMint, 2.28, Foil, English, 2022-03-05
+1, Dragunity Knight - Romulus, MP20, NearMint, 1.32, Foil, English, 2022-01-08
+1, Dragunity Knight - Trident, HA04, NearMint, 4.4, Foil, English, 2022-01-08
+1, Dragunity Knight - Vajrayana, SHVA, NearMint, 0.8, Foil, English, 2022-03-05
+1, Dragunity Phalanx, GFTP, NearMint, 0.26, Foil, English, 2022-01-08
+1, Evilswarm Bahamut, HA07, NearMint, 1.68, Foil, English, 2022-01-08
+1, Evilswarm Ophion, HA07, NearMint, 2.07, Foil, English, 2022-01-08
+1, Evilswarm Ouroboros, PGL3, NearMint, 0.8, Foil, English, 2022-01-08
+1, Evolzar Dolkka, CT09, NearMint, 1.56, Normal, English, 2022-01-08
+1, Evolzar Dolkka, MGED, NearMint, 0.74, Foil, English, 2022-03-22
+1, Evolzar Laggia, DUSA, NearMint, 4.39, Foil, English, 2022-01-08
+1, Evolzar Laggia, MGED, NearMint, 0.78, Foil, English, 2022-03-22
+1, Evolzar Solda, ORCS, NearMint, 2.28, Normal, English, 2022-01-08
+1, Exodia the Forbidden One, YGLD, NearMint, 2.65, Normal, English, 2022-01-08
+1, Exodia, the Legendary Defender, TN19, NearMint, 0.65, Normal, English, 2022-01-08
+1, Exploder Dragonwing, RGBT, NearMint, 3.52, Normal, English, 2022-01-08
+1, Fallen of Albaz, MP21, NearMint, 1.16, Foil, English, 2022-01-08
+1, Fantastical Dragon Phantazmay, MAGO, NearMint, 3.39, Foil, English, 2022-01-08
+1, Felgrand Dragon, SDRL, NearMint, 0.79, Foil, English, 2022-01-08
+1, Firewall Dragon Darkfluid, CHIM, NearMint, 1.1, Foil, English, 2022-03-05
+1, Firewall Dragon, COTD, NearMint, 3.98, Normal, English, 2022-03-05
+1, Firewall eXceed Dragon, MP20, NearMint, 0.23, Foil, English, 2022-01-24
+1, Five-Headed Dragon, BLHR, NearMint, 5.63, Foil, English, 2022-01-08
+1, Five-Headed Dragon, SD09, NearMint, 3.17, Normal, English, 2022-01-08
+1, Five-Headed Link Dragon, DUOV, NearMint, 1.76, Foil, English, 2022-01-24
+1, Flash Charge Dragon, BLRR, NearMint, 1.92, Foil, English, 2022-03-05
+1, Fossil Dragon Skullgar, BLAR, NearMint, 0.58, Foil, English, 2022-01-08
+1, Fossil Dragon Skullgios, BLAR, NearMint, 0.73, Foil, English, 2022-01-08
+1, Gaia the Dragon Champion, MAGO, NearMint, 0.51, Foil, English, 2022-01-08
+1, Galaxy Serpent, JOTL, NearMint, 0.81, Normal, English, 2022-01-08
+1, Galaxy Stealth Dragon, DLCS, NearMint, 0.38, Foil, English, 2022-01-08
+1, Galaxy-Eyes Afterglow Dragon, LDS2, NearMint, 10.92, Foil, English, 2022-03-07
+1, Galaxy-Eyes Cipher Blade Dragon, JUMP, NearMint, 2.06, Normal, English, 2022-01-08
+1, Galaxy-Eyes Cipher X Dragon, GFTP, NearMint, 1.87, Foil, English, 2022-01-08
+1, Galaxy-Eyes Photon Dragon, PHSW, NearMint, 66.15, Foil, English, 2022-01-08
+1, Galaxy-Eyes Solflare Dragon, MP19, NearMint, 1.21, Normal, English, 2022-01-24
+1, Gandora the Dragon of Destruction, CT07, NearMint, 0.52, Normal, English, 2022-01-08
+1, Gandora-X the Dragon of Demolition, MVP1, NearMint, 0.0, Normal, English, 2022-01-08
+1, Gandora-X the Dragon of Demolition, MVP1G, NearMint, 0.26, Normal, English, 2022-03-22
+1, Gizmek Okami, the Dreaded Deluge Dragon, ROTD, NearMint, 0.95, Foil, English, 2022-01-08
+1, Golem Dragon, JUMP, NearMint, 2.08, Normal, English, 2022-03-05
+1, Greedy Venom Fusion Dragon, FUEN, NearMint, 3.22, Foil, English, 2022-01-08
+1, Guardragon Elpy, MP20, NearMint, 0.85, Foil, English, 2022-03-05
+1, Guardragon Pisty, SAST, NearMint, 0.8, Normal, English, 2022-01-24
+1, Gungnir, Dragon of the Ice Barrier, HA03, NearMint, 5.12, Foil, English, 2022-01-08
+1, Hamon, Lord of Striking Thunder, MP21, NearMint, 1.02, Foil, English, 2022-03-05
+1, Hardened Armed Dragon, RGBT, NearMint, 7.3, Normal, English, 2022-03-05
+1, Harpie's Pet Phantasmal Dragon, MAGO, NearMint, 0.36, Foil, English, 2022-03-05
+1, Heavenly Zephyr - Miradora, BLVO, NearMint, 2.95, Foil, English, 2022-03-05
+1, Hibernation Dragon, BLRR, NearMint, 1.27, Foil, English, 2022-01-08
+1, Hieratic Dragon King of Atum, GAOV, NearMint, 3.65, Foil, English, 2022-01-08
+1, Hieratic Dragon of Sutekh, GAOV, NearMint, 8.09, Foil, English, 2022-01-08
+1, Hieratic Dragon of Tefnuit, DUPO, NearMint, 0.26, Foil, English, 2022-01-08
+1, Hieratic Seal of the Heavenly Spheres, GFTP, NearMint, 7.2, Foil, English, 2022-03-05
+1, Hieratic Sun Dragon Overlord of Heliopolis, CT09, NearMint, 0.83, Normal, English, 2022-01-08
+1, Horus the Black Flame Dragon LV8, EEN, NearMint, 7.09, Normal, English, 2022-03-05
+1, Hot Red Dragon Archfiend Abyss, DUPO, NearMint, 1.37, Foil, English, 2022-01-08
+1, Hot Red Dragon Archfiend Bane, HSRD, NearMint, 0.0, Normal, English, 2022-01-08
+1, Hot Red Dragon Archfiend King Calamity, SHVI, NearMint, 0.97, Normal, English, 2022-01-08
+1, Hot Red Dragon Archfiend, YF06, NearMint, 6.38, Normal, English, 2022-01-08
+1, House Dragonmaid, MAGO, NearMint, 1.73, Foil, English, 2022-01-08
+1, Hundred Dragon, DLCS, NearMint, 1.48, Normal, English, 2022-03-07
+1, Hundred Eyes Dragon, JUMP, NearMint, 3.01, Normal, English, 2022-01-08
+1, Ignister Prominence, the Blasting Dracoslayer, CORE, NearMint, 1.89, Foil, English, 2022-03-05
+1, Imduk the World Chalice Dragon, BLRR, NearMint, 2.82, Foil, English, 2022-03-05
+1, Invoked Cocytus, FUEN, NearMint, 1.26, Foil, English, 2022-01-08
+1, Iron Chain Dragon, CSOC, NearMint, 5.06, Normal, English, 2022-01-08
+1, Iron Dragon Tiamaton, MP19, NearMint, 0.45, Normal, English, 2022-03-22
+1, Kachi Kochi Dragon, YZ01, NearMint, 1.44, Normal, English, 2022-03-05
+1, Keeper of Dragon Magic, CT15, NearMint, 1.91, Normal, English, 2022-01-08
+1, King Dragun, DUOV, NearMint, 0.39, Foil, English, 2022-01-08
+1, Koa'ki Meiru Drago, BLAR, NearMint, 0.23, Foil, English, 2022-01-08
+1, Koa'ki Meiru Maximus, SOVR, NearMint, 0.88, Normal, English, 2022-01-08
+1, Krystal Dragon, MVP1, NearMint, 0.21, Normal, English, 2022-01-08
+1, Lavalval Dragon, HA05, NearMint, 0.93, Foil, English, 2022-01-08
+1, Lavalval Salamander, GFTP, NearMint, 0.23, Foil, English, 2022-01-08
+1, Lector Pendulum, the Dracoverlord, SHVI, NearMint, 0.21, Normal, English, 2022-01-24
+1, Left Arm of the Forbidden One, YGLD, NearMint, 2.22, Normal, English, 2022-01-08
+1, Left Leg of the Forbidden One, YGLD, NearMint, 2.64, Normal, English, 2022-01-08
+1, Light Dragon @Ignister, IGAS, NearMint, 0.3, Foil, English, 2022-01-08
+1, Light End Dragon, LCGX, NearMint, 0.93, Foil, English, 2022-01-08
+1, Light and Darkness Dragon, STOR, NearMint, 1.44, Normal, English, 2022-01-08
+1, Lightpulsar Dragon, PGLD, NearMint, 0.93, Foil, English, 2022-01-08
+1, Lord of the Red, DRL2, NearMint, 1.47, Foil, English, 2022-01-08
+1, Magician of Black Chaos, YGLD, NearMint, 0.96, Foil, English, 2022-01-08
+1, Magnarokket Dragon, SDRR, NearMint, 0.4, Foil, English, 2022-01-24
+1, Mahaama the Fairy Dragon, MP21, NearMint, 0.15, Foil, English, 2022-03-22
+1, Majester Paladin, the Ascending Dracoslayer, ANGU, NearMint, 0.06, Foil, English, 2022-01-24
+1, Majestic Red Dragon, CT07, NearMint, 2.62, Normal, English, 2022-01-08
+1, Majestic Star Dragon, CT06, NearMint, 15.46, Normal, English, 2022-01-08
+1, Malefic Blue-Eyes White Dragon, YMP1, NearMint, 1.85, Normal, English, 2022-01-08
+1, Malefic Paradox Dragon, YMP1, NearMint, 3.59, Normal, English, 2022-01-08
+1, Malefic Rainbow Dragon, YMP1, NearMint, 3.27, Normal, English, 2022-01-08
+1, Malefic Red-Eyes Black Dragon , YMP1, NearMint, 1.42, Normal, English, 2022-01-08
+1, Malefic Stardust Dragon, CT08, NearMint, 1.96, Normal, English, 2022-01-08
+1, Malefic Truth Dragon, JUMP, NearMint, 1.38, Normal, English, 2022-01-08
+1, Mana Dragon Zirnitron, MP19, NearMint, 0.25, Foil, English, 2022-01-08
+1, Masquerade the Blazing Dragon, BODE, NearMint, 2.33, Foil, English, 2022-01-08
+1, Master Peace, the True Dracoslayer, MP17, NearMint, 0.24, Foil, English, 2022-03-05
+1, Meklord Astro Dragon Asterisk, LC5D, NearMint, 1.44, Foil, English, 2022-03-22
+1, Meklord Astro Dragon Triskelion, LED7, NearMint, 0.41, Foil, English, 2022-03-22
+1, Meteor Black Comet Dragon, GFTP, NearMint, 1.64, Foil, English, 2022-01-08
+1, Meteor Black Dragon, PRC1, NearMint, 0.0, Normal, English, 2022-01-08
+1, Mikazukinoyaiba, LCKC, NearMint, 0.61, Foil, English, 2022-01-08
+1, Mirror Force Dragon, DRL3, NearMint, 0.56, Foil, English, 2022-01-08
+1, Montage Dragon, CT05S, NearMint, 3.87, Normal, English, 2022-01-08
+1, Montage Dragon, TDGS, NearMint, 16.45, Normal, English, 2022-01-08
+1, Moon Dragon Quilla, ABPF, NearMint, 22.35, Foil, English, 2022-01-08
+1, Naturia Barkion, GLD5, NearMint, 16.36, Normal, English, 2022-01-08
+1, Naturia Barkion, HAC1, NearMint, 0.58, Foil, English, 2022-03-22
+1, Nekroz of Catastor, THSF, NearMint, 0.54, Foil, English, 2022-03-22
+1, Nekroz of Decisive Armor, THSF, NearMint, 0.9, Foil, English, 2022-01-08
+1, Neo Blue-Eyes Ultimate Dragon, MVP1, NearMint, 3.62, Foil, English, 2022-01-08
+1, Neo Galaxy-Eyes Cipher Dragon, DPDG, NearMint, 1.57, Foil, English, 2022-01-08
+1, Neo Galaxy-Eyes Photon Dragon, BLLR, NearMint, 5.33, Foil, English, 2022-01-08
+1, Neo Kaiser Glider, TN19, NearMint, 0.31, Normal, English, 2022-01-08
+1, Number 107: Galaxy-Eyes Tachyon Dragon, BLLR, NearMint, 2.25, Foil, English, 2022-01-08
+1, Number 107: Galaxy-Eyes Tachyon Dragon, MAGO, NearMint, 1.15, Foil, English, 2022-01-08
+1, Number 17: Leviathan Dragon, BP01, NearMint, 1.03, Foil, English, 2022-01-08
+1, Number 20: Giga-Brilliant, ZTIN, NearMint, 0.97, Normal, English, 2022-03-05
+1, Number 57: Tri-Head Dust Dragon, NUMH, NearMint, 1.16, Foil, English, 2022-01-08
+1, Number 62: Galaxy-Eyes Prime Photon Dragon, BLLR, NearMint, 1.48, Foil, English, 2022-01-08
+1, Number 92: Heart-eartH Dragon, CBLZ, NearMint, 51.4, Foil, English, 2022-01-08
+1, Number 95: Galaxy-Eyes Dark Matter Dragon, PGL2, NearMint, 4.69, Foil, English, 2022-01-08
+1, Number C107: Neo Galaxy-Eyes Tachyon Dragon, PRIO, NearMint, 2.21, Foil, English, 2022-01-08
+1, Number C92: Heart-eartH Chaos Dragon, LVAL, NearMint, 0.32, Normal, English, 2022-01-08
+1, Nurse Dragonmaid, MAGO, NearMint, 2.2, Foil, English, 2022-01-08
+1, Obelisk the Tormentor (original), LC01, NearMint, 1.54, Normal, English, 2022-01-08
+1, Obelisk the Tormentor, BP02, NearMint, 8.57, Normal, English, 2022-01-08
+1, Obelisk the Tormentor, SBCB, NearMint, 2.03, Foil, English, 2022-01-08
+1, Obelisk the Tormentor, TN19, NearMint, 1.27, Normal, English, 2022-01-08
+1, Odd-Eyes Absolute Dragon, SDMP, NearMint, 0.85, Foil, English, 2022-01-08
+1, Odd-Eyes Advance Dragon, DUPO, NearMint, 0.92, Foil, English, 2022-01-08
+1, Odd-Eyes Arc Pendulum Dragon, LEDD, NearMint, 6.37, Foil, English, 2022-01-08
+1, Odd-Eyes Dragon, YS14, NearMint, 0.5, Foil, English, 2022-01-08
+1, Odd-Eyes Gravity Dragon, BOSH, NearMint, 1.55, Foil, English, 2022-01-08
+1, Odd-Eyes Lancer Dragon, BLLR, NearMint, 0.56, Foil, English, 2022-01-08
+1, Odd-Eyes Meteorburst Dragon, SDMP, NearMint, 0.52, Foil, English, 2022-01-08
+1, Odd-Eyes Mirage Dragon, DRL3, NearMint, 1.11, Foil, English, 2022-01-08
+1, Odd-Eyes Pendulum Dragon, CT12, NearMint, 0.67, Normal, English, 2022-01-08
+1, Odd-Eyes Persona Dragon, JUMP, NearMint, 10.53, Normal, English, 2022-01-08
+1, Odd-Eyes Raging Dragon, MP17, NearMint, 2.2, Foil, English, 2022-01-08
+1, Odd-Eyes Rebellion Dragon, CORE, NearMint, 5.85, Foil, English, 2022-01-08
+1, Odd-Eyes Revolution Dragon, MP21, NearMint, 0.95, Foil, English, 2022-01-08
+1, Odd-Eyes Venom Dragon, BLLR, NearMint, 3.18, Foil, English, 2022-01-08
+1, Odd-Eyes Vortex Dragon, DOCS, NearMint, 4.17, Foil, English, 2022-01-08
+1, Omni Dragon Brotaur, MP20, NearMint, 1.47, Foil, English, 2022-01-08
+1, Overmind Archfiend, EXVC, NearMint, 1.46, Normal, English, 2022-01-08
+1, Paladin of Dark Dragon, DRL2, NearMint, 0.81, Foil, English, 2022-01-08
+1, Pandemic Dragon, MVP1, NearMint, 0.23, Normal, English, 2022-01-08
+1, Parlor Dragonmaid, MYFI, NearMint, 6.09, Foil, English, 2022-01-24
+1, Parrot Dragon, LCKC, NearMint, 0.5, Foil, English, 2022-01-08
+1, Phantasmal Lord Ultimitl Bishbaalkin, PGL3, NearMint, 1.2, Foil, English, 2022-03-05
+1, Pile Armed Dragon, HAC1, NearMint, 6.34, Normal, English, 2022-03-22
+1, Power Tool Mecha Dragon, PGLD, NearMint, 1.24, Normal, English, 2022-03-05
+1, Protector Whelp of the Destruction Swordsman, DUOV, NearMint, 0.33, Foil, English, 2022-01-24
+1, Proxy Dragon, CT14, NearMint, 0.17, Normal, English, 2022-03-22
+1, Punishment Dragon, COTD, NearMint, 1.78, Foil, English, 2022-01-08
+1, Quadborrel Dragon, SDRR, NearMint, 0.39, Foil, English, 2022-01-08
+1, Quintet Magician, DUPO, NearMint, 14.23, Foil, English, 2022-03-07
+1, Rafale, Champion Fur Hire, DASA, NearMint, 1.76, Foil, English, 2022-01-08
+1, Raider's Knight, PHRA, NearMint, 2.0, Foil, English, 2022-01-08
+1, Rainbow Dark Dragon, BLRR, NearMint, 1.2, Foil, English, 2022-01-08
+1, Rainbow Overdragon, LDS1, NearMint, 1.16, Foil, English, 2022-01-08
+1, Raviel, Lord of Phantasms - Shimmering Scraper, MP21, NearMint, 0.21, Foil, English, 2022-01-08
+1, Raviel, Lord of Phantasms, MP21, NearMint, 0.63, Foil, English, 2022-01-08
+1, Red Dragon Archfiend, TDGS, NearMint, 82.16, Normal, English, 2022-01-08
+1, Red Dragon Archfiend/Assault Mode, CRMS, NearMint, 21.97, Foil, English, 2022-01-08
+1, Red Nova Dragon, CT07, NearMint, 5.71, Normal, English, 2022-01-08
+1, Red Rose Dragon, LDS2, NearMint, 2.91, Foil, English, 2022-01-24
+1, Red Supernova Dragon, GFTP, NearMint, 2.56, Foil, English, 2022-01-08
+1, Red Wyvern, HSRD, NearMint, 2.79, Foil, English, 2022-01-08
+1, Red-Eyes Black Dragon Sword, DRL2, NearMint, 1.36, Foil, English, 2022-01-08
+1, Red-Eyes Black Dragon, MAGO, NearMint, 4.56, Foil, English, 2022-01-24
+1, Red-Eyes Black Dragon, MGED, NearMint, 6.05, Foil, English, 2022-01-24
+1, Red-Eyes Black Metal Dragon, PP01, NearMint, 1.02, Normal, English, 2022-01-08
+1, Red-Eyes Darkness Metal Dragon, ABPF, NearMint, 7.07, Normal, English, 2022-01-08
+1, Red-Eyes Darkness Metal Dragon, DUSA, NearMint, 7.03, Foil, English, 2022-01-08
+1, Red-Eyes Darkness Metal Dragon, MGED, NearMint, 1.28, Foil, English, 2022-01-24
+1, Red-Eyes Slash Dragon, LDS1, NearMint, 8.02, Normal, English, 2022-01-08
+1, Red-Eyes Toon Dragon, SHVI, NearMint, 1.56, Normal, English, 2022-01-08
+1, Red-Eyes Zombie Dragon, SDZW, NearMint, 0.0, Normal, English, 2022-01-08
+1, Redox, Dragon Ruler of Boulders, CT10, NearMint, 2.54, Normal, English, 2022-03-05
+1, Relinquished Anima, BROL, NearMint, 1.59, Foil, English, 2022-03-05
+1, Rider of the Storm Winds, LCKC, NearMint, 0.29, Foil, English, 2022-03-05
+1, Right Arm of the Forbidden One, YGLD, NearMint, 2.14, Normal, English, 2022-01-08
+1, Right Leg of the Forbidden One, YGLD, NearMint, 1.93, Normal, English, 2022-01-08
+1, Rokket Caliber, BODE, NearMint, 1.37, Foil, English, 2022-01-24
+1, Rune-Eyes Pendulum Dragon, MP15, NearMint, 0.73, Foil, English, 2022-01-08
+1, Saffira, Queen of Dragons, DUEA, NearMint, 8.55, Normal, English, 2022-01-08
+1, Samsara, Dragon of Rebirth, MP15, NearMint, 1.73, Foil, English, 2022-01-08
+1, Saryuja Skull Dread, DUDE, NearMint, 0.92, Foil, English, 2022-01-08
+1, Sauravis, the Ancient and Ascended, DUOV, NearMint, 1.08, Foil, English, 2022-01-24
+1, Scarlight Red Dragon Archfiend, MP16, NearMint, 2.97, Foil, English, 2022-01-08
+1, Scrap Dragon, DREV, NearMint, 59.03, Foil, English, 2022-01-08
+1, Scrap Twin Dragon, STBL, NearMint, 5.71, Foil, English, 2022-01-08
+1, Security Dragon, DUPO, NearMint, 2.14, Foil, English, 2022-03-22
+1, Segmental Dragon, SDPL, NearMint, 0.22, Foil, English, 2022-01-08
+1, Seiyaryu, GFTP, NearMint, 0.56, Foil, English, 2022-01-08
+1, Seleglare the Luminous Lunar Dragon, MP21, NearMint, 0.27, Foil, English, 2022-01-08
+1, Serpent Night Dragon, MRL, NearMint, 10.21, Normal, English, 2022-01-08
+1, Shooting Majestic Star Dragon, DAMA, NearMint, 4.37, Foil, English, 2022-03-05
+1, Shooting Quasar Dragon, LC05, NearMint, 2.6, Normal, English, 2022-01-08
+1, Shooting Riser Dragon, JUMP, NearMint, 8.28, Normal, English, 2022-01-08
+1, Shooting Star Dragon T.G. EX, GFTP, NearMint, 0.58, Foil, English, 2022-01-08
+1, Shooting Star Dragon, CT07, NearMint, 13.23, Normal, English, 2022-01-08
+1, Skull Archfiend of Lightning, BP01, NearMint, 0.48, Foil, English, 2022-01-08
+1, Sky Galloping Gaia the Dragon Champion, MIL1, NearMint, 14.76, Foil, English, 2022-01-08
+1, Sky Striker Ace - Raye, MGED, NearMint, 0.64, Foil, English, 2022-01-08
+1, Slifer the Sky Dragon (original), LC01, NearMint, 1.52, Normal, English, 2022-01-08
+1, Slifer the Sky Dragon (original), YGLD, NearMint, 1.15, Normal, English, 2022-01-08
+1, Slifer the Sky Dragon, TN19, NearMint, 1.72, Normal, English, 2022-03-05
+1, Star Eater, MP14, NearMint, 7.83, Foil, English, 2022-01-08
+1, Stardust Chronicle Spark Dragon, YF09, NearMint, 9.0, Normal, English, 2022-01-08
+1, Stardust Dragon, CT05, NearMint, 22.93, Normal, English, 2022-03-05
+1, Stardust Dragon/Assault Mode, DPCT3, NearMint, 1.34, Normal, English, 2022-01-08
+1, Stardust Sifr Divine Dragon, SHVI, NearMint, 1.16, Foil, English, 2022-01-08
+1, Stardust Spark Dragon, DUDE, NearMint, 0.29, Foil, English, 2022-01-08
+1, Starliege Photon Blast Dragon, LDS2, NearMint, 0.78, Foil, English, 2022-01-08
+1, Starry Night, Starry Dragon, GFTP, NearMint, 1.16, Foil, English, 2022-01-08
+1, Starving Venemy Dragon, BROL, NearMint, 0.31, Foil, English, 2022-01-24
+1, Striker Dragon, MP20, NearMint, 2.92, Foil, English, 2022-03-05
+1, Strong Wind Dragon, RGBT, NearMint, 5.03, Foil, English, 2022-01-08
+1, Subterror Guru, BLHR, NearMint, 1.14, Foil, English, 2022-03-05
+1, Sun Dragon Inti, ABPF, NearMint, 4.05, Foil, English, 2022-01-08
+1, Supreme King Dragon Darkwurm, BLRR, NearMint, 8.52, Foil, English, 2022-01-08
+1, Supreme King Z-ARC, MACR, NearMint, 4.05, Foil, English, 2022-01-08
+1, Tempest, Dragon Ruler of Storms, CT10, NearMint, 3.25, Normal, English, 2022-01-08
+1, Tempest, Dragon Ruler of Storms, MGED, NearMint, 0.13, Foil, English, 2022-01-24
+1, Terrorking Archfiend, DCR, NearMint, 2.95, Normal, English, 2022-03-05
+1, The Black Stone of Legend, LDK2, NearMint, 2.27, Normal, English, 2022-01-24
+1, The Masked Beast, LON, NearMint, 6.62, Normal, English, 2022-03-05
+1, The Suppression Pluto, DLCS, NearMint, 0.17, Foil, English, 2022-01-08
+1, The White Stone of Ancients, SHVI, NearMint, 1.1, Normal, English, 2022-01-24
+1, The White Stone of Legend, LCKC, NearMint, 5.17, Foil, English, 2022-03-05
+1, The Winged Dragon of Ra (original), YGLD, NearMint, 2.59, Normal, English, 2022-01-08
+1, The Winged Dragon of Ra - Immortal Phoenix, DUPO, NearMint, 4.54, Foil, English, 2022-01-08
+1, The Winged Dragon of Ra, SBCB, NearMint, 6.67, Foil, English, 2022-01-08
+1, The Winged Dragon of Ra, TN19, NearMint, 1.8, Normal, English, 2022-03-05
+1, Thought Ruler Archfiend, BROL, NearMint, 0.18, Foil, English, 2022-03-22
+1, Thousand Dragon, MRD, NearMint, 6.08, Normal, English, 2022-03-05
+1, Thunder Dragon Titan, MP19, NearMint, 1.75, Foil, English, 2022-01-08
+1, Thunder End Dragon, PHSW, NearMint, 9.01, Foil, English, 2022-03-05
+1, Tidal, Dragon Ruler of Waterfalls, CT10, NearMint, 4.27, Normal, English, 2022-01-08
+1, Tiger Dragon, LCKC, NearMint, 0.29, Foil, English, 2022-01-08
+1, Timestar Magician, PEVO, NearMint, 0.5, Foil, English, 2022-03-07
+1, Titaniklad the Ash Dragon, MP21, NearMint, 1.47, Foil, English, 2022-01-08
+1, Topologic Bomber Dragon, MP18, NearMint, 1.15, Foil, English, 2022-03-05
+1, Topologic Gumblar Dragon, BLRR, NearMint, 4.19, Foil, English, 2022-03-05
+1, Tornado Dragon, MACR, NearMint, 3.74, Normal, English, 2022-01-08
+1, Tri-Horned Dragon, LCYW, NearMint, 3.51, Foil, English, 2022-01-08
+1, Tri-Horned Dragon, LOB, NearMint, 13.43, Normal, English, 2022-03-05
+1, Trident Dragion, RGBT, NearMint, 4.77, Foil, English, 2022-01-08
+1, Triggering Wurm, BLRR, NearMint, 0.33, Foil, English, 2022-01-24
+1, Triple Burst Dragon, EXFO, NearMint, 4.05, Foil, English, 2022-03-05
+1, Trishula, Dragon of the Ice Barrier, HSRD, NearMint, 5.6, Foil, English, 2022-01-08
+1, Trishula, Zero Dragon of the Ice Barrier, SDFC, NearMint, 1.63, Foil, English, 2022-01-08
+1, Trishula, the Dragon of Icy Imprisonment, BLAR, NearMint, 4.37, Foil, English, 2022-01-08
+1, Twin Photon Lizard, ORCS, NearMint, 6.07, Foil, English, 2022-03-05
+1, Tyrant Burst Dragon, DRL2, NearMint, 0.62, Foil, English, 2022-01-08
+1, Tyrant Burst Dragon, LCKC, NearMint, 0.32, Foil, English, 2022-01-08
+1, Tyrant Red Dragon Archfiend, TDIL, NearMint, 8.85, Normal, English, 2022-01-08
+1, Ultimaya Tzolkin, CORE, NearMint, 2.28, Normal, English, 2022-01-08
+1, Uria, Lord of Searing Flames, MP21, NearMint, 0.65, Foil, English, 2022-01-08
+1, Void Ogre Dragon, PRC1, NearMint, 1.86, Foil, English, 2022-01-08
+1, White Dragon Ninja, ORCS, NearMint, 5.12, Foil, English, 2022-03-05
+1, White Dragon Wyverburster, BLHR, NearMint, 0.88, Foil, English, 2022-01-08
+1, White Night Dragon, LCGX, NearMint, 1.33, Normal, English, 2022-03-05
+1, White Rose Dragon, LDS2, NearMint, 1.92, Foil, English, 2022-01-24
+1, Winged Dragon, Guardian of the Fortress #1, LCYW, NearMint, 4.32, Normal, English, 2022-03-05
+2, Archfiend Black Skull Dragon, CORE, NearMint, 10.1, Foil, English, 2022-01-08
+2, Armed Dragon LV10 White, BLVO, NearMint, 1.04, Foil, English, 2022-01-08
+2, Blue-Eyes Chaos MAX Dragon, MVP1, NearMint, 1.84, Normal, English, 2022-01-08
+2, Blue-Eyes Spirit Dragon, CT13, NearMint, 3.09, Normal, English, 2022-01-08
+2, Blue-Eyes Twin Burst Dragon, MP17, NearMint, 5.34, Foil, English, 2022-01-08
+2, Blue-Eyes White Dragon, LC01, NearMint, 1.22, Normal, English, 2022-01-08
+2, Blue-Eyes White Dragon, SDBE, NearMint, 1.45, Foil, English, 2022-01-08
+2, Borreload Furious Dragon, SDRR, NearMint, 0.43, Foil, English, 2022-01-24
+2, Brave-Eyes Pendulum Dragon, RATE, NearMint, 3.57, Foil, English, 2022-01-08
+2, Dark Anthelion Dragon, DUOV, NearMint, 0.25, Foil, English, 2022-01-08
+2, Dark Armed, the Dragon of Annihilation, BLAR, NearMint, 1.94, Foil, English, 2022-01-08
+2, Gaia the Dragon Champion, LOB, NearMint, 5.53, Normal, English, 2022-01-08
+2, Gaia the Magical Knight of Dragons, MP21, NearMint, 0.31, Foil, English, 2022-01-08
+2, Galaxy-Eyes Full Armor Photon Dragon, DUPO, NearMint, 0.94, Foil, English, 2022-01-08
+2, Hieratic Dragon of Eset, GFTP, NearMint, 0.33, Foil, English, 2022-01-08
+2, Hieratic Sky Dragon Overlord of Heliopolis, GFTP, NearMint, 0.95, Foil, English, 2022-01-08
+2, Judgment, the Dragon of Heaven, BLAR, NearMint, 0.85, Foil, English, 2022-01-08
+2, Magician of Black Chaos MAX, TN19, NearMint, 0.77, Normal, English, 2022-01-08
+2, Mahaama the Fairy Dragon, MP21, NearMint, 0.14, Foil, English, 2022-01-08
+2, Malefic Paradigm Dragon, BLAR, NearMint, 0.31, Foil, English, 2022-01-08
+2, Number 99: Utopic Dragon, NECH, NearMint, 14.74, Normal, English, 2022-01-08
+2, Number C92: Heart-eartH Chaos Dragon, BLAR, NearMint, 0.39, Foil, English, 2022-01-08
+2, Odd-Eyes Saber Dragon, YS15Y, NearMint, 0.0, Foil, English, 2022-01-08
+2, Red-Eyes Alternative Black Dragon, TN19, NearMint, 2.16, Normal, English, 2022-01-08
+2, Red-Eyes Black Dragon, LC01, NearMint, 1.62, Normal, English, 2022-01-08
+2, Red-Eyes Flare Metal Dragon, LDK2, NearMint, 2.15, Foil, English, 2022-01-08
+2, Segmental Dragon, SDPL, NearMint, 0.21, Foil, English, 2022-01-24
+2, Slifer the Sky Dragon, TN19, NearMint, 1.57, Normal, English, 2022-01-08
+2, Stardust Dragon, DUPO, NearMint, 1.48, Normal, English, 2022-01-08
+2, Starving Venemy Lethal Dose Dragon, DUOV, NearMint, 0.37, Foil, English, 2022-01-08
+3, Black Rose Dragon, LDS2, NearMint, 0.73, Foil, English, 2022-01-08
+3, Blue-Eyes Ultimate Dragon, LDK2, NearMint, 1.24, Foil, English, 2022-01-08
+3, Blue-Eyes White Dragon, CT14, NearMint, 3.21, Normal, English, 2022-01-08
+3, Destruction Dragon, LCKC, NearMint, 1.29, Normal, English, 2022-01-08
+3, Dragocytos Corrupted Nethersoul Dragon, PGL2, NearMint, 1.0, Foil, English, 2022-01-08
+3, Harpie's Pet Dragon, LDS2, NearMint, 0.92, Foil, English, 2022-01-08
+3, Hyozanryu, GFTP, NearMint, 0.24, Foil, English, 2022-01-08
+3, Starving Venom Fusion Dragon, LEDD, NearMint, 4.44, Foil, English, 2022-01-08
+6, Red-Eyes Black Dragon, SDJ, NearMint, 9.99, Normal, English, 2022-03-05

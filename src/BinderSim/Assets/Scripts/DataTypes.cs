@@ -51,8 +51,13 @@ public class BinderData
     public int pageCount { get; private set; }
     public int pageWidth { get; private set; }
     public int pageHeight { get; private set; }
-    public List<List<CardDataRuntime>> cardList { get; private set; }
     public string imagePath;
+    public List<List<CardDataRuntime>> cardList { get; private set; }
+    // TODO MOVE TO GLOBAL CACHE
+    //public List<Datum> storedCards { get; private set; } = new();
+
+    // TODO IMPLEMENT INVENTORY
+    public Dictionary<CardData, int> inventory { get; private set; } = new();
 }
 
 public class BinderDataRuntime
@@ -66,10 +71,13 @@ public class CardData
     public string name;
     public int cardId;
     public int imageId;
+    public float price; // TODO
+    public int condition; // TODO
 }
 
 public class CardDataRuntime : CardData
 {
+    // TODO Remove and use GLOBAL CACHE instead
     public Datum cardAPIData;
     public Texture2D smallImage;
     public Texture2D largeImage;

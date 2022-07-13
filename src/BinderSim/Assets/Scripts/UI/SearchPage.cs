@@ -74,34 +74,14 @@ public class SearchPage : EventReceiverInstance
 
     private void OnImageDownloaded( Texture2D texture, CardDataRuntime cardData )
     {
+        if( !searchUIEntries.ContainsKey( cardData ) )
+            return;
+
         // Idx 1 because 0 is the UI entry background (1 is the preview card image)
         var cardPreview = searchUIEntries[cardData].GetComponentsInChildren<Image>()[1];
         cardPreview.sprite = Utility.CreateSprite( texture );
         cardPreview.color = Color.white;
         cardData.smallImage = texture;
-
-
-        // TODO: Save/cache image
-        //byte[] results = request.downloadHandler.data;
-        //string filename = gameObject.name + ".dat";
-        //SaveImage( "Images/" + filename, results );
-    }
-
-    void SaveImage( string path, byte[] imageBytes )
-    {
-        //Create Directory if it does not exist
-        if( !Directory.Exists( Path.GetDirectoryName( path ) ) )
-            Directory.CreateDirectory( Path.GetDirectoryName( path ) );
-
-        try
-        {
-            File.WriteAllBytes( path, imageBytes );
-        }
-        catch( Exception e )
-        {
-            Debug.LogWarning( "Failed To Save Data to: " + path.Replace( "/", "\\" ) );
-            Debug.LogWarning( "Error: " + e.Message );
-        }
     }
 
     private GameObject GetSelectedCard()
