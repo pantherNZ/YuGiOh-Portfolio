@@ -1,6 +1,10 @@
 import requests, json
 import TrelloKey
 from ratelimiter import RateLimiter
+from pathlib import Path
+
+filename = Path(__file__).with_name('yugioh.txt')
+
 
 def trello_request(request_type:str, command:str, headers=dict(), params=dict()):
     return requests.request(request_type,f'{command}?key={TrelloKey.key}&token={TrelloKey.token}', headers=headers, params=params)
@@ -48,7 +52,7 @@ def archive_old_cards(list_id:str):
 
 def load_cards(allow_repeats:bool):
      # read txt file data
-    with open('yugioh.txt', 'r') as file:
+    with open(filename, 'r') as file:
         next(file)
         next(file)
         data = file.readlines()
@@ -56,8 +60,17 @@ def load_cards(allow_repeats:bool):
     # parse data and return it
     entries = []
     unique_check = set()
-    for card in data:
+    for idx, card in enumerate(data):
+
+        if card == '\n' or len(card) <= 10:
+            continue
+
         card_data = card.split(',')
+
+        if len(card_data) < 8:
+            print(f'Failed to load info for card on line {idx}: "f{card}"')
+            continue
+
         name = str.join(',', card_data[1:len(card_data)-6]).strip()
         set_name = card_data[len(card_data)-6].strip()
         card_name = f'{name} ({set_name})'

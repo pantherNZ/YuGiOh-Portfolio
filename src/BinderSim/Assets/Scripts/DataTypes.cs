@@ -53,11 +53,6 @@ public class BinderData
     public int pageHeight { get; private set; }
     public string imagePath;
     public List<List<CardDataRuntime>> cardList { get; private set; }
-    // TODO MOVE TO GLOBAL CACHE
-    //public List<Datum> storedCards { get; private set; } = new();
-
-    // TODO IMPLEMENT INVENTORY
-    public Dictionary<CardData, int> inventory { get; private set; } = new();
 }
 
 public class BinderDataRuntime

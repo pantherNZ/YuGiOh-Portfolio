@@ -168,6 +168,13 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             deleteButton.interactable = !unselect;
         };
 
+        newBinder.GetComponent<EventDispatcher>().OnDoubleClickEvent += ( PointerEventData e ) =>
+        {
+            if( currentlySelectedBinderIdx != thisIdx )
+                newBinder.GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( e );
+            EditBinder();
+        };
+
         return binderData.Back();
     }
 

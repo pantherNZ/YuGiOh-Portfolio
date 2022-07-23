@@ -64,7 +64,7 @@
     <Compile Include="Assets\Utility\Quad.cs" />
     <Compile Include="Assets\Scripts\YGOAPICallHandler.cs" />
     <Compile Include="Assets\Scripts\UI\BinderPage.cs" />
-    <Compile Include="Assets\Scripts\UI\SearchPage.cs" />
+    <Compile Include="Assets\Scripts\UI\SearchPageFull.cs" />
     <Compile Include="Assets\Utility\SwipeManager.cs" />
     <Compile Include="Assets\Utility\AdvancedGridLayoutCustomEditor.cs" />
     <Compile Include="Assets\Utility\Utility.cs" />

@@ -8,7 +8,7 @@ using System;
 using System.IO;
 using Newtonsoft.Json;
 
-public class SearchPage : EventReceiverInstance
+public class SearchPageFull : EventReceiverInstance
 {
     [SerializeField] GameObject searchListPage = null;
     [SerializeField] GameObject cardList = null;
@@ -16,13 +16,14 @@ public class SearchPage : EventReceiverInstance
     [SerializeField] TMPro.TMP_InputField searchInput = null;
     [SerializeField] Button selectCardButton = null;
     [SerializeField] Button clearCardButton = null;
-    [SerializeField] Color selectedEntryColour = new Color();
+    [SerializeField] Color selectedEntryColour = new();
     [SerializeField] bool downloadImages = true;
     [SerializeField] bool downloadLargeImages = true;
 
     private List<CardDataRuntime> cardData = new();
     private Dictionary<CardDataRuntime, GameObject> searchUIEntries = new();
     private int? currentCardSelectedIdx;
+    private SearchPageBehaviour behaviour;
 
     override protected void Start()
     {
@@ -143,6 +144,7 @@ public class SearchPage : EventReceiverInstance
         return newCardUIEntry;
     }
 
+    // Called when you either double click a search result, or click to highlight and then click 'Select Card' button
     public void ChooseCard()
     {
         Debug.Assert( currentCardSelectedIdx != null );
@@ -160,7 +162,9 @@ public class SearchPage : EventReceiverInstance
             card = data,
         } );
 
-        searchListPage.SetActive( false );
+        // Only hide this page if we are selecting for a specific card
+        if( behaviour != SearchPageBehaviour.AddingCards )
+            searchListPage.SetActive( false );
 
         if( downloadImages && downloadLargeImages )
         {
@@ -193,7 +197,23 @@ public class SearchPage : EventReceiverInstance
     {
         if( e is OpenSearchPageEvent openPageRequest )
         {
-            clearCardButton.interactable = !openPageRequest.existingCardIsEmpty;
+            switch( openPageRequest.behaviour )
+            {
+                case SearchPageBehaviour.SettingCard:
+                    clearCardButton.interactable = false;
+                    selectCardButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Select Card";
+                    break;
+                case SearchPageBehaviour.ReplacingCard:
+                    clearCardButton.interactable = true;
+                    selectCardButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Select Card";
+                    break;
+                case SearchPageBehaviour.AddingCards:
+                    clearCardButton.interactable = false;
+                    selectCardButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Add Card";
+                    break;
+            }
+
+            behaviour = openPageRequest.behaviour;
             searchListPage.SetActive( true );
         }
     }

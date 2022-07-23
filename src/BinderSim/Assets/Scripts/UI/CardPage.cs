@@ -159,16 +159,45 @@ public class CardPage : EventReceiverInstance
         return string.Format( "{0}x{1}", currentbinder.pageWidth, currentbinder.pageHeight );
     }
 
+    private int? FindNextEmptyCardSlot()
+    {
+        for( int pageIdx = currentPage - 1; pageIdx <= currentPage; ++pageIdx )
+        {
+            for( int cardIdx = 0; cardIdx < currentbinder.pageWidth * currentbinder.pageHeight; ++cardIdx )
+            {
+                if( currentbinder.cardList[pageIdx][cardIdx] == null )
+                    return Utility.Mod( pageIdx + 1, 2 ) * currentbinder.pageWidth * currentbinder.pageHeight + cardIdx;
+            }
+        }
+
+        return null;
+    }
+
     private void LoadCard( CardDataRuntime data )
     {
-        Debug.Assert( currentModifyCardIdx != null );
+
+
+        // Null card means we just want to add card to next valid empty card slot
+        if( currentModifyCardIdx == null )
+        {
+            var nextEmptySlot = FindNextEmptyCardSlot();
+
+            // TODO: Handle properly
+            if( nextEmptySlot == null )
+            {
+                Debug.LogWarning( "No empty slot found to add card to on this page" );
+                return;
+            }
+
+            currentModifyCardIdx = nextEmptySlot;
+        }
+
         var idx = Utility.Mod( currentModifyCardIdx.Value, currentbinder.pageWidth * currentbinder.pageHeight );
         var rightSide = currentModifyCardIdx.Value >= ( currentbinder.pageWidth * currentbinder.pageHeight );
         var grid = rightSide ? cardsDisplayGridRight : cardsDisplayGridLeft;
         var image = grid.transform.GetChild( idx ).GetComponent<Image>();
         image.sprite = Utility.CreateSprite( data == null ? defaultCardImage : data.smallImage );
         currentbinder.cardList[rightSide ? currentPage : currentPage - 1][idx] = data;
-        //currentbinder.inventory.Add( data.cardAPIData );
         currentModifyCardIdx = null;
     }
 
@@ -337,11 +366,21 @@ public class CardPage : EventReceiverInstance
         PopulateGrid();
     }
 
+    public void OpenSearchPanelGeneric()
+    {
+        EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
+        {
+            behaviour = SearchPageBehaviour.AddingCards
+        } );
+    }
+
     public void OpenSearchPanel( AdvancedGridLayout grid, int page, int idx )
     {
         EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent() 
         { 
-            existingCardIsEmpty = currentbinder.cardList[page][idx] == null
+            behaviour = currentbinder.cardList[page][idx] == null 
+                ? SearchPageBehaviour.SettingCard
+                : SearchPageBehaviour.ReplacingCard
         } );
     }
 
