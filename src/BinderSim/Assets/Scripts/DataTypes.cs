@@ -39,7 +39,7 @@ public class BinderData
 
         if( cardList == null )
             cardList = new List<List<CardDataRuntime>>();
-        cardList.Resize( pageCount, new List<CardDataRuntime>() );
+        cardList.Resize( pageCount, () => new List<CardDataRuntime>() );
 
         for( int i = 0; i < cardList.Count; ++i )
             cardList[i].Resize( pageWidth * pageHeight );

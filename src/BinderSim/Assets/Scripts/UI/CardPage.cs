@@ -384,6 +384,32 @@ public class CardPage : EventReceiverInstance
         } );
     }
 
+    public void AddPage( bool left )
+    {
+        var newPage = new List<CardDataRuntime>();
+        newPage.Resize( currentbinder.pageWidth * currentbinder.pageHeight );
+        currentbinder.cardList.Insert( left ? currentPage - 1 : currentPage, newPage );
+        PopulateGrid();
+    }
+
+    public void RemovePage( bool left )
+    {
+        currentbinder.cardList.RemoveAt( left ? currentPage - 1 : currentPage );
+        PopulateGrid();
+    }
+
+    public void SwapPage( bool left )
+    {
+        SwapPage( left, left ? currentPage : currentPage - 1 );
+    }
+
+    private void SwapPage( bool left, int withIndex )
+    {
+        Debug.Assert( withIndex < currentbinder.cardList.Count );
+        currentbinder.cardList.Swap( left ? currentPage - 1 : currentPage, withIndex );
+        PopulateGrid();
+    }
+
     private void OnApplicationPause( bool paused )
     {
         if( paused )

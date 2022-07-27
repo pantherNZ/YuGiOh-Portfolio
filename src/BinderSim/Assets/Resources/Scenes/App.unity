@@ -1971,6 +1971,98 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2006004897}
     m_Modifications:
+    - target: {fileID: 1641658961928904381, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658961928904381, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658961928904381, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 273409573}
+    - target: {fileID: 1641658961928904381, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658961928904381, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SwapPage
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658961928904381, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CardPage, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658961928904381, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962323135434, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962323135434, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962323135434, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 273409573}
+    - target: {fileID: 1641658962323135434, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962323135434, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AddPage
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962323135434, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CardPage, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962323135434, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962323135434, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962799326643, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962799326643, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962799326643, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 273409573}
+    - target: {fileID: 1641658962799326643, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962799326643, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RemovePage
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962799326643, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CardPage, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962799326643, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962799326643, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6949805259569477353, guid: 8460717197e6db348897a22b5911daf9, type: 3}
       propertyPath: m_Name
       value: ModifyPageButtonsRight
@@ -14759,6 +14851,102 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2006004897}
     m_Modifications:
+    - target: {fileID: 1641658961928904381, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658961928904381, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658961928904381, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 273409573}
+    - target: {fileID: 1641658961928904381, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658961928904381, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SwapPage
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658961928904381, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CardPage, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658961928904381, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658961928904381, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962323135434, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962323135434, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962323135434, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 273409573}
+    - target: {fileID: 1641658962323135434, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962323135434, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AddPage
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962323135434, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CardPage, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962323135434, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962323135434, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962799326643, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962799326643, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962799326643, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 273409573}
+    - target: {fileID: 1641658962799326643, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962799326643, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RemovePage
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962799326643, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CardPage, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962799326643, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641658962799326643, guid: 8460717197e6db348897a22b5911daf9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6949805259569477353, guid: 8460717197e6db348897a22b5911daf9, type: 3}
       propertyPath: m_Name
       value: ModifyPageButtonsLeft
