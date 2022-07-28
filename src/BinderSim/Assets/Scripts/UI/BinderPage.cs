@@ -21,7 +21,8 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     [SerializeField] Color selectedEntryColour = new();
 
     private List<BinderDataRuntime> binderData = new();
-    private int? currentlySelectedBinderIdx;
+    private int? currentSelectedBinderIdx;
+    private int currentBinderSavingIndex;
 
     private System.Random rng = new();
 
@@ -31,13 +32,13 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
         SaveGameSystem.AddSaveableComponent( this );
 
-        //foreach(var save in SaveGameSystem.GetSaveGames() )
-        //{
-        //    if( !SaveGameSystem.LoadGame( save ) )
-        //        Debug.LogError( "Failed to load save file: " + save );
-        //    else
-        //        EventSystem.Instance.TriggerEvent( new BinderLoadedEvent() );
-        //}
+        foreach(var save in SaveGameSystem.GetSaveGames() )
+        {
+            if( !SaveGameSystem.LoadGame( save ) )
+                Debug.LogError( "Failed to load save file: " + save );
+            else
+                EventSystem.Instance.TriggerEvent( new BinderLoadedEvent() );
+        }
         
         mainMenuPage.SetActive( true );
 
@@ -47,92 +48,27 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         //EditBinder();
     }
 
-    void ISavableComponent.Serialise( BinaryWriter writer )
-    {
-        writer.Write( binderData.Count );
-
-        foreach( var binder in binderData )
-        {
-            writer.Write( binder.data.id );
-            writer.Write( binder.data.name );
-            writer.Write( binder.data.dateCreated.ToString() );
-            writer.Write( binder.data.pageCount );
-            writer.Write( binder.data.pageWidth );
-            writer.Write( binder.data.pageHeight );
-            writer.Write( binder.data.imagePath );
-
-            foreach( var cardList in binder.data.cardList )
-            {
-                foreach( var card in cardList )
-                {
-                    writer.Write( card.cardId );
-                }
-            }
-        }
-    }
-
-    void ISavableComponent.Deserialise( int saveVersion, BinaryReader reader )
-    {
-        int count = reader.ReadInt32();
-
-        for( int i = 0; i < count; ++i )
-        {
-            var id = reader.ReadInt64();
-            var name = reader.ReadString();
-            var dateCreated = DateTime.Parse( reader.ReadString() );
-            var pageCount = reader.ReadInt32();
-            var pageWidth = reader.ReadInt32();
-            var pageHeight = reader.ReadInt32();
-            var imagePath = reader.ReadString();
-
-            var newBinder = new BinderData( id, name, pageCount, pageWidth, pageHeight, imagePath );
-
-            for( int page = 0; page < pageCount; ++page)
-            {
-                for( int card = 0; card < newBinder.pageWidth * newBinder.pageHeight; ++card )
-                {
-                    var cardId = reader.ReadInt32();
-
-                    StartCoroutine( APICallHandler.Instance.SendCardSearchRequest( cardId, true, ( json ) =>
-                    {
-                        Root data = JsonConvert.DeserializeObject<Root>( json );
-                        Debug.Assert( data.data.Count == 1 );
-                        var cardData = data.data[0];
-
-                        newBinder.cardList[page][card] = new CardDataRuntime()
-                        {
-                            name = cardData.name,
-                            cardId = cardData.id,
-                            imageId = cardData.card_images[0].id,
-                            cardAPIData = cardData.DeepCopy(),
-                        };
-                    } ) );
-                }
-            }
-        }
-    }
-
     public void EditBinder()
     {
         EventSystem.Instance.TriggerEvent( new PageChangeRequestEvent()
         { 
             page = PageType.CardPage,
-            binder = binderData[currentlySelectedBinderIdx.Value].data
+            binder = binderData[currentSelectedBinderIdx.Value].data
         } );
     }
 
     private GameObject GetSelectedBinder()
     {
-        return currentlySelectedBinderIdx.HasValue ? bindersList.transform.GetChild( currentlySelectedBinderIdx.Value + 1 ).gameObject : null;
+        return currentSelectedBinderIdx.HasValue ? bindersList.transform.GetChild( currentSelectedBinderIdx.Value + 1 ).gameObject : null;
     }
 
     public void DeleteBinder()
     {
-        if( currentlySelectedBinderIdx == null )
+        if( currentSelectedBinderIdx == null )
             return;
 
         GetSelectedBinder().Destroy();
-        currentlySelectedBinderIdx = null;
+        currentSelectedBinderIdx = null;
         editButton.interactable = false;
         deleteButton.interactable = false;
     }
@@ -154,27 +90,6 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         } );
 
         UpdateBinderUIEntry( binderData.Back() );
-
-        int thisIdx = binderData.Count - 1;
-        newBinder.GetComponent<EventDispatcher>().OnPointerUpEvent += ( PointerEventData ) =>
-        {
-            bool unselect = currentlySelectedBinderIdx == thisIdx;
-            if( currentlySelectedBinderIdx != null || unselect )
-                GetSelectedBinder().GetComponent<Image>().color = Color.clear;
-            if( !unselect )
-                newBinder.GetComponent<Image>().color = selectedEntryColour;
-            currentlySelectedBinderIdx = unselect ? null : thisIdx;
-            editButton.interactable = !unselect;
-            deleteButton.interactable = !unselect;
-        };
-
-        newBinder.GetComponent<EventDispatcher>().OnDoubleClickEvent += ( PointerEventData e ) =>
-        {
-            if( currentlySelectedBinderIdx != thisIdx )
-                newBinder.GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( e );
-            EditBinder();
-        };
-
         return binderData.Back();
     }
 
@@ -190,6 +105,26 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         // Preview icon
         if( images.Length > 1 && images[1].gameObject != null )
             images[1].gameObject.Destroy();
+
+        int thisIdx = binderData.Count - 1;
+        binder.binderUI.GetComponent<EventDispatcher>().OnPointerUpEvent += ( PointerEventData ) =>
+        {
+            bool unselect = currentSelectedBinderIdx == thisIdx;
+            if( currentSelectedBinderIdx != null || unselect )
+                GetSelectedBinder().GetComponent<Image>().color = Color.clear;
+            if( !unselect )
+                binder.binderUI.GetComponent<Image>().color = selectedEntryColour;
+            currentSelectedBinderIdx = unselect ? null : thisIdx;
+            editButton.interactable = !unselect;
+            deleteButton.interactable = !unselect;
+        };
+
+        binder.binderUI.GetComponent<EventDispatcher>().OnDoubleClickEvent += ( PointerEventData e ) =>
+        {
+            if( currentSelectedBinderIdx != thisIdx )
+                binder.binderUI.GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( e );
+            EditBinder();
+        };
     }
 
     public override void OnEventReceived( IBaseEvent e )
@@ -220,6 +155,8 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                     break;
                 }
             }
+
+            Save();
         }
     }
 
@@ -271,7 +208,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             var cardIndex = Utility.Mod( idx, newBinder.data.pageWidth * newBinder.data.pageHeight );
             var pageIndex = idx / ( newBinder.data.pageWidth * newBinder.data.pageHeight );
 
-            StartCoroutine( APICallHandler.Instance.SendCardSearchRequest( cardName, false, ( json ) =>
+            StartCoroutine( APICallHandler.Instance.SendCardSearchRequest( cardName, true, ( json ) =>
             {
                 Root data = JsonConvert.DeserializeObject<Root>( json );
                 Debug.Assert( data.data.Count == 1 );
@@ -285,6 +222,105 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                     cardAPIData = card.DeepCopy(),
                 };
             } ) );
+        }
+    }
+
+    private void OnApplicationPause( bool paused )
+    {
+        if( paused )
+            Save();
+    }
+
+    private void OnApplicationFocus( bool hasFocus )
+    {
+        if( !hasFocus )
+            Save();
+    }
+
+    private void OnApplicationQuit()
+    {
+        Save();
+    }
+
+    private void Save()
+    {
+        foreach( var( idx, binder ) in Utility.Enumerate( binderData ) )
+        {
+            currentBinderSavingIndex = idx;
+            SaveGameSystem.SaveGame( binder.data.name );
+        }
+    }
+
+    void ISavableComponent.Serialise( BinaryWriter writer )
+    {
+        var binder = binderData[currentBinderSavingIndex];
+
+        writer.Write( binder.data.id );
+        writer.Write( binder.data.name );
+        writer.Write( binder.data.dateCreated.ToString() );
+        writer.Write( binder.data.pageCount );
+        writer.Write( binder.data.pageWidth );
+        writer.Write( binder.data.pageHeight );
+        writer.Write( binder.data.imagePath ?? String.Empty );
+
+        foreach( var cardList in binder.data.cardList )
+        {
+            foreach( var card in cardList )
+            {
+                writer.Write( card != null ? card.cardId : 0 );
+            }
+        }
+    }
+
+    void ISavableComponent.Deserialise( int saveVersion, BinaryReader reader )
+    {
+        var id = reader.ReadInt64();
+        var name = reader.ReadString();
+        var dateCreated = DateTime.Parse( reader.ReadString() );
+        var pageCount = reader.ReadInt32();
+        var pageWidth = reader.ReadInt32();
+        var pageHeight = reader.ReadInt32();
+        var imagePath = reader.ReadString();
+
+        var newBinderUI = Instantiate( binderEntryPrefab );
+        newBinderUI.transform.SetParent( bindersList.transform );
+
+        var newBinder = new BinderData( id, name, pageCount, pageWidth, pageHeight, imagePath );
+
+        binderData.Add( new BinderDataRuntime()
+        {
+            data = newBinder,
+            binderUI = newBinderUI,
+        } );
+
+        UpdateBinderUIEntry( binderData.Back() );
+
+        for( int page = 0; page < pageCount; ++page )
+        {
+            for( int card = 0; card < pageWidth * pageHeight; ++card )
+            {
+                var cardId = reader.ReadInt32();
+                var pageIdx = page;
+                var cardIdx = card;
+
+                if( cardId == 0 )
+                    continue;
+
+                StartCoroutine( APICallHandler.Instance.SendCardSearchRequest( cardId, true, ( json ) =>
+                {
+                    Root data = JsonConvert.DeserializeObject<Root>( json );
+                    Debug.Assert( data.data.Count == 1 );
+                    var cardData = data.data[0];
+
+                    newBinder.cardList[pageIdx][cardIdx] = new CardDataRuntime()
+                    {
+                        name = cardData.name,
+                        cardId = cardData.id,
+                        imageId = cardData.card_images[0].id,
+                        cardAPIData = cardData.DeepCopy(),
+                    };
+                } ) );
+            }
         }
     }
 }

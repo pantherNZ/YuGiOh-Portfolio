@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Constants
 {
+    public const bool DownloadImages = true;
+    public const bool DownloadLargeImages = true;
     public const int DefaultStartingNumPages = 20;
     public const int DefaultStartingPageWidth = 3;
     public const int DefaultStartingPageHeight = 3;
@@ -45,10 +47,30 @@ public class BinderData
             cardList[i].Resize( pageWidth * pageHeight );
     }
 
+    public void Insert( int page )
+    {
+        var newPage = new List<CardDataRuntime>();
+        newPage.Resize( pageWidth * pageHeight );
+        cardList.Insert( page, newPage );
+    }
+
+    public void Remove( int page )
+    {
+        cardList.RemoveAt( page );
+    }
+
+    public void Swap( int pageA, int pageB )
+    {
+        Debug.Assert( pageA != pageB );
+        Debug.Assert( pageA >= 0 && pageA < cardList.Count );
+        Debug.Assert( pageB >= 0 && pageB < cardList.Count );
+        cardList.Swap( pageA, pageB );
+    }
+
     public long id;
     public string name;
     public DateTime dateCreated;
-    public int pageCount { get; private set; }
+    public int pageCount { get => cardList.Count; private set { } }
     public int pageWidth { get; private set; }
     public int pageHeight { get; private set; }
     public string imagePath;
@@ -72,8 +94,8 @@ public class CardData
 
 public class CardDataRuntime : CardData
 {
-    // TODO Remove and use GLOBAL CACHE instead
     public Datum cardAPIData;
     public Texture2D smallImage;
     public Texture2D largeImage;
+    public bool largeImageRequsted;
 }

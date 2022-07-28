@@ -17,8 +17,6 @@ public class SearchPageFull : EventReceiverInstance
     [SerializeField] Button selectCardButton = null;
     [SerializeField] Button clearCardButton = null;
     [SerializeField] Color selectedEntryColour = new();
-    [SerializeField] bool downloadImages = true;
-    [SerializeField] bool downloadLargeImages = true;
 
     private List<CardDataRuntime> cardData = new();
     private Dictionary<CardDataRuntime, GameObject> searchUIEntries = new();
@@ -64,7 +62,7 @@ public class SearchPageFull : EventReceiverInstance
                 };
                 AddCard( newCard );
 
-                if( downloadImages )
+                if( Constants.DownloadImages )
                 {
                     var smallImageUrl = card.card_images[0].image_url_small;
                     StartCoroutine( APICallHandler.Instance.DownloadImage( smallImageUrl, true, ( texture ) => OnImageDownloaded( texture, newCard ) ) );
@@ -110,7 +108,7 @@ public class SearchPageFull : EventReceiverInstance
             if( !unselect )
                 newCardUIEntry.GetComponent<Image>().color = selectedEntryColour;
             currentCardSelectedIdx = unselect ? null : thisIdx;
-            selectCardButton.interactable = !unselect;
+            selectCardButton.interactable = !unselect && behaviour != SearchPageBehaviour.AddingCardsPageFull;
         };
 
         // TODO: Double click to choose
@@ -147,6 +145,9 @@ public class SearchPageFull : EventReceiverInstance
     // Called when you either double click a search result, or click to highlight and then click 'Select Card' button
     public void ChooseCard()
     {
+        if( behaviour == SearchPageBehaviour.AddingCardsPageFull )
+            return;
+
         Debug.Assert( currentCardSelectedIdx != null );
 
         var data = cardData[currentCardSelectedIdx.Value];
@@ -163,15 +164,20 @@ public class SearchPageFull : EventReceiverInstance
         } );
 
         // Only hide this page if we are selecting for a specific card
+        // This intentionally will switch back to the card list if the page is now full
+        // (new behaviour will be set to AddingCardsPageFull via the PageFullEvent)
         if( behaviour != SearchPageBehaviour.AddingCards )
             searchListPage.SetActive( false );
 
-        if( downloadImages && downloadLargeImages )
+        if( Constants.DownloadImages && Constants.DownloadLargeImages )
         {
+            data.largeImageRequsted = true;
+
             StartCoroutine( APICallHandler.Instance.DownloadImage( data.cardAPIData.card_images[0].image_url, true, ( texture ) =>
             {
                 // TODO: Save/cache image
                 data.largeImage = texture;
+                data.largeImageRequsted = false;
 
                 EventSystem.Instance.TriggerEvent( new CardImageLoadedEvent()
                 {
@@ -197,24 +203,21 @@ public class SearchPageFull : EventReceiverInstance
     {
         if( e is OpenSearchPageEvent openPageRequest )
         {
-            switch( openPageRequest.behaviour )
-            {
-                case SearchPageBehaviour.SettingCard:
-                    clearCardButton.interactable = false;
-                    selectCardButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Select Card";
-                    break;
-                case SearchPageBehaviour.ReplacingCard:
-                    clearCardButton.interactable = true;
-                    selectCardButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Select Card";
-                    break;
-                case SearchPageBehaviour.AddingCards:
-                    clearCardButton.interactable = false;
-                    selectCardButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Add Card";
-                    break;
-            }
+            selectCardButton.interactable = openPageRequest.behaviour != SearchPageBehaviour.AddingCardsPageFull;
+            clearCardButton.interactable = openPageRequest.behaviour == SearchPageBehaviour.ReplacingCard;
+            selectCardButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text =
+                openPageRequest.behaviour == SearchPageBehaviour.SettingCard ||
+                openPageRequest.behaviour == SearchPageBehaviour.ReplacingCard ?
+                "Select Card" : "Add Card";
 
             behaviour = openPageRequest.behaviour;
             searchListPage.SetActive( true );
+        }
+        else if( e is PageFullEvent )
+        {
+            Debug.Assert( behaviour == SearchPageBehaviour.AddingCards );
+            behaviour = SearchPageBehaviour.AddingCardsPageFull;
+            selectCardButton.interactable = false;
         }
     }
 }

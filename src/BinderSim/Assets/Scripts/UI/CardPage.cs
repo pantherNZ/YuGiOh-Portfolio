@@ -16,6 +16,8 @@ public class CardPage : EventReceiverInstance
     [SerializeField] Texture2D defaultCardImage = null;
     [SerializeField] Button prevPageButton = null;
     [SerializeField] Button nextPageButton = null;
+    [SerializeField] Button firstPageButton = null;
+    [SerializeField] Button lastPageButton = null;
     [SerializeField] TMPro.TextMeshProUGUI currentPageTextLeft = null;
     [SerializeField] TMPro.TextMeshProUGUI currentPageTextRight = null;
     [SerializeField] GameObject CardGridEntryPrefab = null;
@@ -40,7 +42,8 @@ public class CardPage : EventReceiverInstance
 
         prevPageButton.onClick.AddListener( PrevPage );
         nextPageButton.onClick.AddListener( NextPage );
-        applyChangesButton.onClick.AddListener( TryApplyChanges );
+        firstPageButton.onClick.AddListener( () => ChangePage( 0 ) );
+        lastPageButton.onClick.AddListener( () => ChangePage( currentbinder.pageCount ) );
 
         mainCamera = Camera.main;
 
@@ -151,7 +154,6 @@ public class CardPage : EventReceiverInstance
             int.Parse( pageSize[2].ToString() ) );
 
         EventSystem.Instance.TriggerEvent( new BinderDataUpdateEvent() { binder = currentbinder } );
-        Save();
     }
 
     private string GetCurrentPageSizeString()
@@ -161,7 +163,7 @@ public class CardPage : EventReceiverInstance
 
     private int? FindNextEmptyCardSlot()
     {
-        for( int pageIdx = currentPage - 1; pageIdx <= currentPage; ++pageIdx )
+        for( int pageIdx = Mathf.Max( 0, currentPage - 1 ); pageIdx <= currentPage && pageIdx < currentbinder.cardList.Count; ++pageIdx )
         {
             for( int cardIdx = 0; cardIdx < currentbinder.pageWidth * currentbinder.pageHeight; ++cardIdx )
             {
@@ -175,21 +177,17 @@ public class CardPage : EventReceiverInstance
 
     private void LoadCard( CardDataRuntime data )
     {
-
-
         // Null card means we just want to add card to next valid empty card slot
         if( currentModifyCardIdx == null )
         {
-            var nextEmptySlot = FindNextEmptyCardSlot();
+            currentModifyCardIdx = FindNextEmptyCardSlot();
 
             // TODO: Handle properly
-            if( nextEmptySlot == null )
+            if( currentModifyCardIdx == null )
             {
                 Debug.LogWarning( "No empty slot found to add card to on this page" );
                 return;
             }
-
-            currentModifyCardIdx = nextEmptySlot;
         }
 
         var idx = Utility.Mod( currentModifyCardIdx.Value, currentbinder.pageWidth * currentbinder.pageHeight );
@@ -199,6 +197,9 @@ public class CardPage : EventReceiverInstance
         image.sprite = Utility.CreateSprite( data == null ? defaultCardImage : data.smallImage );
         currentbinder.cardList[rightSide ? currentPage : currentPage - 1][idx] = data;
         currentModifyCardIdx = null;
+
+        if( FindNextEmptyCardSlot() == null )
+            EventSystem.Instance.TriggerEvent( new PageFullEvent() );
     }
 
     private void PopulateGrid()
@@ -218,6 +219,10 @@ public class CardPage : EventReceiverInstance
         prevPageButton.gameObject.SetActive( currentPage > 0 );
         nextPageButton.gameObject.SetActive( currentPage < currentbinder.pageCount - 1 );
 
+        // Show/hide first/last buttons depending on first/last page
+        firstPageButton.gameObject.SetActive( currentPage > 0 );
+        lastPageButton.gameObject.SetActive( currentPage < currentbinder.pageCount - 1 );
+
         // Show/hide modify buttons depending on first/last page
         modifyPageButtonsLeft.SetActive( currentPage > 0 );
         modifyPageButtonsRight.SetActive( currentPage < currentbinder.pageCount - 1 );
@@ -235,7 +240,34 @@ public class CardPage : EventReceiverInstance
             // Reset/load images based on the stored data
             foreach( var (idx, card ) in Utility.Enumerate( currentbinder.cardList[page] ) )
             {
-                var texture = card != null ? ( card.largeImage != null ? card.largeImage : card.smallImage ) : defaultCardImage;
+                var texture = defaultCardImage;
+                
+                if( card != null )
+                {
+                    if( card.largeImage != null )
+                    {
+                        texture = card.largeImage;
+                    }
+                    else if( card.smallImage != null )
+                    {
+                        texture = card.smallImage;
+                    }
+                    else if( !card.largeImageRequsted )
+                    {
+                        card.largeImageRequsted = true;
+                        var cardIdx = idx;
+
+                        // Load card images if not loaded yet (happens when we load a binder for the first time)
+                        StartCoroutine( APICallHandler.Instance.DownloadImage( card.cardAPIData.card_images[0].image_url, true, ( texture ) =>
+                        {
+                            // TODO: Save/cache image
+                            card.largeImage = texture;
+                            card.largeImageRequsted = false;
+                            grid.transform.GetChild( cardIdx ).GetComponent<Image>().sprite = Utility.CreateSprite( texture );
+                        } ) );
+                    }
+                }
+
                 grid.transform.GetChild( idx ).GetComponent<Image>().sprite = Utility.CreateSprite( texture );
             }
 
@@ -370,7 +402,9 @@ public class CardPage : EventReceiverInstance
     {
         EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
         {
-            behaviour = SearchPageBehaviour.AddingCards
+            behaviour = FindNextEmptyCardSlot() == null 
+                ? SearchPageBehaviour.AddingCardsPageFull 
+                : SearchPageBehaviour.AddingCards
         } );
     }
 
@@ -386,15 +420,15 @@ public class CardPage : EventReceiverInstance
 
     public void AddPage( bool left )
     {
-        var newPage = new List<CardDataRuntime>();
-        newPage.Resize( currentbinder.pageWidth * currentbinder.pageHeight );
-        currentbinder.cardList.Insert( left ? currentPage - 1 : currentPage, newPage );
+        currentbinder.Insert( left ? currentPage - 1 : currentPage );
+        pageCountText.text = currentbinder.pageCount.ToString();
         PopulateGrid();
     }
 
     public void RemovePage( bool left )
     {
-        currentbinder.cardList.RemoveAt( left ? currentPage - 1 : currentPage );
+        currentbinder.Remove( left ? currentPage - 1 : currentPage );
+        pageCountText.text = currentbinder.pageCount.ToString();
         PopulateGrid();
     }
 
@@ -405,30 +439,7 @@ public class CardPage : EventReceiverInstance
 
     private void SwapPage( bool left, int withIndex )
     {
-        Debug.Assert( withIndex < currentbinder.cardList.Count );
-        currentbinder.cardList.Swap( left ? currentPage - 1 : currentPage, withIndex );
+        currentbinder.Swap( left ? currentPage - 1 : currentPage, withIndex );
         PopulateGrid();
-    }
-
-    private void OnApplicationPause( bool paused )
-    {
-        if( paused )
-            Save();
-    }
-
-    private void OnApplicationFocus( bool hasFocus )
-    {
-        if( !hasFocus )
-            Save();
-    }
-
-    private void OnApplicationQuit()
-    {
-        Save();
-    }
-
-    private void Save()
-    {
-        //SaveGameSystem.SaveGame( currentbinder.name );
     }
 }

@@ -73,7 +73,7 @@ class APICallHandler
                     //Debug.LogError( url + ": HTTP Error: " + webRequest.error );
                     break;
                 case UnityWebRequest.Result.Success:
-                    cachedRequests.Add( url, webRequest.downloadHandler.text );
+                    cachedRequests[url] = webRequest.downloadHandler.text;
                     callback?.Invoke( webRequest.downloadHandler.text );
                     break;
             }
