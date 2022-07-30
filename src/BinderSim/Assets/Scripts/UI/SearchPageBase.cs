@@ -15,17 +15,37 @@ public abstract class SearchPageBase : EventReceiverInstance
     [SerializeField] protected TMPro.TMP_InputField searchInput = null;
     [SerializeField] protected Button selectCardButton = null;
     [SerializeField] protected Color selectedEntryColour = new();
+    [SerializeField] protected bool autoSearch = true;
+    [SerializeField] protected int maxSearchResults = 100;
+    [SerializeField] protected int autoSearchDelayMS = 500;
 
     protected List<CardDataRuntime> cardData = new();
     protected Dictionary<CardDataRuntime, GameObject> searchUIEntries = new();
     protected int? currentCardSelectedIdx;
     protected SearchPageBehaviour behaviour;
+    private Coroutine searchCountdown;
 
     override protected void Start()
     {
         base.Start();
 
         searchListPage.SetActive( false );
+
+        searchInput.onValueChanged.AddListener( OnSearchTextchanged );
+    }
+
+    private void OnSearchTextchanged( string text )
+    {
+        if( searchCountdown != null )
+            StopCoroutine( searchCountdown );
+
+        searchCountdown = StartCoroutine( TextChangedTimer() );
+    }
+
+    private IEnumerator TextChangedTimer()
+    {
+        yield return new WaitForSeconds( autoSearchDelayMS / 1000.0f );
+        SearchCards();
     }
 
     public void SearchCards()
@@ -37,7 +57,10 @@ public abstract class SearchPageBase : EventReceiverInstance
         currentCardSelectedIdx = null;
         searchUIEntries.Clear();
         cardData.Clear();
-        StartCoroutine( APICallHandler.Instance.SendCardSearchRequestFuzzy( searchInput.text, false, OnSearchResultReceived ) );
+
+        var search = searchInput.text.Trim();
+        if( search.Length > 0 )
+            StartCoroutine( APICallHandler.Instance.SendCardSearchRequestFuzzy( search, false, OnSearchResultReceived ) );
     }
 
     private void OnSearchResultReceived( string result )
@@ -50,8 +73,12 @@ public abstract class SearchPageBase : EventReceiverInstance
         }
         else
         {
-            foreach( var card in data.data )
+            foreach( var( idx, card ) in Utility.Enumerate( data.data ) )
             {
+                // Limit to 100 results for now
+                if( idx >= maxSearchResults )
+                    break;
+
                 var newCard = new CardDataRuntime()
                 {
                     name = card.name,
