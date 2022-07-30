@@ -52,4 +52,13 @@ public class SearchPageSmall : SearchPageBase
             selectCardButton.interactable = false;
         }
     }
+
+    public void SwitchSides()
+    {
+        var rectTransform = searchListPage.transform as RectTransform;
+        var xPos = rectTransform.anchoredPosition.x;
+        rectTransform.anchorMax = rectTransform.anchorMax.SetX( xPos >= 0.0f ? 1.0f : 0.0f );
+        rectTransform.anchorMin = rectTransform.anchorMin.SetX( xPos >= 0.0f ? 1.0f : 0.0f );
+        rectTransform.anchoredPosition = rectTransform.anchoredPosition.SetX( -xPos );
+    }
 }
