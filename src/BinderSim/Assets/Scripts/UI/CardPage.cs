@@ -26,8 +26,8 @@ public class CardPage : EventReceiverInstance
     [SerializeField] GameObject modifyPageButtonsRight = null;
 
     private BinderData currentbinder;
-    private int width = Constants.DefaultStartingPageWidth;
-    private int height = Constants.DefaultStartingPageHeight;
+    private int width;
+    private int height;
     private int currentPage;
     private int? currentModifyCardIdx;
 
@@ -50,6 +50,9 @@ public class CardPage : EventReceiverInstance
         binderNameText.onValueChanged.AddListener( _ => OnBinderHeaderChanged() );
         pageCountText.onValueChanged.AddListener( _ => OnBinderHeaderChanged() );
         pageSizeDropDown.onValueChanged.AddListener( _ => OnBinderHeaderChanged() );
+
+        width = Constants.Instance.DefaultStartingPageWidth;
+        height = Constants.Instance.DefaultStartingPageHeight;
     }
 
     public void SaveAndExit()
@@ -154,6 +157,7 @@ public class CardPage : EventReceiverInstance
             int.Parse( pageSize[2].ToString() ) );
 
         EventSystem.Instance.TriggerEvent( new BinderDataUpdateEvent() { binder = currentbinder } );
+        PopulateGrid();
     }
 
     private string GetCurrentPageSizeString()
@@ -402,6 +406,7 @@ public class CardPage : EventReceiverInstance
     {
         EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
         {
+            openFullPage = false,
             behaviour = FindNextEmptyCardSlot() == null 
                 ? SearchPageBehaviour.AddingCardsPageFull 
                 : SearchPageBehaviour.AddingCards
@@ -412,6 +417,7 @@ public class CardPage : EventReceiverInstance
     {
         EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent() 
         { 
+            openFullPage = false,
             behaviour = currentbinder.cardList[page][idx] == null 
                 ? SearchPageBehaviour.SettingCard
                 : SearchPageBehaviour.ReplacingCard

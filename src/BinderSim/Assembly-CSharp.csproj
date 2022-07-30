@@ -57,9 +57,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\EventTypes.cs" />
+    <Compile Include="Assets\Scripts\UI\SearchPageBase.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserWindows.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\IStandaloneFileBrowser.cs" />
     <Compile Include="Assets\Utility\FunctionTimer.cs" />
+    <Compile Include="Assets\Scripts\UI\SearchPageSmall.cs" />
     <Compile Include="Assets\Utility\Extensions.cs" />
     <Compile Include="Assets\Utility\Quad.cs" />
     <Compile Include="Assets\Scripts\YGOAPICallHandler.cs" />
@@ -92,6 +94,7 @@
     <Compile Include="Assets\Utility\UndoRedoSystem.cs" />
     <Compile Include="Assets\Utility\Touchable.cs" />
     <Compile Include="Assets\Scripts\RequestJsonFormat.cs" />
+    <Compile Include="Assets\Scripts\Constants.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -214,6 +214,9 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                 Debug.Assert( data.data.Count == 1 );
                 var card = data.data[0];
 
+                if( pageIndex >= newBinder.data.cardList.Count )
+                    newBinder.data.Insert( newBinder.data.pageCount + 1 );
+
                 newBinder.data.cardList[pageIndex][cardIndex] = new CardDataRuntime()
                 {
                     name = card.name,

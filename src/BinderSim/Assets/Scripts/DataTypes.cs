@@ -2,15 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Constants
-{
-    public const bool DownloadImages = true;
-    public const bool DownloadLargeImages = true;
-    public const int DefaultStartingNumPages = 20;
-    public const int DefaultStartingPageWidth = 3;
-    public const int DefaultStartingPageHeight = 3;
-}
-
 public enum PageType
 {
     BinderPage,
@@ -22,15 +13,17 @@ public class BinderData
     public BinderData( 
         long id, 
         string name, 
-        int pageCount = Constants.DefaultStartingNumPages, 
-        int pageWidth = Constants.DefaultStartingPageWidth, 
-        int pageHeight = Constants.DefaultStartingPageHeight, 
+        int? pageCount = null, 
+        int? pageWidth = null, 
+        int? pageHeight = null, 
         string imagePath = null )
     {
         this.id = id;
         this.name = name;
         this.imagePath = imagePath;
-        Resize( pageCount, pageWidth, pageHeight );
+        Resize( pageCount == null ? pageCount.Value : Constants.Instance.DefaultStartingNumPages
+            , pageWidth == null ? pageWidth.Value : Constants.Instance.DefaultStartingPageWidth
+            , pageHeight == null ? pageHeight.Value : Constants.Instance.DefaultStartingPageHeight );
     }
 
     public void Resize( int pageCount, int pageWidth, int pageHeight )

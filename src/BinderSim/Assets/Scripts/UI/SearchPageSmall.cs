@@ -8,7 +8,7 @@ using System;
 using System.IO;
 using Newtonsoft.Json;
 
-public class SearchPageFull : SearchPageBase
+public class SearchPageSmall : SearchPageBase
 {
     [SerializeField] GameObject cardEntryPrefab = null;
     [SerializeField] Button clearCardButton = null;
@@ -29,7 +29,7 @@ public class SearchPageFull : SearchPageBase
     {
         if( e is OpenSearchPageEvent openPageRequest )
         {
-            if( !openPageRequest.openFullPage )
+            if( openPageRequest.openFullPage )
             {
                 searchListPage.SetActive( false );
                 return;
@@ -44,9 +44,6 @@ public class SearchPageFull : SearchPageBase
 
             behaviour = openPageRequest.behaviour;
             searchListPage.SetActive( true );
-
-            if( currentCardSelectedIdx != null )
-                GetSelectedCard().GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( null );
         }
         else if( e is PageFullEvent )
         {

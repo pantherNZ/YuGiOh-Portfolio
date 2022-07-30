@@ -14,7 +14,8 @@ public enum SearchPageBehaviour
 
 public class OpenSearchPageEvent : IBaseEvent 
 { 
-    public SearchPageBehaviour behaviour; 
+    public SearchPageBehaviour behaviour;
+    public bool openFullPage;
 }
 
 public class PageFullEvent : IBaseEvent { }
