@@ -116,24 +116,24 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     public void AddCard( CardDataRuntime card )
     {
-        var newCardUIEntry = AddCardUI( card );
+        int thisIdx = cardData.Count - 1;
+        var newCardUIEntry = AddCardUI( card, thisIdx );
         searchUIEntries.Add( card, newCardUIEntry );
         cardData.Add( card );
 
         // On click
         var eventDispatcher = newCardUIEntry.GetComponent<EventDispatcher>();
-        int thisIdx = cardData.Count - 1;
 
         newCardUIEntry.GetComponentsInChildren<Image>()[1].color = Color.clear;
 
-        eventDispatcher.OnPointerUpEvent = ( PointerEventData e ) =>
+        eventDispatcher.OnPointerDownEvent = ( PointerEventData e ) =>
         {
             bool unselect = currentCardSelectedIdx == thisIdx;
             if( currentCardSelectedIdx != null || unselect )
                 GetSelectedCard().GetComponent<Image>().color = Color.clear;
             if( !unselect )
                 newCardUIEntry.GetComponent<Image>().color = selectedEntryColour;
-            currentCardSelectedIdx = unselect ? null : thisIdx;
+            currentCardSelectedIdx = unselect ? null : thisIdx as int?;
             selectCardButton.interactable = !unselect && behaviour != SearchPageBehaviour.AddingCardsPageFull;
         };
 
@@ -156,10 +156,15 @@ public abstract class SearchPageBase : EventReceiverInstance
         };
     }
 
-    protected abstract GameObject AddCardUI( CardData card );
+    protected abstract GameObject AddCardUI( CardData card, int entryIdx );
 
     // Called when you either double click a search result, or click to highlight and then click 'Select Card' button
     public void ChooseCard()
+    {
+        ChooseCardInternal( false );
+    }
+
+    protected void ChooseCardInternal( bool fromDragDrop )
     {
         if( behaviour == SearchPageBehaviour.AddingCardsPageFull )
             return;
@@ -177,6 +182,7 @@ public abstract class SearchPageBase : EventReceiverInstance
         EventSystem.Instance.TriggerEvent( new CardSelectedEvent()
         {
             card = data,
+            fromDragDrop = fromDragDrop,
         } );
 
         // Only hide this page if we are selecting for a specific card

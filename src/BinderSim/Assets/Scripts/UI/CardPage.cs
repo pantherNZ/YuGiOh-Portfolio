@@ -301,8 +301,9 @@ public class CardPage : EventReceiverInstance
 
         var cardToCopy = grid.transform.GetChild( idx );
 
-        var x = Input.mousePosition.x / mainCamera.pixelWidth * ( cardsPage.transform as RectTransform ).rect.width;
-        var y = Input.mousePosition.y / mainCamera.pixelHeight * ( cardsPage.transform as RectTransform ).rect.height;
+        var mousePos = Utility.GetMouseOrTouchPos();
+        var x = mousePos.x / mainCamera.pixelWidth * ( cardsPage.transform as RectTransform ).rect.width;
+        var y = mousePos.y / mainCamera.pixelHeight * ( cardsPage.transform as RectTransform ).rect.height;
         dragOffset = cardToCopy.transform.position.ToVector2() - new Vector2( x, y );
 
         dragging = Instantiate( CardGridEntryPrefab, cardsPage.transform );
@@ -310,7 +311,7 @@ public class CardPage : EventReceiverInstance
         var texture = cardToCopy.GetComponent<Image>().mainTexture as Texture2D;
         dragging.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
         grid.transform.GetChild( idx ).GetComponent<Image>().sprite = Utility.CreateSprite( defaultCardImage );
-        dragging.transform.position = Input.mousePosition;
+        dragging.transform.position = mousePos;
         var worldRect = ( cardToCopy.transform as RectTransform ).GetWorldRect();
         ( dragging.transform as RectTransform ).sizeDelta = new Vector2( worldRect.width, worldRect.height );
     }
@@ -367,8 +368,8 @@ public class CardPage : EventReceiverInstance
     {
         if( dragging != null )
         {
-            var x = Input.mousePosition.x / mainCamera.pixelWidth * ( cardsPage.transform as RectTransform ).rect.width;
-            var y = Input.mousePosition.y / mainCamera.pixelHeight * ( cardsPage.transform as RectTransform ).rect.height;
+            var x = Utility.GetMouseOrTouchPos().x / mainCamera.pixelWidth * ( cardsPage.transform as RectTransform ).rect.width;
+            var y = Utility.GetMouseOrTouchPos().y / mainCamera.pixelHeight * ( cardsPage.transform as RectTransform ).rect.height;
             ( dragging.transform as RectTransform ).anchoredPosition = new Vector2( x, y ) + dragOffset;
         }
     }

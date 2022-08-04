@@ -13,7 +13,7 @@ public class SearchPageFull : SearchPageBase
     [SerializeField] GameObject cardEntryPrefab = null;
     [SerializeField] Button clearCardButton = null;
 
-    protected override GameObject AddCardUI( CardData card )
+    protected override GameObject AddCardUI( CardData card, int entryIdx )
     {
         // Add UI elements
         var newCardUIEntry = Instantiate( cardEntryPrefab );
