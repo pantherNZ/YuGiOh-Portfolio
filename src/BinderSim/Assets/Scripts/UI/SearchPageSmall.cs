@@ -83,10 +83,6 @@ public class SearchPageSmall : SearchPageBase
         ( dragging.transform as RectTransform ).anchoredPosition = Utility.GetMouseOrTouchPos();
         var texture = clickedOn.GetComponentsInChildren<Image>()[1].mainTexture as Texture2D;
         dragging.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
-        grid.transform.GetChild( idx ).GetComponent<Image>().sprite = Utility.CreateSprite( defaultCardImage );
-        dragging.transform.position = Input.mousePosition;
-        var worldRect = ( cardToCopy.transform as RectTransform ).GetWorldRect();
-        ( dragging.transform as RectTransform ).sizeDelta = new Vector2( worldRect.width, worldRect.height );
     }
 
     private void Update()
