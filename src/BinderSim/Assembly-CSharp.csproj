@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\UI\SearchPageFull.cs" />
     <Compile Include="Assets\Utility\SwipeManager.cs" />
     <Compile Include="Assets\Utility\AdvancedGridLayoutCustomEditor.cs" />
+    <Compile Include="Assets\Scripts\Constants.cs" />
     <Compile Include="Assets\Utility\Utility.cs" />
     <Compile Include="Assets\Utility\UtilityCoroutines.cs" />
     <Compile Include="Assets\Utility\HashedString.cs" />
@@ -94,7 +95,6 @@
     <Compile Include="Assets\Utility\UndoRedoSystem.cs" />
     <Compile Include="Assets\Utility\Touchable.cs" />
     <Compile Include="Assets\Scripts\RequestJsonFormat.cs" />
-    <Compile Include="Assets\Scripts\Constants.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
