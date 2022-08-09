@@ -1,16 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Networking;
-using System;
-using System.IO;
-using Newtonsoft.Json;
 
 public class SearchPageSmall : SearchPageBase
 {
     [SerializeField] GameObject cardEntryPrefab = null;
+    [SerializeField] GameObject dragCardGhostPrefab = null;
     [SerializeField] Button clearCardButton = null;
 
     private Camera mainCamera;
@@ -85,9 +79,9 @@ public class SearchPageSmall : SearchPageBase
             return;
         }
 
-        dragging = Instantiate( CardGridEntryPrefab, cardsPage.transform );
+        dragging = Instantiate( dragCardGhostPrefab, searchListPage.transform );
         ( dragging.transform as RectTransform ).anchoredPosition = Utility.GetMouseOrTouchPos();
-        var texture = cardToCopy.GetComponent<Image>().mainTexture as Texture2D;
+        var texture = clickedOn.GetComponentsInChildren<Image>()[1].mainTexture as Texture2D;
         dragging.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
         grid.transform.GetChild( idx ).GetComponent<Image>().sprite = Utility.CreateSprite( defaultCardImage );
         dragging.transform.position = Input.mousePosition;

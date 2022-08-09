@@ -1,12 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Networking;
-using System;
-using System.IO;
-using Newtonsoft.Json;
 
 public class SearchPageFull : SearchPageBase
 {
