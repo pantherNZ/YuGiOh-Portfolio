@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -289,10 +290,16 @@ public class CardPage : EventReceiverInstance
             {
                 int pos = i;
                 var dispatcher = grid.transform.GetChild( i ).GetComponent<EventDispatcher>();
-                dispatcher.OnDoubleClickEvent = ( PointerEventData e ) => OpenSearchPanel( page, pos );
-                dispatcher.OnPointerDownEvent = ( PointerEventData e ) => StartDragging( page, pos );
+                dispatcher.OnDoubleClickEvent = ( e ) => LeftMouseFilter( e, () => OpenSearchPanel( page, pos ) );
+                dispatcher.OnPointerDownEvent = ( e ) => LeftMouseFilter( e, () => StartDragging( page, pos ) );
             }
         }
+    }
+
+    void LeftMouseFilter( PointerEventData e, Action func )
+    {
+        if( e.button == PointerEventData.InputButton.Left )
+            func();
     }
 
     private void StartDragging( int page, int pos )
@@ -305,17 +312,13 @@ public class CardPage : EventReceiverInstance
         var cardToCopy = grid.transform.GetChild( pos );
         dragCardIdx = GetIndexFromPageAndPos( page, pos );
 
-        var mousePos = Utility.GetMouseOrTouchPos();
-        var x = mousePos.x / mainCamera.pixelWidth * ( cardsPage.transform as RectTransform ).rect.width;
-        var y = mousePos.y / mainCamera.pixelHeight * ( cardsPage.transform as RectTransform ).rect.height;
-        dragOffset = cardToCopy.transform.position.ToVector2() - new Vector2( x, y );
+        dragOffset = cardToCopy.transform.position.ToVector2() - Utility.GetMouseOrTouchPos();
 
-        dragging = Instantiate( CardGridEntryPrefab, cardsPage.transform );
-        ( dragging.transform as RectTransform ).anchoredPosition = new Vector2( x, y ) + dragOffset;
+        dragging = Instantiate( CardGridEntryPrefab, cardsPage.transform.parent );
+        ( dragging.transform as RectTransform ).anchoredPosition = Utility.GetMouseOrTouchPos() + dragOffset;
         var texture = cardToCopy.GetComponent<Image>().mainTexture as Texture2D;
         dragging.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
         grid.transform.GetChild( pos ).GetComponent<Image>().sprite = Utility.CreateSprite( defaultCardImage );
-        dragging.transform.position = mousePos;
         var worldRect = ( cardToCopy.transform as RectTransform ).GetWorldRect();
         ( dragging.transform as RectTransform ).sizeDelta = new Vector2( worldRect.width, worldRect.height );
     }
@@ -332,16 +335,29 @@ public class CardPage : EventReceiverInstance
 
         for( int i = 0; i < currentbinder.pageWidth * currentbinder.pageHeight; ++i )
         {
-            if( grid.isActiveAndEnabled && 
+            if( grid.isActiveAndEnabled &&
                 StopDraggingCollisionCheck( grid.transform.GetChild( i ).gameObject, page, pos, page, i ) )
-                break;
+                return;
 
             if( otherGrid.isActiveAndEnabled &&
                 StopDraggingCollisionCheck( otherGrid.transform.GetChild( i ).gameObject, page, pos, otherpageIdx, i ) )
-                break;
+                return;
         }
 
+        // If not clicked on anything, revert texture back to what it was at the start of the drag (and destroy the dragging obj)
+        var originTexture = dragging.GetComponent<Image>().mainTexture as Texture2D;
+        grid.transform.GetChild( pos ).GetComponent<Image>().sprite = Utility.CreateSprite( originTexture );
         dragging.Destroy();
+    }
+
+    private void Update()
+    {
+        if( dragging != null )
+        {
+            ( dragging.transform as RectTransform ).anchoredPosition = Utility.GetMouseOrTouchPos() + dragOffset;
+            if( Utility.IsMouseUpOrTouchEnd() )
+                StopDragging();
+        }
     }
 
     private int GetOtherPageIndex( int page )
@@ -358,13 +374,16 @@ public class CardPage : EventReceiverInstance
     private Pair<int, int> GetPageAndPosFromIndex( int idx )
     {
         return new Pair<int, int>(
-            Utility.Mod( idx, currentbinder.pageWidth * currentbinder.pageHeight ),
-            idx >= ( currentbinder.pageWidth * currentbinder.pageHeight ) ? currentPage : currentPage - 1
+            idx >= ( currentbinder.pageWidth * currentbinder.pageHeight ) ? currentPage : currentPage - 1,
+            Utility.Mod( idx, currentbinder.pageWidth * currentbinder.pageHeight )
         );
     }
 
     private bool StopDraggingCollisionCheck( GameObject card, int pageFrom, int cardFrom, int pageTo, int cardTo )
     {
+        if( pageFrom == pageTo && cardFrom == cardTo )
+            return false;
+
         var worldRect = ( card.transform as RectTransform ).GetWorldRect();
 
         // Collision check against other cards (centre within card bounds)
@@ -373,8 +392,9 @@ public class CardPage : EventReceiverInstance
         {
             var originTexture = dragging.GetComponent<Image>().mainTexture as Texture2D;
             var texture = card.GetComponent<Image>().mainTexture as Texture2D;
-            dragging.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
+            GetGrid( pageFrom ).transform.GetChild( cardFrom ).GetComponent<Image>().sprite = Utility.CreateSprite( texture );
             card.GetComponent<Image>().sprite = Utility.CreateSprite( originTexture );
+            dragging.Destroy();
 
             (currentbinder.cardList[pageFrom][cardFrom], currentbinder.cardList[pageTo][cardTo]) = 
                 (currentbinder.cardList[pageTo][cardTo], currentbinder.cardList[pageFrom][cardFrom]);
@@ -382,19 +402,6 @@ public class CardPage : EventReceiverInstance
         }
 
         return false;
-    }
-
-    private void Update()
-    {
-        if( dragging != null )
-        {
-            var x = Utility.GetMouseOrTouchPos().x / mainCamera.pixelWidth * ( cardsPage.transform as RectTransform ).rect.width;
-            var y = Utility.GetMouseOrTouchPos().y / mainCamera.pixelHeight * ( cardsPage.transform as RectTransform ).rect.height;
-            ( dragging.transform as RectTransform ).anchoredPosition = new Vector2( x, y ) + dragOffset;
-
-            if( Utility.IsMouseUpOrTouchEnd() )
-                StopDragging();
-        }
     }
 
     private void ChangePage( int page )

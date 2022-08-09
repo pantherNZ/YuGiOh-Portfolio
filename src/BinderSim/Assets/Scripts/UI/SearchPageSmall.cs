@@ -26,7 +26,7 @@ public class SearchPageSmall : SearchPageBase
         var texts = newCardUIEntry.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
         texts[0].text = card.name;
 
-        newCardUIEntry.GetComponentInChildren<EventDispatcher>().OnPointerDownEvent += ( _ ) => StartDragging( newCardUIEntry, entryIdx );
+        newCardUIEntry.GetComponent<EventDispatcher>().OnPointerDownEvent += ( e ) => StartDragging( newCardUIEntry, entryIdx );
 
         return newCardUIEntry;
     }
@@ -79,23 +79,12 @@ public class SearchPageSmall : SearchPageBase
             return;
         }
 
-        dragging = Instantiate( dragCardGhostPrefab, searchListPage.transform );
+        dragging = Instantiate( dragCardGhostPrefab, searchListPage.transform.parent );
         ( dragging.transform as RectTransform ).anchoredPosition = Utility.GetMouseOrTouchPos();
         var texture = clickedOn.GetComponentsInChildren<Image>()[1].mainTexture as Texture2D;
         dragging.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
-    }
-
-    private void Update()
-    {
-        if( dragging != null )
-        {
-            var x = Utility.GetMouseOrTouchPos().x / mainCamera.pixelWidth * ( searchListPage.transform as RectTransform ).rect.width;
-            var y = Utility.GetMouseOrTouchPos().y / mainCamera.pixelHeight * ( searchListPage.transform as RectTransform ).rect.height;
-            ( dragging.transform as RectTransform ).anchoredPosition = new Vector2( x, y );
-
-            if( Utility.IsMouseUpOrTouchEnd() )
-                StopDragging();
-        }
+        //var worldRect = ( cardToCopy.transform as RectTransform ).GetWorldRect();
+        //( dragging.transform as RectTransform ).sizeDelta = new Vector2( worldRect.width, worldRect.height );
     }
 
     private void StopDragging()
@@ -103,5 +92,16 @@ public class SearchPageSmall : SearchPageBase
         Debug.Assert( currentCardSelectedIdx != null );
         dragging.Destroy();
         ChooseCardInternal( true );
+    }
+
+    private void Update()
+    {
+        if( dragging != null )
+        {
+            ( dragging.transform as RectTransform ).anchoredPosition = Utility.GetMouseOrTouchPos();
+
+            if( Utility.IsMouseUpOrTouchEnd() )
+                StopDragging();
+        }
     }
 }

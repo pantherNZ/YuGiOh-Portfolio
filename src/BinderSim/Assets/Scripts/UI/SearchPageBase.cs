@@ -22,7 +22,7 @@ public abstract class SearchPageBase : EventReceiverInstance
     protected List<CardDataRuntime> cardData = new();
     protected Dictionary<CardDataRuntime, GameObject> searchUIEntries = new();
     protected int? currentCardSelectedIdx;
-    protected SearchPageBehaviour behaviour;
+    protected SearchPageBehaviour behaviour = SearchPageBehaviour.None;
     private Coroutine searchCountdown;
 
     override protected void Start()
@@ -116,7 +116,7 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     public void AddCard( CardDataRuntime card )
     {
-        int thisIdx = cardData.Count - 1;
+        int thisIdx = cardData.Count;
         var newCardUIEntry = AddCardUI( card, thisIdx );
         searchUIEntries.Add( card, newCardUIEntry );
         cardData.Add( card );
@@ -126,7 +126,7 @@ public abstract class SearchPageBase : EventReceiverInstance
 
         newCardUIEntry.GetComponentsInChildren<Image>()[1].color = Color.clear;
 
-        eventDispatcher.OnPointerDownEvent = ( PointerEventData e ) =>
+        eventDispatcher.OnPointerDownEvent += ( PointerEventData e ) =>
         {
             bool unselect = currentCardSelectedIdx == thisIdx;
             if( currentCardSelectedIdx != null || unselect )
@@ -145,12 +145,12 @@ public abstract class SearchPageBase : EventReceiverInstance
         };
 
         // TODO: Hover to show card image?
-        eventDispatcher.OnPointerEnterEvent = ( PointerEventData e ) =>
+        eventDispatcher.OnPointerEnterEvent += ( PointerEventData e ) =>
         {
 
         };
 
-        eventDispatcher.OnPointerExitEvent = ( PointerEventData e ) =>
+        eventDispatcher.OnPointerExitEvent += ( PointerEventData e ) =>
         {
 
         };

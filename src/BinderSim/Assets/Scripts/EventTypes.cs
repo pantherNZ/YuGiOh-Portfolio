@@ -11,6 +11,7 @@ public class CardImageLoadedEvent : IBaseEvent { public CardDataRuntime card; }
 
 public enum SearchPageBehaviour
 {
+    None,
     SettingCard,
     ReplacingCard,
     AddingCards,
