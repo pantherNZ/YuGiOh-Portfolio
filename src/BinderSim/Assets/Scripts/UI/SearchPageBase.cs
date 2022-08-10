@@ -32,6 +32,9 @@ public abstract class SearchPageBase : EventReceiverInstance
         searchListPage.SetActive( false );
 
         searchInput.onValueChanged.AddListener( OnSearchTextchanged );
+
+        if( searchInput.text.Length != 0 )
+            SearchCards();
     }
 
     private void OnSearchTextchanged( string text )
@@ -166,7 +169,7 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     protected void ChooseCardInternal( bool fromDragDrop )
     {
-        if( behaviour == SearchPageBehaviour.AddingCardsPageFull )
+        if( !fromDragDrop && behaviour == SearchPageBehaviour.AddingCardsPageFull )
             return;
 
         Debug.Assert( currentCardSelectedIdx != null );
@@ -188,7 +191,7 @@ public abstract class SearchPageBase : EventReceiverInstance
         // Only hide this page if we are selecting for a specific card
         // This intentionally will switch back to the card list if the page is now full
         // (new behaviour will be set to AddingCardsPageFull via the PageFullEvent)
-        if( behaviour != SearchPageBehaviour.AddingCards )
+        if( !fromDragDrop && behaviour != SearchPageBehaviour.AddingCards )
             searchListPage.SetActive( false );
 
         if( Constants.Instance.DownloadImages && Constants.Instance.DownloadLargeImages )

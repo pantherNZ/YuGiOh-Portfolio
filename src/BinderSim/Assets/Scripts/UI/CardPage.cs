@@ -82,7 +82,7 @@ public class CardPage : EventReceiverInstance
         }
         else if( e is CardSelectedEvent cardSelectedEvent )
         {
-            LoadCard( cardSelectedEvent.card );
+            LoadCard( cardSelectedEvent );
         }
         else if( e is BinderLoadedEvent binderLoadedEvent )
         {
@@ -183,10 +183,34 @@ public class CardPage : EventReceiverInstance
         return null;
     }
 
-    private void LoadCard( CardDataRuntime data )
+    private void LoadCard( CardSelectedEvent e )
     {
+        // From drag and drop - calculate mouse pos to determine which card to replace
+        if( e.fromDragDrop )
+        {
+            currentModifyCardIdx = null;
+
+            for( int i = 0; i < currentbinder.pageWidth * currentbinder.pageHeight; ++i )
+            {
+                if( SearchStopDraggingCollisionCheck( currentPage, i ) )
+                {
+                    currentModifyCardIdx = GetIndexFromPageAndPos( currentPage, i );
+                    break;
+                }
+
+                if( SearchStopDraggingCollisionCheck( currentPage - 1, i ) )
+                {
+                    currentModifyCardIdx = GetIndexFromPageAndPos( currentPage - 1, i );
+                    break;
+                }
+            }
+
+            // No match/target card overlap found
+            if( currentModifyCardIdx == null )
+                return;
+        }
         // Null card means we just want to add card to next valid empty card slot
-        if( currentModifyCardIdx == null )
+        else if( currentModifyCardIdx == null )
         {
             currentModifyCardIdx = FindNextEmptyCardSlot();
 
@@ -201,11 +225,12 @@ public class CardPage : EventReceiverInstance
         var (page, pos) = GetPageAndPosFromIndex( currentModifyCardIdx.Value );
         var grid = GetGrid( page );
         var image = grid.transform.GetChild( pos ).GetComponent<Image>();
+        var data = e.card;
         image.sprite = Utility.CreateSprite( data == null ? defaultCardImage : data.smallImage );
         currentbinder.cardList[page][pos] = data;
         currentModifyCardIdx = null;
 
-        if( FindNextEmptyCardSlot() == null )
+        if( !e.fromDragDrop && FindNextEmptyCardSlot() == null )
             EventSystem.Instance.TriggerEvent( new PageFullEvent() );
     }
 
@@ -402,6 +427,14 @@ public class CardPage : EventReceiverInstance
         }
 
         return false;
+    }
+
+    private bool SearchStopDraggingCollisionCheck( int page, int pos )
+    {
+        var grid = GetGrid( page );
+        var card = grid.transform.GetChild( pos ).gameObject;
+        var rect = ( card.transform as RectTransform ).GetSceenSpaceRect();
+        return grid.isActiveAndEnabled && rect.Contains( Utility.GetMouseOrTouchPos() );
     }
 
     private void ChangePage( int page )

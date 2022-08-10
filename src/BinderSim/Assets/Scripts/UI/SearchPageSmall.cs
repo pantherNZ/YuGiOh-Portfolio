@@ -70,6 +70,9 @@ public class SearchPageSmall : SearchPageBase
 
     private void StartDragging( GameObject clickedOn, int entryIdx )
     {
+        if( currentCardSelectedIdx == entryIdx )
+            currentCardSelectedIdx = null;
+
         var data = cardData[entryIdx];
 
         // TODO: Properly handle this?
@@ -81,10 +84,11 @@ public class SearchPageSmall : SearchPageBase
 
         dragging = Instantiate( dragCardGhostPrefab, searchListPage.transform.parent );
         ( dragging.transform as RectTransform ).anchoredPosition = Utility.GetMouseOrTouchPos();
-        var texture = clickedOn.GetComponentsInChildren<Image>()[1].mainTexture as Texture2D;
+        var image = clickedOn.GetComponentsInChildren<Image>()[1];
+        var texture = image.mainTexture as Texture2D;
         dragging.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
-        //var worldRect = ( cardToCopy.transform as RectTransform ).GetWorldRect();
-        //( dragging.transform as RectTransform ).sizeDelta = new Vector2( worldRect.width, worldRect.height );
+        var worldRect = ( image.transform as RectTransform ).GetWorldRect();
+        ( dragging.transform as RectTransform ).sizeDelta = new Vector2( worldRect.width, worldRect.height );
     }
 
     private void StopDragging()
