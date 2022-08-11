@@ -21,9 +21,9 @@ public class BinderData
         this.id = id;
         this.name = name;
         this.imagePath = imagePath;
-        Resize( pageCount == null ? pageCount.Value : Constants.Instance.DefaultStartingNumPages
-            , pageWidth == null ? pageWidth.Value : Constants.Instance.DefaultStartingPageWidth
-            , pageHeight == null ? pageHeight.Value : Constants.Instance.DefaultStartingPageHeight );
+        Resize( pageCount != null ? pageCount.Value : Constants.Instance.DefaultStartingNumPages
+            , pageWidth != null ? pageWidth.Value : Constants.Instance.DefaultStartingPageWidth
+            , pageHeight != null ? pageHeight.Value : Constants.Instance.DefaultStartingPageHeight );
     }
 
     public void Resize( int pageCount, int pageWidth, int pageHeight )
