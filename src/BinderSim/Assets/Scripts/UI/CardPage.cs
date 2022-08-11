@@ -316,7 +316,7 @@ public class CardPage : EventReceiverInstance
                 int pos = i;
                 var dispatcher = grid.transform.GetChild( i ).GetComponent<EventDispatcher>();
                 dispatcher.OnDoubleClickEvent = ( e ) => LeftMouseFilter( e, () => OpenSearchPanel( page, pos ) );
-                dispatcher.OnPointerDownEvent = ( e ) => LeftMouseFilter( e, () => StartDragging( page, pos ) );
+                dispatcher.OnBeginDragEvent = ( e ) => LeftMouseFilter( e, () => StartDragging( page, pos ) );
             }
         }
     }

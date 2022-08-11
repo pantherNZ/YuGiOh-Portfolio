@@ -26,7 +26,7 @@ public class SearchPageSmall : SearchPageBase
         var texts = newCardUIEntry.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
         texts[0].text = card.name;
 
-        newCardUIEntry.GetComponent<EventDispatcher>().OnPointerDownEvent += ( e ) => StartDragging( newCardUIEntry, entryIdx );
+        newCardUIEntry.GetComponent<EventDispatcher>().OnBeginDragEvent += ( e ) => StartDragging( newCardUIEntry, entryIdx );
 
         return newCardUIEntry;
     }
@@ -70,8 +70,8 @@ public class SearchPageSmall : SearchPageBase
 
     private void StartDragging( GameObject clickedOn, int entryIdx )
     {
-        if( currentCardSelectedIdx == entryIdx )
-            currentCardSelectedIdx = null;
+        if( currentCardSelectedIdx == null )
+            clickedOn.GetComponent<EventDispatcher>().OnPointerDownEvent?.Invoke( null );
 
         var data = cardData[entryIdx];
 
