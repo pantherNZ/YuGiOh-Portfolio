@@ -5,16 +5,12 @@ public class SearchPageSmall : SearchPageBase
 {
     [SerializeField] GameObject cardEntryPrefab = null;
     [SerializeField] GameObject dragCardGhostPrefab = null;
-    [SerializeField] Button clearCardButton = null;
 
-    private Camera mainCamera;
     private GameObject dragging;
 
     protected override void Start()
     {
         base.Start();
-
-        mainCamera = Camera.main;
     }
 
     protected override GameObject AddCardUI( CardData card, int entryIdx )
@@ -33,6 +29,8 @@ public class SearchPageSmall : SearchPageBase
 
     public override void OnEventReceived( IBaseEvent e )
     {
+        base.OnEventReceived( e );
+
         if( e is OpenSearchPageEvent openPageRequest )
         {
             if( openPageRequest.openFullPage )
@@ -41,13 +39,6 @@ public class SearchPageSmall : SearchPageBase
                 return;
             }
 
-            selectCardButton.interactable = openPageRequest.behaviour != SearchPageBehaviour.AddingCardsPageFull;
-            clearCardButton.interactable = openPageRequest.behaviour == SearchPageBehaviour.ReplacingCard;
-            selectCardButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text =
-                openPageRequest.behaviour == SearchPageBehaviour.SettingCard ||
-                openPageRequest.behaviour == SearchPageBehaviour.ReplacingCard ?
-                "Select Card" : "Add Card";
-
             behaviour = openPageRequest.behaviour;
             searchListPage.SetActive( true );
         }
@@ -55,7 +46,6 @@ public class SearchPageSmall : SearchPageBase
         {
             Debug.Assert( behaviour == SearchPageBehaviour.AddingCards );
             behaviour = SearchPageBehaviour.AddingCardsPageFull;
-            selectCardButton.interactable = false;
         }
     }
 

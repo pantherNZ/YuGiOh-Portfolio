@@ -13,7 +13,6 @@ public abstract class SearchPageBase : EventReceiverInstance
     [SerializeField] protected GameObject searchListPage = null;
     [SerializeField] protected GameObject cardList = null;
     [SerializeField] protected TMPro.TMP_InputField searchInput = null;
-    [SerializeField] protected Button selectCardButton = null;
     [SerializeField] protected Color selectedEntryColour = new();
     [SerializeField] protected bool autoSearch = true;
     [SerializeField] protected int maxSearchResults = 100;
@@ -56,7 +55,6 @@ public abstract class SearchPageBase : EventReceiverInstance
         // Remove current card entries (skip/leave header)
         for( int i = 0; i < cardList.transform.childCount; ++i )
             cardList.transform.GetChild( i ).gameObject.Destroy();
-        selectCardButton.interactable = false;
         currentCardSelectedIdx = null;
         searchUIEntries.Clear();
         cardData.Clear();
@@ -137,7 +135,6 @@ public abstract class SearchPageBase : EventReceiverInstance
             if( !unselect )
                 newCardUIEntry.GetComponent<Image>().color = selectedEntryColour;
             currentCardSelectedIdx = unselect ? null : thisIdx as int?;
-            selectCardButton.interactable = !unselect && behaviour != SearchPageBehaviour.AddingCardsPageFull;
         };
 
         // TODO: Double click to choose
@@ -220,7 +217,6 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     public void Cancel()
     {
-        searchListPage.SetActive( false );
         EventSystem.Instance.TriggerEvent( new PageChangeRequestEvent() { page = PageType.CardPage } );
     }
 
@@ -231,5 +227,13 @@ public abstract class SearchPageBase : EventReceiverInstance
             openFullPage = fullscreen,
             behaviour = behaviour
         } );
+    }
+
+    public override void OnEventReceived( IBaseEvent e )
+    {
+        if( e is PageChangeRequestEvent )
+        {
+            searchListPage.SetActive( false );
+        }
     }
 }

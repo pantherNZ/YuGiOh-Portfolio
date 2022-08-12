@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class SearchPageFull : SearchPageBase
 {
     [SerializeField] GameObject cardEntryPrefab = null;
-    [SerializeField] Button clearCardButton = null;
 
     protected override GameObject AddCardUI( CardData card, int entryIdx )
     {
@@ -20,6 +19,8 @@ public class SearchPageFull : SearchPageBase
 
     public override void OnEventReceived( IBaseEvent e )
     {
+        base.OnEventReceived( e );
+
         if( e is OpenSearchPageEvent openPageRequest )
         {
             if( !openPageRequest.openFullPage )
@@ -27,13 +28,6 @@ public class SearchPageFull : SearchPageBase
                 searchListPage.SetActive( false );
                 return;
             }
-
-            selectCardButton.interactable = openPageRequest.behaviour != SearchPageBehaviour.AddingCardsPageFull;
-            clearCardButton.interactable = openPageRequest.behaviour == SearchPageBehaviour.ReplacingCard;
-            selectCardButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text =
-                openPageRequest.behaviour == SearchPageBehaviour.SettingCard ||
-                openPageRequest.behaviour == SearchPageBehaviour.ReplacingCard ?
-                "Select Card" : "Add Card";
 
             behaviour = openPageRequest.behaviour;
             searchListPage.SetActive( true );
@@ -45,7 +39,6 @@ public class SearchPageFull : SearchPageBase
         {
             Debug.Assert( behaviour == SearchPageBehaviour.AddingCards );
             behaviour = SearchPageBehaviour.AddingCardsPageFull;
-            selectCardButton.interactable = false;
         }
     }
 }

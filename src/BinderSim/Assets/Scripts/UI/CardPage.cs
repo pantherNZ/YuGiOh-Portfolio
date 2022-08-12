@@ -32,8 +32,6 @@ public class CardPage : EventReceiverInstance
     private int currentPage;
     private int? currentModifyCardIdx;
 
-    private Camera mainCamera;
-
     // Drag data
     private GameObject dragging;
     private Vector2 dragOffset;
@@ -48,8 +46,6 @@ public class CardPage : EventReceiverInstance
         nextPageButton.onClick.AddListener( NextPage );
         firstPageButton.onClick.AddListener( () => ChangePage( 0 ) );
         lastPageButton.onClick.AddListener( () => ChangePage( currentbinder.pageCount ) );
-
-        mainCamera = Camera.main;
 
         binderNameText.onValueChanged.AddListener( _ => OnBinderHeaderChanged() );
         pageCountText.onValueChanged.AddListener( _ => OnBinderHeaderChanged() );
@@ -258,6 +254,8 @@ public class CardPage : EventReceiverInstance
         // Show/hide modify buttons depending on first/last page
         modifyPageButtonsLeft.SetActive( currentPage > 0 );
         modifyPageButtonsRight.SetActive( currentPage < currentbinder.pageCount - 1 );
+
+        EventSystem.Instance.TriggerEvent( new PageChangeRequestEvent() { page = PageType.CardPage } );
     }
 
     private AdvancedGridLayout GetGrid( int page )
