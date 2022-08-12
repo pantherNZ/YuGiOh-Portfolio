@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,8 +33,11 @@ public class CardPage : EventReceiverInstance
     private int? currentModifyCardIdx;
 
     private Camera mainCamera;
+
+    // Drag data
     private GameObject dragging;
     private Vector2 dragOffset;
+    private int dragCardIdx;
 
     protected override void Start()
     {
@@ -78,7 +82,7 @@ public class CardPage : EventReceiverInstance
         }
         else if( e is CardSelectedEvent cardSelectedEvent )
         {
-            LoadCard( cardSelectedEvent.card );
+            LoadCard( cardSelectedEvent );
         }
         else if( e is BinderLoadedEvent binderLoadedEvent )
         {
@@ -179,10 +183,34 @@ public class CardPage : EventReceiverInstance
         return null;
     }
 
-    private void LoadCard( CardDataRuntime data )
+    private void LoadCard( CardSelectedEvent e )
     {
+        // From drag and drop - calculate mouse pos to determine which card to replace
+        if( e.fromDragDrop )
+        {
+            currentModifyCardIdx = null;
+
+            for( int i = 0; i < currentbinder.pageWidth * currentbinder.pageHeight; ++i )
+            {
+                if( SearchStopDraggingCollisionCheck( currentPage, i ) )
+                {
+                    currentModifyCardIdx = GetIndexFromPageAndPos( currentPage, i );
+                    break;
+                }
+
+                if( SearchStopDraggingCollisionCheck( currentPage - 1, i ) )
+                {
+                    currentModifyCardIdx = GetIndexFromPageAndPos( currentPage - 1, i );
+                    break;
+                }
+            }
+
+            // No match/target card overlap found
+            if( currentModifyCardIdx == null )
+                return;
+        }
         // Null card means we just want to add card to next valid empty card slot
-        if( currentModifyCardIdx == null )
+        else if( currentModifyCardIdx == null )
         {
             currentModifyCardIdx = FindNextEmptyCardSlot();
 
@@ -194,15 +222,15 @@ public class CardPage : EventReceiverInstance
             }
         }
 
-        var idx = Utility.Mod( currentModifyCardIdx.Value, currentbinder.pageWidth * currentbinder.pageHeight );
-        var rightSide = currentModifyCardIdx.Value >= ( currentbinder.pageWidth * currentbinder.pageHeight );
-        var grid = rightSide ? cardsDisplayGridRight : cardsDisplayGridLeft;
-        var image = grid.transform.GetChild( idx ).GetComponent<Image>();
+        var (page, pos) = GetPageAndPosFromIndex( currentModifyCardIdx.Value );
+        var grid = GetGrid( page );
+        var image = grid.transform.GetChild( pos ).GetComponent<Image>();
+        var data = e.card;
         image.sprite = Utility.CreateSprite( data == null ? defaultCardImage : data.smallImage );
-        currentbinder.cardList[rightSide ? currentPage : currentPage - 1][idx] = data;
+        currentbinder.cardList[page][pos] = data;
         currentModifyCardIdx = null;
 
-        if( FindNextEmptyCardSlot() == null )
+        if( !e.fromDragDrop && FindNextEmptyCardSlot() == null )
             EventSystem.Instance.TriggerEvent( new PageFullEvent() );
     }
 
@@ -210,10 +238,10 @@ public class CardPage : EventReceiverInstance
     {
         // Setup page (and secondary/adjacent page)
         if( currentPage > 0 )
-            SetupGrid( cardsDisplayGridLeft, currentPage - 1 );
+            SetupGrid( currentPage - 1 );
 
         if( currentPage < currentbinder.pageCount - 1 )
-            SetupGrid( cardsDisplayGridRight, currentPage );
+            SetupGrid( currentPage );
 
         // Show/hide page depending on first/last page
         cardsDisplayGridLeft.gameObject.SetActive( currentPage > 0 );
@@ -232,8 +260,15 @@ public class CardPage : EventReceiverInstance
         modifyPageButtonsRight.SetActive( currentPage < currentbinder.pageCount - 1 );
     }
 
-    private void SetupGrid( AdvancedGridLayout grid, int page )
+    private AdvancedGridLayout GetGrid( int page )
     {
+        return page == currentPage ? cardsDisplayGridRight : cardsDisplayGridLeft;
+    }
+
+    private void SetupGrid( int page )
+    {
+        var grid = GetGrid( page );
+
         // TODO: Resetup grid X/Y
         if( width != currentbinder.pageWidth || height != currentbinder.pageHeight )
         {
@@ -242,7 +277,7 @@ public class CardPage : EventReceiverInstance
         else
         {
             // Reset/load images based on the stored data
-            foreach( var (idx, card ) in Utility.Enumerate( currentbinder.cardList[page] ) )
+            foreach( var (pos, card ) in Utility.Enumerate( currentbinder.cardList[page] ) )
             {
                 var texture = defaultCardImage;
                 
@@ -259,7 +294,7 @@ public class CardPage : EventReceiverInstance
                     else if( !card.largeImageRequsted )
                     {
                         card.largeImageRequsted = true;
-                        var cardIdx = idx;
+                        var cardPos = pos;
 
                         // Load card images if not loaded yet (happens when we load a binder for the first time)
                         StartCoroutine( APICallHandler.Instance.DownloadImage( card.cardAPIData.card_images[0].image_url, true, ( texture ) =>
@@ -267,74 +302,87 @@ public class CardPage : EventReceiverInstance
                             // TODO: Save/cache image
                             card.largeImage = texture;
                             card.largeImageRequsted = false;
-                            grid.transform.GetChild( cardIdx ).GetComponent<Image>().sprite = Utility.CreateSprite( texture );
+                            grid.transform.GetChild( cardPos ).GetComponent<Image>().sprite = Utility.CreateSprite( texture );
                         } ) );
                     }
                 }
 
-                grid.transform.GetChild( idx ).GetComponent<Image>().sprite = Utility.CreateSprite( texture );
+                grid.transform.GetChild( pos ).GetComponent<Image>().sprite = Utility.CreateSprite( texture );
             }
 
             // Setup buttons
             for( int i = 0; i < grid.transform.childCount; ++i )
             {
-                int idx = i;
+                int pos = i;
                 var dispatcher = grid.transform.GetChild( i ).GetComponent<EventDispatcher>();
-                dispatcher.OnDoubleClickEvent = ( PointerEventData e ) =>
-                {
-                    // Add pageSize to the idx to indicate we are modifying the right page (or don't if left page)
-                    currentModifyCardIdx = Utility.Mod( page + 1, 2 ) * currentbinder.pageWidth * currentbinder.pageHeight + idx;
-                    OpenSearchPanel( grid, page, idx );
-                };
-
-                dispatcher.OnPointerDownEvent = ( PointerEventData e ) => StartDragging( grid, page, idx );
-                dispatcher.OnPointerUpEvent = ( PointerEventData e ) => StopDragging( grid, page, idx );
+                dispatcher.OnDoubleClickEvent = ( e ) => LeftMouseFilter( e, () => OpenSearchPanel( page, pos ) );
+                dispatcher.OnBeginDragEvent = ( e ) => LeftMouseFilter( e, () => StartDragging( page, pos ) );
             }
         }
     }
 
-    private void StartDragging( AdvancedGridLayout grid, int page, int idx )
+    void LeftMouseFilter( PointerEventData e, Action func )
+    {
+        if( e.button == PointerEventData.InputButton.Left )
+            func();
+    }
+
+    private void StartDragging( int page, int pos )
     {
         // Can't move empty cards
-        if( currentbinder.cardList[page][idx] == null )
+        if( currentbinder.cardList[page][pos] == null )
             return;
 
-        var cardToCopy = grid.transform.GetChild( idx );
+        var grid = GetGrid( page );
+        var cardToCopy = grid.transform.GetChild( pos );
+        dragCardIdx = GetIndexFromPageAndPos( page, pos );
 
-        var x = Input.mousePosition.x / mainCamera.pixelWidth * ( cardsPage.transform as RectTransform ).rect.width;
-        var y = Input.mousePosition.y / mainCamera.pixelHeight * ( cardsPage.transform as RectTransform ).rect.height;
-        dragOffset = cardToCopy.transform.position.ToVector2() - new Vector2( x, y );
+        dragOffset = cardToCopy.transform.position.ToVector2() - Utility.GetMouseOrTouchPos();
 
-        dragging = Instantiate( CardGridEntryPrefab, cardsPage.transform );
-        ( dragging.transform as RectTransform ).anchoredPosition = new Vector2( x, y ) + dragOffset;
+        dragging = Instantiate( CardGridEntryPrefab, cardsPage.transform.parent );
+        ( dragging.transform as RectTransform ).anchoredPosition = Utility.GetMouseOrTouchPos() + dragOffset;
         var texture = cardToCopy.GetComponent<Image>().mainTexture as Texture2D;
         dragging.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
-        grid.transform.GetChild( idx ).GetComponent<Image>().sprite = Utility.CreateSprite( defaultCardImage );
-        dragging.transform.position = Input.mousePosition;
+        grid.transform.GetChild( pos ).GetComponent<Image>().sprite = Utility.CreateSprite( defaultCardImage );
         var worldRect = ( cardToCopy.transform as RectTransform ).GetWorldRect();
         ( dragging.transform as RectTransform ).sizeDelta = new Vector2( worldRect.width, worldRect.height );
     }
 
-    private void StopDragging( AdvancedGridLayout grid, int page, int idx )
+    private void StopDragging()
     {
         if( dragging == null )
             return;
 
+        var (page, pos) = GetPageAndPosFromIndex( dragCardIdx );
         var otherpageIdx = GetOtherPageIndex( page );
+        var grid = GetGrid( page );
         var otherGrid = grid == cardsDisplayGridLeft ? cardsDisplayGridRight : cardsDisplayGridLeft;
 
         for( int i = 0; i < currentbinder.pageWidth * currentbinder.pageHeight; ++i )
         {
-            if( grid.isActiveAndEnabled && 
-                StopDraggingCollisionCheck( grid.transform.GetChild( i ).gameObject, page, idx, page, i ) )
-                break;
+            if( grid.isActiveAndEnabled &&
+                StopDraggingCollisionCheck( grid.transform.GetChild( i ).gameObject, page, pos, page, i ) )
+                return;
 
             if( otherGrid.isActiveAndEnabled &&
-                StopDraggingCollisionCheck( otherGrid.transform.GetChild( i ).gameObject, page, idx, otherpageIdx, i ) )
-                break;
+                StopDraggingCollisionCheck( otherGrid.transform.GetChild( i ).gameObject, page, pos, otherpageIdx, i ) )
+                return;
         }
 
+        // If not clicked on anything, revert texture back to what it was at the start of the drag (and destroy the dragging obj)
+        var originTexture = dragging.GetComponent<Image>().mainTexture as Texture2D;
+        grid.transform.GetChild( pos ).GetComponent<Image>().sprite = Utility.CreateSprite( originTexture );
         dragging.Destroy();
+    }
+
+    private void Update()
+    {
+        if( dragging != null )
+        {
+            ( dragging.transform as RectTransform ).anchoredPosition = Utility.GetMouseOrTouchPos() + dragOffset;
+            if( Utility.IsMouseUpOrTouchEnd() )
+                StopDragging();
+        }
     }
 
     private int GetOtherPageIndex( int page )
@@ -342,8 +390,25 @@ public class CardPage : EventReceiverInstance
         return page - 1 + Utility.Mod( page, 2 ) * 2;
     }
 
+    private int GetIndexFromPageAndPos( int page, int pos )
+    { 
+        // Add pageSize to the idx to indicate we are modifying the right page (or don't if left page)
+        return Utility.Mod( page + 1, 2 ) * currentbinder.pageWidth * currentbinder.pageHeight + pos;
+    }
+
+    private Pair<int, int> GetPageAndPosFromIndex( int idx )
+    {
+        return new Pair<int, int>(
+            idx >= ( currentbinder.pageWidth * currentbinder.pageHeight ) ? currentPage : currentPage - 1,
+            Utility.Mod( idx, currentbinder.pageWidth * currentbinder.pageHeight )
+        );
+    }
+
     private bool StopDraggingCollisionCheck( GameObject card, int pageFrom, int cardFrom, int pageTo, int cardTo )
     {
+        if( pageFrom == pageTo && cardFrom == cardTo )
+            return false;
+
         var worldRect = ( card.transform as RectTransform ).GetWorldRect();
 
         // Collision check against other cards (centre within card bounds)
@@ -352,8 +417,9 @@ public class CardPage : EventReceiverInstance
         {
             var originTexture = dragging.GetComponent<Image>().mainTexture as Texture2D;
             var texture = card.GetComponent<Image>().mainTexture as Texture2D;
-            dragging.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
+            GetGrid( pageFrom ).transform.GetChild( cardFrom ).GetComponent<Image>().sprite = Utility.CreateSprite( texture );
             card.GetComponent<Image>().sprite = Utility.CreateSprite( originTexture );
+            dragging.Destroy();
 
             (currentbinder.cardList[pageFrom][cardFrom], currentbinder.cardList[pageTo][cardTo]) = 
                 (currentbinder.cardList[pageTo][cardTo], currentbinder.cardList[pageFrom][cardFrom]);
@@ -363,17 +429,15 @@ public class CardPage : EventReceiverInstance
         return false;
     }
 
-    private void Update()
+    private bool SearchStopDraggingCollisionCheck( int page, int pos )
     {
-        if( dragging != null )
-        {
-            var x = Input.mousePosition.x / mainCamera.pixelWidth * ( cardsPage.transform as RectTransform ).rect.width;
-            var y = Input.mousePosition.y / mainCamera.pixelHeight * ( cardsPage.transform as RectTransform ).rect.height;
-            ( dragging.transform as RectTransform ).anchoredPosition = new Vector2( x, y ) + dragOffset;
-        }
+        var grid = GetGrid( page );
+        var card = grid.transform.GetChild( pos ).gameObject;
+        var rect = ( card.transform as RectTransform ).GetSceenSpaceRect();
+        return grid.isActiveAndEnabled && rect.Contains( Utility.GetMouseOrTouchPos() );
     }
 
-    private void ChangePage(int page)
+    private void ChangePage( int page )
     {
         // Deliberately cap at currentbinder.pageCount (not currentbinder.pageCount - 1), because we display pages in multiples of 2
         // If we are on the last page the index will be currentbinder.pageCount but the right side won't be visible/setup
@@ -413,12 +477,14 @@ public class CardPage : EventReceiverInstance
         } );
     }
 
-    public void OpenSearchPanel( AdvancedGridLayout grid, int page, int idx )
+    public void OpenSearchPanel( int page, int pos )
     {
+        currentModifyCardIdx = GetIndexFromPageAndPos( page, pos );
+
         EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent() 
         { 
             openFullPage = false,
-            behaviour = currentbinder.cardList[page][idx] == null 
+            behaviour = currentbinder.cardList[page][pos] == null 
                 ? SearchPageBehaviour.SettingCard
                 : SearchPageBehaviour.ReplacingCard
         } );

@@ -9,10 +9,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{4D82AD3F-83AF-48A3-22D7-6822D36D54B0}</ProjectGuid>
+    <ProjectGuid>{54F69A64-950E-400C-3BD1-CF6FCFED5A58}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>AssemblyDefinition</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -56,47 +56,33 @@
     <Analyzer Include="D:\Software\Visual Studio 2022\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\EventTypes.cs" />
-    <Compile Include="Assets\Scripts\UI\SearchPageBase.cs" />
-    <Compile Include="Assets\Scripts\YGOAPICallHandler.cs" />
-    <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserEditor.cs" />
-    <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserMac.cs" />
-    <Compile Include="Assets\Scripts\UI\BinderPage.cs" />
-    <Compile Include="Assets\Scripts\UI\SearchPageFull.cs" />
-    <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserWindows.cs" />
-    <Compile Include="Assets\Scripts\Constants.cs" />
-    <Compile Include="Assets\StandaloneFileBrowser\IStandaloneFileBrowser.cs" />
-    <Compile Include="Assets\Scripts\UI\CardPage.cs" />
-    <Compile Include="Assets\Scripts\UI\SearchPageSmall.cs" />
-    <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowser.cs" />
-    <Compile Include="Assets\Scripts\DataTypes.cs" />
-    <Compile Include="Assets\Scripts\RequestJsonFormat.cs" />
-    <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserLinux.cs" />
+    <Compile Include="Assets\Utility\SQLExtensions.cs" />
+    <Compile Include="Assets\Utility\SaveGame.cs" />
+    <Compile Include="Assets\Utility\Bezier.cs" />
+    <Compile Include="Assets\Utility\Quad.cs" />
+    <Compile Include="Assets\Utility\FPSCounter.cs" />
+    <Compile Include="Assets\Utility\SecureHash.cs" />
+    <Compile Include="Assets\Utility\xxHash.cs" />
+    <Compile Include="Assets\Utility\AdvancedGridLayout.cs" />
+    <Compile Include="Assets\Utility\SyncSolutionUtilities.cs" />
+    <Compile Include="Assets\Utility\SwipeManager.cs" />
+    <Compile Include="Assets\Utility\AdvancedGridLayoutCustomEditor.cs" />
+    <Compile Include="Assets\Utility\Utility.cs" />
+    <Compile Include="Assets\Utility\CustomGravity.cs" />
+    <Compile Include="Assets\Utility\FunctionTimer.cs" />
+    <Compile Include="Assets\Utility\UndoRedoSystem.cs" />
+    <Compile Include="Assets\Utility\EventDispatcher.cs" />
+    <Compile Include="Assets\Utility\EventSystem.cs" />
+    <Compile Include="Assets\Utility\Touchable.cs" />
+    <Compile Include="Assets\Utility\SimplexNoise.cs" />
+    <Compile Include="Assets\Utility\UtilityCoroutines.cs" />
+    <Compile Include="Assets\Utility\HashedString.cs" />
+    <Compile Include="Assets\Utility\Extensions.cs" />
+    <Compile Include="Assets\Utility\InputPriority.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
-    <None Include="Assets\StandaloneFileBrowser\Plugins\Ookii.Dialogs.dll" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
-    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
-    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
-    <None Include="Assets\StandaloneFileBrowser\Plugins\System.Windows.Forms.dll" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
-    <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
+    <None Include="Assets\Utility\AssemblyDefinition.asmdef" />
+    <None Include="Assets\Utility\Mono.Data.Sqlite.dll" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -266,6 +252,21 @@
     </Reference>
     <Reference Include="UnityEditor.UnityConnectModule">
       <HintPath>D:\Software\Unity\2021.3.6f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Graphs">
+      <HintPath>D:\Software\Unity\2021.3.6f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WebGL.Extensions">
+      <HintPath>D:\Software\Unity\2021.3.6f1\Editor\Data\PlaybackEngines\WebGLSupport\UnityEditor.WebGL.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Android.Extensions">
+      <HintPath>D:\Software\Unity\2021.3.6f1\Editor\Data\PlaybackEngines\AndroidPlayer\UnityEditor.Android.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions">
+      <HintPath>D:\Software\Unity\2021.3.6f1\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+      <HintPath>D:\Software\Unity\2021.3.6f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Ookii.Dialogs">
       <HintPath>Assets\StandaloneFileBrowser\Plugins\Ookii.Dialogs.dll</HintPath>
@@ -657,15 +658,6 @@
     <Reference Include="System.Xml.Serialization">
       <HintPath>D:\Software\Unity\2021.3.6f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.VisualStudio.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
@@ -674,10 +666,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="AssemblyDefinition.csproj">
-      <Project>{54F69A64-950E-400C-3BD1-CF6FCFED5A58}</Project>
-      <Name>AssemblyDefinition</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

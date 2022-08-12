@@ -114,7 +114,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                 GetSelectedBinder().GetComponent<Image>().color = Color.clear;
             if( !unselect )
                 binder.binderUI.GetComponent<Image>().color = selectedEntryColour;
-            currentSelectedBinderIdx = unselect ? null : thisIdx;
+            currentSelectedBinderIdx = unselect ? null : thisIdx as int?;
             editButton.interactable = !unselect;
             deleteButton.interactable = !unselect;
         };
@@ -201,10 +201,10 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             if( data.Length < 8 )
                 continue;
 
-            var value = data[^3].Trim();
-            var condition = data[^4].Trim();
-            var setCode = data[^5].Trim();
-            var cardName = string.Join( ',', data.Skip( 1 ).Take( data.Length - 7 ) );
+            var value = data[data.Length - 3].Trim();
+            var condition = data[data.Length - 4].Trim();
+            var setCode = data[data.Length - 5].Trim();
+            var cardName = string.Join( ",", data.Skip( 1 ).Take( data.Length - 7 ) );
             var cardIndex = Utility.Mod( idx, newBinder.data.pageWidth * newBinder.data.pageHeight );
             var pageIndex = idx / ( newBinder.data.pageWidth * newBinder.data.pageHeight );
 

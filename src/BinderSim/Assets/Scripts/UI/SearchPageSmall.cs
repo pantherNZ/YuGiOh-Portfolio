@@ -1,19 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Networking;
-using System;
-using System.IO;
-using Newtonsoft.Json;
 
 public class SearchPageSmall : SearchPageBase
 {
     [SerializeField] GameObject cardEntryPrefab = null;
+    [SerializeField] GameObject dragCardGhostPrefab = null;
     [SerializeField] Button clearCardButton = null;
 
-    protected override GameObject AddCardUI( CardData card )
+    private Camera mainCamera;
+    private GameObject dragging;
+
+    protected override void Start()
+    {
+        base.Start();
+
+        mainCamera = Camera.main;
+    }
+
+    protected override GameObject AddCardUI( CardData card, int entryIdx )
     {
         // Add UI elements
         var newCardUIEntry = Instantiate( cardEntryPrefab );
@@ -21,6 +25,8 @@ public class SearchPageSmall : SearchPageBase
 
         var texts = newCardUIEntry.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
         texts[0].text = card.name;
+
+        newCardUIEntry.GetComponent<EventDispatcher>().OnBeginDragEvent += ( e ) => StartDragging( newCardUIEntry, entryIdx );
 
         return newCardUIEntry;
     }
@@ -60,5 +66,46 @@ public class SearchPageSmall : SearchPageBase
         rectTransform.anchorMax = rectTransform.anchorMax.SetX( xPos >= 0.0f ? 1.0f : 0.0f );
         rectTransform.anchorMin = rectTransform.anchorMin.SetX( xPos >= 0.0f ? 1.0f : 0.0f );
         rectTransform.anchoredPosition = rectTransform.anchoredPosition.SetX( -xPos );
+    }
+
+    private void StartDragging( GameObject clickedOn, int entryIdx )
+    {
+        if( currentCardSelectedIdx == null )
+            clickedOn.GetComponent<EventDispatcher>().OnPointerDownEvent?.Invoke( null );
+
+        var data = cardData[entryIdx];
+
+        // TODO: Properly handle this?
+        if( data.smallImage == null )
+        {
+            Debug.LogWarning( "Failed to drag card as the preview image hasn't finished downloading yet" );
+            return;
+        }
+
+        dragging = Instantiate( dragCardGhostPrefab, searchListPage.transform.parent );
+        ( dragging.transform as RectTransform ).anchoredPosition = Utility.GetMouseOrTouchPos();
+        var image = clickedOn.GetComponentsInChildren<Image>()[1];
+        var texture = image.mainTexture as Texture2D;
+        dragging.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
+        var worldRect = ( image.transform as RectTransform ).GetWorldRect();
+        ( dragging.transform as RectTransform ).sizeDelta = new Vector2( worldRect.width, worldRect.height );
+    }
+
+    private void StopDragging()
+    {
+        Debug.Assert( currentCardSelectedIdx != null );
+        dragging.Destroy();
+        ChooseCardInternal( true );
+    }
+
+    private void Update()
+    {
+        if( dragging != null )
+        {
+            ( dragging.transform as RectTransform ).anchoredPosition = Utility.GetMouseOrTouchPos();
+
+            if( Utility.IsMouseUpOrTouchEnd() )
+                StopDragging();
+        }
     }
 }

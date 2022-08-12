@@ -22,7 +22,7 @@ public abstract class SearchPageBase : EventReceiverInstance
     protected List<CardDataRuntime> cardData = new();
     protected Dictionary<CardDataRuntime, GameObject> searchUIEntries = new();
     protected int? currentCardSelectedIdx;
-    protected SearchPageBehaviour behaviour;
+    protected SearchPageBehaviour behaviour = SearchPageBehaviour.None;
     private Coroutine searchCountdown;
 
     override protected void Start()
@@ -32,6 +32,9 @@ public abstract class SearchPageBase : EventReceiverInstance
         searchListPage.SetActive( false );
 
         searchInput.onValueChanged.AddListener( OnSearchTextchanged );
+
+        if( searchInput.text.Length != 0 )
+            SearchCards();
     }
 
     private void OnSearchTextchanged( string text )
@@ -116,24 +119,24 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     public void AddCard( CardDataRuntime card )
     {
-        var newCardUIEntry = AddCardUI( card );
+        int thisIdx = cardData.Count;
+        var newCardUIEntry = AddCardUI( card, thisIdx );
         searchUIEntries.Add( card, newCardUIEntry );
         cardData.Add( card );
 
         // On click
         var eventDispatcher = newCardUIEntry.GetComponent<EventDispatcher>();
-        int thisIdx = cardData.Count - 1;
 
         newCardUIEntry.GetComponentsInChildren<Image>()[1].color = Color.clear;
 
-        eventDispatcher.OnPointerUpEvent = ( PointerEventData e ) =>
+        eventDispatcher.OnPointerDownEvent += ( PointerEventData e ) =>
         {
             bool unselect = currentCardSelectedIdx == thisIdx;
             if( currentCardSelectedIdx != null || unselect )
                 GetSelectedCard().GetComponent<Image>().color = Color.clear;
             if( !unselect )
                 newCardUIEntry.GetComponent<Image>().color = selectedEntryColour;
-            currentCardSelectedIdx = unselect ? null : thisIdx;
+            currentCardSelectedIdx = unselect ? null : thisIdx as int?;
             selectCardButton.interactable = !unselect && behaviour != SearchPageBehaviour.AddingCardsPageFull;
         };
 
@@ -145,23 +148,28 @@ public abstract class SearchPageBase : EventReceiverInstance
         };
 
         // TODO: Hover to show card image?
-        eventDispatcher.OnPointerEnterEvent = ( PointerEventData e ) =>
+        eventDispatcher.OnPointerEnterEvent += ( PointerEventData e ) =>
         {
 
         };
 
-        eventDispatcher.OnPointerExitEvent = ( PointerEventData e ) =>
+        eventDispatcher.OnPointerExitEvent += ( PointerEventData e ) =>
         {
 
         };
     }
 
-    protected abstract GameObject AddCardUI( CardData card );
+    protected abstract GameObject AddCardUI( CardData card, int entryIdx );
 
     // Called when you either double click a search result, or click to highlight and then click 'Select Card' button
     public void ChooseCard()
     {
-        if( behaviour == SearchPageBehaviour.AddingCardsPageFull )
+        ChooseCardInternal( false );
+    }
+
+    protected void ChooseCardInternal( bool fromDragDrop )
+    {
+        if( !fromDragDrop && behaviour == SearchPageBehaviour.AddingCardsPageFull )
             return;
 
         Debug.Assert( currentCardSelectedIdx != null );
@@ -177,12 +185,13 @@ public abstract class SearchPageBase : EventReceiverInstance
         EventSystem.Instance.TriggerEvent( new CardSelectedEvent()
         {
             card = data,
+            fromDragDrop = fromDragDrop,
         } );
 
         // Only hide this page if we are selecting for a specific card
         // This intentionally will switch back to the card list if the page is now full
         // (new behaviour will be set to AddingCardsPageFull via the PageFullEvent)
-        if( behaviour != SearchPageBehaviour.AddingCards )
+        if( !fromDragDrop && behaviour != SearchPageBehaviour.AddingCards )
             searchListPage.SetActive( false );
 
         if( Constants.Instance.DownloadImages && Constants.Instance.DownloadLargeImages )
