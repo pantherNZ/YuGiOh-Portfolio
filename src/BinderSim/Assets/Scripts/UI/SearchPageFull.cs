@@ -14,6 +14,12 @@ public class SearchPageFull : SearchPageBase
         var texts = newCardUIEntry.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
         texts[0].text = card.name;
 
+        newCardUIEntry.GetComponentInChildren<Button>().onClick.AddListener( () =>
+        {
+            currentCardSelectedIdx = entryIdx;
+            ChooseCard();
+        } );
+
         return newCardUIEntry;
     }
 

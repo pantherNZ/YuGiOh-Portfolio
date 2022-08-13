@@ -219,7 +219,7 @@ public abstract class SearchPageBase : EventReceiverInstance
         EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
         {
             openFullPage = fullscreen,
-            behaviour = behaviour
+            behaviour = fullscreen ? SearchPageBehaviour.AddingCards : behaviour
         } );
     }
 
