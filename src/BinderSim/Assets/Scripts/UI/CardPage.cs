@@ -25,6 +25,7 @@ public class CardPage : EventReceiverInstance
     [SerializeField] Button applyChangesButton = null;
     [SerializeField] GameObject modifyPageButtonsLeft = null;
     [SerializeField] GameObject modifyPageButtonsRight = null;
+    [SerializeField] GameObject clearCardDropLocation = null;
 
     private BinderData currentbinder;
     private int width;
@@ -53,6 +54,8 @@ public class CardPage : EventReceiverInstance
 
         width = Constants.Instance.DefaultStartingPageWidth;
         height = Constants.Instance.DefaultStartingPageHeight;
+
+        clearCardDropLocation.SetActive( false );
     }
 
     public void SaveAndExit()
@@ -226,7 +229,7 @@ public class CardPage : EventReceiverInstance
         currentbinder.cardList[page][pos] = data;
         currentModifyCardIdx = null;
 
-        if( !e.fromDragDrop && FindNextEmptyCardSlot() == null )
+        if( data != null && !e.fromDragDrop && FindNextEmptyCardSlot() == null )
             EventSystem.Instance.TriggerEvent( new PageFullEvent() );
     }
 
@@ -344,6 +347,8 @@ public class CardPage : EventReceiverInstance
         grid.transform.GetChild( pos ).GetComponent<Image>().sprite = Utility.CreateSprite( defaultCardImage );
         var worldRect = ( cardToCopy.transform as RectTransform ).GetWorldRect();
         ( dragging.transform as RectTransform ).sizeDelta = new Vector2( worldRect.width, worldRect.height );
+
+        clearCardDropLocation.SetActive( true );
     }
 
     private void StopDragging()
@@ -356,6 +361,9 @@ public class CardPage : EventReceiverInstance
         var grid = GetGrid( page );
         var otherGrid = grid == cardsDisplayGridLeft ? cardsDisplayGridRight : cardsDisplayGridLeft;
 
+        dragging.Destroy();
+        clearCardDropLocation.SetActive( false );
+
         for( int i = 0; i < currentbinder.pageWidth * currentbinder.pageHeight; ++i )
         {
             if( grid.isActiveAndEnabled &&
@@ -367,10 +375,17 @@ public class CardPage : EventReceiverInstance
                 return;
         }
 
+        var worldRect = ( clearCardDropLocation.transform as RectTransform ).GetWorldRect();
+        if( worldRect.Contains( ( dragging.transform as RectTransform ).GetWorldRect().center ) )
+        {
+            currentModifyCardIdx = dragCardIdx;
+            LoadCard( new CardSelectedEvent() { card = null } );
+            return;
+        }
+
         // If not clicked on anything, revert texture back to what it was at the start of the drag (and destroy the dragging obj)
         var originTexture = dragging.GetComponent<Image>().mainTexture as Texture2D;
         grid.transform.GetChild( pos ).GetComponent<Image>().sprite = Utility.CreateSprite( originTexture );
-        dragging.Destroy();
     }
 
     private void Update()
@@ -417,7 +432,6 @@ public class CardPage : EventReceiverInstance
             var texture = card.GetComponent<Image>().mainTexture as Texture2D;
             GetGrid( pageFrom ).transform.GetChild( cardFrom ).GetComponent<Image>().sprite = Utility.CreateSprite( texture );
             card.GetComponent<Image>().sprite = Utility.CreateSprite( originTexture );
-            dragging.Destroy();
 
             (currentbinder.cardList[pageFrom][cardFrom], currentbinder.cardList[pageTo][cardTo]) = 
                 (currentbinder.cardList[pageTo][cardTo], currentbinder.cardList[pageFrom][cardFrom]);

@@ -22,7 +22,7 @@ public class SearchPageSmall : SearchPageBase
         var texts = newCardUIEntry.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
         texts[0].text = card.name;
 
-        newCardUIEntry.GetComponent<EventDispatcher>().OnBeginDragEvent += ( e ) => StartDragging( newCardUIEntry, entryIdx );
+        newCardUIEntry.GetComponentInChildren<EventDispatcher>().OnBeginDragEvent += ( e ) => StartDragging( newCardUIEntry, entryIdx );
 
         return newCardUIEntry;
     }

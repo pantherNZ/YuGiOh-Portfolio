@@ -123,7 +123,7 @@ public abstract class SearchPageBase : EventReceiverInstance
         cardData.Add( card );
 
         // On click
-        var eventDispatcher = newCardUIEntry.GetComponent<EventDispatcher>();
+        var eventDispatcher = newCardUIEntry.GetComponentInChildren<EventDispatcher>();
 
         newCardUIEntry.GetComponentsInChildren<Image>()[1].color = Color.clear;
 
@@ -207,12 +207,6 @@ public abstract class SearchPageBase : EventReceiverInstance
                 } );
             } ) );
         }
-    }
-
-    public void ClearCard()
-    {
-        searchListPage.SetActive( false );
-        EventSystem.Instance.TriggerEvent( new CardSelectedEvent() { card = null } );
     }
 
     public void Cancel()
