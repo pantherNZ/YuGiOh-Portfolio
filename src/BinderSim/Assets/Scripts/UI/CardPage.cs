@@ -526,4 +526,9 @@ public class CardPage : EventReceiverInstance
         currentbinder.Swap( left ? currentPage - 1 : currentPage, withIndex );
         PopulateGrid();
     }
+
+    public void ToggleModifyButtons( GameObject panel )
+    {
+        panel.ToggleActive();
+    }
 }
