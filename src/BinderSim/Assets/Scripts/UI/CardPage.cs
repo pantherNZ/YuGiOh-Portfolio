@@ -525,7 +525,6 @@ public class CardPage : EventReceiverInstance
 
     public void MovePage( bool left, int toIndex )
     {
-
         currentbinder.Move( left ? currentPage - 1 : currentPage, toIndex );
         PopulateGrid();
     }

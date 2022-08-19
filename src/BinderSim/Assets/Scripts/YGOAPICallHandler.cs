@@ -26,39 +26,44 @@ class APICallHandler
     // https://db.ygoprodeck.com/api-guide/
     public IEnumerator SendCardSearchRequest( string cardName, bool waitForRateLimit, Action<string> callback = null )
     {
-        var url = String.Format( "https://db.ygoprodeck.com/api/v7/cardinfo.php?name={0}", cardName );
-        return SendGetRequest( url, waitForRateLimit, callback );
+        var uri = String.Format( "https://db.ygoprodeck.com/api/v7/cardinfo.php?name={0}", cardName );
+        return SendGetRequest( uri, waitForRateLimit, callback );
     }
 
     public IEnumerator SendCardSearchRequest( int cardId, bool waitForRateLimit, Action<string> callback = null )
     {
-        var url = String.Format( "https://db.ygoprodeck.com/api/v7/cardinfo.php?id={0}", cardId );
-        return SendGetRequest( url, waitForRateLimit, callback );
+        var uri = String.Format( "https://db.ygoprodeck.com/api/v7/cardinfo.php?id={0}", cardId );
+        return SendGetRequest( uri, waitForRateLimit, callback );
     }
 
     public IEnumerator SendCardSearchRequestFuzzy( string cardName, bool waitForRateLimit, Action<string> callback = null )
     {
-        var url = String.Format( "https://db.ygoprodeck.com/api/v7/cardinfo.php?fname={0}", cardName );
-        return SendGetRequest( url, waitForRateLimit, callback );
+        var uri = String.Format( "https://db.ygoprodeck.com/api/v7/cardinfo.php?fname={0}", cardName );
+        return SendGetRequest( uri, waitForRateLimit, callback );
     }
 
-    public IEnumerator SendGetRequest( string url, bool waitForRateLimit, Action<string> callback = null )
+    public IEnumerator SendGetRequest( string uri, bool waitForRateLimit, Action<string> callback = null )
     {
-        if( !waitForRateLimit && !rateLimiter.AttemptCall() )
-            yield return null;
-
-        yield return rateLimiter.WaitForCall( SendGetRequestInternal( url, callback ) );
-    }
-
-    private IEnumerator SendGetRequestInternal( string url, Action<string> callback = null )
-    {
-        if( cachedRequests.TryGetValue( url, out string data ) )
+        if( !waitForRateLimit )
         {
-            callback?.Invoke( data );
+            if( rateLimiter.AttemptCall() )
+                yield return SendGetRequestInternal( uri, callback );
+        }
+        else
+        {
+            yield return rateLimiter.WaitForCall( SendGetRequestInternal( uri, callback ) );
+        }
+    }
+
+    private IEnumerator SendGetRequestInternal( string uri, Action<string> successCallback = null, Action<string> failedCallback = null )
+    {
+        if( cachedRequests.TryGetValue( uri, out string data ) )
+        {
+            successCallback?.Invoke( data );
             yield return null;
         }    
 
-        using( UnityWebRequest webRequest = UnityWebRequest.Get( url ) )
+        using( UnityWebRequest webRequest = UnityWebRequest.Get( uri ) )
         {
             // Request and wait for the desired page.
             yield return webRequest.SendWebRequest();
@@ -67,31 +72,31 @@ class APICallHandler
             {
                 case UnityWebRequest.Result.ConnectionError:
                 case UnityWebRequest.Result.DataProcessingError:
-                    Debug.LogError( url + ": Error: " + webRequest.error );
+                    Debug.LogError( uri + ": Error: " + webRequest.error );
                     break;
                 case UnityWebRequest.Result.ProtocolError:
                     //Debug.LogError( url + ": HTTP Error: " + webRequest.error );
                     break;
                 case UnityWebRequest.Result.Success:
-                    cachedRequests[url] = webRequest.downloadHandler.text;
-                    callback?.Invoke( webRequest.downloadHandler.text );
+                    cachedRequests[uri] = webRequest.downloadHandler.text;
+                    successCallback?.Invoke( webRequest.downloadHandler.text );
                     break;
             }
         }
     }
 
-    public IEnumerator DownloadImage( string url, bool waitForRateLimit, Action<Texture2D> callback )
+    public IEnumerator DownloadImage( string uri, bool waitForRateLimit, Action<Texture2D> callback )
     {
         if( !waitForRateLimit && !rateLimiter.AttemptCall() )
             yield return null;
 
-        yield return rateLimiter.WaitForCall( DownloadImageInternal( url, callback ) );
+        yield return rateLimiter.WaitForCall( DownloadImageInternal( uri, callback ) );
 
     }
 
-    private IEnumerator DownloadImageInternal( string url, Action<Texture2D> callback )
+    private IEnumerator DownloadImageInternal( string uri, Action<Texture2D> callback )
     {
-        using( UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture( url ) )
+        using( UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture( uri ) )
         {
             yield return webRequest.SendWebRequest();
 
@@ -99,10 +104,10 @@ class APICallHandler
             {
                 case UnityWebRequest.Result.ConnectionError:
                 case UnityWebRequest.Result.DataProcessingError:
-                    Debug.LogError( url + ": Error: " + webRequest.error );
+                    Debug.LogError( uri + ": Error: " + webRequest.error );
                     break;
                 case UnityWebRequest.Result.ProtocolError:
-                    //Debug.LogError( url + ": HTTP Error: " + webRequest.error );
+                    //Debug.LogError( uri + ": HTTP Error: " + webRequest.error );
                     break;
                 case UnityWebRequest.Result.Success:
                     callback?.Invoke( DownloadHandlerTexture.GetContent( webRequest ) );

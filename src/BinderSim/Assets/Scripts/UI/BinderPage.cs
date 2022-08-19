@@ -160,38 +160,39 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         }
     }
 
-#if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")]
-    private static extern void UploadFile(string gameObjectName, string methodName, string filter, bool multiple);
-#endif
-
     public void LoadFromDragonShieldTxtFile()
     {
-#if UNITY_WEBGL && !UNITY_EDITOR
-        UploadFile(gameObject.name, "OnFileUpload", ".txt", false);
-#else
         var extensions = new[] { new ExtensionFilter("Text Files", "txt" ) };
         StandaloneFileBrowser.OpenFilePanelAsync( "Open File", "", extensions, false, ( paths ) =>
         {
             foreach( var path in paths )
-                OnFileUpload( new System.Uri( path ).AbsoluteUri );
+                StartCoroutine( OnFileUpload( new System.Uri( path ) ) );
         } );
-       
-#endif
     }
 
-    public void OnFileUpload(string url) {
-        StartCoroutine( FileLoadedRoutine( url ) );
-    }
-
-    private IEnumerator FileLoadedRoutine( string url )
+    private IEnumerator OnFileUpload( Uri uri )
     {
-        var loader = new UnityWebRequest( url );
-        yield return loader;
+        if( Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor )
+        {
+            var data = System.IO.File.ReadAllText( uri.AbsolutePath );
+            yield return FileLoadedRoutine( uri, data );
+        }
+        else
+        {
+            var loader = new UnityWebRequest( uri );
+            yield return loader.SendWebRequest();
+            yield return FileLoadedRoutine( uri, loader.downloadHandler.text );
+        }
+    }
 
-        var newBinder = NewBinderInternal( Path.GetFileNameWithoutExtension( url ) );
+    private IEnumerator FileLoadedRoutine( Uri uri, string fileData )
+    {
+        var name = Path.GetFileNameWithoutExtension( uri.AbsolutePath );
+        var newBinder = NewBinderInternal( name );
 
-        foreach( var( idx, line ) in Utility.Enumerate( loader.downloadHandler.text.Split( '\n' ) ) )
+        var lines = fileData.Split( new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries );
+
+        foreach( var (idx, line) in Utility.Enumerate( lines ) )
         {
             if( line.Length == 0 )
                 continue;
@@ -204,11 +205,11 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             var value = data[data.Length - 3].Trim();
             var condition = data[data.Length - 4].Trim();
             var setCode = data[data.Length - 5].Trim();
-            var cardName = string.Join( ",", data.Skip( 1 ).Take( data.Length - 7 ) );
+            var cardName = string.Join( ",", data.Skip( 1 ).Take( data.Length - 7 ) ).Trim();
             var cardIndex = Utility.Mod( idx, newBinder.data.pageWidth * newBinder.data.pageHeight );
             var pageIndex = idx / ( newBinder.data.pageWidth * newBinder.data.pageHeight );
 
-            StartCoroutine( APICallHandler.Instance.SendCardSearchRequest( cardName, true, ( json ) =>
+            yield return APICallHandler.Instance.SendCardSearchRequest( cardName, true, ( json ) =>
             {
                 Root data = JsonConvert.DeserializeObject<Root>( json );
                 Debug.Assert( data.data.Count == 1 );
@@ -224,7 +225,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                     imageId = card.card_images[0].id,
                     cardAPIData = card.DeepCopy(),
                 };
-            } ) );
+            } );
         }
     }
 
