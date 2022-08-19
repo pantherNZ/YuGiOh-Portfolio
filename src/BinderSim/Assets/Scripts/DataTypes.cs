@@ -88,6 +88,7 @@ public class BinderDataRuntime
 {
     public BinderData data;
     public GameObject binderUI;
+    public int index;
 }
 
 public class CardData

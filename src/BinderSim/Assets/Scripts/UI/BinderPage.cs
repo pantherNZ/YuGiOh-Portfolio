@@ -68,6 +68,11 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             return;
 
         GetSelectedBinder().Destroy();
+        binderData.RemoveAt( currentSelectedBinderIdx.Value );
+
+        for( int i = currentSelectedBinderIdx.Value; i < binderData.Count; ++i )
+            binderData[i].index--;
+
         currentSelectedBinderIdx = null;
         editButton.interactable = false;
         deleteButton.interactable = false;
@@ -106,22 +111,23 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         if( images.Length > 1 && images[1].gameObject != null )
             images[1].gameObject.Destroy();
 
-        int thisIdx = binderData.Count - 1;
+        binder.index = binderData.Count - 1;
+
         binder.binderUI.GetComponent<EventDispatcher>().OnPointerUpEvent += ( PointerEventData ) =>
         {
-            bool unselect = currentSelectedBinderIdx == thisIdx;
+            bool unselect = currentSelectedBinderIdx == binder.index;
             if( currentSelectedBinderIdx != null || unselect )
                 GetSelectedBinder().GetComponent<Image>().color = Color.clear;
             if( !unselect )
                 binder.binderUI.GetComponent<Image>().color = selectedEntryColour;
-            currentSelectedBinderIdx = unselect ? null : thisIdx as int?;
+            currentSelectedBinderIdx = unselect ? null : binder.index as int?;
             editButton.interactable = !unselect;
             deleteButton.interactable = !unselect;
         };
 
         binder.binderUI.GetComponent<EventDispatcher>().OnDoubleClickEvent += ( PointerEventData e ) =>
         {
-            if( currentSelectedBinderIdx != thisIdx )
+            if( currentSelectedBinderIdx != binder.index )
                 binder.binderUI.GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( e );
             EditBinder();
         };

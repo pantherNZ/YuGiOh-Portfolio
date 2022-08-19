@@ -66,35 +66,42 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     private void OnSearchResultReceived( string result )
     {
-        Root data = JsonConvert.DeserializeObject<Root>( result );
+        try
+        {
+            Root data = JsonConvert.DeserializeObject<Root>( result );
 
-        if( data.data.IsEmpty() )
-        {
-            AddCard( new CardDataRuntime() { name = "No results found" } );
-        }
-        else
-        {
-            foreach( var( idx, card ) in Utility.Enumerate( data.data ) )
+            if( data.data.IsEmpty() )
             {
-                // Limit to 100 results for now
-                if( idx >= maxSearchResults )
-                    break;
-
-                var newCard = new CardDataRuntime()
+                AddCard( new CardDataRuntime() { name = "No results found" } );
+            }
+            else
+            {
+                foreach( var (idx, card) in Utility.Enumerate( data.data ) )
                 {
-                    name = card.name,
-                    cardId = card.id,
-                    imageId = card.card_images[0].id,
-                    cardAPIData = card.DeepCopy(),
-                };
-                AddCard( newCard );
+                    // Limit to 100 results for now
+                    if( idx >= maxSearchResults )
+                        break;
 
-                if( Constants.Instance.DownloadImages )
-                {
-                    var smallImageUrl = card.card_images[0].image_url_small;
-                    StartCoroutine( APICallHandler.Instance.DownloadImage( smallImageUrl, true, ( texture ) => OnImageDownloaded( texture, newCard ) ) );
+                    var newCard = new CardDataRuntime()
+                    {
+                        name = card.name,
+                        cardId = card.id,
+                        imageId = card.card_images[0].id,
+                        cardAPIData = card.DeepCopy(),
+                    };
+                    AddCard( newCard );
+
+                    if( Constants.Instance.DownloadImages )
+                    {
+                        var smallImageUrl = card.card_images[0].image_url_small;
+                        StartCoroutine( APICallHandler.Instance.DownloadImage( smallImageUrl, true, ( texture ) => OnImageDownloaded( texture, newCard ) ) );
+                    }
                 }
             }
+        }
+        catch( Exception e )
+        {
+            Debug.LogError( "SearchPageBase::OnSearchResultReceived failed to deserialize json from result:" + Environment.NewLine + e.Message );
         }
     }
 
