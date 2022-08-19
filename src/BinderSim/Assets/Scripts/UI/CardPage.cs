@@ -502,9 +502,10 @@ public class CardPage : EventReceiverInstance
         } );
     }
 
-    public void AddPage( bool left )
+    public void AddPage( bool left, int count = 1 )
     {
-        currentbinder.Insert( left ? currentPage - 1 : currentPage );
+        for( int i = 0; i < count; ++i )
+            currentbinder.Insert( left ? currentPage - 1 : currentPage );
         pageCountText.text = currentbinder.pageCount.ToString();
         PopulateGrid();
     }
@@ -516,19 +517,16 @@ public class CardPage : EventReceiverInstance
         PopulateGrid();
     }
 
-    public void SwapPage( bool left )
-    {
-        SwapPage( left, left ? currentPage : currentPage - 1 );
-    }
-
-    private void SwapPage( bool left, int withIndex )
+    public void SwapPage( bool left, int withIndex )
     {
         currentbinder.Swap( left ? currentPage - 1 : currentPage, withIndex );
         PopulateGrid();
     }
 
-    public void ToggleModifyButtons( GameObject panel )
+    public void MovePage( bool left, int toIndex )
     {
-        panel.ToggleActive();
+
+        currentbinder.Move( left ? currentPage - 1 : currentPage, toIndex );
+        PopulateGrid();
     }
 }

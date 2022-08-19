@@ -47,17 +47,31 @@ public class BinderData
         cardList.Insert( page, newPage );
     }
 
+    public void Move( int pageA, int pageB )
+    {
+        if( pageA != pageB &&
+           pageA >= 0 && pageA < cardList.Count &&
+           pageB >= 0 && pageB < cardList.Count )
+        {
+            cardList.Insert( pageB, cardList[pageA] );
+            cardList.RemoveAt( pageB > pageA ? pageA : pageA - 1 );
+        }
+    }
+
     public void Remove( int page )
     {
-        cardList.RemoveAt( page );
+        if( page >= 0 && page < cardList.Count )
+            cardList.RemoveAt( page );
     }
 
     public void Swap( int pageA, int pageB )
     {
-        Debug.Assert( pageA != pageB );
-        Debug.Assert( pageA >= 0 && pageA < cardList.Count );
-        Debug.Assert( pageB >= 0 && pageB < cardList.Count );
-        cardList.Swap( pageA, pageB );
+        if( pageA != pageB &&
+            pageA >= 0 && pageA < cardList.Count &&
+            pageB >= 0 && pageB < cardList.Count )
+        {
+            cardList.Swap( pageA, pageB );
+        }
     }
 
     public long id;
