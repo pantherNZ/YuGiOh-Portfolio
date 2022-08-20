@@ -197,8 +197,9 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         var newBinder = NewBinderInternal( name );
 
         var lines = fileData.Split( new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries );
+        int idx = 0;
 
-        foreach( var (idx, line) in Utility.Enumerate( lines ) )
+        foreach( var line in lines )
         {
             if( line.Length == 0 )
                 continue;
@@ -214,6 +215,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             var cardName = string.Join( ",", data.Skip( 1 ).Take( data.Length - 7 ) ).Trim();
             var cardIndex = Utility.Mod( idx, newBinder.data.pageWidth * newBinder.data.pageHeight );
             var pageIndex = idx / ( newBinder.data.pageWidth * newBinder.data.pageHeight );
+            idx++;
 
             yield return APICallHandler.Instance.SendCardSearchRequest( cardName, true, ( json ) =>
             {
@@ -222,7 +224,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                 var card = data.data[0];
 
                 if( pageIndex >= newBinder.data.cardList.Count )
-                    newBinder.data.Insert( newBinder.data.pageCount + 1 );
+                    newBinder.data.Insert( pageIndex );
 
                 newBinder.data.cardList[pageIndex][cardIndex] = new CardDataRuntime()
                 {

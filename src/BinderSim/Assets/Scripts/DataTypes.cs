@@ -44,6 +44,10 @@ public class BinderData
     {
         var newPage = new List<CardDataRuntime>();
         newPage.Resize( pageWidth * pageHeight );
+
+        if( page >= cardList.Count )
+            Resize( page, pageWidth, pageHeight );
+
         cardList.Insert( page, newPage );
     }
 

@@ -60,7 +60,7 @@ class APICallHandler
         if( cachedRequests.TryGetValue( uri, out string data ) )
         {
             successCallback?.Invoke( data );
-            yield return null;
+            yield break;
         }    
 
         using( UnityWebRequest webRequest = UnityWebRequest.Get( uri ) )

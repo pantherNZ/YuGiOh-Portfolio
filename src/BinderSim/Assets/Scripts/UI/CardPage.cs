@@ -296,6 +296,7 @@ public class CardPage : EventReceiverInstance
                     {
                         card.largeImageRequsted = true;
                         var cardPos = pos;
+                        var cardPage = currentPage;
 
                         // Load card images if not loaded yet (happens when we load a binder for the first time)
                         StartCoroutine( APICallHandler.Instance.DownloadImage( card.cardAPIData.card_images[0].image_url, true, ( texture ) =>
@@ -303,7 +304,9 @@ public class CardPage : EventReceiverInstance
                             // TODO: Save/cache image
                             card.largeImage = texture;
                             card.largeImageRequsted = false;
-                            grid.transform.GetChild( cardPos ).GetComponent<Image>().sprite = Utility.CreateSprite( texture );
+
+                            if( cardPage == currentPage )
+                                grid.transform.GetChild( cardPos ).GetComponent<Image>().sprite = Utility.CreateSprite( texture );
                         } ) );
                     }
                 }
