@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 public enum PageType
@@ -78,6 +79,20 @@ public class BinderData
         }
     }
 
+    public void AddCards( List<CardDataRuntime> cards )
+    {
+        foreach( var (idx, card) in cards.Enumerate() )
+        {
+            var cardIndex = Utility.Mod( idx, pageWidth * pageHeight );
+            var pageIndex = idx / ( pageWidth * pageHeight );
+
+            if( pageIndex >= cardList.Count )
+                Insert( pageIndex );
+
+            cardList[pageIndex][cardIndex] = card;
+        }
+    }
+
     public long id;
     public string name;
     public DateTime dateCreated;
@@ -110,4 +125,25 @@ public class CardDataRuntime : CardData
     public Texture2D smallImage;
     public Texture2D largeImage;
     public bool largeImageRequsted;
+}
+
+public static class ImportData
+{
+    public enum Options
+    {
+        CreatePopulatedBinder,
+        AddToInventory,
+        ReplaceInventory,
+        AddToExistingBinder,
+        OptionsCount,
+    }
+
+    public static readonly ReadOnlyCollection<string> optionStrings = new(
+        new string[( int )Options.OptionsCount] 
+    {
+        "Create Populated Binder",
+        "Add To Inventory",
+        "Replace Inventory",
+        "Add To {0}",
+    } );
 }

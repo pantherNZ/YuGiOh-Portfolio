@@ -16,6 +16,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     [SerializeField] GameObject mainMenuPage = null;
     [SerializeField] GameObject bindersList = null;
     [SerializeField] GameObject binderEntryPrefab = null;
+    [SerializeField] GameObject importDialogPanel = null;
     [SerializeField] Button editButton = null;
     [SerializeField] Button deleteButton = null;
     [SerializeField] Color selectedEntryColour = new();
@@ -23,6 +24,9 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     private List<BinderDataRuntime> binderData = new();
     private int? currentSelectedBinderIdx;
     private int currentBinderSavingIndex;
+
+    private List<CardDataRuntime> savedImportedData;
+    private string savedImportedName;
 
     private System.Random rng = new();
 
@@ -193,11 +197,11 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
     private IEnumerator FileLoadedRoutine( Uri uri, string fileData )
     {
-        var name = Path.GetFileNameWithoutExtension( uri.AbsolutePath );
-        var newBinder = NewBinderInternal( name );
-
+        savedImportedName = Path.GetFileNameWithoutExtension( uri.AbsolutePath );
+        savedImportedData = new();
         var lines = fileData.Split( new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries );
         int idx = 0;
+        float totalValue = 0.0f;
 
         foreach( var line in lines )
         {
@@ -213,8 +217,6 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             var condition = data[data.Length - 4].Trim();
             var setCode = data[data.Length - 5].Trim();
             var cardName = string.Join( ",", data.Skip( 1 ).Take( data.Length - 7 ) ).Trim();
-            var cardIndex = Utility.Mod( idx, newBinder.data.pageWidth * newBinder.data.pageHeight );
-            var pageIndex = idx / ( newBinder.data.pageWidth * newBinder.data.pageHeight );
             idx++;
 
             yield return APICallHandler.Instance.SendCardSearchRequest( cardName, true, ( json ) =>
@@ -223,18 +225,72 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                 Debug.Assert( data.data.Count == 1 );
                 var card = data.data[0];
 
-                if( pageIndex >= newBinder.data.cardList.Count )
-                    newBinder.data.Insert( pageIndex );
+                if( float.TryParse( card.card_prices[0].tcgplayer_price, out var value ) )
+                    totalValue += value;
 
-                newBinder.data.cardList[pageIndex][cardIndex] = new CardDataRuntime()
+                savedImportedData.Add( new CardDataRuntime()
                 {
                     name = card.name,
                     cardId = card.id,
                     imageId = card.card_images[0].id,
                     cardAPIData = card.DeepCopy(),
-                };
+                } );
             } );
         }
+
+        importDialogPanel.SetActive( true );
+
+        var texts = importDialogPanel.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
+        texts[0].text = savedImportedName;
+        texts[1].text = string.Format("{0} cards", idx);
+        texts[2].text = string.Format("Total Value: ${0}", totalValue);
+
+        var dropDown = importDialogPanel.GetComponentInChildren<TMPro.TMP_Dropdown>();
+        List<string> options = new();
+
+        Enumerable.Zip(Utility.GetEnumValues<ImportData.Options>(), ImportData.optionStrings, ( val, str ) =>
+        {
+            if( val == ImportData.Options.AddToExistingBinder )
+                options.AddRange( binderData.Select( ( x ) => string.Format( str, x.data.name ) ) );
+            else
+                options.Add( str );
+            return 0;
+        } );
+        
+        dropDown.ClearOptions();
+        dropDown.AddOptions( options );
+        dropDown.value = 0;
+    }
+
+    public void ExecuteImport()
+    {
+        var dropDown = importDialogPanel.GetComponentInChildren<TMPro.TMP_Dropdown>();
+        switch( ( ImportData.Options )( Mathf.Min( dropDown.value, ( int )ImportData.Options.OptionsCount - 1 ) ) )
+        {
+            case ImportData.Options.CreatePopulatedBinder:
+                {
+                    var newBinder = NewBinderInternal( savedImportedName );
+                    newBinder.data.AddCards( savedImportedData );
+                    break;
+                }
+            case ImportData.Options.AddToInventory:
+                {
+                    break;
+                }
+            case ImportData.Options.ReplaceInventory:
+                {
+                    break;
+                }
+            case ImportData.Options.AddToExistingBinder:
+                {
+                    int binderIndex = dropDown.value - ( int )ImportData.Options.AddToExistingBinder;
+                    binderData[binderIndex].data.AddCards( savedImportedData );
+                    break;
+                }
+        }
+
+        savedImportedName = null;
+        savedImportedData = null;
     }
 
     private void OnApplicationPause( bool paused )
