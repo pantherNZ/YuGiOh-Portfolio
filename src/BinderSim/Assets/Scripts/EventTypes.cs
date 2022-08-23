@@ -16,6 +16,7 @@ public enum SearchPageBehaviour
     ReplacingCard,
     AddingCards,
     AddingCardsPageFull,
+    AddingToInventory,
 }
 
 public class OpenSearchPageEvent : IBaseEvent 

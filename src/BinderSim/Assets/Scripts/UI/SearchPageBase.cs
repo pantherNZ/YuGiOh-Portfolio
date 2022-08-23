@@ -163,7 +163,7 @@ public abstract class SearchPageBase : EventReceiverInstance
         };
     }
 
-    protected abstract GameObject AddCardUI( CardData card, int entryIdx );
+    protected abstract GameObject AddCardUI( CardDataRuntime card, int entryIdx );
 
     // Called when you either double click a search result, or click to highlight and then click 'Select Card' button
     public void ChooseCard()

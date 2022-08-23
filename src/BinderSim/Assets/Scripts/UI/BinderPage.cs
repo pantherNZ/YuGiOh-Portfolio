@@ -21,6 +21,8 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     [SerializeField] Button deleteButton = null;
     [SerializeField] Color selectedEntryColour = new();
 
+    private List<CardDataRuntime> inventory = new();
+
     private List<BinderDataRuntime> binderData = new();
     private int? currentSelectedBinderIdx;
     private int currentBinderSavingIndex;
@@ -45,6 +47,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         }
         
         mainMenuPage.SetActive( true );
+        importDialogPanel.SetActive( false );
 
         // Debug skip menu
         //NewBinder();
@@ -248,14 +251,13 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         var dropDown = importDialogPanel.GetComponentInChildren<TMPro.TMP_Dropdown>();
         List<string> options = new();
 
-        Enumerable.Zip(Utility.GetEnumValues<ImportData.Options>(), ImportData.optionStrings, ( val, str ) =>
+        foreach( var( val, str ) in Utility.GetEnumValues<ImportData.Options>().Zip( ImportData.optionStrings ) )
         {
             if( val == ImportData.Options.AddToExistingBinder )
                 options.AddRange( binderData.Select( ( x ) => string.Format( str, x.data.name ) ) );
             else
                 options.Add( str );
-            return 0;
-        } );
+        }
         
         dropDown.ClearOptions();
         dropDown.AddOptions( options );

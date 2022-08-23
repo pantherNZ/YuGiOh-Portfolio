@@ -115,7 +115,6 @@ public class CardData
     public string name;
     public int cardId;
     public int imageId;
-    public float price; // TODO
     public int condition; // TODO
 }
 
@@ -135,6 +134,7 @@ public static class ImportData
         AddToInventory,
         ReplaceInventory,
         AddToExistingBinder,
+
         OptionsCount,
     }
 
@@ -142,8 +142,8 @@ public static class ImportData
         new string[( int )Options.OptionsCount] 
     {
         "Create Populated Binder",
-        "Add To Inventory",
+        "Add Cards To Inventory",
         "Replace Inventory",
-        "Add To {0}",
+        "Add Cards To {0}",
     } );
 }

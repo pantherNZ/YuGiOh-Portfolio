@@ -5,7 +5,7 @@ public class SearchPageFull : SearchPageBase
 {
     [SerializeField] GameObject cardEntryPrefab = null;
 
-    protected override GameObject AddCardUI( CardData card, int entryIdx )
+    protected override GameObject AddCardUI( CardDataRuntime card, int entryIdx )
     {
         // Add UI elements
         var newCardUIEntry = Instantiate( cardEntryPrefab );

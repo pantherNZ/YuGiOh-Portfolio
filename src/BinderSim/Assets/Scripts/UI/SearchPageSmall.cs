@@ -13,7 +13,7 @@ public class SearchPageSmall : SearchPageBase
         base.Start();
     }
 
-    protected override GameObject AddCardUI( CardData card, int entryIdx )
+    protected override GameObject AddCardUI( CardDataRuntime card, int entryIdx )
     {
         // Add UI elements
         var newCardUIEntry = Instantiate( cardEntryPrefab );
