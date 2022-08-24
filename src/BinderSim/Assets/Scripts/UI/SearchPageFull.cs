@@ -4,6 +4,8 @@ using UnityEngine.UI;
 public class SearchPageFull : SearchPageBase
 {
     [SerializeField] GameObject cardEntryPrefab = null;
+    [SerializeField] Button advancedSearchButton = null;
+    [SerializeField] Button importFromFileButton = null;
 
     protected override GameObject AddCardUI( CardDataRuntime card, int entryIdx )
     {
@@ -29,7 +31,7 @@ public class SearchPageFull : SearchPageBase
 
         if( e is OpenSearchPageEvent openPageRequest )
         {
-            if( !openPageRequest.openFullPage )
+            if( openPageRequest.page == PageType.SearchPage )
             {
                 searchListPage.SetActive( false );
                 return;
@@ -37,6 +39,10 @@ public class SearchPageFull : SearchPageBase
 
             behaviour = openPageRequest.behaviour;
             searchListPage.SetActive( true );
+
+            bool inventoryMode = behaviour == SearchPageBehaviour.Inventory || behaviour == SearchPageBehaviour.InventoryFromCardPage;
+            advancedSearchButton.gameObject.SetActive( !inventoryMode );
+            importFromFileButton.gameObject.SetActive( inventoryMode );
 
             if( currentCardSelectedIdx != null )
                 GetSelectedCard().GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( null );

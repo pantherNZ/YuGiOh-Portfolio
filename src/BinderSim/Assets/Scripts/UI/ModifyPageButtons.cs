@@ -50,9 +50,7 @@ public class ModifyPageButtons : EventReceiverInstance
 
     public override void OnEventReceived( IBaseEvent e )
     {
-        var pageChangeRequest = e as PageChangeRequestEvent;
-
-        if( e is OpenSearchPageEvent || ( pageChangeRequest != null && pageChangeRequest.page != PageType.CardPage ) )
+        if( e is PageChangeRequestEvent pageChangeRequest && pageChangeRequest.page != PageType.CardPage )
         {
             Reset();
             buttonsPanel.SetActive( false );

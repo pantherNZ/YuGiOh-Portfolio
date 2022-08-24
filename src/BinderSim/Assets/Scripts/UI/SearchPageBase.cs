@@ -218,21 +218,26 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     public void Cancel()
     {
-        EventSystem.Instance.TriggerEvent( new PageChangeRequestEvent() { page = PageType.CardPage } );
+        EventSystem.Instance.TriggerEvent( new PageChangeRequestEvent() 
+        { 
+            page = behaviour == SearchPageBehaviour.Inventory 
+                ? PageType.BinderPage 
+                : PageType.CardPage 
+        } );
     }
 
     public void ShowFullscreenSearch( bool fullscreen )
     {
         EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
         {
-            openFullPage = fullscreen,
+            page = fullscreen ? PageType.SearchPageFull : PageType.SearchPage,
             behaviour = fullscreen ? SearchPageBehaviour.AddingCards : behaviour
         } );
     }
 
     public override void OnEventReceived( IBaseEvent e )
     {
-        if( e is PageChangeRequestEvent )
+        if( e is PageChangeRequestEvent pageChangeRequest && pageChangeRequest.page != PageType.SearchPage )
         {
             searchListPage.SetActive( false );
         }

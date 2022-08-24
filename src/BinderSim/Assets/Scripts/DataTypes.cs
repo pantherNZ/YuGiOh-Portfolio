@@ -6,7 +6,9 @@ using UnityEngine;
 public enum PageType
 {
     BinderPage,
-    CardPage
+    CardPage,
+    SearchPage,
+    SearchPageFull,
 }
 
 public class BinderData

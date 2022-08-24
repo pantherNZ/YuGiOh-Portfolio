@@ -33,7 +33,7 @@ public class SearchPageSmall : SearchPageBase
 
         if( e is OpenSearchPageEvent openPageRequest )
         {
-            if( openPageRequest.openFullPage )
+            if( openPageRequest.page == PageType.SearchPageFull )
             {
                 searchListPage.SetActive( false );
                 return;

@@ -74,8 +74,8 @@ public class CardPage : EventReceiverInstance
                     break;
                 case PageType.CardPage:
                     cardsPage.SetActive( true );
-                    if( pageChangeRequest.binder != null )
-                        LoadBinder( pageChangeRequest.binder );
+                    if( e is OpenCardPageEvent openPageRequest )
+                        LoadBinder( openPageRequest.binder );
                     break;
             }
         }
@@ -485,7 +485,7 @@ public class CardPage : EventReceiverInstance
     {
         EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
         {
-            openFullPage = false,
+            page = PageType.SearchPage,
             behaviour = FindNextEmptyCardSlot() == null 
                 ? SearchPageBehaviour.AddingCardsPageFull 
                 : SearchPageBehaviour.AddingCards
@@ -497,11 +497,20 @@ public class CardPage : EventReceiverInstance
         currentModifyCardIdx = GetIndexFromPageAndPos( page, pos );
 
         EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent() 
-        { 
-            openFullPage = false,
+        {
+            page = PageType.SearchPage,
             behaviour = currentbinder.cardList[page][pos] == null 
                 ? SearchPageBehaviour.SettingCard
                 : SearchPageBehaviour.ReplacingCard
+        } );
+    }
+
+    public void OpenInventory()
+    {
+        EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
+        {
+            page = PageType.SearchPageFull,
+            behaviour = SearchPageBehaviour.InventoryFromCardPage
         } );
     }
 
@@ -509,6 +518,7 @@ public class CardPage : EventReceiverInstance
     {
         for( int i = 0; i < count; ++i )
             currentbinder.Insert( left ? currentPage - 1 : currentPage );
+
         pageCountText.text = currentbinder.pageCount.ToString();
         PopulateGrid();
     }

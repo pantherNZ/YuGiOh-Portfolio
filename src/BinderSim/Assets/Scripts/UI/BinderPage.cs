@@ -57,9 +57,8 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
     public void EditBinder()
     {
-        EventSystem.Instance.TriggerEvent( new PageChangeRequestEvent()
+        EventSystem.Instance.TriggerEvent( new OpenCardPageEvent()
         { 
-            page = PageType.CardPage,
             binder = binderData[currentSelectedBinderIdx.Value].data
         } );
     }
@@ -293,6 +292,15 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
         savedImportedName = null;
         savedImportedData = null;
+    }
+
+    public void OpenInventory()
+    {
+        EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
+        {
+            page = PageType.SearchPageFull,
+            behaviour = SearchPageBehaviour.Inventory,
+        } );
     }
 
     private void OnApplicationPause( bool paused )
