@@ -27,7 +27,7 @@ public class CardPage : EventReceiverInstance
     [SerializeField] GameObject modifyPageButtonsRight = null;
     [SerializeField] GameObject clearCardDropLocation = null;
 
-    private BinderData currentbinder;
+    private BinderDataRuntime currentbinder;
     private int width;
     private int height;
     private int currentPage;
@@ -46,7 +46,7 @@ public class CardPage : EventReceiverInstance
         prevPageButton.onClick.AddListener( PrevPage );
         nextPageButton.onClick.AddListener( NextPage );
         firstPageButton.onClick.AddListener( () => ChangePage( 0 ) );
-        lastPageButton.onClick.AddListener( () => ChangePage( currentbinder.pageCount ) );
+        lastPageButton.onClick.AddListener( () => ChangePage( currentbinder.data.pageCount ) );
 
         binderNameText.onValueChanged.AddListener( _ => OnBinderHeaderChanged() );
         pageCountText.onValueChanged.AddListener( _ => OnBinderHeaderChanged() );
@@ -92,9 +92,9 @@ public class CardPage : EventReceiverInstance
             if( currentbinder == null )
                 return;
 
-            if( currentPage < currentbinder.pageCount )
+            if( currentPage < currentbinder.data.pageCount )
             {
-                var foundCard = currentbinder.cardList[currentPage].FindIndex( x => x == cardImageLoadedEvent.card );
+                var foundCard = currentbinder.data.cardList[currentPage].FindIndex( x => x == cardImageLoadedEvent.card );
                 if( foundCard != -1 )
                 {
                     var cardUIEntry = cardsDisplayGridRight.transform.GetChild( foundCard );
@@ -105,7 +105,7 @@ public class CardPage : EventReceiverInstance
             
             if( currentPage > 0 )
             {
-                var foundCard = currentbinder.cardList[currentPage - 1].FindIndex( x => x == cardImageLoadedEvent.card );
+                var foundCard = currentbinder.data.cardList[currentPage - 1].FindIndex( x => x == cardImageLoadedEvent.card );
                 if( foundCard != -1 )
                 {
                     var cardUIEntry = cardsDisplayGridLeft.transform.GetChild( foundCard );
@@ -115,21 +115,21 @@ public class CardPage : EventReceiverInstance
         }
     }
 
-    private void LoadBinder( BinderData data )
+    private void LoadBinder( BinderDataRuntime binder )
     {
-        currentbinder = data;
-        binderNameText.text = currentbinder.name;
-        pageCountText.text = data.pageCount.ToString();
+        currentbinder = binder;
+        binderNameText.text = currentbinder.data.name;
+        pageCountText.text = binder.data.pageCount.ToString();
         var pageSizeStr = GetCurrentPageSizeString();
         pageSizeDropDown.value = pageSizeDropDown.options.FindIndex( x => x.text == pageSizeStr );
-        dateCreatedText.text = data.dateCreated.ToShortDateString();
+        dateCreatedText.text = binder.data.dateCreated.ToShortDateString();
         ChangePage( 0 );
     }
 
     private void OnBinderHeaderChanged()
     {
-        applyChangesButton.interactable = binderNameText.text != currentbinder.name
-            || pageCountText.text != currentbinder.pageCount.ToString()
+        applyChangesButton.interactable = binderNameText.text != currentbinder.data.name
+            || pageCountText.text != currentbinder.data.pageCount.ToString()
             || pageSizeDropDown.options[pageSizeDropDown.value].text != GetCurrentPageSizeString();
     }
 
@@ -141,7 +141,7 @@ public class CardPage : EventReceiverInstance
             return;
 
         // TODO: Show confirmation box for size or num pages change
-        if( binderNameText.text == currentbinder.name )
+        if( binderNameText.text == currentbinder.data.name )
         {
 
             return;
@@ -152,30 +152,30 @@ public class CardPage : EventReceiverInstance
 
     public void ApplyChanges()
     {
-        currentbinder.name = binderNameText.text;
+        currentbinder.data.name = binderNameText.text;
         var pageSize = pageSizeDropDown.options[pageSizeDropDown.value].text;
-        currentbinder.Resize(
+        currentbinder.data.Resize(
             int.Parse( pageCountText.text ),
             int.Parse( pageSize[0].ToString() ),
             int.Parse( pageSize[2].ToString() ) );
 
-        EventSystem.Instance.TriggerEvent( new BinderDataUpdateEvent() { binder = currentbinder } );
+        EventSystem.Instance.TriggerEvent( new BinderDataUpdateEvent() { binder = currentbinder.data } );
         PopulateGrid();
     }
 
     private string GetCurrentPageSizeString()
     {
-        return string.Format( "{0}x{1}", currentbinder.pageWidth, currentbinder.pageHeight );
+        return string.Format( "{0}x{1}", currentbinder.data.pageWidth, currentbinder.data.pageHeight );
     }
 
     private int? FindNextEmptyCardSlot()
     {
-        for( int pageIdx = Mathf.Max( 0, currentPage - 1 ); pageIdx <= currentPage && pageIdx < currentbinder.cardList.Count; ++pageIdx )
+        for( int pageIdx = Mathf.Max( 0, currentPage - 1 ); pageIdx <= currentPage && pageIdx < currentbinder.data.cardList.Count; ++pageIdx )
         {
-            for( int cardIdx = 0; cardIdx < currentbinder.pageWidth * currentbinder.pageHeight; ++cardIdx )
+            for( int cardIdx = 0; cardIdx < currentbinder.data.pageWidth * currentbinder.data.pageHeight; ++cardIdx )
             {
-                if( currentbinder.cardList[pageIdx][cardIdx] == null )
-                    return Utility.Mod( pageIdx + 1, 2 ) * currentbinder.pageWidth * currentbinder.pageHeight + cardIdx;
+                if( currentbinder.data.cardList[pageIdx][cardIdx] == null )
+                    return Utility.Mod( pageIdx + 1, 2 ) * currentbinder.data.pageWidth * currentbinder.data.pageHeight + cardIdx;
             }
         }
 
@@ -189,7 +189,7 @@ public class CardPage : EventReceiverInstance
         {
             currentModifyCardIdx = null;
 
-            for( int i = 0; i < currentbinder.pageWidth * currentbinder.pageHeight; ++i )
+            for( int i = 0; i < currentbinder.data.pageWidth * currentbinder.data.pageHeight; ++i )
             {
                 if( SearchStopDraggingCollisionCheck( currentPage, i ) )
                 {
@@ -226,7 +226,7 @@ public class CardPage : EventReceiverInstance
         var image = grid.transform.GetChild( pos ).GetComponent<Image>();
         var data = e.card;
         image.sprite = Utility.CreateSprite( data == null ? defaultCardImage : data.smallImage );
-        currentbinder.cardList[page][pos] = data;
+        currentbinder.data.cardList[page][pos] = data;
         currentModifyCardIdx = null;
 
         if( data != null && !e.fromDragDrop && FindNextEmptyCardSlot() == null )
@@ -239,24 +239,24 @@ public class CardPage : EventReceiverInstance
         if( currentPage > 0 )
             SetupGrid( currentPage - 1 );
 
-        if( currentPage < currentbinder.pageCount - 1 )
+        if( currentPage < currentbinder.data.pageCount - 1 )
             SetupGrid( currentPage );
 
         // Show/hide page depending on first/last page
         cardsDisplayGridLeft.gameObject.SetActive( currentPage > 0 );
-        cardsDisplayGridRight.gameObject.SetActive( currentPage < currentbinder.pageCount - 1 );
+        cardsDisplayGridRight.gameObject.SetActive( currentPage < currentbinder.data.pageCount - 1 );
 
         // Show/hide next/prev buttons depending on first/last page
         prevPageButton.gameObject.SetActive( currentPage > 0 );
-        nextPageButton.gameObject.SetActive( currentPage < currentbinder.pageCount - 1 );
+        nextPageButton.gameObject.SetActive( currentPage < currentbinder.data.pageCount - 1 );
 
         // Show/hide first/last buttons depending on first/last page
         firstPageButton.gameObject.SetActive( currentPage > 0 );
-        lastPageButton.gameObject.SetActive( currentPage < currentbinder.pageCount - 1 );
+        lastPageButton.gameObject.SetActive( currentPage < currentbinder.data.pageCount - 1 );
 
         // Show/hide modify buttons depending on first/last page
         modifyPageButtonsLeft.SetActive( currentPage > 0 );
-        modifyPageButtonsRight.SetActive( currentPage < currentbinder.pageCount - 1 );
+        modifyPageButtonsRight.SetActive( currentPage < currentbinder.data.pageCount - 1 );
 
         EventSystem.Instance.TriggerEvent( new PageChangeRequestEvent() { page = PageType.CardPage } );
     }
@@ -271,14 +271,14 @@ public class CardPage : EventReceiverInstance
         var grid = GetGrid( page );
 
         // TODO: Resetup grid X/Y
-        if( width != currentbinder.pageWidth || height != currentbinder.pageHeight )
+        if( width != currentbinder.data.pageWidth || height != currentbinder.data.pageHeight )
         {
 
         }
         else
         {
             // Reset/load images based on the stored data
-            foreach( var (pos, card ) in Utility.Enumerate( currentbinder.cardList[page] ) )
+            foreach( var (pos, card ) in Utility.Enumerate( currentbinder.data.cardList[page] ) )
             {
                 var texture = defaultCardImage;
                 
@@ -334,7 +334,7 @@ public class CardPage : EventReceiverInstance
     private void StartDragging( int page, int pos )
     {
         // Can't move empty cards
-        if( currentbinder.cardList[page][pos] == null )
+        if( currentbinder.data.cardList[page][pos] == null )
             return;
 
         var grid = GetGrid( page );
@@ -367,7 +367,7 @@ public class CardPage : EventReceiverInstance
         dragging.Destroy();
         clearCardDropLocation.SetActive( false );
 
-        for( int i = 0; i < currentbinder.pageWidth * currentbinder.pageHeight; ++i )
+        for( int i = 0; i < currentbinder.data.pageWidth * currentbinder.data.pageHeight; ++i )
         {
             if( grid.isActiveAndEnabled &&
                 StopDraggingCollisionCheck( grid.transform.GetChild( i ).gameObject, page, pos, page, i ) )
@@ -409,14 +409,14 @@ public class CardPage : EventReceiverInstance
     private int GetIndexFromPageAndPos( int page, int pos )
     { 
         // Add pageSize to the idx to indicate we are modifying the right page (or don't if left page)
-        return Utility.Mod( page + 1, 2 ) * currentbinder.pageWidth * currentbinder.pageHeight + pos;
+        return Utility.Mod( page + 1, 2 ) * currentbinder.data.pageWidth * currentbinder.data.pageHeight + pos;
     }
 
     private Pair<int, int> GetPageAndPosFromIndex( int idx )
     {
         return new Pair<int, int>(
-            idx >= ( currentbinder.pageWidth * currentbinder.pageHeight ) ? currentPage : currentPage - 1,
-            Utility.Mod( idx, currentbinder.pageWidth * currentbinder.pageHeight )
+            idx >= ( currentbinder.data.pageWidth * currentbinder.data.pageHeight ) ? currentPage : currentPage - 1,
+            Utility.Mod( idx, currentbinder.data.pageWidth * currentbinder.data.pageHeight )
         );
     }
 
@@ -436,8 +436,8 @@ public class CardPage : EventReceiverInstance
             GetGrid( pageFrom ).transform.GetChild( cardFrom ).GetComponent<Image>().sprite = Utility.CreateSprite( texture );
             card.GetComponent<Image>().sprite = Utility.CreateSprite( originTexture );
 
-            (currentbinder.cardList[pageFrom][cardFrom], currentbinder.cardList[pageTo][cardTo]) = 
-                (currentbinder.cardList[pageTo][cardTo], currentbinder.cardList[pageFrom][cardFrom]);
+            (currentbinder.data.cardList[pageFrom][cardFrom], currentbinder.data.cardList[pageTo][cardTo]) = 
+                (currentbinder.data.cardList[pageTo][cardTo], currentbinder.data.cardList[pageFrom][cardFrom]);
             return true;
         }
 
@@ -456,9 +456,9 @@ public class CardPage : EventReceiverInstance
     {
         // Deliberately cap at currentbinder.pageCount (not currentbinder.pageCount - 1), because we display pages in multiples of 2
         // If we are on the last page the index will be currentbinder.pageCount but the right side won't be visible/setup
-        currentPage = Mathf.Clamp( page, 0, currentbinder.pageCount );
+        currentPage = Mathf.Clamp( page, 0, currentbinder.data.pageCount );
         currentPageTextLeft.text = page == 0 ? string.Empty : string.Format( "Page: {0}", currentPage );
-        currentPageTextRight.text = page >= currentbinder.pageCount ? string.Empty : string.Format( "Page: {0}", currentPage + 1 );
+        currentPageTextRight.text = page >= currentbinder.data.pageCount ? string.Empty : string.Format( "Page: {0}", currentPage + 1 );
         PopulateGrid();
     }
 
@@ -477,7 +477,7 @@ public class CardPage : EventReceiverInstance
         if( from == to )
             return;
 
-        currentbinder.cardList.Swap( from, to );
+        currentbinder.data.cardList.Swap( from, to );
         PopulateGrid();
     }
 
@@ -499,7 +499,7 @@ public class CardPage : EventReceiverInstance
         EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent() 
         {
             page = PageType.SearchPage,
-            behaviour = currentbinder.cardList[page][pos] == null 
+            behaviour = currentbinder.data.cardList[page][pos] == null 
                 ? SearchPageBehaviour.SettingCard
                 : SearchPageBehaviour.ReplacingCard
         } );
@@ -507,38 +507,37 @@ public class CardPage : EventReceiverInstance
 
     public void OpenInventory()
     {
-        EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
+        EventSystem.Instance.TriggerEvent( new OpenInventoryPageEvent()
         {
-            page = PageType.SearchPageFull,
-            behaviour = SearchPageBehaviour.InventoryFromCardPage
+            currentBinderIdx = BinderPage.Instance.BinderData.IndexOf(currentbinder),
         } );
     }
 
     public void AddPage( bool left, int count = 1 )
     {
         for( int i = 0; i < count; ++i )
-            currentbinder.Insert( left ? currentPage - 1 : currentPage );
+            currentbinder.data.Insert( left ? currentPage - 1 : currentPage );
 
-        pageCountText.text = currentbinder.pageCount.ToString();
+        pageCountText.text = currentbinder.data.pageCount.ToString();
         PopulateGrid();
     }
 
     public void RemovePage( bool left )
     {
-        currentbinder.Remove( left ? currentPage - 1 : currentPage );
-        pageCountText.text = currentbinder.pageCount.ToString();
+        currentbinder.data.Remove( left ? currentPage - 1 : currentPage );
+        pageCountText.text = currentbinder.data.pageCount.ToString();
         PopulateGrid();
     }
 
     public void SwapPage( bool left, int withIndex )
     {
-        currentbinder.Swap( left ? currentPage - 1 : currentPage, withIndex );
+        currentbinder.data.Swap( left ? currentPage - 1 : currentPage, withIndex );
         PopulateGrid();
     }
 
     public void MovePage( bool left, int toIndex )
     {
-        currentbinder.Move( left ? currentPage - 1 : currentPage, toIndex );
+        currentbinder.data.Move( left ? currentPage - 1 : currentPage, toIndex );
         PopulateGrid();
     }
 }

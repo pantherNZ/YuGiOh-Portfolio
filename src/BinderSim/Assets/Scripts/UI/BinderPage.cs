@@ -10,9 +10,12 @@ using UnityEngine.Networking;
 using SFB;
 using System.Linq;
 using Newtonsoft.Json;
+using System.Collections.ObjectModel;
 
 public class BinderPage : EventReceiverInstance, ISavableComponent
 {
+    public static BinderPage Instance { get; private set; }
+
     [SerializeField] GameObject mainMenuPage = null;
     [SerializeField] GameObject bindersList = null;
     [SerializeField] GameObject binderEntryPrefab = null;
@@ -24,6 +27,8 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     private List<CardDataRuntime> inventory = new();
 
     private List<BinderDataRuntime> binderData = new();
+    public ReadOnlyCollection<BinderDataRuntime> BinderData { get => binderData.AsReadOnly(); private set { } }
+
     private int? currentSelectedBinderIdx;
     private int currentBinderSavingIndex;
 
@@ -36,6 +41,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     {
         base.Start();
 
+        Instance = this;
         SaveGameSystem.AddSaveableComponent( this );
 
         foreach(var save in SaveGameSystem.GetSaveGames() )
@@ -59,7 +65,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     {
         EventSystem.Instance.TriggerEvent( new OpenCardPageEvent()
         { 
-            binder = binderData[currentSelectedBinderIdx.Value].data
+            binder = binderData[currentSelectedBinderIdx.Value]
         } );
     }
 
@@ -252,7 +258,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
         foreach( var( val, str ) in Utility.GetEnumValues<ImportData.Options>().Zip( ImportData.optionStrings ) )
         {
-            if( val == ImportData.Options.AddToExistingBinder )
+            if( val == ImportData.Options.AddToExistingBinderX )
                 options.AddRange( binderData.Select( ( x ) => string.Format( str, x.data.name ) ) );
             else
                 options.Add( str );
@@ -282,9 +288,9 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                 {
                     break;
                 }
-            case ImportData.Options.AddToExistingBinder:
+            case ImportData.Options.AddToExistingBinderX:
                 {
-                    int binderIndex = dropDown.value - ( int )ImportData.Options.AddToExistingBinder;
+                    int binderIndex = dropDown.value - ( int )ImportData.Options.AddToExistingBinderX;
                     binderData[binderIndex].data.AddCards( savedImportedData );
                     break;
                 }

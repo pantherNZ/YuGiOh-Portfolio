@@ -24,7 +24,7 @@ public abstract class SearchPageBase : EventReceiverInstance
     protected SearchPageBehaviour behaviour = SearchPageBehaviour.None;
     private Coroutine searchCountdown;
 
-    override protected void Start()
+    protected override void Start()
     {
         base.Start();
 
@@ -61,10 +61,15 @@ public abstract class SearchPageBase : EventReceiverInstance
 
         var search = searchInput.text.Trim();
         if( search.Length > 0 )
-            StartCoroutine( APICallHandler.Instance.SendCardSearchRequestFuzzy( search, false, OnSearchResultReceived ) );
+            SearchRequest( search );
     }
 
-    private void OnSearchResultReceived( string result )
+    protected virtual void SearchRequest( string search )
+    {
+        StartCoroutine( APICallHandler.Instance.SendCardSearchRequestFuzzy( search, false, OnSearchResultReceived ) );
+    }
+
+    protected virtual void OnSearchResultReceived( string result )
     {
         try
         {

@@ -3,7 +3,7 @@ public class PageChangeRequestEvent : IBaseEvent { public PageType page; }
 public class OpenCardPageEvent : PageChangeRequestEvent 
 {
     public OpenCardPageEvent() { page = PageType.CardPage; }
-    public BinderData binder; 
+    public BinderDataRuntime binder; 
 }
 
 public class BinderDataUpdateEvent : IBaseEvent { public BinderData binder; }
@@ -29,6 +29,16 @@ public enum SearchPageBehaviour
 public class OpenSearchPageEvent : PageChangeRequestEvent
 {
     public SearchPageBehaviour behaviour;
+}
+
+public class OpenInventoryPageEvent : OpenSearchPageEvent
+{
+    public OpenInventoryPageEvent() 
+    { 
+        page = PageType.SearchPageFull;
+        behaviour = SearchPageBehaviour.InventoryFromCardPage;
+    }
+    public int currentBinderIdx;
 }
 
 public class PageFullEvent : IBaseEvent { }

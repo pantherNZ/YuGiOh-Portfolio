@@ -135,7 +135,7 @@ public static class ImportData
         CreatePopulatedBinder,
         AddToInventory,
         ReplaceInventory,
-        AddToExistingBinder,
+        AddToExistingBinderX,
 
         OptionsCount,
     }
@@ -147,5 +147,29 @@ public static class ImportData
         "Add Cards To Inventory",
         "Replace Inventory",
         "Add Cards To {0}",
+    } );
+}
+
+public static class InventoryData
+{
+    public enum Options
+    {
+        SearchOnline,
+        AllCards,
+        AllCardsInBinders,
+        UnusedCards,
+        CardsInBinderX,
+
+        OptionsCount,
+    }
+
+    public static readonly ReadOnlyCollection<string> optionStrings = new(
+        new string[( int )Options.OptionsCount]
+    {
+        "Search Online",
+        "All Owned Cards",
+        "All Cards In Binders",
+        "Unused Cards",
+        "Cards In {0}",
     } );
 }
