@@ -126,6 +126,7 @@ public class CardDataRuntime : CardData
     public Texture2D smallImage;
     public Texture2D largeImage;
     public bool largeImageRequsted;
+    public int? insideBinderIdx;
 }
 
 public static class ImportData

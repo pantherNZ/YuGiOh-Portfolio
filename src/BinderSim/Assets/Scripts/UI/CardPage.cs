@@ -229,8 +229,20 @@ public class CardPage : EventReceiverInstance
         currentbinder.data.cardList[page][pos] = data;
         currentModifyCardIdx = null;
 
-        if( data != null && !e.fromDragDrop && FindNextEmptyCardSlot() == null )
-            EventSystem.Instance.TriggerEvent( new PageFullEvent() );
+        if( data != null )
+        {
+
+            if( !e.fromDragDrop && FindNextEmptyCardSlot() == null )
+                EventSystem.Instance.TriggerEvent( new PageFullEvent() );
+
+            // Add to inventory
+            data.insideBinderIdx = BinderPage.Instance.BinderData.IndexOf( currentbinder );
+            BinderPage.Instance.Inventory.Add( data );
+        }
+        else
+        {
+            BinderPage.Instance.Inventory.Find( ( x ) => x.cardId == data.cardId ).insideBinderIdx = null;
+        }
     }
 
     private void PopulateGrid()

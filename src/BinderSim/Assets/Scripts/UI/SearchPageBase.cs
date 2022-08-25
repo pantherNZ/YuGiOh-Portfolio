@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 using System;
 using System.IO;
 using Newtonsoft.Json;
+using System.Linq;
 
 public abstract class SearchPageBase : EventReceiverInstance
 {
@@ -17,6 +18,7 @@ public abstract class SearchPageBase : EventReceiverInstance
     [SerializeField] protected bool autoSearch = true;
     [SerializeField] protected int maxSearchResults = 100;
     [SerializeField] protected int autoSearchDelayMS = 500;
+    [SerializeField] TMPro.TMP_Dropdown optionsDropdown = null;
 
     protected List<CardDataRuntime> cardData = new();
     protected Dictionary<CardDataRuntime, GameObject> searchUIEntries = new();
@@ -32,8 +34,10 @@ public abstract class SearchPageBase : EventReceiverInstance
 
         searchInput.onValueChanged.AddListener( OnSearchTextchanged );
 
-        if( searchInput.text.Length != 0 )
+        optionsDropdown.onValueChanged.AddListener( ( x ) =>
+        {
             SearchCards();
+        } );
     }
 
     private void OnSearchTextchanged( string text )
@@ -60,16 +64,44 @@ public abstract class SearchPageBase : EventReceiverInstance
         cardData.Clear();
 
         var search = searchInput.text.Trim();
-        if( search.Length > 0 )
-            SearchRequest( search );
+        SearchRequest( search );
     }
 
-    protected virtual void SearchRequest( string search )
+    void SearchRequest( string search )
     {
-        StartCoroutine( APICallHandler.Instance.SendCardSearchRequestFuzzy( search, false, OnSearchResultReceived ) );
+        var filter = ( InventoryData.Options )( Mathf.Min( optionsDropdown.value, ( int )InventoryData.Options.OptionsCount - 1 ) );
+
+        if( filter == InventoryData.Options.SearchOnline )
+        {
+            if( search.Length > 0 )
+                StartCoroutine( APICallHandler.Instance.SendCardSearchRequestFuzzy( search, false, OnSearchResultReceived ) );
+            return;
+        }
+
+        foreach( var( idx, card ) in BinderPage.Instance.Inventory.Enumerate() )
+        {
+            // Limit to 100 results for now
+            if( idx >= maxSearchResults )
+                break;
+
+            if( filter == InventoryData.Options.AllCardsInBinders && card.insideBinderIdx == null )
+                continue;
+            if( filter == InventoryData.Options.UnusedCards && card.insideBinderIdx != null )
+                continue;
+            if( filter == InventoryData.Options.CardsInBinderX )
+            {
+                int binderIndex = optionsDropdown.value - ( int )InventoryData.Options.CardsInBinderX;
+                if( card.insideBinderIdx == null || card.insideBinderIdx.Value != binderIndex )
+                    continue;
+            }
+            if( search.Length > 0 && !card.name.Contains( search ) )
+                continue;
+
+            AddCard( card );
+        }
     }
 
-    protected virtual void OnSearchResultReceived( string result )
+    void OnSearchResultReceived( string result )
     {
         try
         {
@@ -81,26 +113,19 @@ public abstract class SearchPageBase : EventReceiverInstance
             }
             else
             {
-                foreach( var (idx, card) in Utility.Enumerate( data.data ) )
+                foreach( var (idx, card) in data.data.Enumerate() )
                 {
                     // Limit to 100 results for now
                     if( idx >= maxSearchResults )
                         break;
 
-                    var newCard = new CardDataRuntime()
+                    AddCard( new CardDataRuntime()
                     {
                         name = card.name,
                         cardId = card.id,
                         imageId = card.card_images[0].id,
                         cardAPIData = card.DeepCopy(),
-                    };
-                    AddCard( newCard );
-
-                    if( Constants.Instance.DownloadImages )
-                    {
-                        var smallImageUrl = card.card_images[0].image_url_small;
-                        StartCoroutine( APICallHandler.Instance.DownloadImage( smallImageUrl, true, ( texture ) => OnImageDownloaded( texture, newCard ) ) );
-                    }
+                    } );
                 }
             }
         }
@@ -108,18 +133,6 @@ public abstract class SearchPageBase : EventReceiverInstance
         {
             Debug.LogError( "SearchPageBase::OnSearchResultReceived failed to deserialize json from result:" + Environment.NewLine + e.Message );
         }
-    }
-
-    private void OnImageDownloaded( Texture2D texture, CardDataRuntime cardData )
-    {
-        if( !searchUIEntries.ContainsKey( cardData ) )
-            return;
-
-        // Idx 1 because 0 is the UI entry background (1 is the preview card image)
-        var cardPreview = searchUIEntries[cardData].GetComponentsInChildren<Image>()[1];
-        cardPreview.sprite = Utility.CreateSprite( texture );
-        cardPreview.color = Color.white;
-        cardData.smallImage = texture;
     }
 
     protected GameObject GetSelectedCard()
@@ -166,6 +179,36 @@ public abstract class SearchPageBase : EventReceiverInstance
         {
 
         };
+
+        GetCardPreviewImage( card );
+    }
+
+    private void GetCardPreviewImage( CardDataRuntime card )
+    {
+        if( Constants.Instance.DownloadImages && card.cardAPIData != null )
+        {
+            if( card.smallImage != null )
+            {
+                OnImageDownloaded( card.smallImage, card );
+            }
+            else
+            {
+                var smallImageUrl = card.cardAPIData.card_images[0].image_url_small;
+                StartCoroutine( APICallHandler.Instance.DownloadImage( smallImageUrl, true, ( texture ) => OnImageDownloaded( texture, card ) ) );
+            }
+        }
+    }
+
+    private void OnImageDownloaded( Texture2D texture, CardDataRuntime cardData )
+    {
+        if( !searchUIEntries.ContainsKey( cardData ) )
+            return;
+
+        // Idx 1 because 0 is the UI entry background (1 is the preview card image)
+        var cardPreview = searchUIEntries[cardData].GetComponentsInChildren<Image>()[1];
+        cardPreview.sprite = Utility.CreateSprite( texture );
+        cardPreview.color = Color.white;
+        cardData.smallImage = texture;
     }
 
     protected abstract GameObject AddCardUI( CardDataRuntime card, int entryIdx );
@@ -246,5 +289,36 @@ public abstract class SearchPageBase : EventReceiverInstance
         {
             searchListPage.SetActive( false );
         }
+    }
+
+    protected virtual void ShowPage( SearchPageBehaviour newBehaviour, int? binderIndex )
+    {
+        behaviour = newBehaviour;
+
+        searchListPage.SetActive( true );
+
+        List<string> options = new();
+
+        foreach( var (val, str) in Utility.GetEnumValues<InventoryData.Options>().Zip( InventoryData.optionStrings ) )
+        {
+            if( val == InventoryData.Options.CardsInBinderX )
+                options.AddRange( BinderPage.Instance.BinderData.Select( ( x ) => string.Format( str, x.data.name ) ) );
+            else
+                options.Add( str );
+        }
+
+        optionsDropdown.ClearOptions();
+        optionsDropdown.AddOptions( options );
+
+        // Set default
+        bool inventoryMode = behaviour == SearchPageBehaviour.Inventory || behaviour == SearchPageBehaviour.InventoryFromCardPage; 
+        optionsDropdown.SetValueWithoutNotify(
+            binderIndex != null
+                ? ( int )InventoryData.Options.CardsInBinderX + binderIndex.Value
+                : inventoryMode
+                ? ( int )InventoryData.Options.AllCards
+                : ( int )InventoryData.Options.SearchOnline );
+
+        SearchCards();
     }
 }

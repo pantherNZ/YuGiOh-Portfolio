@@ -25,6 +25,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     [SerializeField] Color selectedEntryColour = new();
 
     private List<CardDataRuntime> inventory = new();
+    public List<CardDataRuntime> Inventory { get => inventory; private set { } }
 
     private List<BinderDataRuntime> binderData = new();
     public ReadOnlyCollection<BinderDataRuntime> BinderData { get => binderData.AsReadOnly(); private set { } }
@@ -396,13 +397,16 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                     Debug.Assert( data.data.Count == 1 );
                     var cardData = data.data[0];
 
-                    newBinder.cardList[pageIdx][cardIdx] = new CardDataRuntime()
+                    var newCard = new CardDataRuntime()
                     {
                         name = cardData.name,
                         cardId = cardData.id,
                         imageId = cardData.card_images[0].id,
                         cardAPIData = cardData.DeepCopy(),
                     };
+
+                    newBinder.cardList[pageIdx][cardIdx] = newCard;
+                    inventory.Add( newCard );
                 } ) );
             }
         }

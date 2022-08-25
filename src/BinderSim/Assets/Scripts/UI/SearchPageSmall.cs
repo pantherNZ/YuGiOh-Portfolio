@@ -39,8 +39,8 @@ public class SearchPageSmall : SearchPageBase
                 return;
             }
 
-            behaviour = openPageRequest.behaviour;
-            searchListPage.SetActive( true );
+            var openInventory = e as OpenInventoryPageEvent;
+            ShowPage( openPageRequest.behaviour, openInventory?.currentBinderIdx );
         }
         else if( e is PageFullEvent )
         {
