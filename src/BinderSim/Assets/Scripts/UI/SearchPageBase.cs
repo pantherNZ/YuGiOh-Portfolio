@@ -156,9 +156,9 @@ public abstract class SearchPageBase : EventReceiverInstance
         {
             bool unselect = currentCardSelectedIdx == thisIdx;
             if( currentCardSelectedIdx != null || unselect )
-                GetSelectedCard().GetComponent<Image>().color = Color.clear;
+                GetSelectedCard().GetComponentInChildren<Image>().color = Color.clear;
             if( !unselect )
-                newCardUIEntry.GetComponent<Image>().color = selectedEntryColour;
+                newCardUIEntry.GetComponentInChildren<Image>().color = selectedEntryColour;
             currentCardSelectedIdx = unselect ? null : thisIdx as int?;
         };
 

@@ -371,6 +371,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         newBinderUI.transform.SetParent( bindersList.transform );
 
         var newBinder = new BinderData( id, name, pageCount, pageWidth, pageHeight, imagePath );
+        var bindexIndex = BinderData.Count;
 
         binderData.Add( new BinderDataRuntime()
         {
@@ -406,6 +407,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                     };
 
                     newBinder.cardList[pageIdx][cardIdx] = newCard;
+                    newCard.insideBinderIdx = bindexIndex;
                     inventory.Add( newCard );
                 } ) );
             }
