@@ -19,6 +19,8 @@ public abstract class SearchPageBase : EventReceiverInstance
     [SerializeField] protected int maxSearchResults = 100;
     [SerializeField] protected int autoSearchDelayMS = 500;
     [SerializeField] TMPro.TMP_Dropdown optionsDropdown = null;
+    [SerializeField] TMPro.TextMeshProUGUI cardCountText = null;
+    [SerializeField] TMPro.TextMeshProUGUI totalValueText = null;
 
     protected List<CardDataRuntime> cardData = new();
     protected Dictionary<CardDataRuntime, GameObject> searchUIEntries = new();
@@ -63,6 +65,13 @@ public abstract class SearchPageBase : EventReceiverInstance
         searchUIEntries.Clear();
         cardData.Clear();
 
+
+        bool inventoryMode = behaviour == SearchPageBehaviour.Inventory || behaviour == SearchPageBehaviour.InventoryFromCardPage;
+        if( totalValueText != null )
+            totalValueText.gameObject.SetActive( inventoryMode && optionsDropdown.value != ( int )InventoryData.Options.SearchOnline );
+        if( cardCountText != null )
+            cardCountText.gameObject.SetActive( true );
+
         var search = searchInput.text.Trim();
         SearchRequest( search );
     }
@@ -75,15 +84,16 @@ public abstract class SearchPageBase : EventReceiverInstance
         {
             if( search.Length > 0 )
                 StartCoroutine( APICallHandler.Instance.SendCardSearchRequestFuzzy( search, false, OnSearchResultReceived ) );
+            else if( cardCountText != null )
+                cardCountText.gameObject.SetActive( false );
             return;
         }
 
+        var count = 0;
+        var totalValue = 0.0f;
+
         foreach( var( idx, card ) in BinderPage.Instance.Inventory.Enumerate() )
         {
-            // Limit to 100 results for now
-            if( idx >= maxSearchResults )
-                break;
-
             if( filter == InventoryData.Options.AllCardsInBinders && card.insideBinderIdx == null )
                 continue;
             if( filter == InventoryData.Options.UnusedCards && card.insideBinderIdx != null )
@@ -97,8 +107,21 @@ public abstract class SearchPageBase : EventReceiverInstance
             if( search.Length > 0 && !card.name.Contains( search ) )
                 continue;
 
+                        count++;
+            if( float.TryParse( card.cardAPIData.card_prices[0].tcgplayer_price, out float price ) )
+                totalValue += price;
+
+            // Limit to 100 results for now
+            if( idx >= maxSearchResults )
+                break;
+
             AddCard( card );
         }
+
+        if( cardCountText != null )
+            cardCountText.text = String.Format( "{0} Cards", count );
+        if( totalValueText != null ) 
+            totalValueText.text = String.Format( "Total Vaue: ${0}", totalValue );
     }
 
     void OnSearchResultReceived( string result )
@@ -110,9 +133,13 @@ public abstract class SearchPageBase : EventReceiverInstance
             if( data.data.IsEmpty() )
             {
                 AddCard( new CardDataRuntime() { name = "No results found" } );
+                if( cardCountText != null ) 
+                    cardCountText.gameObject.SetActive( false );
             }
             else
             {
+                var totalValue = 0.0f;
+
                 foreach( var (idx, card) in data.data.Enumerate() )
                 {
                     // Limit to 100 results for now
@@ -126,7 +153,15 @@ public abstract class SearchPageBase : EventReceiverInstance
                         imageId = card.card_images[0].id,
                         cardAPIData = card.DeepCopy(),
                     } );
+
+                    if( float.TryParse( card.card_prices[0].tcgplayer_price, out float price ) )
+                        totalValue += price;
                 }
+
+                if( cardCountText != null ) 
+                    cardCountText.text = String.Format( "{0} Cards", data.data.Count );
+                if( totalValueText != null ) 
+                    totalValueText.text = String.Format( "Total Vaue: ${0}", totalValue );
             }
         }
         catch( Exception e )
