@@ -23,10 +23,12 @@ public abstract class SearchPageBase : EventReceiverInstance
     [SerializeField] TMPro.TextMeshProUGUI totalValueText = null;
 
     protected List<CardDataRuntime> cardData = new();
+    protected List<CardDataRuntime> tempImportInventory;
     protected Dictionary<CardDataRuntime, GameObject> searchUIEntries = new();
     protected int? currentCardSelectedIdx;
     protected SearchPageBehaviour behaviour = SearchPageBehaviour.None;
     private Coroutine searchCountdown;
+    private bool pageFull;
 
     protected override void Start()
     {
@@ -36,8 +38,15 @@ public abstract class SearchPageBase : EventReceiverInstance
 
         searchInput.onValueChanged.AddListener( OnSearchTextchanged );
 
-        optionsDropdown.onValueChanged.AddListener( ( x ) =>
+        optionsDropdown.onValueChanged.AddListener( ( _ ) =>
         {
+            var dropDownIdx = optionsDropdown.value + ( tempImportInventory == null ? 1 : 0 );
+            if( dropDownIdx != ( int )InventoryData.Options.TempInventory && tempImportInventory != null )
+            {
+                tempImportInventory = null;
+                PopulateOptions();
+            }
+
             SearchCards();
         } );
     }
@@ -67,8 +76,10 @@ public abstract class SearchPageBase : EventReceiverInstance
 
 
         bool inventoryMode = behaviour == SearchPageBehaviour.Inventory || behaviour == SearchPageBehaviour.InventoryFromCardPage;
+        var dropDownIdx = optionsDropdown.value + ( tempImportInventory == null ? 1 : 0 );
+
         if( totalValueText != null )
-            totalValueText.gameObject.SetActive( inventoryMode && optionsDropdown.value != ( int )InventoryData.Options.SearchOnline );
+            totalValueText.gameObject.SetActive( inventoryMode && dropDownIdx != ( int )InventoryData.Options.SearchOnline );
         if( cardCountText != null )
             cardCountText.gameObject.SetActive( true );
 
@@ -78,7 +89,8 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     void SearchRequest( string search )
     {
-        var filter = ( InventoryData.Options )( Mathf.Min( optionsDropdown.value, ( int )InventoryData.Options.OptionsCount - 1 ) );
+        var dropDownIdx = optionsDropdown.value + ( tempImportInventory == null ? 1 : 0 );
+        var filter = ( InventoryData.Options )( Mathf.Min( dropDownIdx, ( int )InventoryData.Options.OptionsCount - 1 ) );
 
         if( filter == InventoryData.Options.SearchOnline )
         {
@@ -92,7 +104,11 @@ public abstract class SearchPageBase : EventReceiverInstance
         var count = 0;
         var totalValue = 0.0f;
 
-        foreach( var( idx, card ) in BinderPage.Instance.Inventory.Enumerate() )
+        var inventory = filter == InventoryData.Options.TempInventory
+            ? tempImportInventory
+            : BinderPage.Instance.Inventory;
+
+        foreach( var( idx, card ) in inventory.Enumerate() )
         {
             if( filter == InventoryData.Options.AllCardsInBinders && card.insideBinderIdx == null )
                 continue;
@@ -100,14 +116,14 @@ public abstract class SearchPageBase : EventReceiverInstance
                 continue;
             if( filter == InventoryData.Options.CardsInBinderX )
             {
-                int binderIndex = optionsDropdown.value - ( int )InventoryData.Options.CardsInBinderX;
+                int binderIndex = dropDownIdx - ( int )InventoryData.Options.CardsInBinderX;
                 if( card.insideBinderIdx == null || card.insideBinderIdx.Value != binderIndex )
                     continue;
             }
             if( search.Length > 0 && !card.name.Contains( search ) )
                 continue;
 
-                        count++;
+            count++;
             if( float.TryParse( card.cardAPIData.card_prices[0].tcgplayer_price, out float price ) )
                 totalValue += price;
 
@@ -121,7 +137,7 @@ public abstract class SearchPageBase : EventReceiverInstance
         if( cardCountText != null )
             cardCountText.text = String.Format( "{0} Cards", count );
         if( totalValueText != null ) 
-            totalValueText.text = String.Format( "Total Vaue: ${0}", totalValue );
+            totalValueText.text = String.Format( "Total Value: ${0}", Convert.ToInt32( totalValue ) );
     }
 
     void OnSearchResultReceived( string result )
@@ -161,7 +177,7 @@ public abstract class SearchPageBase : EventReceiverInstance
                 if( cardCountText != null ) 
                     cardCountText.text = String.Format( "{0} Cards", data.data.Count );
                 if( totalValueText != null ) 
-                    totalValueText.text = String.Format( "Total Vaue: ${0}", totalValue );
+                    totalValueText.text = String.Format( "Total Vaue: ${0}", Convert.ToInt32( totalValue ) );
             }
         }
         catch( Exception e )
@@ -256,7 +272,7 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     protected void ChooseCardInternal( bool fromDragDrop )
     {
-        if( !fromDragDrop && behaviour == SearchPageBehaviour.AddingCardsPageFull )
+        if( !fromDragDrop && pageFull )
             return;
 
         Debug.Assert( currentCardSelectedIdx != null );
@@ -277,7 +293,7 @@ public abstract class SearchPageBase : EventReceiverInstance
 
         // Only hide this page if we are selecting for a specific card
         // This intentionally will switch back to the card list if the page is now full
-        // (new behaviour will be set to AddingCardsPageFull via the PageFullEvent)
+        // (pageFull set to true via the PageFullEvent)
         if( !fromDragDrop && behaviour != SearchPageBehaviour.AddingCards )
             searchListPage.SetActive( false );
 
@@ -311,10 +327,12 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     public void ShowFullscreenSearch( bool fullscreen )
     {
+        var replaceOrSet = behaviour == SearchPageBehaviour.ReplacingCard || behaviour == SearchPageBehaviour.SettingCard;
+
         EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
         {
             page = fullscreen ? PageType.SearchPageFull : PageType.SearchPage,
-            behaviour = fullscreen ? SearchPageBehaviour.AddingCards : behaviour
+            behaviour = ( fullscreen && replaceOrSet ) ? SearchPageBehaviour.AddingCards : behaviour
         } );
     }
 
@@ -324,18 +342,49 @@ public abstract class SearchPageBase : EventReceiverInstance
         {
             searchListPage.SetActive( false );
         }
+        else if( e is PageFullEvent )
+        {
+            Debug.Assert( behaviour == SearchPageBehaviour.AddingCards );
+            pageFull = true;
+        }
     }
 
     protected virtual void ShowPage( SearchPageBehaviour newBehaviour, int? binderIndex )
     {
         behaviour = newBehaviour;
-
         searchListPage.SetActive( true );
+        PopulateOptions();
 
+        // Set default
+        if( binderIndex != null )
+        {
+            optionsDropdown.SetValueWithoutNotify( ( int )InventoryData.Options.CardsInBinderX + binderIndex.Value );
+        }
+        else if( tempImportInventory != null )
+        {
+            optionsDropdown.SetValueWithoutNotify( ( int )InventoryData.Options.TempInventory );
+        }
+        else if( behaviour == SearchPageBehaviour.Inventory || behaviour == SearchPageBehaviour.InventoryFromCardPage )
+        {
+            optionsDropdown.SetValueWithoutNotify( ( int )InventoryData.Options.AllCards );
+        }
+        else
+        {
+            optionsDropdown.SetValueWithoutNotify( ( int )InventoryData.Options.SearchOnline );
+        }
+
+        SearchCards();
+    }
+
+    private void PopulateOptions()
+    {
         List<string> options = new();
 
         foreach( var (val, str) in Utility.GetEnumValues<InventoryData.Options>().Zip( InventoryData.optionStrings ) )
         {
+            if( tempImportInventory == null && val == InventoryData.Options.TempInventory )
+                continue;
+
             if( val == InventoryData.Options.CardsInBinderX )
                 options.AddRange( BinderPage.Instance.BinderData.Select( ( x ) => string.Format( str, x.data.name ) ) );
             else
@@ -344,16 +393,14 @@ public abstract class SearchPageBase : EventReceiverInstance
 
         optionsDropdown.ClearOptions();
         optionsDropdown.AddOptions( options );
+    }
 
-        // Set default
-        bool inventoryMode = behaviour == SearchPageBehaviour.Inventory || behaviour == SearchPageBehaviour.InventoryFromCardPage; 
-        optionsDropdown.SetValueWithoutNotify(
-            binderIndex != null
-                ? ( int )InventoryData.Options.CardsInBinderX + binderIndex.Value
-                : inventoryMode
-                ? ( int )InventoryData.Options.AllCards
-                : ( int )InventoryData.Options.SearchOnline );
-
-        SearchCards();
+    public void ImportFromFile()
+    {
+        BinderPage.Instance.LoadFromDragonShieldTxtFile( ( importData ) =>
+        {
+            tempImportInventory = importData.cards;
+            ShowPage( behaviour, null );
+        } );
     }
 }

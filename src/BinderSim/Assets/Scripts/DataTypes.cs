@@ -129,8 +129,13 @@ public class CardDataRuntime : CardData
     public int? insideBinderIdx;
 }
 
-public static class ImportData
+public class ImportData
 {
+    public string name;
+    public int count;
+    public int totalValue;
+    public List<CardDataRuntime> cards = new();
+
     public enum Options
     {
         CreatePopulatedBinder,
@@ -155,6 +160,7 @@ public static class InventoryData
 {
     public enum Options
     {
+        TempInventory,
         SearchOnline,
         AllCards,
         AllCardsInBinders,
@@ -167,6 +173,7 @@ public static class InventoryData
     public static readonly ReadOnlyCollection<string> optionStrings = new(
         new string[( int )Options.OptionsCount]
     {
+        "Imported Cards",
         "Search Online",
         "All Owned Cards",
         "All Cards In Binders",

@@ -21,9 +21,8 @@ public enum SearchPageBehaviour
     SettingCard,
     ReplacingCard,
     AddingCards,
-    AddingCardsPageFull,
     Inventory,
-    InventoryFromCardPage,
+    InventoryFromCardPage
 }
 
 public class OpenSearchPageEvent : PageChangeRequestEvent

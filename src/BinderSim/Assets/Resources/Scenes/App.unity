@@ -4783,7 +4783,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 273409574}
         m_TargetAssemblyTypeName: BinderPage, Assembly-CSharp
-        m_MethodName: LoadFromDragonShieldTxtFile
+        m_MethodName: ImportFromDragonShieldTxtFile
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14375,8 +14375,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 273409575}
-        m_TargetAssemblyTypeName: SearchPage, Assembly-CSharp
-        m_MethodName: 
+        m_TargetAssemblyTypeName: SearchPageBase, Assembly-CSharp
+        m_MethodName: ImportFromFile
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

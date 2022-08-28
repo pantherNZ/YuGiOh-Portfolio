@@ -40,18 +40,15 @@ public class SearchPageFull : SearchPageBase
             var openInventory = e as OpenInventoryPageEvent;
             ShowPage( openPageRequest.behaviour, openInventory?.currentBinderIdx );
         }
-        else if( e is PageFullEvent )
-        {
-            Debug.Assert( behaviour == SearchPageBehaviour.AddingCards );
-            behaviour = SearchPageBehaviour.AddingCardsPageFull;
-        }
     }
 
     protected override void ShowPage( SearchPageBehaviour newBehaviour, int? binderIndex )
     {
         base.ShowPage( newBehaviour, binderIndex );
 
-        bool inventoryMode = behaviour == SearchPageBehaviour.Inventory || behaviour == SearchPageBehaviour.InventoryFromCardPage;
+        bool inventoryMode = behaviour == SearchPageBehaviour.Inventory
+            || behaviour == SearchPageBehaviour.InventoryFromCardPage;
+
         advancedSearchButton.gameObject.SetActive( !inventoryMode );
         importFromFileButton.gameObject.SetActive( inventoryMode );
 

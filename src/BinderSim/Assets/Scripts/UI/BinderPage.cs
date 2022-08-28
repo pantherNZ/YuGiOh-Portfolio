@@ -33,8 +33,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     private int? currentSelectedBinderIdx;
     private int currentBinderSavingIndex;
 
-    private List<CardDataRuntime> savedImportedData;
-    private string savedImportedName;
+    private ImportData savedImportedData;
 
     private System.Random rng = new();
 
@@ -179,37 +178,42 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         }
     }
 
-    public void LoadFromDragonShieldTxtFile()
+    public void ImportFromDragonShieldTxtFile()
     {
-        var extensions = new[] { new ExtensionFilter("Text Files", "txt" ) };
+        LoadFromDragonShieldTxtFile( ShowImportDialog );
+    }
+
+    public void LoadFromDragonShieldTxtFile( Action<ImportData> onSearchCompleteCallback )
+    {
+        var extensions = new[] { new ExtensionFilter( "Text Files", "txt" ) };
         StandaloneFileBrowser.OpenFilePanelAsync( "Open File", "", extensions, false, ( paths ) =>
         {
             foreach( var path in paths )
-                StartCoroutine( OnFileUpload( new System.Uri( path ) ) );
+                StartCoroutine( OnFileUpload( new Uri( path ), onSearchCompleteCallback ) );
         } );
     }
 
-    private IEnumerator OnFileUpload( Uri uri )
+    private IEnumerator OnFileUpload( Uri uri, Action<ImportData> onSearchCompleteCallback )
     {
         if( Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor )
         {
-            var data = System.IO.File.ReadAllText( uri.AbsolutePath );
-            yield return FileLoadedRoutine( uri, data );
+            var data = File.ReadAllText( uri.AbsolutePath );
+            yield return FileLoadedRoutine( uri, data, onSearchCompleteCallback );
         }
         else
         {
             var loader = new UnityWebRequest( uri );
             yield return loader.SendWebRequest();
-            yield return FileLoadedRoutine( uri, loader.downloadHandler.text );
+            yield return FileLoadedRoutine( uri, loader.downloadHandler.text, onSearchCompleteCallback );
         }
     }
 
-    private IEnumerator FileLoadedRoutine( Uri uri, string fileData )
+    private IEnumerator FileLoadedRoutine( Uri uri, string fileData, Action<ImportData> onSearchCompleteCallback )
     {
-        savedImportedName = Path.GetFileNameWithoutExtension( uri.AbsolutePath );
-        savedImportedData = new();
+        ImportData importData = new();
+        importData.name = Path.GetFileNameWithoutExtension( uri.AbsolutePath );
+
         var lines = fileData.Split( new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries );
-        int idx = 0;
         float totalValue = 0.0f;
 
         foreach( var line in lines )
@@ -226,7 +230,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             var condition = data[data.Length - 4].Trim();
             var setCode = data[data.Length - 5].Trim();
             var cardName = string.Join( ",", data.Skip( 1 ).Take( data.Length - 7 ) ).Trim();
-            idx++;
+            importData.count++;
 
             yield return APICallHandler.Instance.SendCardSearchRequest( cardName, true, ( json ) =>
             {
@@ -237,7 +241,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                 if( float.TryParse( card.card_prices[0].tcgplayer_price, out var value ) )
                     totalValue += value;
 
-                savedImportedData.Add( new CardDataRuntime()
+                importData.cards.Add( new CardDataRuntime()
                 {
                     name = card.name,
                     cardId = card.id,
@@ -247,12 +251,19 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             } );
         }
 
+        importData.totalValue = Convert.ToInt32( totalValue );
+        onSearchCompleteCallback( importData );
+    }
+
+    private void ShowImportDialog( ImportData importData )
+    {
+        savedImportedData = importData;
         importDialogPanel.SetActive( true );
 
         var texts = importDialogPanel.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
-        texts[0].text = savedImportedName;
-        texts[1].text = string.Format("{0} cards", idx);
-        texts[2].text = string.Format("Total Value: ${0}", totalValue);
+        texts[0].text = importData.name;
+        texts[1].text = string.Format("{0} cards", importData.count );
+        texts[2].text = string.Format("Total Value: ${0}", importData.totalValue );
 
         var dropDown = importDialogPanel.GetComponentInChildren<TMPro.TMP_Dropdown>();
         List<string> options = new();
@@ -277,27 +288,28 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         {
             case ImportData.Options.CreatePopulatedBinder:
                 {
-                    var newBinder = NewBinderInternal( savedImportedName );
-                    newBinder.data.AddCards( savedImportedData );
+                    var newBinder = NewBinderInternal( savedImportedData.name );
+                    newBinder.data.AddCards( savedImportedData.cards );
                     break;
                 }
             case ImportData.Options.AddToInventory:
                 {
+                    inventory.AddRange( savedImportedData.cards );
                     break;
                 }
             case ImportData.Options.ReplaceInventory:
                 {
+                    inventory = savedImportedData.cards;
                     break;
                 }
             case ImportData.Options.AddToExistingBinderX:
                 {
                     int binderIndex = dropDown.value - ( int )ImportData.Options.AddToExistingBinderX;
-                    binderData[binderIndex].data.AddCards( savedImportedData );
+                    binderData[binderIndex].data.AddCards( savedImportedData.cards );
                     break;
                 }
         }
 
-        savedImportedName = null;
         savedImportedData = null;
     }
 

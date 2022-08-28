@@ -498,10 +498,11 @@ public class CardPage : EventReceiverInstance
         EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
         {
             page = PageType.SearchPage,
-            behaviour = FindNextEmptyCardSlot() == null 
-                ? SearchPageBehaviour.AddingCardsPageFull 
-                : SearchPageBehaviour.AddingCards
+            behaviour = SearchPageBehaviour.AddingCards
         } );
+
+        if( FindNextEmptyCardSlot() == null )
+            EventSystem.Instance.TriggerEvent( new PageFullEvent() );
     }
 
     public void OpenSearchPanel( int page, int pos )

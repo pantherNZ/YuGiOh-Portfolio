@@ -42,11 +42,6 @@ public class SearchPageSmall : SearchPageBase
             var openInventory = e as OpenInventoryPageEvent;
             ShowPage( openPageRequest.behaviour, openInventory?.currentBinderIdx );
         }
-        else if( e is PageFullEvent )
-        {
-            Debug.Assert( behaviour == SearchPageBehaviour.AddingCards );
-            behaviour = SearchPageBehaviour.AddingCardsPageFull;
-        }
     }
 
     public void SwitchSides()
