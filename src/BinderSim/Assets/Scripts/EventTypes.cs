@@ -15,16 +15,6 @@ public class CardSelectedEvent : IBaseEvent
 
 public class CardImageLoadedEvent : IBaseEvent { public CardDataRuntime card; }
 
-public enum SearchPageBehaviour
-{
-    None,
-    SettingCard,
-    ReplacingCard,
-    AddingCards,
-    Inventory,
-    InventoryFromCardPage
-}
-
 public class OpenSearchPageEvent : PageChangeRequestEvent
 {
     public SearchPageBehaviour behaviour;

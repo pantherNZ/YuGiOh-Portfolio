@@ -81,20 +81,6 @@ public class BinderData
         }
     }
 
-    public void AddCards( List<CardDataRuntime> cards )
-    {
-        foreach( var (idx, card) in cards.Enumerate() )
-        {
-            var cardIndex = Utility.Mod( idx, pageWidth * pageHeight );
-            var pageIndex = idx / ( pageWidth * pageHeight );
-
-            if( pageIndex >= cardList.Count )
-                Insert( pageIndex );
-
-            cardList[pageIndex][cardIndex] = card;
-        }
-    }
-
     public long id;
     public string name;
     public DateTime dateCreated;
@@ -107,6 +93,21 @@ public class BinderData
 
 public class BinderDataRuntime
 {
+    public void AddCards( List<CardDataRuntime> cards )
+    {
+        foreach( var (idx, card) in cards.Enumerate() )
+        {
+            var cardIndex = Utility.Mod( idx, data.pageWidth * data.pageHeight );
+            var pageIndex = idx / ( data.pageWidth * data.pageHeight );
+
+            if( pageIndex >= data.cardList.Count )
+                data.Insert( pageIndex );
+
+            card.insideBinderIdx = index;
+            data.cardList[pageIndex][cardIndex] = card;
+        }
+    }
+
     public BinderData data;
     public GameObject binderUI;
     public int index;
@@ -127,6 +128,16 @@ public class CardDataRuntime : CardData
     public Texture2D largeImage;
     public bool largeImageRequsted;
     public int? insideBinderIdx;
+}
+
+public enum SearchPageBehaviour
+{
+    None,
+    SettingCard,
+    ReplacingCard,
+    AddingCards,
+    Inventory,
+    InventoryFromCardPage
 }
 
 public class ImportData

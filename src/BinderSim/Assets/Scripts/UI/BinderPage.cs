@@ -46,6 +46,9 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
         foreach(var save in SaveGameSystem.GetSaveGames() )
         {
+            if( save.EndsWith( "_backup" ) )
+                continue;
+
             if( !SaveGameSystem.LoadGame( save ) )
                 Debug.LogError( "Failed to load save file: " + save );
             else
@@ -79,15 +82,41 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         if( currentSelectedBinderIdx == null )
             return;
 
+        // Delete the save file (but create a backup first)
+        currentBinderSavingIndex = currentSelectedBinderIdx.Value;
+        var binderName = binderData[currentBinderSavingIndex].data.name;
+        SaveGameSystem.SaveGame( binderName + "_backup" );
+        SaveGameSystem.DeleteGame( binderName );
+
         GetSelectedBinder().Destroy();
         binderData.RemoveAt( currentSelectedBinderIdx.Value );
 
         for( int i = currentSelectedBinderIdx.Value; i < binderData.Count; ++i )
             binderData[i].index--;
 
+        // Fix card in inventory indices
+        foreach( var card in inventory )
+        {
+            if( card.insideBinderIdx == null )
+                continue;
+
+            if( card.insideBinderIdx.Value == currentSelectedBinderIdx.Value )
+                card.insideBinderIdx = null;
+            else if( card.insideBinderIdx.Value > currentSelectedBinderIdx.Value )
+                card.insideBinderIdx = card.insideBinderIdx.Value - 1;
+        }
+
+        var index = currentSelectedBinderIdx.Value;
         currentSelectedBinderIdx = null;
         editButton.interactable = false;
         deleteButton.interactable = false;
+
+        // Select next entry
+        if( binderData.Count > 0 )
+        {
+            var binder = binderData[Mathf.Min( index, binderData.Count - 1 )];
+            binder.binderUI.GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( null );
+        }
     }
 
     public void NewBinder()
@@ -289,7 +318,8 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             case ImportData.Options.CreatePopulatedBinder:
                 {
                     var newBinder = NewBinderInternal( savedImportedData.name );
-                    newBinder.data.AddCards( savedImportedData.cards );
+                    newBinder.AddCards( savedImportedData.cards );
+                    inventory.AddRange( savedImportedData.cards );
                     break;
                 }
             case ImportData.Options.AddToInventory:
@@ -305,7 +335,8 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             case ImportData.Options.AddToExistingBinderX:
                 {
                     int binderIndex = dropDown.value - ( int )ImportData.Options.AddToExistingBinderX;
-                    binderData[binderIndex].data.AddCards( savedImportedData.cards );
+                    binderData[binderIndex].AddCards( savedImportedData.cards );
+                    inventory.AddRange( savedImportedData.cards );
                     break;
                 }
         }
