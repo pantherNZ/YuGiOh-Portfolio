@@ -40,8 +40,7 @@ public abstract class SearchPageBase : EventReceiverInstance
 
         optionsDropdown.onValueChanged.AddListener( ( _ ) =>
         {
-            var dropDownIdx = optionsDropdown.value + ( tempImportInventory == null ? 1 : 0 );
-            if( dropDownIdx != ( int )InventoryData.Options.TempInventory && tempImportInventory != null )
+            if( GetDropDownOption() != ( int )InventoryData.Options.TempInventory && tempImportInventory != null )
             {
                 tempImportInventory = null;
                 PopulateOptions();
@@ -76,10 +75,9 @@ public abstract class SearchPageBase : EventReceiverInstance
 
 
         bool inventoryMode = behaviour == SearchPageBehaviour.Inventory || behaviour == SearchPageBehaviour.InventoryFromCardPage;
-        var dropDownIdx = optionsDropdown.value + ( tempImportInventory == null ? 1 : 0 );
 
         if( totalValueText != null )
-            totalValueText.gameObject.SetActive( inventoryMode && dropDownIdx != ( int )InventoryData.Options.SearchOnline );
+            totalValueText.gameObject.SetActive( inventoryMode && GetDropDownOption() != InventoryData.Options.SearchOnline );
         if( cardCountText != null )
             cardCountText.gameObject.SetActive( true );
 
@@ -89,8 +87,8 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     void SearchRequest( string search )
     {
-        var dropDownIdx = optionsDropdown.value + ( tempImportInventory == null ? 1 : 0 );
-        var filter = ( InventoryData.Options )( Mathf.Min( dropDownIdx, ( int )InventoryData.Options.OptionsCount - 1 ) );
+        var dropDownIdx = GetDropDownOptionIdx();
+        var filter = GetDropDownOption();
 
         if( filter == InventoryData.Options.SearchOnline )
         {
@@ -213,12 +211,14 @@ public abstract class SearchPageBase : EventReceiverInstance
             currentCardSelectedIdx = unselect ? null : thisIdx as int?;
         };
 
-        // TODO: Double click to choose
-        eventDispatcher.OnDoubleClickEvent += ( PointerEventData e ) =>
+        if( behaviour != SearchPageBehaviour.Inventory )
         {
-            currentCardSelectedIdx = thisIdx;
-            ChooseCard();
-        };
+            eventDispatcher.OnDoubleClickEvent += ( PointerEventData e ) =>
+            {
+                currentCardSelectedIdx = thisIdx;
+                ChooseCard();
+            };
+        }
 
         // TODO: Hover to show card image?
         eventDispatcher.OnPointerEnterEvent += ( PointerEventData e ) =>
@@ -349,31 +349,47 @@ public abstract class SearchPageBase : EventReceiverInstance
         }
     }
 
-    protected virtual void ShowPage( SearchPageBehaviour newBehaviour, int? binderIndex )
+    protected virtual void ShowPage( OpenSearchPageEvent request, int? binderIndex )
     {
-        behaviour = newBehaviour;
+        behaviour = request.behaviour;
+        pageFull = request.pageFull;
         searchListPage.SetActive( true );
         PopulateOptions();
 
         // Set default
         if( binderIndex != null )
         {
-            optionsDropdown.SetValueWithoutNotify( ( int )InventoryData.Options.CardsInBinderX + binderIndex.Value );
+            SetDropDownOption( InventoryData.Options.CardsInBinderX + binderIndex.Value );
         }
         else if( tempImportInventory != null )
         {
-            optionsDropdown.SetValueWithoutNotify( ( int )InventoryData.Options.TempInventory );
+            SetDropDownOption( InventoryData.Options.TempInventory );
         }
         else if( behaviour == SearchPageBehaviour.Inventory || behaviour == SearchPageBehaviour.InventoryFromCardPage )
         {
-            optionsDropdown.SetValueWithoutNotify( ( int )InventoryData.Options.AllCards );
+            SetDropDownOption( InventoryData.Options.AllCards );
         }
         else
         {
-            optionsDropdown.SetValueWithoutNotify( ( int )InventoryData.Options.SearchOnline );
+            SetDropDownOption( InventoryData.Options.SearchOnline );
         }
 
         SearchCards();
+    }
+
+    private void SetDropDownOption( InventoryData.Options option )
+    {
+        optionsDropdown.SetValueWithoutNotify( ( int )option - ( tempImportInventory == null ? 1 : 0 ) );
+    }
+
+    protected int GetDropDownOptionIdx()
+    {
+        return optionsDropdown.value + ( tempImportInventory == null ? 1 : 0 );
+    }
+
+    protected InventoryData.Options GetDropDownOption()
+    {
+        return ( InventoryData.Options )( Mathf.Min( GetDropDownOptionIdx(), ( int )InventoryData.Options.OptionsCount - 1 ) );
     }
 
     private void PopulateOptions()
@@ -400,7 +416,7 @@ public abstract class SearchPageBase : EventReceiverInstance
         BinderPage.Instance.LoadFromDragonShieldTxtFile( ( importData ) =>
         {
             tempImportInventory = importData.cards;
-            ShowPage( behaviour, null );
+            ShowPage( new OpenSearchPageEvent() { behaviour = behaviour, pageFull = pageFull }, null );
         } );
     }
 }

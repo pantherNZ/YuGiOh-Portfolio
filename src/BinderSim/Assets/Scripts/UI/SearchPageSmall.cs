@@ -40,7 +40,7 @@ public class SearchPageSmall : SearchPageBase
             }
 
             var openInventory = e as OpenInventoryPageEvent;
-            ShowPage( openPageRequest.behaviour, openInventory?.currentBinderIdx );
+            ShowPage( openPageRequest, openInventory?.currentBinderIdx );
         }
     }
 

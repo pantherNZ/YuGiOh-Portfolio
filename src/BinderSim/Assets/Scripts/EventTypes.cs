@@ -18,6 +18,7 @@ public class CardImageLoadedEvent : IBaseEvent { public CardDataRuntime card; }
 public class OpenSearchPageEvent : PageChangeRequestEvent
 {
     public SearchPageBehaviour behaviour;
+    public bool pageFull;
 }
 
 public class OpenInventoryPageEvent : OpenSearchPageEvent

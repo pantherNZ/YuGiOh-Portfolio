@@ -16,11 +16,18 @@ public class SearchPageFull : SearchPageBase
         var texts = newCardUIEntry.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
         texts[0].text = card.name;
 
-        newCardUIEntry.GetComponentInChildren<Button>().onClick.AddListener( () =>
+        var button = newCardUIEntry.GetComponentInChildren<Button>();
+        button.gameObject.SetActive( behaviour != SearchPageBehaviour.Inventory );
+
+        if( behaviour != SearchPageBehaviour.Inventory )
         {
-            currentCardSelectedIdx = entryIdx;
-            ChooseCard();
-        } );
+            button.onClick.AddListener( () =>
+            {
+                currentCardSelectedIdx = entryIdx;
+                ChooseCard();
+            } );
+        }
+
 
         return newCardUIEntry;
     }
@@ -38,13 +45,13 @@ public class SearchPageFull : SearchPageBase
             }
 
             var openInventory = e as OpenInventoryPageEvent;
-            ShowPage( openPageRequest.behaviour, openInventory?.currentBinderIdx );
+            ShowPage( openPageRequest, openInventory?.currentBinderIdx );
         }
     }
 
-    protected override void ShowPage( SearchPageBehaviour newBehaviour, int? binderIndex )
+    protected override void ShowPage( OpenSearchPageEvent request, int? binderIndex )
     {
-        base.ShowPage( newBehaviour, binderIndex );
+        base.ShowPage( request, binderIndex );
 
         bool inventoryMode = behaviour == SearchPageBehaviour.Inventory
             || behaviour == SearchPageBehaviour.InventoryFromCardPage;

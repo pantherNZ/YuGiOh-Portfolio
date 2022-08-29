@@ -231,7 +231,6 @@ public class CardPage : EventReceiverInstance
 
         if( data != null )
         {
-
             if( !e.fromDragDrop && FindNextEmptyCardSlot() == null )
                 EventSystem.Instance.TriggerEvent( new PageFullEvent() );
 
@@ -498,11 +497,9 @@ public class CardPage : EventReceiverInstance
         EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
         {
             page = PageType.SearchPage,
-            behaviour = SearchPageBehaviour.AddingCards
+            behaviour = SearchPageBehaviour.AddingCards,
+            pageFull = FindNextEmptyCardSlot() == null,
         } );
-
-        if( FindNextEmptyCardSlot() == null )
-            EventSystem.Instance.TriggerEvent( new PageFullEvent() );
     }
 
     public void OpenSearchPanel( int page, int pos )
@@ -514,7 +511,8 @@ public class CardPage : EventReceiverInstance
             page = PageType.SearchPage,
             behaviour = currentbinder.data.cardList[page][pos] == null 
                 ? SearchPageBehaviour.SettingCard
-                : SearchPageBehaviour.ReplacingCard
+                : SearchPageBehaviour.ReplacingCard,
+            pageFull = FindNextEmptyCardSlot() == null,
         } );
     }
 
@@ -523,6 +521,7 @@ public class CardPage : EventReceiverInstance
         EventSystem.Instance.TriggerEvent( new OpenInventoryPageEvent()
         {
             currentBinderIdx = BinderPage.Instance.BinderData.IndexOf(currentbinder),
+            pageFull = FindNextEmptyCardSlot() == null,
         } );
     }
 
