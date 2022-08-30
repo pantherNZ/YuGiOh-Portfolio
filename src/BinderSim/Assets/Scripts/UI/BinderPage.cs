@@ -320,7 +320,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                             if( cardIndex == -1 )
                             {
                                 Debug.LogError( String.Format( "Failed to find card index from set ID: {0} (card: {1})", card.name, importedCard.setCode ) );
-                                continue;
+                                cardIndex = 0;
                             }
 
                             if( float.TryParse( card.card_sets[cardIndex].set_price, out var value ) )
