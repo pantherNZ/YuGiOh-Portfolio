@@ -122,7 +122,7 @@ public abstract class SearchPageBase : EventReceiverInstance
                 continue;
 
             count++;
-            if( float.TryParse( card.cardAPIData.card_prices[0].tcgplayer_price, out float price ) )
+            if( float.TryParse( card.cardAPIData.card_sets[card.cardIndex].set_price, out float price ) )
                 totalValue += price;
 
             // Limit to 100 results for now
@@ -135,7 +135,7 @@ public abstract class SearchPageBase : EventReceiverInstance
         if( cardCountText != null )
             cardCountText.text = String.Format( "{0} Cards", count );
         if( totalValueText != null ) 
-            totalValueText.text = String.Format( "Total Value: ${0}", Convert.ToInt32( totalValue ) );
+            totalValueText.text = String.Format( "Total Value: ${0:0.00}", totalValue );
     }
 
     void OnSearchResultReceived( string result )
@@ -152,8 +152,6 @@ public abstract class SearchPageBase : EventReceiverInstance
             }
             else
             {
-                var totalValue = 0.0f;
-
                 foreach( var (idx, card) in data.data.Enumerate() )
                 {
                     // Limit to 100 results for now
@@ -164,18 +162,13 @@ public abstract class SearchPageBase : EventReceiverInstance
                     {
                         name = card.name,
                         cardId = card.id,
-                        imageId = card.card_images[0].id,
+                        cardIndex = 0,
                         cardAPIData = card.DeepCopy(),
                     } );
-
-                    if( float.TryParse( card.card_prices[0].tcgplayer_price, out float price ) )
-                        totalValue += price;
                 }
 
                 if( cardCountText != null ) 
                     cardCountText.text = String.Format( "{0} Cards", data.data.Count );
-                if( totalValueText != null ) 
-                    totalValueText.text = String.Format( "Total Vaue: ${0}", Convert.ToInt32( totalValue ) );
             }
         }
         catch( Exception e )
@@ -208,7 +201,7 @@ public abstract class SearchPageBase : EventReceiverInstance
                 GetSelectedCard().GetComponentInChildren<Image>().color = Color.clear;
             if( !unselect )
                 newCardUIEntry.GetComponentInChildren<Image>().color = selectedEntryColour;
-            currentCardSelectedIdx = unselect ? null : thisIdx as int?;
+            currentCardSelectedIdx = unselect ? null : thisIdx;
         };
 
         if( behaviour != SearchPageBehaviour.Inventory )
@@ -244,7 +237,7 @@ public abstract class SearchPageBase : EventReceiverInstance
             }
             else
             {
-                var smallImageUrl = card.cardAPIData.card_images[0].image_url_small;
+                var smallImageUrl = card.cardAPIData.card_images[card.imageIndex].image_url_small;
                 StartCoroutine( APICallHandler.Instance.DownloadImage( smallImageUrl, true, ( texture ) => OnImageDownloaded( texture, card ) ) );
             }
         }
@@ -301,7 +294,7 @@ public abstract class SearchPageBase : EventReceiverInstance
         {
             data.largeImageRequsted = true;
 
-            StartCoroutine( APICallHandler.Instance.DownloadImage( data.cardAPIData.card_images[0].image_url, true, ( texture ) =>
+            StartCoroutine( APICallHandler.Instance.DownloadImage( data.cardAPIData.card_images[data.imageIndex].image_url, true, ( texture ) =>
             {
                 // TODO: Save/cache image
                 data.largeImage = texture;

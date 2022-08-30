@@ -91,7 +91,6 @@ class APICallHandler
             yield return null;
 
         yield return rateLimiter.WaitForCall( DownloadImageInternal( uri, callback ) );
-
     }
 
     private IEnumerator DownloadImageInternal( string uri, Action<Texture2D> callback )

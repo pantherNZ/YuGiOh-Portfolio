@@ -11,6 +11,7 @@ using SFB;
 using System.Linq;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
+using System.Text;
 
 public class BinderPage : EventReceiverInstance, ISavableComponent
 {
@@ -161,7 +162,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                 GetSelectedBinder().GetComponent<Image>().color = Color.clear;
             if( !unselect )
                 binder.binderUI.GetComponent<Image>().color = selectedEntryColour;
-            currentSelectedBinderIdx = unselect ? null : binder.index as int?;
+            currentSelectedBinderIdx = unselect ? null : binder.index;
             editButton.interactable = !unselect;
             deleteButton.interactable = !unselect;
         };
@@ -227,23 +228,43 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         if( Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor )
         {
             var data = File.ReadAllText( uri.AbsolutePath );
-            yield return FileLoadedRoutine( uri, data, onSearchCompleteCallback );
+            FileLoadedRoutine( uri, data, onSearchCompleteCallback );
         }
         else
         {
             var loader = new UnityWebRequest( uri );
             yield return loader.SendWebRequest();
-            yield return FileLoadedRoutine( uri, loader.downloadHandler.text, onSearchCompleteCallback );
+            FileLoadedRoutine( uri, loader.downloadHandler.text, onSearchCompleteCallback );
         }
     }
 
-    private IEnumerator FileLoadedRoutine( Uri uri, string fileData, Action<ImportData> onSearchCompleteCallback )
+    private int importRequestsComplete = 0;
+    private float totalImportedValue = 0.0f;
+
+    private class ImportCardExtraData
+    {
+        public string setCode;
+        public string condition;
+    }
+
+    private void FileLoadedRoutine( Uri uri, string fileData, Action<ImportData> onSearchCompleteCallback )
     {
         ImportData importData = new();
         importData.name = Path.GetFileNameWithoutExtension( uri.AbsolutePath );
 
         var lines = fileData.Split( new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries );
-        float totalValue = 0.0f;
+        StringBuilder builder = new();
+        var numCards = 0;
+        importRequestsComplete = 0;
+        totalImportedValue = 0.0f;
+        Dictionary<string, List<ImportCardExtraData>> importedCardData = new();
+
+        foreach( var line in lines )
+            if( line.Length > 0 && line.Split( ',' ).Length >= 8 )
+                ++numCards;
+
+        const int maxCardsPerRequest = 50;
+        var requestsTotal = numCards / maxCardsPerRequest + ( numCards % maxCardsPerRequest > 0 ? 1 : 0 );
 
         foreach( var line in lines )
         {
@@ -252,36 +273,78 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
             var data = line.Split( ',' );
 
-            if( data.Length < 8 )
+            if( line.Split( ',' ).Length < 8 )
                 continue;
 
-            var value = data[data.Length - 3].Trim();
-            var condition = data[data.Length - 4].Trim();
-            var setCode = data[data.Length - 5].Trim();
             var cardName = string.Join( ",", data.Skip( 1 ).Take( data.Length - 7 ) ).Trim();
-            importData.count++;
-
-            yield return APICallHandler.Instance.SendCardSearchRequest( cardName, true, ( json ) =>
+            var extraData = new ImportCardExtraData()
             {
-                Root data = JsonConvert.DeserializeObject<Root>( json );
-                Debug.Assert( data.data.Count == 1 );
-                var card = data.data[0];
+                condition = data[^5].Trim(),
+                setCode = data[^6].Trim(),
+            };
 
-                if( float.TryParse( card.card_prices[0].tcgplayer_price, out var value ) )
-                    totalValue += value;
+            if( importedCardData.TryGetValue( cardName.ToLower(), out var items ) )
+            {
+                items.Add( extraData );
+            }
+            else
+            {
+                importedCardData.Add( cardName.ToLower(), new List<ImportCardExtraData>{ extraData } );
+            }
 
-                importData.cards.Add( new CardDataRuntime()
+            builder.Append( importData.count > 0 ? "|" : String.Empty );
+            builder.Append( cardName );
+
+            if( ++importData.count % 50 == 0 || importData.count == numCards )
+            {
+                StartCoroutine( APICallHandler.Instance.SendCardSearchRequest( builder.ToString(), true, ( json ) =>
                 {
-                    name = card.name,
-                    cardId = card.id,
-                    imageId = card.card_images[0].id,
-                    cardAPIData = card.DeepCopy(),
-                } );
-            } );
-        }
+                    Root jsonData = JsonConvert.DeserializeObject<Root>( json );
 
-        importData.totalValue = Convert.ToInt32( totalValue );
-        onSearchCompleteCallback( importData );
+                    foreach( var card in jsonData.data )
+                    {
+                        if( !importedCardData.ContainsKey( card.name.ToLower() ) )
+                        {
+                            Debug.LogError( "Failed to find return json card in list: " + card.name );
+                            continue;
+                        }
+
+                        var importedCards = importedCardData[card.name.ToLower()];
+
+                        foreach( var importedCard in importedCards )
+                        {
+                            // Find index for from set id
+                            var cardIndex = card.card_sets.FindIndex( ( x ) => x.set_code.StartsWith( importedCard.setCode ) );
+                            if( cardIndex == -1 )
+                            {
+                                Debug.LogError( String.Format( "Failed to find card index from set ID: {0} (card: {1})", card.name, importedCard.setCode ) );
+                                continue;
+                            }
+
+                            if( float.TryParse( card.card_sets[cardIndex].set_price, out var value ) )
+                                totalImportedValue += value;
+
+                            importData.cards.Add( new CardDataRuntime()
+                            {
+                                name = card.name,
+                                cardId = card.id,
+                                cardIndex = cardIndex,
+                                cardAPIData = card.DeepCopy(),
+                                condition = importedCard.condition,
+                            } );
+                        }
+                    }
+
+                    if( ++importRequestsComplete == requestsTotal )
+                    {
+                        importData.totalValue = totalImportedValue;
+                        onSearchCompleteCallback( importData );
+                    }
+                } ) );
+
+                builder = new();
+            }
+        }
     }
 
     private void ShowImportDialog( ImportData importData )
@@ -291,8 +354,8 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
         var texts = importDialogPanel.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
         texts[0].text = importData.name;
-        texts[1].text = string.Format("{0} cards", importData.count );
-        texts[2].text = string.Format("Total Value: ${0}", importData.totalValue );
+        texts[1].text = string.Format( "{0} cards", importData.count );
+        texts[2].text = string.Format( "Total Value: ${0:0.00}", importData.totalValue );
 
         var dropDown = importDialogPanel.GetComponentInChildren<TMPro.TMP_Dropdown>();
         List<string> options = new();
@@ -429,30 +492,32 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             for( int card = 0; card < pageWidth * pageHeight; ++card )
             {
                 var cardId = reader.ReadInt32();
-                var pageIdx = page;
-                var cardIdx = card;
 
                 if( cardId == 0 )
                     continue;
 
-                StartCoroutine( APICallHandler.Instance.SendCardSearchRequest( cardId, true, ( json ) =>
-                {
-                    Root data = JsonConvert.DeserializeObject<Root>( json );
-                    Debug.Assert( data.data.Count == 1 );
-                    var cardData = data.data[0];
-
-                    var newCard = new CardDataRuntime()
-                    {
-                        name = cardData.name,
-                        cardId = cardData.id,
-                        imageId = cardData.card_images[0].id,
-                        cardAPIData = cardData.DeepCopy(),
-                    };
-
-                    newBinder.cardList[pageIdx][cardIdx] = newCard;
-                    newCard.insideBinderIdx = bindexIndex;
-                    inventory.Add( newCard );
-                } ) );
+                // TODO / TO FIX
+                //var pageIdx = page;
+                //var cardIdx = card;
+                //
+                //StartCoroutine( APICallHandler.Instance.SendCardSearchRequest( cardId, true, ( json ) =>
+                //{
+                //    Root data = JsonConvert.DeserializeObject<Root>( json );
+                //    Debug.Assert( data.data.Count == 1 );
+                //    var cardData = data.data[0];
+                //
+                //    var newCard = new CardDataRuntime()
+                //    {
+                //        name = cardData.name,
+                //        cardId = cardData.id,
+                //        imageId = cardData.card_images[0].id,
+                //        cardAPIData = cardData.DeepCopy(),
+                //    };
+                //
+                //    newBinder.cardList[pageIdx][cardIdx] = newCard;
+                //    newCard.insideBinderIdx = bindexIndex;
+                //    inventory.Add( newCard );
+                //} ) );
             }
         }
     }

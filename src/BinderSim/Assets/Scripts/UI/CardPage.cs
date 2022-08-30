@@ -10,19 +10,16 @@ public class CardPage : EventReceiverInstance
     [SerializeField] GameObject cardsPage = null;
     [SerializeField] AdvancedGridLayout cardsDisplayGridLeft = null;
     [SerializeField] AdvancedGridLayout cardsDisplayGridRight = null;
-    [SerializeField] TMPro.TMP_InputField binderNameText = null;
-    [SerializeField] TMPro.TMP_InputField pageCountText = null;
-    [SerializeField] TMPro.TMP_Dropdown pageSizeDropDown = null;
     [SerializeField] TMPro.TextMeshProUGUI dateCreatedText = null;
     [SerializeField] Texture2D defaultCardImage = null;
     [SerializeField] Button prevPageButton = null;
     [SerializeField] Button nextPageButton = null;
     [SerializeField] Button firstPageButton = null;
     [SerializeField] Button lastPageButton = null;
+    [SerializeField] TMPro.TextMeshProUGUI binderNameText = null;
     [SerializeField] TMPro.TextMeshProUGUI currentPageTextLeft = null;
     [SerializeField] TMPro.TextMeshProUGUI currentPageTextRight = null;
     [SerializeField] GameObject CardGridEntryPrefab = null;
-    [SerializeField] Button applyChangesButton = null;
     [SerializeField] GameObject modifyPageButtonsLeft = null;
     [SerializeField] GameObject modifyPageButtonsRight = null;
     [SerializeField] GameObject clearCardDropLocation = null;
@@ -47,10 +44,6 @@ public class CardPage : EventReceiverInstance
         nextPageButton.onClick.AddListener( NextPage );
         firstPageButton.onClick.AddListener( () => ChangePage( 0 ) );
         lastPageButton.onClick.AddListener( () => ChangePage( currentbinder.data.pageCount ) );
-
-        binderNameText.onValueChanged.AddListener( _ => OnBinderHeaderChanged() );
-        pageCountText.onValueChanged.AddListener( _ => OnBinderHeaderChanged() );
-        pageSizeDropDown.onValueChanged.AddListener( _ => OnBinderHeaderChanged() );
 
         width = Constants.Instance.DefaultStartingPageWidth;
         height = Constants.Instance.DefaultStartingPageHeight;
@@ -119,48 +112,8 @@ public class CardPage : EventReceiverInstance
     {
         currentbinder = binder;
         binderNameText.text = currentbinder.data.name;
-        pageCountText.text = binder.data.pageCount.ToString();
-        var pageSizeStr = GetCurrentPageSizeString();
-        pageSizeDropDown.value = pageSizeDropDown.options.FindIndex( x => x.text == pageSizeStr );
         dateCreatedText.text = binder.data.dateCreated.ToShortDateString();
         ChangePage( 0 );
-    }
-
-    private void OnBinderHeaderChanged()
-    {
-        applyChangesButton.interactable = binderNameText.text != currentbinder.data.name
-            || pageCountText.text != currentbinder.data.pageCount.ToString()
-            || pageSizeDropDown.options[pageSizeDropDown.value].text != GetCurrentPageSizeString();
-    }
-
-    private void TryApplyChanges()
-    {
-        // Error checks
-        if( binderNameText.text.Length == 0
-            || !int.TryParse( pageCountText.text, out _ ) )
-            return;
-
-        // TODO: Show confirmation box for size or num pages change
-        if( binderNameText.text == currentbinder.data.name )
-        {
-
-            return;
-        }
-
-        ApplyChanges();
-    }
-
-    public void ApplyChanges()
-    {
-        currentbinder.data.name = binderNameText.text;
-        var pageSize = pageSizeDropDown.options[pageSizeDropDown.value].text;
-        currentbinder.data.Resize(
-            int.Parse( pageCountText.text ),
-            int.Parse( pageSize[0].ToString() ),
-            int.Parse( pageSize[2].ToString() ) );
-
-        EventSystem.Instance.TriggerEvent( new BinderDataUpdateEvent() { binder = currentbinder.data } );
-        PopulateGrid();
     }
 
     private string GetCurrentPageSizeString()
@@ -310,7 +263,8 @@ public class CardPage : EventReceiverInstance
                         var cardPage = currentPage;
 
                         // Load card images if not loaded yet (happens when we load a binder for the first time)
-                        StartCoroutine( APICallHandler.Instance.DownloadImage( card.cardAPIData.card_images[0].image_url, true, ( texture ) =>
+                        // TODO Handle art variations
+                        StartCoroutine( APICallHandler.Instance.DownloadImage( card.cardAPIData.card_images[card.imageIndex].image_url, true, ( texture ) =>
                         {
                             // TODO: Save/cache image
                             card.largeImage = texture;
@@ -530,14 +484,14 @@ public class CardPage : EventReceiverInstance
         for( int i = 0; i < count; ++i )
             currentbinder.data.Insert( left ? currentPage - 1 : currentPage );
 
-        pageCountText.text = currentbinder.data.pageCount.ToString();
+        //pageCountText.text = currentbinder.data.pageCount.ToString();
         PopulateGrid();
     }
 
     public void RemovePage( bool left )
     {
         currentbinder.data.Remove( left ? currentPage - 1 : currentPage );
-        pageCountText.text = currentbinder.data.pageCount.ToString();
+       // pageCountText.text = currentbinder.data.pageCount.ToString();
         PopulateGrid();
     }
 

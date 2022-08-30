@@ -116,9 +116,10 @@ public class BinderDataRuntime
 public class CardData
 {
     public string name;
-    public int cardId;
-    public int imageId;
-    public int condition; // TODO
+    public int cardId;    // JSON id
+    public int cardIndex; // Index of the card within the variations (think 1 index for each different set)
+    public int imageIndex; // Index of the card art within the variations (unrelated to set, no mapping unfortunately)
+    public string condition;
 }
 
 public class CardDataRuntime : CardData
@@ -127,7 +128,7 @@ public class CardDataRuntime : CardData
     public Texture2D smallImage;
     public Texture2D largeImage;
     public bool largeImageRequsted;
-    public int? insideBinderIdx;
+    public int? insideBinderIdx;        // Index of the binder this card is a part of currently
 }
 
 public enum SearchPageBehaviour
@@ -144,7 +145,7 @@ public class ImportData
 {
     public string name;
     public int count;
-    public int totalValue;
+    public float totalValue;
     public List<CardDataRuntime> cards = new();
 
     public enum Options
