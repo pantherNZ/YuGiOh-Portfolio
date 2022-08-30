@@ -245,6 +245,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     {
         public string setCode;
         public string condition;
+        public int count;
     }
 
     private void FileLoadedRoutine( Uri uri, string fileData, Action<ImportData> onSearchCompleteCallback )
@@ -281,6 +282,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             {
                 condition = data[^5].Trim(),
                 setCode = data[^6].Trim(),
+                count = int.Parse(data[0].Trim())
             };
 
             if( importedCardData.TryGetValue( cardName.ToLower(), out var items ) )
@@ -331,6 +333,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                                 cardIndex = cardIndex,
                                 cardAPIData = card.DeepCopy(),
                                 condition = importedCard.condition,
+                                count = importedCard.count,
                             } );
                         }
                     }

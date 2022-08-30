@@ -120,6 +120,7 @@ public class CardData
     public int cardIndex; // Index of the card within the variations (think 1 index for each different set)
     public int imageIndex; // Index of the card art within the variations (unrelated to set, no mapping unfortunately)
     public string condition;
+    public int count;
 }
 
 public class CardDataRuntime : CardData
