@@ -38,6 +38,8 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
     private System.Random rng = new();
 
+    const int maxCardsPerRequest = 40;
+
     protected override void Start()
     {
         base.Start();
@@ -264,7 +266,6 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             if( line.Length > 0 && line.Split( ',' ).Length >= 8 )
                 ++numCards;
 
-        const int maxCardsPerRequest = 50;
         var requestsTotal = numCards / maxCardsPerRequest + ( numCards % maxCardsPerRequest > 0 ? 1 : 0 );
 
         foreach( var line in lines )
@@ -294,12 +295,14 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                 importedCardData.Add( cardName.ToLower(), new List<ImportCardExtraData>{ extraData } );
             }
 
-            builder.Append( importData.count > 0 ? "|" : String.Empty );
+            builder.Append( builder.Length > 0 ? "|" : String.Empty );
             builder.Append( cardName );
 
-            if( ++importData.count % 50 == 0 || importData.count == numCards )
+            if( ++importData.count % maxCardsPerRequest == 0 || importData.count == numCards )
             {
-                StartCoroutine( APICallHandler.Instance.SendCardSearchRequest( builder.ToString(), true, ( json ) =>
+                var request = builder.ToString();
+                var debugURI = String.Format( "https://db.ygoprodeck.com/api/v7/cardinfo.php?name={0}", request );
+                StartCoroutine( APICallHandler.Instance.SendCardSearchRequest( request, true, ( json ) =>
                 {
                     Root jsonData = JsonConvert.DeserializeObject<Root>( json );
 
@@ -307,7 +310,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                     {
                         if( !importedCardData.ContainsKey( card.name.ToLower() ) )
                         {
-                            Debug.LogError( "Failed to find return json card in list: " + card.name );
+                            Debug.LogError( String.Format( "Failed to find return json card in list: {0}\nRequest: {1}\n", card.name, debugURI ) );
                             continue;
                         }
 
@@ -319,7 +322,8 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                             var cardIndex = card.card_sets.FindIndex( ( x ) => x.set_code.StartsWith( importedCard.setCode ) );
                             if( cardIndex == -1 )
                             {
-                                Debug.LogError( String.Format( "Failed to find card index from set ID: {0} (card: {1})", card.name, importedCard.setCode ) );
+                                Debug.LogError( String.Format( "Failed to find card index from set ID: {0} (card: {1})\nSets: {2}", 
+                                    card.name, importedCard.setCode, string.Join( ", ", card.card_sets.Select( ( x ) => x.set_code ) ) ) );
                                 cardIndex = 0;
                             }
 
@@ -462,6 +466,14 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             foreach( var card in cardList )
             {
                 writer.Write( card != null ? card.cardId : 0 );
+
+                if( card != null )
+                {
+                    writer.Write( card.condition );
+                    writer.Write( card.count );
+                    writer.Write( card.cardIndex );
+                    writer.Write( card.imageIndex );
+                }
             }
         }
     }
@@ -490,37 +502,72 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
         UpdateBinderUIEntry( binderData.Back() );
 
+        StringBuilder uri = new( "https://db.ygoprodeck.com/api/v7/cardinfo.php?id=" );
+        int numCards = 0;
+        Dictionary<int, List<CardDataRuntime>> idToCardData = new();
+
         for( int page = 0; page < pageCount; ++page )
         {
             for( int card = 0; card < pageWidth * pageHeight; ++card )
             {
                 var cardId = reader.ReadInt32();
 
-                if( cardId == 0 )
-                    continue;
+                if( cardId != 0 )
+                {
+                    uri.Append( numCards > 0 ? ", " : String.Empty );
+                    uri.Append( cardId );
 
-                // TODO / TO FIX
-                //var pageIdx = page;
-                //var cardIdx = card;
-                //
-                //StartCoroutine( APICallHandler.Instance.SendCardSearchRequest( cardId, true, ( json ) =>
-                //{
-                //    Root data = JsonConvert.DeserializeObject<Root>( json );
-                //    Debug.Assert( data.data.Count == 1 );
-                //    var cardData = data.data[0];
-                //
-                //    var newCard = new CardDataRuntime()
-                //    {
-                //        name = cardData.name,
-                //        cardId = cardData.id,
-                //        imageId = cardData.card_images[0].id,
-                //        cardAPIData = cardData.DeepCopy(),
-                //    };
-                //
-                //    newBinder.cardList[pageIdx][cardIdx] = newCard;
-                //    newCard.insideBinderIdx = bindexIndex;
-                //    inventory.Add( newCard );
-                //} ) );
+                    var deserialisedCard = new CardDataRuntime()
+                    {
+                        cardId = page * pageWidth * pageHeight + card,
+                        condition = reader.ReadString(),
+                        count = reader.ReadInt32(),
+                        cardIndex = reader.ReadInt32(),
+                        imageIndex = reader.ReadInt32()
+                    };
+
+                    if( idToCardData.TryGetValue( cardId, out var items ) )
+                    {
+                        items.Add( deserialisedCard );
+                    }
+                    else
+                    {
+                        idToCardData.Add( cardId, new List<CardDataRuntime> { deserialisedCard } );
+                    }
+
+                    ++numCards;
+                }
+
+                if( numCards % maxCardsPerRequest == 0 || ( page == pageCount - 1 && card == ( pageWidth * pageHeight ) - 1 ) )
+                {
+                    StartCoroutine( APICallHandler.Instance.SendGetRequest( uri.ToString(), true, ( json ) =>
+                    {
+                        Root data = JsonConvert.DeserializeObject<Root>( json );
+
+                        foreach( var card in data.data )
+                        {
+                            if( !idToCardData.TryGetValue( card.id, out List<CardDataRuntime> newCards ) )
+                            {
+                                Debug.LogError( "Failed to find return json card in list: " + card.name );
+                                continue;
+                            }
+
+                            foreach( var newCard in newCards )
+                            {
+                                var pageIdx = newCard.cardId / ( pageWidth * pageHeight );
+                                var cardIdx = Utility.Mod( newCard.cardId, pageWidth * pageHeight );
+                                newCard.cardId = card.id;
+                                newCard.name = card.name;
+                                newCard.cardAPIData = card.DeepCopy();
+                                newBinder.cardList[pageIdx][cardIdx] = newCard;
+                                newCard.insideBinderIdx = bindexIndex;
+                                inventory.Add( newCard );
+                            }
+                        }
+                    } ) );
+
+                    uri = new();
+                }
             }
         }
     }

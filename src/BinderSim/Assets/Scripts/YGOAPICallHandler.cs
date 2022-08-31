@@ -26,7 +26,7 @@ class APICallHandler
     // https://db.ygoprodeck.com/api-guide/
     public IEnumerator SendCardSearchRequest( string cardName, bool waitForRateLimit, Action<string> callback = null )
     {
-        var uri = String.Format( "https://db.ygoprodeck.com/api/v7/cardinfo.php?name={0}", cardName );
+        var uri = String.Format( "https://db.ygoprodeck.com/api/v7/cardinfo.php?name={0}", Uri.EscapeDataString( cardName ) );
         return SendGetRequest( uri, waitForRateLimit, callback );
     }
 
@@ -38,7 +38,7 @@ class APICallHandler
 
     public IEnumerator SendCardSearchRequestFuzzy( string cardName, bool waitForRateLimit, Action<string> callback = null )
     {
-        var uri = String.Format( "https://db.ygoprodeck.com/api/v7/cardinfo.php?fname={0}", cardName );
+        var uri = String.Format( "https://db.ygoprodeck.com/api/v7/cardinfo.php?fname={0}", Uri.EscapeDataString( cardName ) );
         return SendGetRequest( uri, waitForRateLimit, callback );
     }
 
