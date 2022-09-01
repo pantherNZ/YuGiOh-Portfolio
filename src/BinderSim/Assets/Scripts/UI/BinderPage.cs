@@ -319,7 +319,17 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                         foreach( var importedCard in importedCards )
                         {
                             // Find index for from set id
-                            var cardIndex = card.card_sets.FindIndex( ( x ) => x.set_code.StartsWith( importedCard.setCode ) );
+                            var cardIndex = card.card_sets.FindIndex( ( x ) =>
+                            {
+                                if( x.set_code.StartsWith( importedCard.setCode ) )
+                                    return true;
+
+                                var withoutSuffix = x.set_code.StartsWith( importedCard.setCode[..^1] );
+                                var suffix = importedCard.setCode[^1];
+                                var setSuffix = x.set_code[( importedCard.setCode.Length - 1 )..];
+                                return withoutSuffix && setSuffix.Contains( suffix );
+                            } );
+
                             if( cardIndex == -1 )
                             {
                                 Debug.LogError( String.Format( "Failed to find card index from set ID: {0} (card: {1})\nSets: {2}", 
@@ -538,7 +548,9 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                     ++numCards;
                 }
 
-                if( numCards % maxCardsPerRequest == 0 || ( page == pageCount - 1 && card == ( pageWidth * pageHeight ) - 1 ) )
+                if( numCards > 0 && // At least one card
+                    ( numCards % maxCardsPerRequest == 0 || // Either at X cards, push a request
+                    ( page == pageCount - 1 && card == ( pageWidth * pageHeight ) - 1 ) ) ) // Or on the last card of the loop
                 {
                     StartCoroutine( APICallHandler.Instance.SendGetRequest( uri.ToString(), true, ( json ) =>
                     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using UnityEngine;
 
 public enum PageType
@@ -89,6 +90,22 @@ public class BinderData
     public int pageHeight { get; private set; }
     public string imagePath;
     public List<List<CardDataRuntime>> cardList { get; private set; }
+
+    public int MaxCards { get { return pageCount * pageWidth * pageHeight; } private set { } }
+    public int NumCards
+    {
+        get
+        {
+            int count = 0;
+            foreach( var x in cardList )
+                foreach( var y in x )
+                    if( y != null )
+                        count++;
+            return count;
+        }
+        private set { }
+    }
+
 }
 
 public class BinderDataRuntime

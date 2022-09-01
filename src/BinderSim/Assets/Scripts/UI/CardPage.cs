@@ -17,6 +17,8 @@ public class CardPage : EventReceiverInstance
     [SerializeField] Button firstPageButton = null;
     [SerializeField] Button lastPageButton = null;
     [SerializeField] TMPro.TextMeshProUGUI binderNameText = null;
+    [SerializeField] TMPro.TextMeshProUGUI numPagesText = null;
+    [SerializeField] TMPro.TextMeshProUGUI numCardsText = null;
     [SerializeField] TMPro.TextMeshProUGUI currentPageTextLeft = null;
     [SerializeField] TMPro.TextMeshProUGUI currentPageTextRight = null;
     [SerializeField] GameObject CardGridEntryPrefab = null;
@@ -112,6 +114,8 @@ public class CardPage : EventReceiverInstance
     {
         currentbinder = binder;
         binderNameText.text = currentbinder.data.name;
+        numPagesText.text = String.Format( "{0} Pages", currentbinder.data.pageCount );
+        numCardsText.text = String.Format( "{0}/{1} Cards", currentbinder.data.NumCards, currentbinder.data.MaxCards );
         dateCreatedText.text = binder.data.dateCreated.ToShortDateString();
         ChangePage( 0 );
     }
@@ -180,6 +184,7 @@ public class CardPage : EventReceiverInstance
         var data = e.card;
         image.sprite = Utility.CreateSprite( data == null ? defaultCardImage : data.smallImage );
         currentbinder.data.cardList[page][pos] = data;
+        numCardsText.text = String.Format( "{0}/{1} Cards", currentbinder.data.NumCards, currentbinder.data.MaxCards );
         currentModifyCardIdx = null;
 
         if( data != null )
