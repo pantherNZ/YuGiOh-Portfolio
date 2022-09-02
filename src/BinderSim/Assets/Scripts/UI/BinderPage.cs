@@ -548,7 +548,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                     ++numCards;
                 }
 
-                if( numCards > 0 && // At least one card
+                if( uri.Length > 0 && // At least one card
                     ( numCards % maxCardsPerRequest == 0 || // Either at X cards, push a request
                     ( page == pageCount - 1 && card == ( pageWidth * pageHeight ) - 1 ) ) ) // Or on the last card of the loop
                 {

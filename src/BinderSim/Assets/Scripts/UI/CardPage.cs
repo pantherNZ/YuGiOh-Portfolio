@@ -10,7 +10,6 @@ public class CardPage : EventReceiverInstance
     [SerializeField] GameObject cardsPage = null;
     [SerializeField] AdvancedGridLayout cardsDisplayGridLeft = null;
     [SerializeField] AdvancedGridLayout cardsDisplayGridRight = null;
-    [SerializeField] TMPro.TextMeshProUGUI dateCreatedText = null;
     [SerializeField] Texture2D defaultCardImage = null;
     [SerializeField] Button prevPageButton = null;
     [SerializeField] Button nextPageButton = null;
@@ -19,6 +18,8 @@ public class CardPage : EventReceiverInstance
     [SerializeField] TMPro.TextMeshProUGUI binderNameText = null;
     [SerializeField] TMPro.TextMeshProUGUI numPagesText = null;
     [SerializeField] TMPro.TextMeshProUGUI numCardsText = null;
+    [SerializeField] TMPro.TextMeshProUGUI percentFullText = null;
+    [SerializeField] Image percentFullImage = null;
     [SerializeField] TMPro.TextMeshProUGUI currentPageTextLeft = null;
     [SerializeField] TMPro.TextMeshProUGUI currentPageTextRight = null;
     [SerializeField] GameObject CardGridEntryPrefab = null;
@@ -113,11 +114,19 @@ public class CardPage : EventReceiverInstance
     private void LoadBinder( BinderDataRuntime binder )
     {
         currentbinder = binder;
+        UpdateHeaderInfo();
+        ChangePage( 0 );
+    }
+
+    private void UpdateHeaderInfo()
+    {
         binderNameText.text = currentbinder.data.name;
         numPagesText.text = String.Format( "{0} Pages", currentbinder.data.pageCount );
-        numCardsText.text = String.Format( "{0}/{1} Cards", currentbinder.data.NumCards, currentbinder.data.MaxCards );
-        dateCreatedText.text = binder.data.dateCreated.ToShortDateString();
-        ChangePage( 0 );
+        var numCards = currentbinder.data.NumCards;
+        var maxCards = currentbinder.data.MaxCards;
+        numCardsText.text = String.Format( "{0}/{1} Cards", numCards, maxCards );
+        percentFullText.text = String.Format( "{0}%\nFull", 100 * numCards / maxCards );
+        percentFullImage.fillAmount = numCards / ( float )maxCards;
     }
 
     private string GetCurrentPageSizeString()
@@ -184,7 +193,7 @@ public class CardPage : EventReceiverInstance
         var data = e.card;
         image.sprite = Utility.CreateSprite( data == null ? defaultCardImage : data.smallImage );
         currentbinder.data.cardList[page][pos] = data;
-        numCardsText.text = String.Format( "{0}/{1} Cards", currentbinder.data.NumCards, currentbinder.data.MaxCards );
+        UpdateHeaderInfo();
         currentModifyCardIdx = null;
 
         if( data != null )
@@ -212,8 +221,10 @@ public class CardPage : EventReceiverInstance
             SetupGrid( currentPage );
 
         // Show/hide page depending on first/last page
-        cardsDisplayGridLeft.gameObject.SetActive( currentPage > 0 );
-        cardsDisplayGridRight.gameObject.SetActive( currentPage < currentbinder.data.pageCount - 1 );
+        foreach( Transform child in cardsDisplayGridLeft.transform )
+            child.gameObject.SetActive( currentPage > 0 );
+        foreach( Transform child in cardsDisplayGridRight.transform )
+            child.gameObject.SetActive( currentPage < currentbinder.data.pageCount - 1 );
 
         // Show/hide next/prev buttons depending on first/last page
         prevPageButton.gameObject.SetActive( currentPage > 0 );
