@@ -23,6 +23,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     [SerializeField] GameObject importDialogPanel = null;
     [SerializeField] Button editButton = null;
     [SerializeField] Button deleteButton = null;
+    [SerializeField] Button exportButton = null;
     [SerializeField] Color selectedEntryColour = new();
 
     private List<CardDataRuntime> inventory = new();
@@ -111,6 +112,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
         var index = currentSelectedBinderIdx.Value;
         currentSelectedBinderIdx = null;
+        exportButton.interactable = false;
         editButton.interactable = false;
         deleteButton.interactable = false;
 
@@ -167,6 +169,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             currentSelectedBinderIdx = unselect ? null : binder.index;
             editButton.interactable = !unselect;
             deleteButton.interactable = !unselect;
+            exportButton.interactable = !unselect;
         };
 
         binder.binderUI.GetComponent<EventDispatcher>().OnDoubleClickEvent += ( PointerEventData e ) =>
@@ -512,7 +515,8 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
         UpdateBinderUIEntry( binderData.Back() );
 
-        StringBuilder uri = new( "https://db.ygoprodeck.com/api/v7/cardinfo.php?id=" );
+        var request = "https://db.ygoprodeck.com/api/v7/cardinfo.php?id=";
+        StringBuilder uri = new();
         int numCards = 0;
         Dictionary<int, List<CardDataRuntime>> idToCardData = new();
 
@@ -524,7 +528,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
                 if( cardId != 0 )
                 {
-                    uri.Append( numCards > 0 ? ", " : String.Empty );
+                    uri.Append( uri.Length > 0 ? ", " : String.Empty );
                     uri.Append( cardId );
 
                     var deserialisedCard = new CardDataRuntime()
@@ -535,6 +539,13 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                         cardIndex = reader.ReadInt32(),
                         imageIndex = reader.ReadInt32()
                     };
+
+                    var pageIdx = deserialisedCard.cardId / ( pageWidth * pageHeight );
+                    var cardIdx = Utility.Mod( deserialisedCard.cardId, pageWidth * pageHeight );
+                    if( pageIdx >= newBinder.cardList.Count || cardIdx >= newBinder.cardList[pageIdx].Count )
+                    {
+                        Debug.Assert( false );
+                    }
 
                     if( idToCardData.TryGetValue( cardId, out var items ) )
                     {
@@ -552,7 +563,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                     ( numCards % maxCardsPerRequest == 0 || // Either at X cards, push a request
                     ( page == pageCount - 1 && card == ( pageWidth * pageHeight ) - 1 ) ) ) // Or on the last card of the loop
                 {
-                    StartCoroutine( APICallHandler.Instance.SendGetRequest( uri.ToString(), true, ( json ) =>
+                    StartCoroutine( APICallHandler.Instance.SendGetRequest( request + uri.ToString(), true, ( json ) =>
                     {
                         Root data = JsonConvert.DeserializeObject<Root>( json );
 
@@ -571,6 +582,11 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                                 newCard.cardId = card.id;
                                 newCard.name = card.name;
                                 newCard.cardAPIData = card.DeepCopy();
+                                //Debug.Assert( pageIdx < newBinder.cardList.Count && cardIdx < newBinder.cardList[pageIdx].Count );
+                                if( pageIdx >= newBinder.cardList.Count || cardIdx >= newBinder.cardList[pageIdx].Count )
+                                {
+                                    Debug.Assert( false );
+                                }
                                 newBinder.cardList[pageIdx][cardIdx] = newCard;
                                 newCard.insideBinderIdx = bindexIndex;
                                 inventory.Add( newCard );
@@ -582,5 +598,121 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                 }
             }
         }
+    }
+
+    private const int maxChars = 91;
+    private const int asciiCharStart = 33;
+
+    public void ExportAsString( TMPro.TextMeshProUGUI label )
+    {
+        if( currentSelectedBinderIdx == null )
+            return;
+
+        using var memoryStream = new MemoryStream();
+        using var writer = new BinaryWriter( memoryStream );
+        currentBinderSavingIndex = currentSelectedBinderIdx.Value;
+        writer.Write( ( byte )SaveGameSystem.currentVersion );
+        ( this as ISavableComponent ).Serialise( writer );
+        label.text = GetStringFromBytes( memoryStream.ToArray() );
+    }
+
+    public void CopyTextToClipBoard( TMPro.TextMeshProUGUI label )
+    {
+        GUIUtility.systemCopyBuffer = label.text;
+
+        if( Application.platform == RuntimePlatform.WebGLPlayer )
+            WebGLCopyAndPasteAPI.passCopyToBrowser( GUIUtility.systemCopyBuffer );
+    }
+
+    private static string GetStringFromBytes( Byte[] bts )
+    {
+        StringBuilder str = new();
+
+        foreach( var bt in bts )
+        {
+            if( bt <= maxChars )
+            {
+                str.Append( ( char )( bt + asciiCharStart ) );
+            }
+            else if( bt <= maxChars * 2 )
+            {
+                str.Append( 'A' );
+                str.Append( ( char )( bt - maxChars + asciiCharStart ) );
+            }
+            else
+            {
+                str.Append( 'B' );
+                str.Append( ( char )( bt - maxChars * 2 + asciiCharStart ) );
+            }
+
+            str[^1] = FixChar( str[^1], false );
+        }
+
+        return str.ToString();
+    }
+
+    public void ImportFromString( TMPro.TMP_InputField text )
+    {
+        if( text.text.Length == 0 )
+            return;
+
+        try
+        {
+            var bytes = GetBytesFromString( text.text );
+            using var memoryStream = new MemoryStream( bytes, writable: false );
+            using var reader = new BinaryReader( memoryStream );
+            var version = reader.ReadByte();
+            ( this as ISavableComponent ).Deserialise( version, reader );
+        }
+        catch( Exception e )
+        {
+            Debug.LogError( "ImportFromString failed: \n" + e.Message );
+        }
+    }
+
+    private static Byte[] GetBytesFromString( string str )
+    {
+        List<Byte> bts = new();
+
+        for( int idx = 0; idx < str.Length; ++idx )
+        {
+            var c = str[idx];
+
+            if( c == 'A' )
+            {
+                c = str[++idx];
+                bts.Add( ( byte )( FixChar( c, true ) + maxChars - asciiCharStart ) );
+            }
+            else if( c == 'B' )
+            {
+                c = str[++idx];
+                bts.Add( ( byte )( FixChar( c, true ) + maxChars * 2 - asciiCharStart ) );
+            }
+            else
+            {
+                bts.Add( ( byte )( FixChar( c, true ) - asciiCharStart ) );
+            }
+        }
+
+        return bts.ToArray();
+    }
+
+    private static char FixChar( char c, bool import )
+    {
+        if( import )
+        {
+            if( c == '|' )
+                return 'A';
+            else if( c == '}' )
+                return 'B';
+        }
+        else
+        {
+            if( c == 'A' )
+                return '|';
+            else if( c == 'B' )
+                return '}';
+        }
+        return c;
     }
 }

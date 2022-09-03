@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\DataTypes.cs" />
     <Compile Include="Assets\Scripts\RequestJsonFormat.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserLinux.cs" />
+    <Compile Include="Assets\Scripts\WebGLCopyAndPaste.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
