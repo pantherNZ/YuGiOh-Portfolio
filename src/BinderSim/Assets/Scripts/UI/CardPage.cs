@@ -125,7 +125,7 @@ public class CardPage : EventReceiverInstance
         var numCards = currentbinder.data.NumCards;
         var maxCards = currentbinder.data.MaxCards;
         numCardsText.text = String.Format( "{0}/{1} Cards", numCards, maxCards );
-        percentFullText.text = String.Format( "{0}%\nFull", 100 * numCards / maxCards );
+        percentFullText.text = String.Format( "{0}%\nFull", Mathf.CeilToInt( 100.0f * numCards / maxCards ) );
         percentFullImage.fillAmount = numCards / ( float )maxCards;
     }
 

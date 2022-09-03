@@ -249,7 +249,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     private class ImportCardExtraData
     {
         public string setCode;
-        public string condition;
+        public CardCondition condition;
         public int count;
     }
 
@@ -282,9 +282,14 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                 continue;
 
             var cardName = string.Join( ",", data.Skip( 1 ).Take( data.Length - 7 ) ).Trim();
+            var conditionStr = data[^5].Trim();
+            CardCondition condition = CardCondition.NearMint;
+            if( Enum.TryParse( typeof( CardCondition ), conditionStr, true, out var c ) )
+                condition = ( CardCondition )c;
+
             var extraData = new ImportCardExtraData()
             {
-                condition = data[^5].Trim(),
+                condition = condition,
                 setCode = data[^6].Trim(),
                 count = int.Parse(data[0].Trim())
             };
@@ -469,26 +474,37 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         writer.Write( binder.data.id );
         writer.Write( binder.data.name );
         writer.Write( binder.data.dateCreated.ToString() );
-        writer.Write( binder.data.pageCount );
-        writer.Write( binder.data.pageWidth );
-        writer.Write( binder.data.pageHeight );
+        writer.Write( ( UInt16 ) binder.data.pageCount );
+        writer.Write( ( byte )binder.data.pageWidth );
+        writer.Write( ( byte )binder.data.pageHeight );
         writer.Write( binder.data.imagePath ?? String.Empty );
 
+        int gaps = 0;
         foreach( var cardList in binder.data.cardList )
         {
             foreach( var card in cardList )
             {
-                writer.Write( card != null ? card.cardId : 0 );
-
-                if( card != null )
+                if( card == null )
                 {
-                    writer.Write( card.condition );
-                    writer.Write( card.count );
-                    writer.Write( card.cardIndex );
-                    writer.Write( card.imageIndex );
+                    ++gaps;
+                }
+                else
+                {
+                    if( gaps > 0 )
+                    {
+                        writer.Write( -gaps );
+                        gaps = 0;
+                    }
+
+                    writer.Write( card.cardId );
+                    writer.Write( ( byte )( ( ( byte )card.condition << 5 ) | Mathf.Min( 64, card.count ) ) );
+                    writer.Write( ( byte )( ( card.cardIndex << 4 ) | card.imageIndex ) );
                 }
             }
         }
+
+        if( gaps > 0 )
+            writer.Write( -gaps );
     }
 
     void ISavableComponent.Deserialise( int saveVersion, BinaryReader reader )
@@ -496,9 +512,9 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         var id = reader.ReadInt64();
         var name = reader.ReadString();
         var dateCreated = DateTime.Parse( reader.ReadString() );
-        var pageCount = reader.ReadInt32();
-        var pageWidth = reader.ReadInt32();
-        var pageHeight = reader.ReadInt32();
+        var pageCount = reader.ReadUInt16();
+        var pageWidth = reader.ReadByte();
+        var pageHeight = reader.ReadByte();
         var imagePath = reader.ReadString();
 
         var newBinderUI = Instantiate( binderEntryPrefab );
@@ -519,44 +535,61 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         StringBuilder uri = new();
         int numCards = 0;
         Dictionary<int, List<CardDataRuntime>> idToCardData = new();
+        int gaps = 0;
 
         for( int page = 0; page < pageCount; ++page )
         {
             for( int card = 0; card < pageWidth * pageHeight; ++card )
             {
-                var cardId = reader.ReadInt32();
-
-                if( cardId != 0 )
+                if( gaps > 0 )
                 {
-                    uri.Append( uri.Length > 0 ? ", " : String.Empty );
-                    uri.Append( cardId );
+                    gaps--;
+                }
+                else
+                {
+                    var cardId = reader.ReadInt32();
 
-                    var deserialisedCard = new CardDataRuntime()
+                    if( cardId < 0 )
                     {
-                        cardId = page * pageWidth * pageHeight + card,
-                        condition = reader.ReadString(),
-                        count = reader.ReadInt32(),
-                        cardIndex = reader.ReadInt32(),
-                        imageIndex = reader.ReadInt32()
-                    };
-
-                    var pageIdx = deserialisedCard.cardId / ( pageWidth * pageHeight );
-                    var cardIdx = Utility.Mod( deserialisedCard.cardId, pageWidth * pageHeight );
-                    if( pageIdx >= newBinder.cardList.Count || cardIdx >= newBinder.cardList[pageIdx].Count )
-                    {
-                        Debug.Assert( false );
+                        gaps = Mathf.Abs( cardId ) - 1;
+                        continue;
                     }
 
-                    if( idToCardData.TryGetValue( cardId, out var items ) )
+                    if( cardId != 0 )
                     {
-                        items.Add( deserialisedCard );
-                    }
-                    else
-                    {
-                        idToCardData.Add( cardId, new List<CardDataRuntime> { deserialisedCard } );
-                    }
+                        uri.Append( uri.Length > 0 ? ", " : String.Empty );
+                        uri.Append( cardId );
 
-                    ++numCards;
+                        var countAndCondition = reader.ReadByte();
+                        var cardAndImageIndices = reader.ReadByte();
+
+                        var deserialisedCard = new CardDataRuntime()
+                        {
+                            cardId = page * pageWidth * pageHeight + card,
+                            count = countAndCondition & 63,
+                            condition = ( CardCondition )( countAndCondition >> 5 ),
+                            cardIndex = cardAndImageIndices >> 4,
+                            imageIndex = cardAndImageIndices & 15
+                        };
+
+                        var pageIdx = deserialisedCard.cardId / ( pageWidth * pageHeight );
+                        var cardIdx = Utility.Mod( deserialisedCard.cardId, pageWidth * pageHeight );
+                        if( pageIdx >= newBinder.cardList.Count || cardIdx >= newBinder.cardList[pageIdx].Count )
+                        {
+                            Debug.Assert( false );
+                        }
+
+                        if( idToCardData.TryGetValue( cardId, out var items ) )
+                        {
+                            items.Add( deserialisedCard );
+                        }
+                        else
+                        {
+                            idToCardData.Add( cardId, new List<CardDataRuntime> { deserialisedCard } );
+                        }
+
+                        ++numCards;
+                    }
                 }
 
                 if( uri.Length > 0 && // At least one card
@@ -603,7 +636,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     private const int maxChars = 91;
     private const int asciiCharStart = 33;
 
-    public void ExportAsString( TMPro.TextMeshProUGUI label )
+    public void ExportAsString( TMPro.TMP_InputField text )
     {
         if( currentSelectedBinderIdx == null )
             return;
@@ -613,12 +646,12 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         currentBinderSavingIndex = currentSelectedBinderIdx.Value;
         writer.Write( ( byte )SaveGameSystem.currentVersion );
         ( this as ISavableComponent ).Serialise( writer );
-        label.text = GetStringFromBytes( memoryStream.ToArray() );
+        text.text = GetStringFromBytes( memoryStream.ToArray() );
     }
 
-    public void CopyTextToClipBoard( TMPro.TextMeshProUGUI label )
+    public void CopyTextToClipBoard( TMPro.TMP_InputField text)
     {
-        GUIUtility.systemCopyBuffer = label.text;
+        GUIUtility.systemCopyBuffer = text.text;
 
         if( Application.platform == RuntimePlatform.WebGLPlayer )
             WebGLCopyAndPasteAPI.passCopyToBrowser( GUIUtility.systemCopyBuffer );

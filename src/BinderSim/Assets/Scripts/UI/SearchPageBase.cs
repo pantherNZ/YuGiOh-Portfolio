@@ -164,6 +164,7 @@ public abstract class SearchPageBase : EventReceiverInstance
                         cardId = card.id,
                         cardIndex = 0,
                         cardAPIData = card.DeepCopy(),
+                        condition = CardCondition.NearMint, // TODO
                     } );
                 }
 

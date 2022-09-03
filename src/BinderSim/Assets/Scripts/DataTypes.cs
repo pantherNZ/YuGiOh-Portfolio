@@ -136,7 +136,7 @@ public class CardData
     public int cardId;    // JSON id
     public int cardIndex; // Index of the card within the variations (think 1 index for each different set)
     public int imageIndex; // Index of the card art within the variations (unrelated to set, no mapping unfortunately)
-    public string condition;
+    public CardCondition condition;
     public int count;
 }
 
@@ -210,4 +210,15 @@ public static class InventoryData
         "Unused Cards",
         "Cards In {0}",
     } );
+}
+
+public enum CardCondition
+{
+    Mint,
+    NearMint,
+    Excellent,
+    Good,
+    LightPlayed,
+    Played,
+    Poor,
 }
