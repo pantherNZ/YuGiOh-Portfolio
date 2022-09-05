@@ -154,8 +154,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
         var images = binder.binderUI.GetComponentsInChildren<Image>();
         // Preview icon
-        if( images.Length > 1 && images[1].gameObject != null )
-            images[1].gameObject.Destroy();
+        images[^1].color = Color.clear;
 
         binder.index = binderData.Count - 1;
 

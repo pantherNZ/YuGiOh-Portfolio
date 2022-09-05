@@ -69,9 +69,12 @@
     <Compile Include="Assets\Utility\AdvancedGridLayoutCustomEditor.cs" />
     <Compile Include="Assets\Utility\Utility.cs" />
     <Compile Include="Assets\Utility\CustomGravity.cs" />
+    <Compile Include="Assets\Utility\MultiImageButton.cs" />
     <Compile Include="Assets\Utility\FunctionTimer.cs" />
+    <Compile Include="Assets\Utility\MultiImageTargetGraphics.cs" />
     <Compile Include="Assets\Utility\UndoRedoSystem.cs" />
     <Compile Include="Assets\Utility\EventDispatcher.cs" />
+    <Compile Include="Assets\Utility\InputPriorityButton.cs" />
     <Compile Include="Assets\Utility\EventSystem.cs" />
     <Compile Include="Assets\Utility\Touchable.cs" />
     <Compile Include="Assets\Utility\SimplexNoise.cs" />
