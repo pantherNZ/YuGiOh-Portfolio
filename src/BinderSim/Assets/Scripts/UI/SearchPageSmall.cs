@@ -5,6 +5,7 @@ public class SearchPageSmall : SearchPageBase
 {
     [SerializeField] GameObject cardEntryPrefab = null;
     [SerializeField] GameObject dragCardGhostPrefab = null;
+    [SerializeField] GameObject searchListPanel = null;
 
     private GameObject dragging;
 
@@ -92,5 +93,15 @@ public class SearchPageSmall : SearchPageBase
             if( Utility.IsMouseUpOrTouchEnd() )
                 StopDragging();
         }
+
+        InputPriority.Instance.Request( () =>
+        {
+            return Utility.IsMouseUpOrTouchEnd() &&
+                !Utility.IsPointerOverGameObject( searchListPanel ) &&
+                searchListPage.activeInHierarchy;
+        }, "SearchPageSmallClose", 0, () =>
+        {
+            Cancel();
+        } );
     }
 }

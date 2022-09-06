@@ -237,8 +237,6 @@ public class CardPage : EventReceiverInstance
         // Show/hide modify buttons depending on first/last page
         modifyPageButtonsLeft.SetActive( currentPage > 0 );
         modifyPageButtonsRight.SetActive( currentPage < currentbinder.data.pageCount - 1 );
-
-        EventSystem.Instance.TriggerEvent( new PageChangeRequestEvent() { page = PageType.CardPage } );
     }
 
     private AdvancedGridLayout GetGrid( int page )
@@ -464,11 +462,14 @@ public class CardPage : EventReceiverInstance
 
     public void OpenSearchPanelGeneric()
     {
-        EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
+        Utility.FunctionTimer.CreateTimer( 0.001f, () =>
         {
-            page = PageType.SearchPage,
-            behaviour = SearchPageBehaviour.AddingCards,
-            pageFull = FindNextEmptyCardSlot() == null,
+            EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
+            {
+                page = PageType.SearchPage,
+                behaviour = SearchPageBehaviour.AddingCards,
+                pageFull = FindNextEmptyCardSlot() == null,
+            } );
         } );
     }
 
