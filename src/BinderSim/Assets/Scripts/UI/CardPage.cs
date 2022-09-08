@@ -462,14 +462,11 @@ public class CardPage : EventReceiverInstance
 
     public void OpenSearchPanelGeneric()
     {
-        Utility.FunctionTimer.CreateTimer( 0.001f, () =>
+        EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
         {
-            EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
-            {
-                page = PageType.SearchPage,
-                behaviour = SearchPageBehaviour.AddingCards,
-                pageFull = FindNextEmptyCardSlot() == null,
-            } );
+            page = PageType.SearchPage,
+            behaviour = SearchPageBehaviour.AddingCards,
+            pageFull = FindNextEmptyCardSlot() == null,
         } );
     }
 

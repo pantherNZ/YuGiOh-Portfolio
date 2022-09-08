@@ -99,7 +99,7 @@ public class SearchPageSmall : SearchPageBase
             return Utility.IsMouseUpOrTouchEnd() &&
                 !Utility.IsPointerOverGameObject( searchListPanel ) &&
                 searchListPage.activeInHierarchy;
-        }, "SearchPageSmallClose", 0, () =>
+        }, "SearchPageButton", 0, () =>
         {
             Cancel();
         } );
