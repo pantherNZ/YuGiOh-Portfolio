@@ -24,6 +24,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     [SerializeField] Button editButton = null;
     [SerializeField] Button deleteButton = null;
     [SerializeField] Button exportButton = null;
+    [SerializeField] Button importButton = null;
     [SerializeField] Color selectedEntryColour = new();
 
     private List<CardDataRuntime> inventory = new();
@@ -214,6 +215,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
     public void ImportFromDragonShieldTxtFile()
     {
+        importButton.interactable = false;
         LoadFromDragonShieldTxtFile( ShowImportDialog );
     }
 
@@ -614,11 +616,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                                 newCard.cardId = card.id;
                                 newCard.name = card.name;
                                 newCard.cardAPIData = card.DeepCopy();
-                                //Debug.Assert( pageIdx < newBinder.cardList.Count && cardIdx < newBinder.cardList[pageIdx].Count );
-                                if( pageIdx >= newBinder.cardList.Count || cardIdx >= newBinder.cardList[pageIdx].Count )
-                                {
-                                    Debug.Assert( false );
-                                }
+                                Debug.Assert( pageIdx < newBinder.cardList.Count && cardIdx < newBinder.cardList[pageIdx].Count );
                                 newBinder.cardList[pageIdx][cardIdx] = newCard;
                                 newCard.insideBinderIdx = bindexIndex;
                                 inventory.Add( newCard );
@@ -690,16 +688,20 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
         try
         {
+            importButton.interactable = false;
             var bytes = GetBytesFromString( text.text );
             using var memoryStream = new MemoryStream( bytes, writable: false );
             using var reader = new BinaryReader( memoryStream );
             var version = reader.ReadByte();
             ( this as ISavableComponent ).Deserialise( version, reader );
         }
-        catch( Exception e )
+        //catch( Exception e )
+        catch( Exception )
         {
-            Debug.LogError( "ImportFromString failed: \n" + e.Message );
+            //Debug.LogError( "ImportFromString failed: \n" + e.Message );
         }
+
+        importButton.interactable = true;
     }
 
     private static Byte[] GetBytesFromString( string str )
