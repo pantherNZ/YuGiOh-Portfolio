@@ -16,15 +16,25 @@ public class SearchPageFull : SearchPageBase
         var texts = newCardUIEntry.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
         texts[0].text = card.name;
 
-        var button = newCardUIEntry.GetComponentInChildren<Button>();
-        button.gameObject.SetActive( behaviour != SearchPageBehaviour.Inventory );
+        var buttons = newCardUIEntry.GetComponentsInChildren<Button>();
+        var removeCardButton = buttons[0];
+        var addCardButton = buttons[1];
+        addCardButton.gameObject.SetActive( behaviour != SearchPageBehaviour.Inventory );
+        removeCardButton.gameObject.SetActive( behaviour == SearchPageBehaviour.Inventory );
 
         if( behaviour != SearchPageBehaviour.Inventory )
         {
-            button.onClick.AddListener( () =>
+            addCardButton.onClick.AddListener( () =>
             {
                 currentCardSelectedIdx = entryIdx;
                 ChooseCard();
+            } );
+        }
+        else
+        {
+            removeCardButton.onClick.AddListener( () =>
+            {
+                RemoveCard( card );
             } );
         }
 

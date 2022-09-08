@@ -122,7 +122,10 @@ public abstract class SearchPageBase : EventReceiverInstance
                 continue;
 
             count++;
-            if( float.TryParse( card.cardAPIData.card_sets[card.cardIndex].set_price, out float price ) )
+            var priceStr = card.cardAPIData.card_sets != null ?
+                card.cardAPIData.card_sets[card.cardIndex].set_price :
+                card.cardAPIData.card_prices[0].ebay_price;
+            if( float.TryParse( priceStr, out float price ) )
                 totalValue += price;
 
             // Limit to 100 results for now
@@ -226,6 +229,12 @@ public abstract class SearchPageBase : EventReceiverInstance
         };
 
         GetCardPreviewImage( card );
+    }
+
+    public void RemoveCard( CardDataRuntime card )
+    {
+        BinderPage.Instance.Inventory.Remove( card );
+        SearchCards();
     }
 
     private void GetCardPreviewImage( CardDataRuntime card )
