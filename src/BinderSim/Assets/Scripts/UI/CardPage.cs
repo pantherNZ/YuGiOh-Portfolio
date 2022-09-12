@@ -306,8 +306,7 @@ public class CardPage : EventReceiverInstance
 
     void LeftMouseFilter( PointerEventData e, Action func )
     {
-        if( e.button == PointerEventData.InputButton.Left )
-            func();
+        InputPriority.Instance.Request( () => e.button == PointerEventData.InputButton.Left, "SearchPageButton", 1, func );
     }
 
     private void StartDragging( int page, int pos )
@@ -465,8 +464,8 @@ public class CardPage : EventReceiverInstance
         EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
         {
             page = PageType.SearchPage,
-            behaviour = SearchPageBehaviour.AddingCards,
-            pageFull = FindNextEmptyCardSlot() == null,
+            behaviour = SearchPageOrigin.CardPageSearch,
+            flags = ( FindNextEmptyCardSlot() == null ? SearchPageFlags.PageFull : 0 ),
         } );
     }
 
@@ -474,13 +473,14 @@ public class CardPage : EventReceiverInstance
     {
         currentModifyCardIdx = GetIndexFromPageAndPos( page, pos );
 
-        EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent() 
+        EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
         {
             page = PageType.SearchPage,
-            behaviour = currentbinder.data.cardList[page][pos] == null 
-                ? SearchPageBehaviour.SettingCard
-                : SearchPageBehaviour.ReplacingCard,
-            pageFull = FindNextEmptyCardSlot() == null,
+            behaviour = SearchPageOrigin.CardPageSearch,
+            flags = ( currentbinder.data.cardList[page][pos] == null
+                ? SearchPageFlags.SettingCards
+                : SearchPageFlags.ReplacingCard )
+                    | ( FindNextEmptyCardSlot() == null ? SearchPageFlags.PageFull : 0 ),
         } );
     }
 
@@ -488,8 +488,9 @@ public class CardPage : EventReceiverInstance
     {
         EventSystem.Instance.TriggerEvent( new OpenInventoryPageEvent()
         {
+            behaviour = SearchPageOrigin.CardPageInventory,
             currentBinderIdx = BinderPage.Instance.BinderData.IndexOf(currentbinder),
-            pageFull = FindNextEmptyCardSlot() == null,
+            flags = ( FindNextEmptyCardSlot() == null ? SearchPageFlags.PageFull : 0 ),
         } );
     }
 

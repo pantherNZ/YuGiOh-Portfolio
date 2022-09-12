@@ -19,25 +19,37 @@ public class SearchPageFull : SearchPageBase
         var buttons = newCardUIEntry.GetComponentsInChildren<Button>();
         var removeCardButton = buttons[0];
         var addCardButton = buttons[1];
-        addCardButton.gameObject.SetActive( behaviour != SearchPageBehaviour.Inventory );
-        removeCardButton.gameObject.SetActive( behaviour == SearchPageBehaviour.Inventory );
+        addCardButton.gameObject.SetActive( card.cardAPIData != null && IsAddButtonActive() );
+        removeCardButton.gameObject.SetActive( card.cardAPIData != null && IsRemoveButtonActive() );
 
-        if( behaviour != SearchPageBehaviour.Inventory )
+        if( IsAddButtonActive() )
         {
             addCardButton.onClick.AddListener( () =>
             {
-                currentCardSelectedIdx = entryIdx;
-                ChooseCard();
+                // Main page adds the card to inventory
+                if( behaviour == SearchPageOrigin.MainPage )
+                {
+                    BinderPage.Instance.Inventory.Add( cardData[entryIdx] );
+
+                    if( GetDropDownOption() == InventoryData.Options.AllCards || GetDropDownOption() == InventoryData.Options.UnusedCards )
+                        SearchCards();
+                }
+                else
+                {
+                    // Otherwise we add the card to the binder
+                    currentCardSelectedIdx = entryIdx;
+                    ChooseCard();
+                }
             } );
         }
-        else
+        
+        if( IsRemoveButtonActive() )
         {
             removeCardButton.onClick.AddListener( () =>
             {
                 RemoveCard( card );
             } );
         }
-
 
         return newCardUIEntry;
     }
@@ -59,17 +71,30 @@ public class SearchPageFull : SearchPageBase
         }
     }
 
-    protected override void ShowPage( OpenSearchPageEvent request, int? binderIndex )
+    protected override void ShowPageInternal()
     {
-        base.ShowPage( request, binderIndex );
+        base.ShowPageInternal();
 
-        bool inventoryMode = behaviour == SearchPageBehaviour.Inventory
-            || behaviour == SearchPageBehaviour.InventoryFromCardPage;
-
-        advancedSearchButton.gameObject.SetActive( !inventoryMode );
-        importFromFileButton.gameObject.SetActive( inventoryMode );
+        bool inventoryNonSearchMode = behaviour == SearchPageOrigin.MainPage && GetDropDownOption() != InventoryData.Options.SearchOnline;
+        advancedSearchButton.gameObject.SetActive( !inventoryNonSearchMode );
+        importFromFileButton.gameObject.SetActive( inventoryNonSearchMode );
 
         if( currentCardSelectedIdx != null )
             GetSelectedCard().GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( null );
     }
+
+    bool IsRemoveButtonActive()
+    {
+        return behaviour == SearchPageOrigin.MainPage 
+            && GetDropDownOption() != InventoryData.Options.SearchOnline 
+            && GetDropDownOption() != InventoryData.Options.TempInventory;
+    }
+
+    bool IsAddButtonActive()
+    {
+        return behaviour != SearchPageOrigin.MainPage 
+            || GetDropDownOption() == InventoryData.Options.SearchOnline
+            || GetDropDownOption() == InventoryData.Options.TempInventory;
+    }
+
 }

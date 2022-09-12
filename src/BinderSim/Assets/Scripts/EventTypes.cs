@@ -17,8 +17,8 @@ public class CardImageLoadedEvent : IBaseEvent { public CardDataRuntime card; }
 
 public class OpenSearchPageEvent : PageChangeRequestEvent
 {
-    public SearchPageBehaviour behaviour;
-    public bool pageFull;
+    public SearchPageOrigin behaviour;
+    public SearchPageFlags flags;
 }
 
 public class OpenInventoryPageEvent : OpenSearchPageEvent
@@ -26,7 +26,6 @@ public class OpenInventoryPageEvent : OpenSearchPageEvent
     public OpenInventoryPageEvent() 
     { 
         page = PageType.SearchPageFull;
-        behaviour = SearchPageBehaviour.InventoryFromCardPage;
     }
     public int currentBinderIdx;
 }

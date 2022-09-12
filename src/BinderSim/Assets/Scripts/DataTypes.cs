@@ -105,7 +105,6 @@ public class BinderData
         }
         private set { }
     }
-
 }
 
 public class BinderDataRuntime
@@ -149,14 +148,20 @@ public class CardDataRuntime : CardData
     public int? insideBinderIdx;        // Index of the binder this card is a part of currently
 }
 
-public enum SearchPageBehaviour
+public enum SearchPageOrigin
 {
     None,
-    SettingCard,
-    ReplacingCard,
-    AddingCards,
-    Inventory,
-    InventoryFromCardPage
+    MainPage,
+    CardPageInventory,
+    CardPageSearch,
+}
+
+[Flags]
+public enum SearchPageFlags
+{
+    SettingCards = 1 << 1,
+    ReplacingCard = 1 << 2,
+    PageFull = 1 << 3,
 }
 
 public class ImportData
@@ -172,7 +177,6 @@ public class ImportData
         AddToInventory,
         ReplaceInventory,
         AddToExistingBinderX,
-
         OptionsCount,
     }
 
@@ -196,7 +200,6 @@ public static class InventoryData
         AllCardsInBinders,
         UnusedCards,
         CardsInBinderX,
-
         OptionsCount,
     }
 

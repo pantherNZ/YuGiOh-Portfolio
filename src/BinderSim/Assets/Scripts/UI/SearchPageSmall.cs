@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class SearchPageSmall : SearchPageBase
@@ -23,9 +25,14 @@ public class SearchPageSmall : SearchPageBase
         var texts = newCardUIEntry.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
         texts[0].text = card.name;
 
-        newCardUIEntry.GetComponentInChildren<EventDispatcher>().OnBeginDragEvent += ( e ) => StartDragging( newCardUIEntry, entryIdx );
+        newCardUIEntry.GetComponentInChildren<EventDispatcher>().OnBeginDragEvent += ( e ) => LeftMouseFilter( e, () => StartDragging( newCardUIEntry, entryIdx ) );
 
         return newCardUIEntry;
+    }
+
+    void LeftMouseFilter( PointerEventData e, Action func )
+    {
+        InputPriority.Instance.Request( () => e.button == PointerEventData.InputButton.Left, "SearchPageButton", 1, func );
     }
 
     public override void OnEventReceived( IBaseEvent e )
@@ -45,13 +52,14 @@ public class SearchPageSmall : SearchPageBase
         }
     }
 
-    public void SwitchSides()
+    public void SwitchSides( RectTransform button )
     {
-        var rectTransform = searchListPage.transform as RectTransform;
+        var rectTransform = searchListPanel.transform as RectTransform;
         var xPos = rectTransform.anchoredPosition.x;
         rectTransform.anchorMax = rectTransform.anchorMax.SetX( xPos >= 0.0f ? 1.0f : 0.0f );
         rectTransform.anchorMin = rectTransform.anchorMin.SetX( xPos >= 0.0f ? 1.0f : 0.0f );
         rectTransform.anchoredPosition = rectTransform.anchoredPosition.SetX( -xPos );
+        button.localEulerAngles = new Vector3( 0.0f, 0.0f, xPos >= 0.0f ? 180.0f : 0.0f );
     }
 
     private void StartDragging( GameObject clickedOn, int entryIdx )
@@ -93,15 +101,18 @@ public class SearchPageSmall : SearchPageBase
             if( Utility.IsMouseUpOrTouchEnd() )
                 StopDragging();
         }
-
-        InputPriority.Instance.Request( () =>
+        else
         {
-            return Utility.IsMouseUpOrTouchEnd() &&
-                !Utility.IsPointerOverGameObject( searchListPanel ) &&
-                searchListPage.activeInHierarchy;
-        }, "SearchPageButton", 0, () =>
-        {
-            Cancel();
-        } );
+            InputPriority.Instance.Request( () =>
+            {
+                return Utility.IsMouseUpOrTouchEnd()
+                    && !Utility.IsPointerOverGameObject( searchListPanel )
+                    && searchListPage.activeInHierarchy;
+    
+            }, "SearchPageButton", 0, () =>
+            {
+                Cancel();
+            } );
+        }
     }
 }

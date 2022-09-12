@@ -90,3 +90,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doubleClickInterval: 0.5
+  doubleClickUsePointerUp: 1

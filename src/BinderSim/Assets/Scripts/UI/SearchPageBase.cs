@@ -21,14 +21,16 @@ public abstract class SearchPageBase : EventReceiverInstance
     [SerializeField] TMPro.TMP_Dropdown optionsDropdown = null;
     [SerializeField] TMPro.TextMeshProUGUI cardCountText = null;
     [SerializeField] TMPro.TextMeshProUGUI totalValueText = null;
+    [SerializeField] Button minimiseMaximiseButton = null;
 
     protected List<CardDataRuntime> cardData = new();
     protected List<CardDataRuntime> tempImportInventory;
     protected Dictionary<CardDataRuntime, GameObject> searchUIEntries = new();
     protected int? currentCardSelectedIdx;
-    protected SearchPageBehaviour behaviour = SearchPageBehaviour.None;
+    protected int? currentBinderIdx;
+    protected SearchPageOrigin behaviour = SearchPageOrigin.None;
+    private SearchPageFlags flags;
     private Coroutine searchCountdown;
-    private bool pageFull;
 
     protected override void Start()
     {
@@ -46,6 +48,7 @@ public abstract class SearchPageBase : EventReceiverInstance
                 PopulateOptions();
             }
 
+            UpdateButtons();
             SearchCards();
         } );
     }
@@ -73,15 +76,7 @@ public abstract class SearchPageBase : EventReceiverInstance
         searchUIEntries.Clear();
         cardData.Clear();
 
-
-        bool inventoryMode = behaviour == SearchPageBehaviour.Inventory || behaviour == SearchPageBehaviour.InventoryFromCardPage;
-
-        if( totalValueText != null )
-            totalValueText.gameObject.SetActive( inventoryMode && GetDropDownOption() != InventoryData.Options.SearchOnline );
-        if( cardCountText != null )
-            cardCountText.gameObject.SetActive( true );
-
-        var search = searchInput.text.Trim();
+        var search = searchInput.text.Trim().ToLower();
         SearchRequest( search );
     }
 
@@ -118,7 +113,7 @@ public abstract class SearchPageBase : EventReceiverInstance
                 if( card.insideBinderIdx == null || card.insideBinderIdx.Value != binderIndex )
                     continue;
             }
-            if( search.Length > 0 && !card.name.Contains( search ) )
+            if( search.Length > 0 && !card.name.ToLower().Contains( search ) )
                 continue;
 
             count++;
@@ -135,17 +130,25 @@ public abstract class SearchPageBase : EventReceiverInstance
             AddCard( card );
         }
 
-        if( cardCountText != null )
-            cardCountText.text = String.Format( "{0} Cards", count );
-        if( totalValueText != null ) 
+        if( cardCountText != null && count > 0 )
+            cardCountText.text = String.Format( "{0} Card{1}", count, count == 1 ? string.Empty : 's' );
+        if( totalValueText != null && count > 0 ) 
             totalValueText.text = String.Format( "Total Value: ${0:0.00}", totalValue );
+        if( count == 0 )
+            AddCard( new CardDataRuntime() { name = "No results found" } );
     }
 
     void OnSearchResultReceived( string result )
     {
         try
         {
-            Root data = JsonConvert.DeserializeObject<Root>( result );
+            var settings = new JsonSerializerSettings()
+            {
+                NullValueHandling = NullValueHandling.Include,
+                MissingMemberHandling = MissingMemberHandling.Ignore,
+            };
+
+            Root data = JsonConvert.DeserializeObject<Root>( result, settings );
 
             if( data.data.IsEmpty() )
             {
@@ -171,13 +174,13 @@ public abstract class SearchPageBase : EventReceiverInstance
                     } );
                 }
 
-                if( cardCountText != null ) 
-                    cardCountText.text = String.Format( "{0} Cards", data.data.Count );
+                if( cardCountText != null && data.data.Count > 0 ) 
+                    cardCountText.text = String.Format( "{0} Card{1}", data.data.Count, data.data.Count == 1 ? string.Empty : 's' );
             }
         }
         catch( Exception e )
         {
-            Debug.LogError( "SearchPageBase::OnSearchResultReceived failed to deserialize json from result:" + Environment.NewLine + e.Message );
+            Debug.LogError( "SearchPageBase::OnSearchResultReceived failed to deserialize json from result:" + Environment.NewLine + e.Message + Environment.NewLine + result );
         }
     }
 
@@ -188,6 +191,13 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     public void AddCard( CardDataRuntime card )
     {
+        // TO DO - Handle count
+        if( searchUIEntries.TryGetValue( card, out var existing ) )
+        {
+
+            return;
+        }
+
         int thisIdx = cardData.Count;
         var newCardUIEntry = AddCardUI( card, thisIdx );
         searchUIEntries.Add( card, newCardUIEntry );
@@ -197,6 +207,9 @@ public abstract class SearchPageBase : EventReceiverInstance
         var eventDispatcher = newCardUIEntry.GetComponentInChildren<EventDispatcher>();
 
         newCardUIEntry.GetComponentsInChildren<Image>()[1].color = Color.clear;
+
+        if( card.cardAPIData == null )
+            return;
 
         eventDispatcher.OnPointerDownEvent += ( PointerEventData e ) =>
         {
@@ -208,7 +221,7 @@ public abstract class SearchPageBase : EventReceiverInstance
             currentCardSelectedIdx = unselect ? null : thisIdx;
         };
 
-        if( behaviour != SearchPageBehaviour.Inventory )
+        if( behaviour != SearchPageOrigin.MainPage )
         {
             eventDispatcher.OnDoubleClickEvent += ( PointerEventData e ) =>
             {
@@ -275,7 +288,9 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     protected void ChooseCardInternal( bool fromDragDrop )
     {
-        if( !fromDragDrop && pageFull )
+        if( !fromDragDrop 
+            && flags.HasFlag( SearchPageFlags.PageFull ) 
+            && !flags.HasFlag( SearchPageFlags.ReplacingCard ) )
             return;
 
         Debug.Assert( currentCardSelectedIdx != null );
@@ -297,7 +312,7 @@ public abstract class SearchPageBase : EventReceiverInstance
         // Only hide this page if we are selecting for a specific card
         // This intentionally will switch back to the card list if the page is now full
         // (pageFull set to true via the PageFullEvent)
-        if( !fromDragDrop && behaviour != SearchPageBehaviour.AddingCards )
+        if( !fromDragDrop && ( flags.HasFlag( SearchPageFlags.ReplacingCard ) || flags.HasFlag( SearchPageFlags.SettingCards ) ) )
             searchListPage.SetActive( false );
 
         if( Constants.Instance.DownloadImages && Constants.Instance.DownloadLargeImages )
@@ -322,7 +337,7 @@ public abstract class SearchPageBase : EventReceiverInstance
     {
         EventSystem.Instance.TriggerEvent( new PageChangeRequestEvent() 
         { 
-            page = behaviour == SearchPageBehaviour.Inventory 
+            page = behaviour == SearchPageOrigin.MainPage
                 ? PageType.BinderPage 
                 : PageType.CardPage 
         } );
@@ -330,54 +345,63 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     public void ShowFullscreenSearch( bool fullscreen )
     {
-        var replaceOrSet = behaviour == SearchPageBehaviour.ReplacingCard || behaviour == SearchPageBehaviour.SettingCard;
-
-        EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
+        if( currentBinderIdx != null )
         {
-            page = fullscreen ? PageType.SearchPageFull : PageType.SearchPage,
-            behaviour = ( fullscreen && replaceOrSet ) ? SearchPageBehaviour.AddingCards : behaviour
-        } );
+            EventSystem.Instance.TriggerEvent( new OpenInventoryPageEvent()
+            {
+                page = fullscreen ? PageType.SearchPageFull : PageType.SearchPage,
+                behaviour = behaviour,
+                flags = flags,
+                currentBinderIdx = currentBinderIdx.Value,
+            } );
+        }
+        else
+        {
+            EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
+            {
+                page = fullscreen ? PageType.SearchPageFull : PageType.SearchPage,
+                behaviour = behaviour,
+                flags = flags
+            } );
+        }
     }
 
     public override void OnEventReceived( IBaseEvent e )
     {
-        if( e is PageChangeRequestEvent pageChangeRequest && pageChangeRequest.page != PageType.SearchPage )
+        if( e is PageChangeRequestEvent pageChangeRequest 
+            && pageChangeRequest.page != PageType.SearchPage
+            && pageChangeRequest.page != PageType.SearchPageFull )
         {
             searchListPage.SetActive( false );
         }
         else if( e is PageFullEvent )
         {
-            Debug.Assert( behaviour == SearchPageBehaviour.AddingCards );
-            pageFull = true;
+            flags |= SearchPageFlags.PageFull;
         }
     }
 
     protected virtual void ShowPage( OpenSearchPageEvent request, int? binderIndex )
     {
         behaviour = request.behaviour;
-        pageFull = request.pageFull;
+        flags = request.flags;
+        currentBinderIdx = binderIndex;
+        ShowPageInternal();
+    }
+
+    protected virtual void ShowPageInternal()
+    {
         searchListPage.SetActive( true );
         PopulateOptions();
-
-        // Set default
-        if( binderIndex != null )
-        {
-            SetDropDownOption( InventoryData.Options.CardsInBinderX + binderIndex.Value );
-        }
-        else if( tempImportInventory != null )
-        {
-            SetDropDownOption( InventoryData.Options.TempInventory );
-        }
-        else if( behaviour == SearchPageBehaviour.Inventory || behaviour == SearchPageBehaviour.InventoryFromCardPage )
-        {
-            SetDropDownOption( InventoryData.Options.AllCards );
-        }
-        else
-        {
-            SetDropDownOption( InventoryData.Options.SearchOnline );
-        }
-
+        SetDropDownOption( GetDefaultBehaviour() );
         SearchCards();
+        UpdateButtons();
+    }
+
+    private void UpdateButtons()
+    {
+        minimiseMaximiseButton?.gameObject.SetActive( IsMinimiseButtonActive() );
+        totalValueText?.gameObject.SetActive( IsCardValueTextActive() );
+        cardCountText?.gameObject.SetActive( IsCardCountTextActive() );
     }
 
     private void SetDropDownOption( InventoryData.Options option )
@@ -419,7 +443,36 @@ public abstract class SearchPageBase : EventReceiverInstance
         BinderPage.Instance.LoadFromDragonShieldTxtFile( ( importData ) =>
         {
             tempImportInventory = importData.cards;
-            ShowPage( new OpenSearchPageEvent() { behaviour = behaviour, pageFull = pageFull }, null );
+            ShowPageInternal();
         } );
+    }
+
+    InventoryData.Options GetDefaultBehaviour()
+    {
+        if( tempImportInventory != null )
+            return InventoryData.Options.TempInventory;
+
+        if( behaviour == SearchPageOrigin.MainPage )
+            return InventoryData.Options.AllCards;
+
+        if( behaviour == SearchPageOrigin.CardPageInventory )
+            return InventoryData.Options.CardsInBinderX + currentBinderIdx.Value;
+
+        return InventoryData.Options.SearchOnline;
+    }
+
+    bool IsMinimiseButtonActive()
+    {
+        return behaviour != SearchPageOrigin.MainPage;
+    }
+
+    bool IsCardCountTextActive()
+    {
+        return true;
+    }
+
+    bool IsCardValueTextActive()
+    {
+        return GetDropDownOption() != InventoryData.Options.SearchOnline;
     }
 }

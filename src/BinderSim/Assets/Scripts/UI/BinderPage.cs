@@ -435,10 +435,9 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
     public void OpenInventory()
     {
-        EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
+        EventSystem.Instance.TriggerEvent( new OpenInventoryPageEvent()
         {
-            page = PageType.SearchPageFull,
-            behaviour = SearchPageBehaviour.Inventory,
+            behaviour = SearchPageOrigin.MainPage
         } );
     }
 
