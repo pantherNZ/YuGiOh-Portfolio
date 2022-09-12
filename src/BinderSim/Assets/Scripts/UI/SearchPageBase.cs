@@ -397,7 +397,7 @@ public abstract class SearchPageBase : EventReceiverInstance
         UpdateButtons();
     }
 
-    private void UpdateButtons()
+    protected virtual void UpdateButtons()
     {
         minimiseMaximiseButton?.gameObject.SetActive( IsMinimiseButtonActive() );
         totalValueText?.gameObject.SetActive( IsCardValueTextActive() );

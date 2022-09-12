@@ -75,12 +75,17 @@ public class SearchPageFull : SearchPageBase
     {
         base.ShowPageInternal();
 
+        if( currentCardSelectedIdx != null )
+            GetSelectedCard().GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( null );
+    }
+
+    protected override void UpdateButtons()
+    {
+        base.UpdateButtons();
+
         bool inventoryNonSearchMode = behaviour == SearchPageOrigin.MainPage && GetDropDownOption() != InventoryData.Options.SearchOnline;
         advancedSearchButton.gameObject.SetActive( !inventoryNonSearchMode );
         importFromFileButton.gameObject.SetActive( inventoryNonSearchMode );
-
-        if( currentCardSelectedIdx != null )
-            GetSelectedCard().GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( null );
     }
 
     bool IsRemoveButtonActive()
