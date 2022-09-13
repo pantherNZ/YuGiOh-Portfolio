@@ -42,10 +42,12 @@ public abstract class SearchPageBase : EventReceiverInstance
 
         optionsDropdown.onValueChanged.AddListener( ( _ ) =>
         {
-            if( GetDropDownOption() != ( int )InventoryData.Options.TempInventory && tempImportInventory != null )
+            var newOption = GetDropDownOption();
+            if( newOption != InventoryData.Options.TempInventory && tempImportInventory != null )
             {
                 tempImportInventory = null;
                 PopulateOptions();
+                SetDropDownOption( newOption );
             }
 
             UpdateButtons();

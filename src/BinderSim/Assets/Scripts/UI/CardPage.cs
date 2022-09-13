@@ -22,7 +22,7 @@ public class CardPage : EventReceiverInstance
     [SerializeField] Image percentFullImage = null;
     [SerializeField] TMPro.TextMeshProUGUI currentPageTextLeft = null;
     [SerializeField] TMPro.TextMeshProUGUI currentPageTextRight = null;
-    [SerializeField] GameObject CardGridEntryPrefab = null;
+    [SerializeField] GameObject dragCardGhostPrefab = null;
     [SerializeField] GameObject modifyPageButtonsLeft = null;
     [SerializeField] GameObject modifyPageButtonsRight = null;
     [SerializeField] GameObject clearCardDropLocation = null;
@@ -321,7 +321,7 @@ public class CardPage : EventReceiverInstance
 
         dragOffset = cardToCopy.transform.position.ToVector2() - Utility.GetMouseOrTouchPos();
 
-        dragging = Instantiate( CardGridEntryPrefab, cardsPage.transform.parent );
+        dragging = Instantiate( dragCardGhostPrefab, cardsPage.transform.parent );
         ( dragging.transform as RectTransform ).anchoredPosition = Utility.GetMouseOrTouchPos() + dragOffset;
         var texture = cardToCopy.GetComponent<Image>().mainTexture as Texture2D;
         dragging.GetComponent<Image>().sprite = Utility.CreateSprite( texture );

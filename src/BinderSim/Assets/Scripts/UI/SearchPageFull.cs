@@ -83,7 +83,7 @@ public class SearchPageFull : SearchPageBase
     {
         base.UpdateButtons();
 
-        bool inventoryNonSearchMode = behaviour == SearchPageOrigin.MainPage && GetDropDownOption() != InventoryData.Options.SearchOnline;
+        bool inventoryNonSearchMode = GetDropDownOption() != InventoryData.Options.SearchOnline;
         advancedSearchButton.gameObject.SetActive( !inventoryNonSearchMode );
         importFromFileButton.gameObject.SetActive( inventoryNonSearchMode );
     }
