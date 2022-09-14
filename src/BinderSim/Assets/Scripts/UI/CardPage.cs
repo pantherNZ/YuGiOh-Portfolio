@@ -56,6 +56,7 @@ public class CardPage : EventReceiverInstance
 
     public void SaveAndExit()
     {
+        EventSystem.Instance.TriggerEvent( new SaveGameEvent() { } );
         EventSystem.Instance.TriggerEvent( new PageChangeRequestEvent() { page = PageType.BinderPage } );
     }
 
@@ -209,6 +210,8 @@ public class CardPage : EventReceiverInstance
         {
             BinderPage.Instance.Inventory.Find( ( x ) => x.cardId == data.cardId ).insideBinderIdx = null;
         }
+
+        EventSystem.Instance.TriggerEvent( new SaveGameEvent() { } );
     }
 
     private void PopulateGrid()
@@ -450,15 +453,6 @@ public class CardPage : EventReceiverInstance
         ChangePage( currentPage - 2 );
     }
 
-    public void SwapPage( int from, int to )
-    {
-        if( from == to )
-            return;
-
-        currentbinder.data.cardList.Swap( from, to );
-        PopulateGrid();
-    }
-
     public void OpenSearchPanelGeneric()
     {
         EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
@@ -494,6 +488,16 @@ public class CardPage : EventReceiverInstance
         } );
     }
 
+    public void SwapPage( int from, int to )
+    {
+        if( from == to )
+            return;
+
+        currentbinder.data.cardList.Swap( from, to );
+        PopulateGrid();
+        EventSystem.Instance.TriggerEvent( new SaveGameEvent() { } );
+    }
+
     public void AddPage( bool left, int count = 1 )
     {
         for( int i = 0; i < count; ++i )
@@ -501,6 +505,7 @@ public class CardPage : EventReceiverInstance
 
         //pageCountText.text = currentbinder.data.pageCount.ToString();
         PopulateGrid();
+        EventSystem.Instance.TriggerEvent( new SaveGameEvent() { } );
     }
 
     public void RemovePage( bool left )
@@ -508,17 +513,20 @@ public class CardPage : EventReceiverInstance
         currentbinder.data.Remove( left ? currentPage - 1 : currentPage );
        // pageCountText.text = currentbinder.data.pageCount.ToString();
         PopulateGrid();
+        EventSystem.Instance.TriggerEvent( new SaveGameEvent() { } );
     }
 
     public void SwapPage( bool left, int withIndex )
     {
         currentbinder.data.Swap( left ? currentPage - 1 : currentPage, withIndex );
         PopulateGrid();
+        EventSystem.Instance.TriggerEvent( new SaveGameEvent() { } );
     }
 
     public void MovePage( bool left, int toIndex )
     {
         currentbinder.data.Move( left ? currentPage - 1 : currentPage, toIndex );
         PopulateGrid();
+        EventSystem.Instance.TriggerEvent( new SaveGameEvent() { } );
     }
 }

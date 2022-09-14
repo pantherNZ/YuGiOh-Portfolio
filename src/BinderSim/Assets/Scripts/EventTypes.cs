@@ -33,3 +33,5 @@ public class OpenInventoryPageEvent : OpenSearchPageEvent
 public class PageFullEvent : IBaseEvent { }
 
 public class SearchEntryDragDropComplete : IBaseEvent { }
+
+public class SaveGameEvent : IBaseEvent { }

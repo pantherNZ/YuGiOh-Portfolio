@@ -34,7 +34,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     public ReadOnlyCollection<BinderDataRuntime> BinderData { get => binderData.AsReadOnly(); private set { } }
 
     private int? currentSelectedBinderIdx;
-    private int currentBinderSavingIndex;
+    private int? currentBinderSavingIndex;
 
     private ImportData savedImportedData;
 
@@ -89,7 +89,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
         // Delete the save file (but create a backup first)
         currentBinderSavingIndex = currentSelectedBinderIdx.Value;
-        var binderName = binderData[currentBinderSavingIndex].data.name;
+        var binderName = binderData[currentBinderSavingIndex.Value].data.name;
         SaveGameSystem.SaveGame( binderName + "_backup" );
         SaveGameSystem.DeleteGame( binderName );
 
@@ -209,6 +209,10 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                 }
             }
 
+            Save();
+        }
+        else if( e is SaveGameEvent )
+        {
             Save();
         }
     }
@@ -431,6 +435,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         }
 
         savedImportedData = null;
+        Save();
     }
 
     public void OpenInventory()
@@ -460,6 +465,9 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
     private void Save()
     {
+        currentBinderSavingIndex = null;
+        SaveGameSystem.SaveGame( "Inventory" );
+
         foreach( var( idx, binder ) in Utility.Enumerate( binderData ) )
         {
             currentBinderSavingIndex = idx;
@@ -469,11 +477,29 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
     void ISavableComponent.Serialise( BinaryWriter writer )
     {
-        var binder = binderData[currentBinderSavingIndex];
+        if( currentBinderSavingIndex == null )
+            SerialiseInventory( writer );
+        else
+            SerialiseBinder( writer, binderData[currentBinderSavingIndex.Value] );
+    }
 
+    void SerialiseInventory( BinaryWriter writer )
+    {
+        writer.Write( ( long )0 );
+
+        var count = Inventory.Count( ( x ) => x.insideBinderIdx == null );
+        writer.Write( count );
+
+        foreach( var card in Inventory )
+            if( card.insideBinderIdx == null )
+                SerialiseCard( writer, card );
+    }
+
+    void SerialiseBinder( BinaryWriter writer, BinderDataRuntime binder )
+    {
         writer.Write( binder.data.id );
         writer.Write( binder.data.name );
-        writer.Write( binder.data.dateCreated.ToString() );
+        writer.Write( binder.data.dateCreated.ToBinary() );
         writer.Write( ( UInt16 ) binder.data.pageCount );
         writer.Write( ( byte )binder.data.pageWidth );
         writer.Write( ( byte )binder.data.pageHeight );
@@ -496,9 +522,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                         gaps = 0;
                     }
 
-                    writer.Write( card.cardId );
-                    writer.Write( ( byte )( ( ( byte )card.condition << 5 ) | Mathf.Min( 64, card.count ) ) );
-                    writer.Write( ( byte )( ( card.cardIndex << 4 ) | card.imageIndex ) );
+                    SerialiseCard( writer, card );
                 }
             }
         }
@@ -507,11 +531,86 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             writer.Write( -gaps );
     }
 
+    void SerialiseCard( BinaryWriter writer, CardDataRuntime card )
+    {
+        writer.Write( card.cardId );
+        writer.Write( ( byte )( ( ( byte )card.condition << 5 ) | Mathf.Min( 64, card.count ) ) );
+        writer.Write( ( byte )( ( card.cardIndex << 4 ) | card.imageIndex ) );
+    }
+
     void ISavableComponent.Deserialise( int saveVersion, BinaryReader reader )
     {
         var id = reader.ReadInt64();
+
+        if( id == 0 )
+            DeserialiseInventory( saveVersion, reader );
+        else
+            DeserialiseBinder( saveVersion, reader, id );
+    }
+
+    void DeserialiseInventory( int saveVersion, BinaryReader reader )
+    {
+        int count = reader.ReadInt32();
+
+        for( int i = 0; i < count; ++i )
+            Inventory.Add( DeserialiseCard( saveVersion, reader, true ) );
+
+        var request = "https://db.ygoprodeck.com/api/v7/cardinfo.php?id=";
+        StringBuilder uri = new();
+        int counter = 0;
+        Dictionary<int, List<int>> iventoryByCardIds = new();
+
+        foreach( var( idx, card ) in Inventory.Enumerate() )
+        {
+            if( card.cardId != 0 && card.cardAPIData == null )
+            {
+                uri.Append( uri.Length > 0 ? ", " : String.Empty );
+                uri.Append( card.cardId );
+                
+                if( iventoryByCardIds.TryGetValue( card.cardId, out var items ) )
+                {
+                    items.Add( idx );
+                }
+                else
+                {
+                    iventoryByCardIds.Add( card.cardId, new List<int> { idx } );
+                }
+            }
+
+            if( uri.Length > 0 &&
+                ( counter++ >= maxCardsPerRequest || idx == Inventory.Count - 1 ) )
+            {
+                var cardToModify = card;
+                StartCoroutine( APICallHandler.Instance.SendGetRequest( request + uri.ToString(), true, ( json ) =>
+                {
+                    Root data = JsonConvert.DeserializeObject<Root>( json );
+
+                    foreach( var card in data.data )
+                    {
+                        if( !iventoryByCardIds.TryGetValue( card.id, out List<int> cardsInInventory ) )
+                        {
+                            Debug.LogError( "Failed to find return json card in list: " + card.name );
+                            continue;
+                        }
+
+                        foreach( var inventoryIdx in cardsInInventory )
+                        {
+                            Inventory[inventoryIdx].cardAPIData = card.DeepCopy();
+                            Inventory[inventoryIdx].name = card.name;
+                        }
+                        }
+                } ) );
+
+                counter = 0;
+                uri = new();
+            }
+        }
+    }
+
+    void DeserialiseBinder( int saveVersion, BinaryReader reader, long id )
+    {
         var name = reader.ReadString();
-        var dateCreated = DateTime.Parse( reader.ReadString() );
+        var dateCreated = DateTime.FromBinary( reader.ReadInt64() );
         var pageCount = reader.ReadUInt16();
         var pageWidth = reader.ReadByte();
         var pageHeight = reader.ReadByte();
@@ -560,17 +659,9 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                         uri.Append( uri.Length > 0 ? ", " : String.Empty );
                         uri.Append( cardId );
 
-                        var countAndCondition = reader.ReadByte();
-                        var cardAndImageIndices = reader.ReadByte();
-
-                        var deserialisedCard = new CardDataRuntime()
-                        {
-                            cardId = page * pageWidth * pageHeight + card,
-                            count = countAndCondition & 63,
-                            condition = ( CardCondition )( countAndCondition >> 5 ),
-                            cardIndex = cardAndImageIndices >> 4,
-                            imageIndex = cardAndImageIndices & 15
-                        };
+                        var deserialisedCard = DeserialiseCard( saveVersion, reader, false );
+                        // Store index in the page inside the card ID (later the id will be set back once the data is loaded from API)
+                        deserialisedCard.cardId = page * pageWidth * pageHeight + card;
 
                         var pageIdx = deserialisedCard.cardId / ( pageWidth * pageHeight );
                         var cardIdx = Utility.Mod( deserialisedCard.cardId, pageWidth * pageHeight );
@@ -627,6 +718,22 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                 }
             }
         }
+    }
+
+    private CardDataRuntime DeserialiseCard( int saveVersion, BinaryReader reader, bool deserialiseId )
+    {
+        var cardId = deserialiseId ? reader.ReadInt32() : 0;
+        var countAndCondition = reader.ReadByte();
+        var cardAndImageIndices = reader.ReadByte();
+
+        return new CardDataRuntime()
+        {
+            cardId = cardId,
+            count = countAndCondition & 63,
+            condition = ( CardCondition )( countAndCondition >> 5 ),
+            cardIndex = cardAndImageIndices >> 4,
+            imageIndex = cardAndImageIndices & 15
+        };
     }
 
     private const int maxChars = 91;
