@@ -90,16 +90,29 @@ public class SearchPageFull : SearchPageBase
 
     bool IsRemoveButtonActive()
     {
-        return behaviour == SearchPageOrigin.MainPage 
-            && GetDropDownOption() != InventoryData.Options.SearchOnline 
-            && GetDropDownOption() != InventoryData.Options.TempInventory;
+        if( behaviour == SearchPageOrigin.MainPage
+            && GetDropDownOption() != InventoryData.Options.SearchOnline
+            && GetDropDownOption() != InventoryData.Options.TempInventory )
+            return true;
+
+        if( currentBinderIdx != null && 
+            GetDropDownOptionIdx() - ( int )InventoryData.Options.CardsInBinderX == currentBinderIdx.Value )
+            return true;
+
+        return false;
     }
 
     bool IsAddButtonActive()
     {
-        return behaviour != SearchPageOrigin.MainPage 
+        if( behaviour != SearchPageOrigin.MainPage
             || GetDropDownOption() == InventoryData.Options.SearchOnline
-            || GetDropDownOption() == InventoryData.Options.TempInventory;
+            || GetDropDownOption() == InventoryData.Options.TempInventory )
+        {
+            return currentBinderIdx == null ||
+                GetDropDownOptionIdx() - ( int )InventoryData.Options.CardsInBinderX != currentBinderIdx.Value;
+        }
+
+        return false;
     }
 
 }

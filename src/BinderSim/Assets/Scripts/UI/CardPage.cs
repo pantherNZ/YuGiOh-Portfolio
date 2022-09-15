@@ -196,6 +196,7 @@ public class CardPage : EventReceiverInstance
         var image = grid.transform.GetChild( pos ).GetComponent<Image>();
         var data = e.card;
         image.sprite = Utility.CreateSprite( data == null ? defaultCardImage : data.smallImage );
+        var prevCard = currentbinder.data.cardList[page][pos];
         currentbinder.data.cardList[page][pos] = data;
         UpdateHeaderInfo();
         currentModifyCardIdx = null;
@@ -209,9 +210,9 @@ public class CardPage : EventReceiverInstance
             data.insideBinderIdx = BinderPage.Instance.BinderData.IndexOf( currentbinder );
             BinderPage.Instance.Inventory.Add( data );
         }
-        else
+        else if( prevCard != null )
         {
-            BinderPage.Instance.Inventory.Find( ( x ) => x.cardId == data.cardId ).insideBinderIdx = null;
+            BinderPage.Instance.Inventory.Find( ( x ) => x.cardId == prevCard.cardId ).insideBinderIdx = null;
         }
 
         EventSystem.Instance.TriggerEvent( new SaveGameEvent() { } );
