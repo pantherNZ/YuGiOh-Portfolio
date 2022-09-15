@@ -74,6 +74,9 @@ public class CardPage : EventReceiverInstance
                     if( e is OpenCardPageEvent openPageRequest )
                         LoadBinder( openPageRequest.binder );
                     break;
+                case PageType.SearchPageFull:
+                    cardsPage.SetActive( false );
+                    break;
             }
         }
         else if( e is CardSelectedEvent cardSelectedEvent )
