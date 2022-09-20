@@ -49,14 +49,16 @@ mergeInto(LibraryManager.library,
 		                    alert("Error while reading file " + file.name + ": " + loadEvent.target.error);
 		                    return;
 	                    }
-	                    
+
+                        var data = file.name.concat("%%%%", evt.target.result);
+
 	                    // The text results are in evt.target.result, so just send that
 	                    // back into our app with SendMessage(). Note that we DON'T need
 	                    // to call Pointer_stringify() on it.
-                        gameInstance.SendMessage(
+                        window.gameInstance.SendMessage(
                             inputLoader.gameObjName, 
                             inputLoader.dataSinkFn, 
-                            evt.target.result);
+                            data);
                     }
                     reader.readAsText(file);
                 }

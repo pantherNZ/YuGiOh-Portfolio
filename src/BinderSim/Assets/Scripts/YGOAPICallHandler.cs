@@ -18,10 +18,10 @@ class APICallHandler
         }
     }
 
-    private RateLimiter rateLimiter = new( 20, TimeSpan.FromSeconds( 1.0 ) );
+    private RateLimiter rateLimiter = new RateLimiter( 20, TimeSpan.FromSeconds( 1.0 ) );
     public RateLimiter RateLimiterInst => rateLimiter;
 
-    private Dictionary<string, string> cachedRequests = new();
+    private Dictionary<string, string> cachedRequests = new Dictionary<string, string>();
 
     // https://db.ygoprodeck.com/api-guide/
     public IEnumerator SendCardSearchRequest( string cardName, bool waitForRateLimit, Action<string> callback = null )

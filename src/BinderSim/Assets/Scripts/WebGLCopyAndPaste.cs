@@ -34,7 +34,7 @@ using System.Runtime.InteropServices;
 public class WebGLCopyAndPasteAPI
 {
 
-#if UNITY_WEBGL
+#if UNITY_WEBGL && !UNITY_EDITOR
 
     [DllImport("__Internal")]
     private static extern void initWebGLCopyAndPaste(StringCallback cutCopyCallback, StringCallback pasteCallback);

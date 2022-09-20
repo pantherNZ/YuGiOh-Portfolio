@@ -14,7 +14,7 @@ public abstract class SearchPageBase : EventReceiverInstance
     [SerializeField] protected GameObject searchListPage = null;
     [SerializeField] protected GameObject cardList = null;
     [SerializeField] protected TMPro.TMP_InputField searchInput = null;
-    [SerializeField] protected Color selectedEntryColour = new();
+    [SerializeField] protected Color selectedEntryColour = new Color();
     [SerializeField] protected bool autoSearch = true;
     [SerializeField] protected int maxSearchResults = 100;
     [SerializeField] protected int autoSearchDelayMS = 500;
@@ -23,9 +23,9 @@ public abstract class SearchPageBase : EventReceiverInstance
     [SerializeField] TMPro.TextMeshProUGUI totalValueText = null;
     [SerializeField] Button minimiseMaximiseButton = null;
 
-    protected List<CardDataRuntime> cardData = new();
+    protected List<CardDataRuntime> cardData = new List<CardDataRuntime>();
     protected List<CardDataRuntime> tempImportInventory;
-    protected Dictionary<CardDataRuntime, GameObject> searchUIEntries = new();
+    protected Dictionary<CardDataRuntime, GameObject> searchUIEntries = new Dictionary<CardDataRuntime, GameObject>();
     protected int? currentCardSelectedIdx;
     protected int? currentBinderIdx;
     protected SearchPageOrigin behaviour = SearchPageOrigin.None;
@@ -133,7 +133,7 @@ public abstract class SearchPageBase : EventReceiverInstance
         }
 
         if( cardCountText != null && count > 0 )
-            cardCountText.text = String.Format( "{0} Card{1}", count, count == 1 ? string.Empty : 's' );
+            cardCountText.text = String.Format( "{0} Card{1}", count, count == 1 ? string.Empty : "s" );
         if( totalValueText != null && count > 0 ) 
             totalValueText.text = String.Format( "Total Value: ${0:0.00}", totalValue );
         if( count == 0 )
@@ -177,7 +177,7 @@ public abstract class SearchPageBase : EventReceiverInstance
                 }
 
                 if( cardCountText != null && data.data.Count > 0 ) 
-                    cardCountText.text = String.Format( "{0} Card{1}", data.data.Count, data.data.Count == 1 ? string.Empty : 's' );
+                    cardCountText.text = String.Format( "{0} Card{1}", data.data.Count, data.data.Count == 1 ? string.Empty : "s" );
             }
         }
         catch( Exception e )
@@ -220,7 +220,7 @@ public abstract class SearchPageBase : EventReceiverInstance
                 GetSelectedCard().GetComponentInChildren<Image>().color = Color.clear;
             if( !unselect )
                 newCardUIEntry.GetComponentInChildren<Image>().color = selectedEntryColour;
-            currentCardSelectedIdx = unselect ? null : thisIdx;
+            currentCardSelectedIdx = unselect ? null : thisIdx as int?;
         };
 
         if( behaviour != SearchPageOrigin.MainPage )
@@ -423,7 +423,7 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     private void PopulateOptions()
     {
-        List<string> options = new();
+        List<string> options = new List<string>();
 
         foreach( var (val, str) in Utility.GetEnumValues<InventoryData.Options>().Zip( InventoryData.optionStrings ) )
         {

@@ -169,7 +169,7 @@ public class ImportData
     public string name;
     public int count;
     public float totalValue;
-    public List<CardDataRuntime> cards = new();
+    public List<CardDataRuntime> cards = new List<CardDataRuntime>();
 
     public enum Options
     {
@@ -180,7 +180,7 @@ public class ImportData
         OptionsCount,
     }
 
-    public static readonly ReadOnlyCollection<string> optionStrings = new(
+    public static readonly ReadOnlyCollection<string> optionStrings = new ReadOnlyCollection<string>(
         new string[( int )Options.OptionsCount] 
     {
         "Create Populated Binder",
@@ -203,7 +203,7 @@ public static class InventoryData
         OptionsCount,
     }
 
-    public static readonly ReadOnlyCollection<string> optionStrings = new(
+    public static readonly ReadOnlyCollection<string> optionStrings = new ReadOnlyCollection<string>(
         new string[( int )Options.OptionsCount]
     {
         "Imported Cards",

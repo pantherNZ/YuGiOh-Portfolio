@@ -75,8 +75,7 @@ public class SearchPageFull : SearchPageBase
     {
         base.ShowPageInternal();
 
-        if( currentCardSelectedIdx != null )
-            GetSelectedCard().GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( null );
+        GetSelectedCard()?.GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( null );
     }
 
     protected override void UpdateButtons()

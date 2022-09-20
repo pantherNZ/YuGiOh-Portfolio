@@ -25,12 +25,12 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     [SerializeField] Button deleteButton = null;
     [SerializeField] Button exportButton = null;
     [SerializeField] Button importButton = null;
-    [SerializeField] Color selectedEntryColour = new();
+    [SerializeField] Color selectedEntryColour = new Color();
 
-    private List<CardDataRuntime> inventory = new();
+    private List<CardDataRuntime> inventory = new List<CardDataRuntime>();
     public List<CardDataRuntime> Inventory { get => inventory; private set { } }
 
-    private List<BinderDataRuntime> binderData = new();
+    private List<BinderDataRuntime> binderData = new List<BinderDataRuntime>();
     public ReadOnlyCollection<BinderDataRuntime> BinderData { get => binderData.AsReadOnly(); private set { } }
 
     private int? currentSelectedBinderIdx;
@@ -38,7 +38,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
     private ImportData savedImportedData;
 
-    private System.Random rng = new();
+    private System.Random rng = new System.Random();
 
     const int maxCardsPerRequest = 40;
 
@@ -155,7 +155,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
         var images = binder.binderUI.GetComponentsInChildren<Image>();
         // Preview icon
-        images[^1].color = Color.clear;
+        images[images.Length - 1].color = Color.clear;
 
         binder.index = binderData.Count - 1;
 
@@ -166,7 +166,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                 GetSelectedBinder().GetComponent<Image>().color = Color.clear;
             if( !unselect )
                 binder.binderUI.GetComponent<Image>().color = selectedEntryColour;
-            currentSelectedBinderIdx = unselect ? null : binder.index;
+            currentSelectedBinderIdx = unselect ? null : binder.index as int?;
             editButton.interactable = !unselect;
             deleteButton.interactable = !unselect;
             exportButton.interactable = !unselect;
@@ -188,6 +188,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             {
                 case PageType.BinderPage:
                     mainMenuPage.SetActive( true );
+                    GetSelectedBinder()?.GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( null );
                     break;
                 case PageType.CardPage:
                     mainMenuPage.SetActive( false );
@@ -219,32 +220,56 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
     public void ImportFromDragonShieldTxtFile()
     {
-        importButton.interactable = false;
         LoadFromDragonShieldTxtFile( ShowImportDialog );
     }
 
+#if UNITY_WEBGL && !UNITY_EDITOR
+    [DllImport("__Internal")]
+    private static extern void BrowserTextUpload(string filter, string gameObjectName, string methodName);
+#endif
+
+    private Action<ImportData> searchCompleteCallback;
+
     public void LoadFromDragonShieldTxtFile( Action<ImportData> onSearchCompleteCallback )
     {
+        searchCompleteCallback = onSearchCompleteCallback;
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+        //UploadFile( gameObject.name, "OnFileUploaded", ".txt", false );
+        BrowserTextUpload( ".txt", gameObject.name, "OnFileUploadedWebGL" );
+#else
         var extensions = new[] { new ExtensionFilter( "Text Files", "txt" ) };
-        StandaloneFileBrowser.OpenFilePanelAsync( "Open File", "", extensions, false, ( paths ) =>
-        {
-            foreach( var path in paths )
-                StartCoroutine( OnFileUpload( new Uri( path ), onSearchCompleteCallback ) );
-        } );
+        var paths = StandaloneFileBrowser.OpenFilePanel( "Open File", "", extensions, false );
+
+        if( paths.Length > 0 && paths[0].Length > 0 )
+            StartCoroutine( FileUploaded( new Uri( paths[0] ).AbsolutePath ) );
+#endif
     }
 
-    private IEnumerator OnFileUpload( Uri uri, Action<ImportData> onSearchCompleteCallback )
+    private void OnFileUploadedWebGL( string data )
     {
+        if( data.Length == 0 )
+            return;
+
+        var temp = data.Split( new string[] { "%%%%" }, StringSplitOptions.None );
+        var fileName = temp[0];
+        var cardData = temp[1];
+        FileLoadedRoutine( fileName, cardData );
+    }
+
+    private IEnumerator FileUploaded( string path )
+    {
+        importButton.interactable = false;
         if( Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor )
         {
-            var data = File.ReadAllText( uri.AbsolutePath );
-            FileLoadedRoutine( uri, data, onSearchCompleteCallback );
+            var data = File.ReadAllText( path );
+            FileLoadedRoutine( path, data );
         }
         else
         {
-            var loader = new UnityWebRequest( uri );
+            var loader = new UnityWebRequest( path );
             yield return loader.SendWebRequest();
-            FileLoadedRoutine( uri, loader.downloadHandler.text, onSearchCompleteCallback );
+            FileLoadedRoutine( path, loader.downloadHandler.text );
         }
     }
 
@@ -258,17 +283,17 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         public int count;
     }
 
-    private void FileLoadedRoutine( Uri uri, string fileData, Action<ImportData> onSearchCompleteCallback )
+    private void FileLoadedRoutine( string fileName, string fileData )
     {
-        ImportData importData = new();
-        importData.name = Path.GetFileNameWithoutExtension( uri.AbsolutePath );
+        ImportData importData = new ImportData();
+        importData.name = Path.GetFileNameWithoutExtension( fileName );
 
         var lines = fileData.Split( new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries );
-        StringBuilder builder = new();
+        StringBuilder builder = new StringBuilder();
         var numCards = 0;
         importRequestsComplete = 0;
         totalImportedValue = 0.0f;
-        Dictionary<string, List<ImportCardExtraData>> importedCardData = new();
+        Dictionary<string, List<ImportCardExtraData>> importedCardData = new Dictionary<string, List<ImportCardExtraData>>();
 
         foreach( var line in lines )
             if( line.Length > 0 && line.Split( ',' ).Length >= 8 )
@@ -287,15 +312,13 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                 continue;
 
             var cardName = string.Join( ",", data.Skip( 1 ).Take( data.Length - 7 ) ).Trim();
-            var conditionStr = data[^5].Trim();
-            CardCondition condition = CardCondition.NearMint;
-            if( Enum.TryParse( typeof( CardCondition ), conditionStr, true, out var c ) )
-                condition = ( CardCondition )c;
+            var conditionStr = data[data.Length - 5].Trim();
+            CardCondition condition = ( CardCondition )Enum.Parse( typeof( CardCondition ), conditionStr, true );
 
             var extraData = new ImportCardExtraData()
             {
                 condition = condition,
-                setCode = data[^6].Trim(),
+                setCode = data[data.Length - 6].Trim(),
                 count = int.Parse(data[0].Trim())
             };
 
@@ -337,9 +360,9 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                                 if( x.set_code.StartsWith( importedCard.setCode ) )
                                     return true;
 
-                                var withoutSuffix = x.set_code.StartsWith( importedCard.setCode[..^1] );
-                                var suffix = importedCard.setCode[^1];
-                                var setSuffix = x.set_code[( importedCard.setCode.Length - 1 )..];
+                                var withoutSuffix = x.set_code.StartsWith( importedCard.setCode.Substring( 0, importedCard.setCode.Length - 1 ) );
+                                var suffix = importedCard.setCode[importedCard.setCode.Length - 1];
+                                var setSuffix = x.set_code.Substring( importedCard.setCode.Length - 1 );
                                 return withoutSuffix && setSuffix.Contains( suffix );
                             } );
 
@@ -368,11 +391,11 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                     if( ++importRequestsComplete == requestsTotal )
                     {
                         importData.totalValue = totalImportedValue;
-                        onSearchCompleteCallback( importData );
+                        searchCompleteCallback( importData );
                     }
                 } ) );
 
-                builder = new();
+                builder = new StringBuilder();
             }
         }
     }
@@ -388,7 +411,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         texts[2].text = string.Format( "Total Value: ${0:0.00}", importData.totalValue );
 
         var dropDown = importDialogPanel.GetComponentInChildren<TMPro.TMP_Dropdown>();
-        List<string> options = new();
+        List<string> options = new List<string>();
 
         foreach( var( val, str ) in Utility.GetEnumValues<ImportData.Options>().Zip( ImportData.optionStrings ) )
         {
@@ -556,9 +579,9 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             Inventory.Add( DeserialiseCard( saveVersion, reader, true ) );
 
         var request = "https://db.ygoprodeck.com/api/v7/cardinfo.php?id=";
-        StringBuilder uri = new();
+        StringBuilder uri = new StringBuilder();
         int counter = 0;
-        Dictionary<int, List<int>> iventoryByCardIds = new();
+        Dictionary<int, List<int>> iventoryByCardIds = new Dictionary<int, List<int>>();
 
         foreach( var( idx, card ) in Inventory.Enumerate() )
         {
@@ -602,7 +625,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                 } ) );
 
                 counter = 0;
-                uri = new();
+                uri = new StringBuilder();
             }
         }
     }
@@ -631,9 +654,9 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         UpdateBinderUIEntry( binderData.Back() );
 
         var request = "https://db.ygoprodeck.com/api/v7/cardinfo.php?id=";
-        StringBuilder uri = new();
+        StringBuilder uri = new StringBuilder();
         int numCards = 0;
-        Dictionary<int, List<CardDataRuntime>> idToCardData = new();
+        Dictionary<int, List<CardDataRuntime>> idToCardData = new Dictionary<int, List<CardDataRuntime>>();
         int gaps = 0;
 
         for( int page = 0; page < pageCount; ++page )
@@ -714,7 +737,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                         }
                     } ) );
 
-                    uri = new();
+                    uri = new StringBuilder();
                 }
             }
         }
@@ -756,13 +779,15 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     {
         GUIUtility.systemCopyBuffer = text.text;
 
+    #if UNITY_WEBGL && !UNITY_EDITOR
         if( Application.platform == RuntimePlatform.WebGLPlayer )
             WebGLCopyAndPasteAPI.passCopyToBrowser( GUIUtility.systemCopyBuffer );
+    #endif
     }
 
     private static string GetStringFromBytes( Byte[] bts )
     {
-        StringBuilder str = new();
+        StringBuilder str = new StringBuilder();
 
         foreach( var bt in bts )
         {
@@ -781,7 +806,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                 str.Append( ( char )( bt - maxChars * 2 + asciiCharStart ) );
             }
 
-            str[^1] = FixChar( str[^1], false );
+            str[str.Length - 1] = FixChar( str[str.Length - 1], false );
         }
 
         return str.ToString();
@@ -812,7 +837,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
     private static Byte[] GetBytesFromString( string str )
     {
-        List<Byte> bts = new();
+        List<Byte> bts = new List<byte>();
 
         for( int idx = 0; idx < str.Length; ++idx )
         {
