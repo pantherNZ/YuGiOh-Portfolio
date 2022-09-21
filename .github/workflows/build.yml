@@ -1,4 +1,4 @@
-name: BuildAndRelease
+name: build-and-release
 
 on:
   pull_request:
@@ -48,5 +48,4 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
           branch: gh-pages
-          folder: build/WebGL/WebGL
           target-folder: ${{ env.RELEASE_VERSION }}
