@@ -63,10 +63,29 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         mainMenuPage.SetActive( true );
         importDialogPanel.SetActive( false );
 
-        // Debug skip menu
-        //NewBinder();
-        //binderData.Back().binderUI.GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( null );
-        //EditBinder();
+#if UNITY_WEBGL && !UNITY_EDITOR
+        var url = Uri.UnescapeDataString( Application.absoluteURL );
+        //var url = "?binder=\"CAUA$BN4B0B9BF+oA+A=|cA/A4A*A+A8!!!!!!!!5!$$!ANqJ#|!AXAx1\"|!A9A-B,&|!BJBY;&|!AJA>m$|!B@$Al\"|!B-APy#|!AtA}A9%|!AgB[A>$|!vBjBjBj";
+        var values = url.Split( '?' );
+        if( values.Length > 1 )
+        {
+            if( values[1].StartsWithGet( "binder=", out var binderKey ) )
+            {
+                if( ImportFromStringInternal( binderKey, () => QuickEditBinder( binderData.Count - 1 ) ) )
+                {
+                    QuickEditBinder( binderData.Count - 1 );
+                }
+            }
+        }
+#endif
+    }
+
+    void QuickEditBinder( int idx )
+    {
+        if( currentSelectedBinderIdx.HasValue )
+            binderData[currentSelectedBinderIdx.Value].binderUI.GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( null );
+        binderData[idx].binderUI.GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( null );
+        EditBinder();
     }
 
     public void EditBinder()
@@ -273,15 +292,21 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         }
     }
 
-    private int importRequestsComplete = 0;
-    private float totalImportedValue = 0.0f;
-
     private class ImportCardExtraData
     {
         public string setCode;
         public CardCondition condition;
         public int count;
     }
+
+    private class ImportCountData
+    {
+        public int importRequestsComplete;
+        public int importRequestsTotal;
+        public float totalImportedValue;
+    }
+
+    private Dictionary<string, ImportCountData> importDataCount = new Dictionary<string, ImportCountData>();
 
     private void FileLoadedRoutine( string fileName, string fileData )
     {
@@ -291,15 +316,19 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         var lines = fileData.Split( new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries );
         StringBuilder builder = new StringBuilder();
         var numCards = 0;
-        importRequestsComplete = 0;
-        totalImportedValue = 0.0f;
+
         Dictionary<string, List<ImportCardExtraData>> importedCardData = new Dictionary<string, List<ImportCardExtraData>>();
 
         foreach( var line in lines )
             if( line.Length > 0 && line.Split( ',' ).Length >= 8 )
                 ++numCards;
 
-        var requestsTotal = numCards / maxCardsPerRequest + ( numCards % maxCardsPerRequest > 0 ? 1 : 0 );
+        importDataCount.Add( importData.name, new ImportCountData()
+        {
+            totalImportedValue = 0.0f,
+            importRequestsComplete = 0,
+            importRequestsTotal = numCards / maxCardsPerRequest + ( numCards % maxCardsPerRequest > 0 ? 1 : 0 )
+        } );
 
         foreach( var line in lines )
         {
@@ -374,7 +403,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                             }
 
                             if( float.TryParse( card.card_sets[cardIndex].set_price, out var value ) )
-                                totalImportedValue += value;
+                                importDataCount[card.name].totalImportedValue += value;
 
                             importData.cards.Add( new CardDataRuntime()
                             {
@@ -388,9 +417,10 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                         }
                     }
 
-                    if( ++importRequestsComplete == requestsTotal )
+                    if( ++importDataCount[importData.name].importRequestsComplete == importDataCount[importData.name].importRequestsTotal )
                     {
-                        importData.totalValue = totalImportedValue;
+                        importData.totalValue = importDataCount[importData.name].totalImportedValue;
+                        importDataCount.Remove( importData.name );
                         searchCompleteCallback( importData );
                     }
                 } ) );
@@ -563,12 +593,17 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
     void ISavableComponent.Deserialise( int saveVersion, BinaryReader reader )
     {
+        DeserialiseInternal( saveVersion, reader, null );
+    }
+
+    void DeserialiseInternal( int saveVersion, BinaryReader reader, Action onCompleteCallback )
+    {
         var id = reader.ReadInt64();
 
         if( id == 0 )
             DeserialiseInventory( saveVersion, reader );
         else
-            DeserialiseBinder( saveVersion, reader, id );
+            DeserialiseBinder( saveVersion, reader, id, onCompleteCallback );
     }
 
     void DeserialiseInventory( int saveVersion, BinaryReader reader )
@@ -621,7 +656,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                             Inventory[inventoryIdx].cardAPIData = card.DeepCopy();
                             Inventory[inventoryIdx].name = card.name;
                         }
-                        }
+                    }
                 } ) );
 
                 counter = 0;
@@ -630,7 +665,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         }
     }
 
-    void DeserialiseBinder( int saveVersion, BinaryReader reader, long id )
+    void DeserialiseBinder( int saveVersion, BinaryReader reader, long id, Action onCompleteCallback = null )
     {
         var name = reader.ReadString();
         var dateCreated = DateTime.FromBinary( reader.ReadInt64() );
@@ -658,6 +693,9 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         int numCards = 0;
         Dictionary<int, List<CardDataRuntime>> idToCardData = new Dictionary<int, List<CardDataRuntime>>();
         int gaps = 0;
+        var callback = onCompleteCallback;
+
+        importDataCount.Add( name, new ImportCountData() );
 
         for( int page = 0; page < pageCount; ++page )
         {
@@ -710,6 +748,8 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                     ( numCards % maxCardsPerRequest == 0 || // Either at X cards, push a request
                     ( page == pageCount - 1 && card == ( pageWidth * pageHeight ) - 1 ) ) ) // Or on the last card of the loop
                 {
+                    ++importDataCount[name].importRequestsTotal;
+
                     StartCoroutine( APICallHandler.Instance.SendGetRequest( request + uri.ToString(), true, ( json ) =>
                     {
                         Root data = JsonConvert.DeserializeObject<Root>( json );
@@ -734,6 +774,12 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                                 newCard.insideBinderIdx = bindexIndex;
                                 inventory.Add( newCard );
                             }
+                        }
+
+                        if( ++importDataCount[name].importRequestsComplete == importDataCount[name].importRequestsTotal )
+                        {
+                            importDataCount.Remove( name );
+                            callback?.Invoke();
                         }
                     } ) );
 
@@ -779,10 +825,10 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     {
         GUIUtility.systemCopyBuffer = text.text;
 
-    #if UNITY_WEBGL && !UNITY_EDITOR
+#if UNITY_WEBGL && !UNITY_EDITOR
         if( Application.platform == RuntimePlatform.WebGLPlayer )
             WebGLCopyAndPasteAPI.passCopyToBrowser( GUIUtility.systemCopyBuffer );
-    #endif
+#endif
     }
 
     private static string GetStringFromBytes( Byte[] bts )
@@ -814,25 +860,32 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
     public void ImportFromString( TMPro.TMP_InputField text )
     {
-        if( text.text.Length == 0 )
-            return;
+        ImportFromStringInternal( text.text, null );
+    }
+
+    private bool ImportFromStringInternal( string text, Action onCompleteCallback )
+    {
+        if( text.Length == 0 )
+            return false;
 
         try
         {
             importButton.interactable = false;
-            var bytes = GetBytesFromString( text.text );
+            var bytes = GetBytesFromString( text );
             using var memoryStream = new MemoryStream( bytes, writable: false );
             using var reader = new BinaryReader( memoryStream );
             var version = reader.ReadByte();
-            ( this as ISavableComponent ).Deserialise( version, reader );
+            DeserialiseInternal( version, reader, onCompleteCallback );
         }
         //catch( Exception e )
         catch( Exception )
         {
             //Debug.LogError( "ImportFromString failed: \n" + e.Message );
+            return false;
         }
 
         importButton.interactable = true;
+        return true;
     }
 
     private static Byte[] GetBytesFromString( string str )
