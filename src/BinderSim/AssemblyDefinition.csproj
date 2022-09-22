@@ -56,32 +56,32 @@
     <Analyzer Include="D:\Software\Visual Studio 2022\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Utility\SQLExtensions.cs" />
-    <Compile Include="Assets\Utility\CustomGravity.cs" />
-    <Compile Include="Assets\Utility\MultiImageButton.cs" />
-    <Compile Include="Assets\Utility\FunctionTimer.cs" />
-    <Compile Include="Assets\Utility\MultiImageTargetGraphics.cs" />
-    <Compile Include="Assets\Utility\UndoRedoSystem.cs" />
-    <Compile Include="Assets\Utility\SaveGame.cs" />
-    <Compile Include="Assets\Utility\Bezier.cs" />
-    <Compile Include="Assets\Utility\EventDispatcher.cs" />
-    <Compile Include="Assets\Utility\Quad.cs" />
-    <Compile Include="Assets\Utility\InputPriorityButton.cs" />
-    <Compile Include="Assets\Utility\FPSCounter.cs" />
     <Compile Include="Assets\Utility\EventSystem.cs" />
-    <Compile Include="Assets\Utility\Touchable.cs" />
-    <Compile Include="Assets\Utility\SecureHash.cs" />
-    <Compile Include="Assets\Utility\xxHash.cs" />
-    <Compile Include="Assets\Utility\AdvancedGridLayout.cs" />
     <Compile Include="Assets\Utility\SimplexNoise.cs" />
-    <Compile Include="Assets\Utility\UtilityCoroutines.cs" />
-    <Compile Include="Assets\Utility\SyncSolutionUtilities.cs" />
-    <Compile Include="Assets\Utility\HashedString.cs" />
-    <Compile Include="Assets\Utility\Extensions.cs" />
-    <Compile Include="Assets\Utility\SwipeManager.cs" />
-    <Compile Include="Assets\Utility\AdvancedGridLayoutCustomEditor.cs" />
-    <Compile Include="Assets\Utility\Utility.cs" />
+    <Compile Include="Assets\Utility\MultiImageButton.cs" />
+    <Compile Include="Assets\Utility\UndoRedoSystem.cs" />
+    <Compile Include="Assets\Utility\xxHash.cs" />
+    <Compile Include="Assets\Utility\FPSCounter.cs" />
+    <Compile Include="Assets\Utility\SecureHash.cs" />
     <Compile Include="Assets\Utility\InputPriority.cs" />
+    <Compile Include="Assets\Utility\Bezier.cs" />
+    <Compile Include="Assets\Utility\InputPriorityButton.cs" />
+    <Compile Include="Assets\Utility\MultiImageTargetGraphics.cs" />
+    <Compile Include="Assets\Utility\SwipeManager.cs" />
+    <Compile Include="Assets\Utility\UtilityCoroutines.cs" />
+    <Compile Include="Assets\Utility\AdvancedGridLayoutCustomEditor.cs" />
+    <Compile Include="Assets\Utility\CustomGravity.cs" />
+    <Compile Include="Assets\Utility\Touchable.cs" />
+    <Compile Include="Assets\Utility\Extensions.cs" />
+    <Compile Include="Assets\Utility\EventDispatcher.cs" />
+    <Compile Include="Assets\Utility\AdvancedGridLayout.cs" />
+    <Compile Include="Assets\Utility\HashedString.cs" />
+    <Compile Include="Assets\Utility\FunctionTimer.cs" />
+    <Compile Include="Assets\Utility\SyncSolutionUtilities.cs" />
+    <Compile Include="Assets\Utility\Utility.cs" />
+    <Compile Include="Assets\Utility\SaveGame.cs" />
+    <Compile Include="Assets\Utility\Quad.cs" />
+    <Compile Include="Assets\Utility\SQLExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Utility\AssemblyDefinition.asmdef" />
@@ -262,14 +262,14 @@
     <Reference Include="Ookii.Dialogs">
       <HintPath>Assets\StandaloneFileBrowser\Plugins\Ookii.Dialogs.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Data.Sqlite">
-      <HintPath>Assets\Utility\Mono.Data.Sqlite.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@3.0.2\Runtime\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Forms">
       <HintPath>Assets\StandaloneFileBrowser\Plugins\System.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Data.Sqlite">
+      <HintPath>Assets\Utility\Mono.Data.Sqlite.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>D:\Software\Unity\2021.1.17f1\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
