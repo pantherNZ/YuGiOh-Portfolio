@@ -62,6 +62,7 @@
     <Compile Include="Assets\Scripts\UI\SearchPageSmall.cs" />
     <Compile Include="Assets\Scripts\YGOAPICallHandler.cs" />
     <Compile Include="Assets\Scripts\WebGLCopyAndPaste.cs" />
+    <Compile Include="Assets\Scripts\UI\BinderListEntry.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowser.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserEditor.cs" />
     <Compile Include="Assets\Scripts\UI\ModifyPageButtons.cs" />

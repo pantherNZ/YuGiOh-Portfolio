@@ -166,15 +166,14 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
     private void UpdateBinderUIEntry( BinderDataRuntime binder )
     {
+        var references = binder.binderUI.GetComponent<BinderListEntry>();
+        references.nameInput.text = binder.data.name;
         var texts = binder.binderUI.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
-        texts[0].text = binder.data.name;
-        texts[1].text = binder.data.pageCount.ToString();
-        texts[2].text = string.Format( "{0}x{1}", binder.data.pageWidth, binder.data.pageHeight );
-        texts[3].text = binder.data.dateCreated.ToShortDateString();
-
-        var images = binder.binderUI.GetComponentsInChildren<Image>();
-        // Preview icon
-        images[images.Length - 1].color = Color.clear;
+        references.pageCountText.text = binder.data.pageCount.ToString();
+        var pageSizeStr = string.Format( "{0}x{1}", binder.data.pageWidth, binder.data.pageHeight );
+        references.pageSizeDropdown.SetValueWithoutNotify( references.pageSizeDropdown.options.FindIndex( x => x.text == pageSizeStr ) );
+        references.dateText.text = binder.data.dateCreated.ToShortDateString();
+        references.binderImage.color = Color.clear;
 
         binder.index = binderData.Count - 1;
 
@@ -195,6 +194,16 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         {
             if( currentSelectedBinderIdx != binder.index )
                 binder.binderUI.GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( e );
+
+            // Double click on name to rename
+            if( ( references.nameInput.transform as RectTransform ).GetSceenSpaceRect().Contains( Utility.GetMouseOrTouchPos() ) )
+            {
+                references.nameInput.enabled = true;
+                references.nameInput.ActivateInputField();
+                return;
+            }
+
+            // Otherwise, double click to open binder
             EditBinder();
         };
     }
