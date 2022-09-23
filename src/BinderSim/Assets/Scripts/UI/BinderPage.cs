@@ -403,7 +403,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                             }
 
                             if( float.TryParse( card.card_sets[cardIndex].set_price, out var value ) )
-                                importDataCount[card.name].totalImportedValue += value;
+                                importDataCount[importData.name].totalImportedValue += value;
 
                             importData.cards.Add( new CardDataRuntime()
                             {
