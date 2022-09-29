@@ -554,6 +554,11 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         Save();
     }
 
+#if UNITY_WEBGL && !UNITY_EDITOR
+    [DllImport( "__Internal" )]
+    private static extern void SyncFiles();
+#endif
+
     private void Save()
     {
         currentBinderSavingIndex = null;
@@ -564,6 +569,10 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             currentBinderSavingIndex = idx;
             SaveGameSystem.SaveGame( binder.data.name );
         }
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+        SyncFiles();
+#endif
     }
 
     void ISavableComponent.Serialise( BinaryWriter writer )
