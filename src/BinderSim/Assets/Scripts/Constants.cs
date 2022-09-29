@@ -10,6 +10,7 @@ public class Constants : MonoBehaviour
         Instance = this;
     }
 
+    public int SaveGameVersion = 1;
     public bool DownloadImages = true;
     public bool DownloadLargeImages = true;
     public int DefaultStartingNumPages = 20;

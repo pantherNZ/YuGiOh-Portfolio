@@ -47,6 +47,8 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         base.Start();
 
         Instance = this;
+
+        SaveGameSystem.Init( Constants.Instance.SaveGameVersion, string.Empty );
         SaveGameSystem.AddSaveableComponent( this );
 
         foreach(var save in SaveGameSystem.GetSaveGames() )
@@ -54,10 +56,10 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             if( save.EndsWith( "_backup" ) )
                 continue;
 
-            if( !SaveGameSystem.LoadGame( save ) )
-                Debug.LogError( "Failed to load save file: " + save );
-            else
+            if( SaveGameSystem.LoadGame( save ) )
                 EventSystem.Instance.TriggerEvent( new BinderLoadedEvent() );
+            else
+                Debug.LogError( "Failed to load save file: " + save );
         }
         
         mainMenuPage.SetActive( true );
@@ -109,7 +111,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         // Delete the save file (but create a backup first)
         currentBinderSavingIndex = currentSelectedBinderIdx.Value;
         var binderName = binderData[currentBinderSavingIndex.Value].data.name;
-        SaveGameSystem.SaveGame( binderName + "_backup" );
+        //SaveGameSystem.SaveGame( binderName + "_backup" );
         SaveGameSystem.DeleteGame( binderName );
 
         GetSelectedBinder().Destroy();
@@ -160,14 +162,41 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             binderUI = newBinder,
         } );
 
-        UpdateBinderUIEntry( binderData.Back() );
+        UpdateBinderUIEntry( binderData.Back(), true );
         return binderData.Back();
     }
 
-    private void UpdateBinderUIEntry( BinderDataRuntime binder )
+    void RenameBinder( BinderDataRuntime binder, TMPro.TMP_InputField nameInput )
+    {
+        if( nameInput.text == binder.data.name )
+            return;
+
+        // Invalid
+        // TODO: Invalid if name matches other binder names
+        // TODO: Visual for showing invalid (flash red?)
+        if( nameInput.text.Length == 0 )
+        {
+            nameInput.SetTextWithoutNotify( binder.data.name );
+            return;
+        }
+
+        var previousName = binder.data.name;
+        Save();
+        SaveGameSystem.DeleteGame( previousName );
+        binder.data.name = nameInput.text;
+        EventSystem.Instance.TriggerEvent( new BinderDataUpdateEvent() { binder = binder.data } );
+    }
+
+    private void UpdateBinderUIEntry( BinderDataRuntime binder, bool newBinder )
     {
         var references = binder.binderUI.GetComponent<BinderListEntry>();
-        references.nameInput.text = binder.data.name;
+        references.nameInput.SetTextWithoutNotify( binder.data.name );
+        references.nameInput.onEndEdit.RemoveAllListeners();
+        references.nameInput.onEndEdit.AddListener( x =>
+        {
+            RenameBinder( binder, references.nameInput );
+        } );
+
         var texts = binder.binderUI.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
         references.pageCountText.text = binder.data.pageCount.ToString();
         var pageSizeStr = string.Format( "{0}x{1}", binder.data.pageWidth, binder.data.pageHeight );
@@ -177,7 +206,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
         binder.index = binderData.Count - 1;
 
-        binder.binderUI.GetComponent<EventDispatcher>().OnPointerUpEvent += ( PointerEventData ) =>
+        binder.binderUI.GetComponent<EventDispatcher>().OnPointerUpEvent = ( PointerEventData ) =>
         {
             bool unselect = currentSelectedBinderIdx == binder.index;
             if( currentSelectedBinderIdx != null || unselect )
@@ -190,7 +219,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             exportButton.interactable = !unselect;
         };
 
-        binder.binderUI.GetComponent<EventDispatcher>().OnDoubleClickEvent += ( PointerEventData e ) =>
+        binder.binderUI.GetComponent<EventDispatcher>().OnDoubleClickEvent = ( PointerEventData e ) =>
         {
             if( currentSelectedBinderIdx != binder.index )
                 binder.binderUI.GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( e );
@@ -233,7 +262,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             {
                 if( binder.data.id == binderUpdateEvent.binder.id )
                 {
-                    UpdateBinderUIEntry( binder );
+                    UpdateBinderUIEntry( binder, false );
                     break;
                 }
             }
@@ -695,7 +724,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             binderUI = newBinderUI,
         } );
 
-        UpdateBinderUIEntry( binderData.Back() );
+        UpdateBinderUIEntry( binderData.Back(), true );
 
         var request = "https://db.ygoprodeck.com/api/v7/cardinfo.php?id=";
         StringBuilder uri = new StringBuilder();
