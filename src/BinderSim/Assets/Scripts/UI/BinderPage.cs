@@ -21,6 +21,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     [SerializeField] GameObject bindersList = null;
     [SerializeField] GameObject binderEntryPrefab = null;
     [SerializeField] GameObject importDialogPanel = null;
+    [SerializeField] GameObject binderActionButtons = null;
     [SerializeField] Button editButton = null;
     [SerializeField] Button deleteButton = null;
     [SerializeField] Button exportButton = null;
@@ -64,6 +65,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         
         mainMenuPage.SetActive( true );
         importDialogPanel.SetActive( false );
+        binderActionButtons.SetActive( false );
 
 #if UNITY_WEBGL && !UNITY_EDITOR
         var url = Uri.UnescapeDataString( Application.absoluteURL );
@@ -85,8 +87,8 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     void QuickEditBinder( int idx )
     {
         if( currentSelectedBinderIdx.HasValue )
-            binderData[currentSelectedBinderIdx.Value].binderUI.GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( null );
-        binderData[idx].binderUI.GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( null );
+            ToggleBinderSelected( binderData[currentSelectedBinderIdx.Value] );
+        ToggleBinderSelected( binderData[idx] );
         EditBinder();
     }
 
@@ -140,10 +142,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
         // Select next entry
         if( binderData.Count > 0 )
-        {
-            var binder = binderData[Mathf.Min( index, binderData.Count - 1 )];
-            binder.binderUI.GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( null );
-        }
+            ToggleBinderSelected( binderData[Mathf.Min( index, binderData.Count - 1 )] );
     }
 
     public void NewBinder()
@@ -164,6 +163,18 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
         UpdateBinderUIEntry( binderData.Back(), true );
         return binderData.Back();
+    }
+
+    public void BeginRenameCurrentBinder()
+    {
+        if( currentSelectedBinderIdx != null )
+            BeginRenameBinder( binderData[currentSelectedBinderIdx.Value].binderUI.GetComponent<BinderListEntry>().nameInput );
+    }
+
+    void BeginRenameBinder( TMPro.TMP_InputField nameInput )
+    {
+        nameInput.enabled = true;
+        nameInput.ActivateInputField();
     }
 
     void RenameBinder( BinderDataRuntime binder, TMPro.TMP_InputField nameInput )
@@ -206,35 +217,54 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
         binder.index = binderData.Count - 1;
 
-        binder.binderUI.GetComponent<EventDispatcher>().OnPointerUpEvent = ( PointerEventData ) =>
+        var eventDispatcher = binder.binderUI.GetComponent<EventDispatcher>();
+
+        eventDispatcher.OnPointerUpEvent = ( PointerEventData e ) =>
         {
-            bool unselect = currentSelectedBinderIdx == binder.index;
-            if( currentSelectedBinderIdx != null || unselect )
-                GetSelectedBinder().GetComponent<Image>().color = Color.clear;
-            if( !unselect )
-                binder.binderUI.GetComponent<Image>().color = selectedEntryColour;
-            currentSelectedBinderIdx = unselect ? null : binder.index as int?;
-            editButton.interactable = !unselect;
-            deleteButton.interactable = !unselect;
-            exportButton.interactable = !unselect;
+            // Select
+            if( e.button == PointerEventData.InputButton.Left )
+            {
+                ToggleBinderSelected( binder );
+            }
+            // Modify/action context menu (rename, modify, open)
+            else if( e.button == PointerEventData.InputButton.Right )
+            {
+                if( currentSelectedBinderIdx != binder.index )
+                    ToggleBinderSelected( binder );
+
+                binderActionButtons.SetActive( true );
+                ( binderActionButtons.transform as RectTransform ).anchoredPosition = Utility.GetMouseOrTouchPos();
+            }
         };
 
-        binder.binderUI.GetComponent<EventDispatcher>().OnDoubleClickEvent = ( PointerEventData e ) =>
+        eventDispatcher.OnDoubleClickEvent = ( PointerEventData e ) =>
         {
             if( currentSelectedBinderIdx != binder.index )
-                binder.binderUI.GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( e );
+                ToggleBinderSelected( binder );
 
             // Double click on name to rename
             if( ( references.nameInput.transform as RectTransform ).GetSceenSpaceRect().Contains( Utility.GetMouseOrTouchPos() ) )
             {
-                references.nameInput.enabled = true;
-                references.nameInput.ActivateInputField();
+                BeginRenameBinder( references.nameInput );
                 return;
             }
 
             // Otherwise, double click to open binder
             EditBinder();
         };
+    }
+
+    private void ToggleBinderSelected( BinderDataRuntime binder )
+    {
+        bool unselect = currentSelectedBinderIdx == binder.index;
+        if( currentSelectedBinderIdx != null || unselect )
+            GetSelectedBinder().GetComponent<Image>().color = Color.clear;
+        if( !unselect )
+            binder.binderUI.GetComponent<Image>().color = selectedEntryColour;
+        currentSelectedBinderIdx = unselect ? null : binder.index as int?;
+        editButton.interactable = !unselect;
+        deleteButton.interactable = !unselect;
+        exportButton.interactable = !unselect;
     }
 
     public override void OnEventReceived( IBaseEvent e )
@@ -245,7 +275,8 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             {
                 case PageType.BinderPage:
                     mainMenuPage.SetActive( true );
-                    GetSelectedBinder()?.GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( null );
+                    if( GetSelectedBinder() != null )
+                        ToggleBinderSelected( binderData.Find( x => x.binderUI == GetSelectedBinder() ) );
                     break;
                 case PageType.CardPage:
                     mainMenuPage.SetActive( false );
