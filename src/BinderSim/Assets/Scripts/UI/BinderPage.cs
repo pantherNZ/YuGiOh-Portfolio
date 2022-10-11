@@ -896,7 +896,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         currentBinderSavingIndex = currentSelectedBinderIdx.Value;
         writer.Write( ( byte )SaveGameSystem.currentVersion );
         ( this as ISavableComponent ).Serialise( writer );
-        text.text = "https://panthernz.github.io/YuGiOh-Portfolio/" + GetStringFromBytes( memoryStream.ToArray() );
+        text.text = "https://panthernz.github.io/YuGiOh-Portfolio/?binder=" + GetStringFromBytes( memoryStream.ToArray() );
     }
 
     public void CopyTextToClipBoard( TMPro.TMP_InputField text)

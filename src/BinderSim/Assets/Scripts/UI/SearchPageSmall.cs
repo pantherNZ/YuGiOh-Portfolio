@@ -70,7 +70,7 @@ public class SearchPageSmall : SearchPageBase
         var data = cardData[entryIdx];
 
         // TODO: Properly handle this?
-        if( data.smallImage == null )
+        if( data.smallImages == null )
         {
             Debug.LogWarning( "Failed to drag card as the preview image hasn't finished downloading yet" );
             return;

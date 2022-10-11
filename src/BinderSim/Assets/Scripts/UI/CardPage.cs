@@ -195,7 +195,7 @@ public class CardPage : EventReceiverInstance
         var grid = GetGrid( page );
         var image = grid.transform.GetChild( pos ).GetComponent<Image>();
         var data = e.card;
-        image.sprite = Utility.CreateSprite( data == null ? defaultCardImage : data.smallImage );
+        image.sprite = Utility.CreateSprite( data == null ? defaultCardImage : data.smallImages[data.imageIndex] );
         var prevCard = currentbinder.data.cardList[page][pos];
         currentbinder.data.cardList[page][pos] = data;
         UpdateHeaderInfo();
@@ -273,13 +273,13 @@ public class CardPage : EventReceiverInstance
                     {
                         texture = card.largeImage;
                     }
-                    else if( card.smallImage != null )
+                    else if( card.smallImages != null && card.imageIndex < card.smallImages.Length )
                     {
-                        texture = card.smallImage;
+                        texture = card.smallImages[card.imageIndex];
                     }
-                    else if( !card.largeImageRequsted )
+                    else if( !card.largeImageRequested )
                     {
-                        card.largeImageRequsted = true;
+                        card.largeImageRequested = true;
                         var cardPos = pos;
                         var cardPage = currentPage;
 
@@ -289,7 +289,7 @@ public class CardPage : EventReceiverInstance
                         {
                             // TODO: Save/cache image
                             card.largeImage = texture;
-                            card.largeImageRequsted = false;
+                            card.largeImageRequested = false;
 
                             if( cardPage == currentPage )
                                 grid.transform.GetChild( cardPos ).GetComponent<Image>().sprite = Utility.CreateSprite( texture );

@@ -142,7 +142,7 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     void OnSearchResultReceived( string result )
     {
-        try
+        //try
         {
             var settings = new JsonSerializerSettings()
             {
@@ -180,10 +180,10 @@ public abstract class SearchPageBase : EventReceiverInstance
                     cardCountText.text = String.Format( "{0} Card{1}", data.data.Count, data.data.Count == 1 ? string.Empty : "s" );
             }
         }
-        catch( Exception e )
-        {
-            Debug.LogError( "SearchPageBase::OnSearchResultReceived failed to deserialize json from result:" + Environment.NewLine + e.Message + Environment.NewLine + result );
-        }
+        //catch( Exception e )
+        //{
+        //    Debug.LogError( "SearchPageBase::OnSearchResultReceived failed to deserialize json from result:" + Environment.NewLine + e.Message + Environment.NewLine + result );
+        //}
     }
 
     protected GameObject GetSelectedCard()
@@ -207,9 +207,10 @@ public abstract class SearchPageBase : EventReceiverInstance
 
         // On click
         var eventDispatcher = newCardUIEntry.GetComponentInChildren<EventDispatcher>();
+        var searchEntry = newCardUIEntry.GetComponent<SearchListEntry>();
+        searchEntry.Initialise( card );
 
-        newCardUIEntry.GetComponentsInChildren<Image>()[1].color = Color.clear;
-
+        // Used for the empty 'no search results' card (not a real card - has no data)
         if( card.cardAPIData == null )
             return;
 
@@ -217,9 +218,9 @@ public abstract class SearchPageBase : EventReceiverInstance
         {
             bool unselect = currentCardSelectedIdx == thisIdx;
             if( currentCardSelectedIdx != null || unselect )
-                GetSelectedCard().GetComponentInChildren<Image>().color = Color.clear;
+                GetSelectedCard().GetComponent<SearchListEntry>().SetBackgroundColour( Color.clear );
             if( !unselect )
-                newCardUIEntry.GetComponentInChildren<Image>().color = selectedEntryColour;
+                searchEntry.SetBackgroundColour( selectedEntryColour );
             currentCardSelectedIdx = unselect ? null : thisIdx as int?;
         };
 
@@ -242,42 +243,12 @@ public abstract class SearchPageBase : EventReceiverInstance
         {
 
         };
-
-        GetCardPreviewImage( card );
     }
 
     public void RemoveCard( CardDataRuntime card )
     {
         BinderPage.Instance.Inventory.Remove( card );
         SearchCards();
-    }
-
-    private void GetCardPreviewImage( CardDataRuntime card )
-    {
-        if( Constants.Instance.DownloadImages && card.cardAPIData != null )
-        {
-            if( card.smallImage != null )
-            {
-                OnImageDownloaded( card.smallImage, card );
-            }
-            else
-            {
-                var smallImageUrl = card.cardAPIData.card_images[card.imageIndex].image_url_small;
-                StartCoroutine( APICallHandler.Instance.DownloadImage( smallImageUrl, true, ( texture ) => OnImageDownloaded( texture, card ) ) );
-            }
-        }
-    }
-
-    private void OnImageDownloaded( Texture2D texture, CardDataRuntime cardData )
-    {
-        if( !searchUIEntries.ContainsKey( cardData ) )
-            return;
-
-        // Idx 1 because 0 is the UI entry background (1 is the preview card image)
-        var cardPreview = searchUIEntries[cardData].GetComponentsInChildren<Image>()[1];
-        cardPreview.sprite = Utility.CreateSprite( texture );
-        cardPreview.color = Color.white;
-        cardData.smallImage = texture;
     }
 
     protected abstract GameObject AddCardUI( CardDataRuntime card, int entryIdx );
@@ -299,7 +270,7 @@ public abstract class SearchPageBase : EventReceiverInstance
 
         var data = cardData[currentCardSelectedIdx.Value];
 
-        if( data.smallImage == null )
+        if( data.smallImages == null )
         {
             Debug.LogWarning( "Failed to choose card as the preview image hasn't finished downloading yet" );
             return;
@@ -319,13 +290,13 @@ public abstract class SearchPageBase : EventReceiverInstance
 
         if( Constants.Instance.DownloadImages && Constants.Instance.DownloadLargeImages )
         {
-            data.largeImageRequsted = true;
+            data.largeImageRequested = true;
 
             StartCoroutine( APICallHandler.Instance.DownloadImage( data.cardAPIData.card_images[data.imageIndex].image_url, true, ( texture ) =>
             {
                 // TODO: Save/cache image
                 data.largeImage = texture;
-                data.largeImageRequsted = false;
+                data.largeImageRequested = false;
 
                 EventSystem.Instance.TriggerEvent( new CardImageLoadedEvent()
                 {

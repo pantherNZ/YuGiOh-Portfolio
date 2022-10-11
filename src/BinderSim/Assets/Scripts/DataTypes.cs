@@ -142,9 +142,10 @@ public class CardData
 public class CardDataRuntime : CardData
 {
     public Datum cardAPIData;
-    public Texture2D smallImage;
+    public Texture2D[] smallImages;
     public Texture2D largeImage;
-    public bool largeImageRequsted;
+    public bool largeImageRequested;
+    public bool artVariationsRequested;
     public int? insideBinderIdx;        // Index of the binder this card is a part of currently
 }
 

@@ -69,14 +69,14 @@
     <Compile Include="Assets\Scripts\Constants.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\IStandaloneFileBrowser.cs" />
     <Compile Include="Assets\Scripts\UI\CardPage.cs" />
+    <Compile Include="Assets\Scripts\UI\SearchListEntry.cs" />
     <Compile Include="Assets\Scripts\UI\SearchPageSmall.cs" />
     <Compile Include="Assets\Scripts\UI\BinderListEntry.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowser.cs" />
     <Compile Include="Assets\Scripts\DataTypes.cs" />
+    <Compile Include="Assets\Scripts\UI\GUIClickController.cs" />
     <Compile Include="Assets\Scripts\RequestJsonFormat.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserLinux.cs" />
-    <Compile Include="Assets\Scripts\UI\GUIClickController.cs" />
-    <Compile Include="Assets\Scripts\UI\SearchListEntry.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

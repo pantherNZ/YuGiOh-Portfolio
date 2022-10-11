@@ -3,11 +3,101 @@ using UnityEngine.UI;
 
 public class SearchListEntry : MonoBehaviour
 {
-    public Image cardImage;
-    public Button leftCardImageButton;
-    public Button rightCardImageButton;
-    public Image backgroundImage;
-    public TMPro.TextMeshProUGUI titleText;
-    public TMPro.TextMeshProUGUI typeText;
-    public TMPro.TMP_Dropdown setDropdown;
+    [SerializeField] Image cardImage;
+    [SerializeField] Button leftCardImageButton;
+    [SerializeField] Button rightCardImageButton;
+    [SerializeField] Image backgroundImage;
+    [SerializeField] TMPro.TextMeshProUGUI titleText;
+    [SerializeField] TMPro.TextMeshProUGUI typeText;
+    [SerializeField] TMPro.TMP_Dropdown setDropdown;
+
+    private CardDataRuntime cardData;
+
+    public void Initialise( CardDataRuntime data )
+    {
+        cardData = data;
+        SetBackgroundColour( Color.clear );
+
+        leftCardImageButton.gameObject.SetActive( data.cardAPIData.card_images.Count > 1 );
+        rightCardImageButton.gameObject.SetActive( data.cardAPIData.card_images.Count > 1 );
+        leftCardImageButton.onClick.AddListener( () => LoadArtVariation( cardData.imageIndex - 1 ) );
+        rightCardImageButton.onClick.AddListener( () => LoadArtVariation( cardData.imageIndex + 1 ) );
+
+        GetCardPreviewImage();
+    }
+
+    private void GetCardPreviewImage()
+    {
+        cardData.imageIndex = 0;
+
+        if( Constants.Instance.DownloadImages && cardData.cardAPIData != null )
+        {
+            cardData.smallImages = new Texture2D[1];
+         
+            if( cardData.smallImages != null )
+            {
+                Debug.Assert( cardData.imageIndex == 0 || cardData.artVariationsRequested );
+                OnImageDownloaded( 0, cardData.smallImages[0] );
+            }
+            else
+            {
+                var smallImageUrl = cardData.cardAPIData.card_images[cardData.imageIndex].image_url_small;
+                StartCoroutine( APICallHandler.Instance.DownloadImage( smallImageUrl, true, ( texture ) => OnImageDownloaded( 0, texture ) ) );
+            }
+        }
+    }
+
+    public void SetBackgroundColour( Color colour )
+    {
+        backgroundImage.color = colour;
+    }
+
+    public void SetCardSprite( int index )
+    {
+        Debug.Assert( cardData.smallImages != null && index < cardData.smallImages.Length );
+        cardImage.sprite = Utility.CreateSprite( cardData.smallImages[index] );
+        cardData.imageIndex = index;
+        cardData.largeImageRequested = false;
+    }
+
+    private void LoadArtVariation( int index )
+    {
+        index = Utility.Mod( index, cardData.cardAPIData.card_images.Count );
+
+        if( cardData.imageIndex == index )
+            return;
+
+        cardData.imageIndex = index;
+        bool noData = cardData.smallImages == null || index >= cardData.smallImages.Length;
+
+        if( cardData.artVariationsRequested && noData )
+            return;
+
+        if( noData )
+        {
+            cardData.artVariationsRequested = true;
+            var prevImage = cardData.smallImages?[0];
+            cardData.smallImages = new Texture2D[cardData.cardAPIData.card_images.Count];
+            cardData.smallImages[0] = prevImage;
+
+            for( int i = 0; i < cardData.smallImages.Length; ++i )
+            {
+                int idx = i;
+                var smallImageUrl = cardData.cardAPIData.card_images[i].image_url_small;
+                StartCoroutine( APICallHandler.Instance.DownloadImage( smallImageUrl, true, ( texture ) => OnImageDownloaded( idx, texture ) ) );
+            }
+        }
+        else
+        {
+            SetCardSprite( index );
+        }
+    }
+
+    private void OnImageDownloaded( int index, Texture2D texture )
+    {
+        cardData.smallImages[index] = texture;
+
+        if( cardData.imageIndex == index )
+            SetCardSprite( index );
+    }
 }

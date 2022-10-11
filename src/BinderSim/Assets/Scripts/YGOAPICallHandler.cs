@@ -22,6 +22,7 @@ class APICallHandler
     public RateLimiter RateLimiterInst => rateLimiter;
 
     private Dictionary<string, string> cachedRequests = new Dictionary<string, string>();
+    private Dictionary<string, Texture2D> cachedImages = new Dictionary<string, Texture2D>();
 
     // https://db.ygoprodeck.com/api-guide/
     public IEnumerator SendCardSearchRequest( string cardName, bool waitForRateLimit, Action<string> callback = null )
