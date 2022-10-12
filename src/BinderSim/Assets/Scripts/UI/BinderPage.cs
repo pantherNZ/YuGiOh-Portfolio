@@ -879,7 +879,8 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             count = countAndCondition & 63,
             condition = ( CardCondition )( countAndCondition >> 5 ),
             cardIndex = cardAndImageIndices >> 4,
-            imageIndex = cardAndImageIndices & 15
+            //imageIndex = cardAndImageIndices & 15
+            imageIndex = 0
         };
     }
 

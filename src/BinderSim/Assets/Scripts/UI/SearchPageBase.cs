@@ -132,10 +132,9 @@ public abstract class SearchPageBase : EventReceiverInstance
             AddCard( card );
         }
 
-        if( cardCountText != null && count > 0 )
-            cardCountText.text = String.Format( "{0} Card{1}", count, count == 1 ? string.Empty : "s" );
-        if( totalValueText != null && count > 0 ) 
-            totalValueText.text = String.Format( "Total Value: ${0:0.00}", totalValue );
+        cardCountText.text ??= String.Format( "{0} Card{1}", count, count == 1 ? string.Empty : "s" );
+        totalValueText.text ??= String.Format( "Total Value: ${0:0.00}", totalValue );
+
         if( count == 0 )
             AddCard( new CardDataRuntime() { name = "No results found" } );
     }
@@ -155,8 +154,7 @@ public abstract class SearchPageBase : EventReceiverInstance
             if( data.data.IsEmpty() )
             {
                 AddCard( new CardDataRuntime() { name = "No results found" } );
-                if( cardCountText != null ) 
-                    cardCountText.gameObject.SetActive( false );
+                cardCountText?.gameObject.SetActive( false );
             }
             else
             {
@@ -176,8 +174,7 @@ public abstract class SearchPageBase : EventReceiverInstance
                     } );
                 }
 
-                if( cardCountText != null && data.data.Count > 0 ) 
-                    cardCountText.text = String.Format( "{0} Card{1}", data.data.Count, data.data.Count == 1 ? string.Empty : "s" );
+                cardCountText.text ??= String.Format( "{0} Card{1}", data.data.Count, data.data.Count == 1 ? string.Empty : "s" );
             }
         }
         //catch( Exception e )
@@ -286,7 +283,12 @@ public abstract class SearchPageBase : EventReceiverInstance
         // This intentionally will switch back to the card list if the page is now full
         // (pageFull set to true via the PageFullEvent)
         if( !fromDragDrop && ( flags.HasFlag( SearchPageFlags.ReplacingCard ) || flags.HasFlag( SearchPageFlags.SettingCards ) ) )
-            searchListPage.SetActive( false );
+        {
+            EventSystem.Instance.TriggerEvent( new PageChangeRequestEvent()
+            {
+                page = PageType.CardPage
+            } );
+        }
 
         if( Constants.Instance.DownloadImages && Constants.Instance.DownloadLargeImages )
         {

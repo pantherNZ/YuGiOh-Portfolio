@@ -21,10 +21,6 @@ public class SearchPageSmall : SearchPageBase
         // Add UI elements
         var newCardUIEntry = Instantiate( cardEntryPrefab );
         newCardUIEntry.transform.SetParent( cardList.transform );
-
-        var texts = newCardUIEntry.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
-        texts[0].text = card.name;
-
         newCardUIEntry.GetComponentInChildren<EventDispatcher>().OnBeginDragEvent += ( e ) => LeftMouseFilter( e, () => StartDragging( newCardUIEntry, entryIdx ) );
 
         return newCardUIEntry;

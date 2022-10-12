@@ -507,7 +507,7 @@ public class CardPage : EventReceiverInstance
         for( int i = 0; i < count; ++i )
             currentbinder.data.Insert( left ? currentPage - 1 : currentPage );
 
-        //pageCountText.text = currentbinder.data.pageCount.ToString();
+        UpdateHeaderInfo();
         PopulateGrid();
         EventSystem.Instance.TriggerEvent( new SaveGameEvent() { } );
     }
@@ -515,7 +515,7 @@ public class CardPage : EventReceiverInstance
     public void RemovePage( bool left )
     {
         currentbinder.data.Remove( left ? currentPage - 1 : currentPage );
-       // pageCountText.text = currentbinder.data.pageCount.ToString();
+        UpdateHeaderInfo();
         PopulateGrid();
         EventSystem.Instance.TriggerEvent( new SaveGameEvent() { } );
     }

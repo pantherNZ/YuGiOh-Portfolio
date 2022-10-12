@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +12,11 @@ public class SearchListEntry : MonoBehaviour
     [SerializeField] TMPro.TextMeshProUGUI titleText;
     [SerializeField] TMPro.TextMeshProUGUI typeText;
     [SerializeField] TMPro.TMP_Dropdown setDropdown;
+    [SerializeField] Button addButton;
+    [SerializeField] Button removeButton;
+
+    public Button AddButton { get => addButton; private set { } }
+    public Button RemoveButton { get => removeButton; private set { } }
 
     private CardDataRuntime cardData;
 
@@ -18,10 +25,30 @@ public class SearchListEntry : MonoBehaviour
         cardData = data;
         SetBackgroundColour( Color.clear );
 
-        leftCardImageButton.gameObject.SetActive( data.cardAPIData.card_images.Count > 1 );
-        rightCardImageButton.gameObject.SetActive( data.cardAPIData.card_images.Count > 1 );
-        leftCardImageButton.onClick.AddListener( () => LoadArtVariation( cardData.imageIndex - 1 ) );
-        rightCardImageButton.onClick.AddListener( () => LoadArtVariation( cardData.imageIndex + 1 ) );
+        titleText.text = data.name;
+        typeText.text = data.cardAPIData.type;
+
+        leftCardImageButton?.gameObject.SetActive( data.cardAPIData.card_images.Count > 1 );
+        rightCardImageButton?.gameObject.SetActive( data.cardAPIData.card_images.Count > 1 );
+        leftCardImageButton?.onClick.AddListener( () => LoadArtVariation( cardData.imageIndex - 1 ) );
+        rightCardImageButton?.onClick.AddListener( () => LoadArtVariation( cardData.imageIndex + 1 ) );
+
+        if( setDropdown != null && data != null )
+        {
+            var options =
+                data.cardAPIData.card_sets == null
+                ? new List<string>() { "Unreleased" }
+                : data.cardAPIData.card_sets.Select( x => string.Format( "{0} ({1})", x.set_name, x.set_code ) ).ToList();
+
+            setDropdown.AddOptions( options );
+            setDropdown.SetValueWithoutNotify( 0 );
+            setDropdown.onValueChanged.AddListener( idx =>
+            {
+                data.cardIndex = idx;
+            } );
+        }
+
+        setDropdown?.gameObject.SetActive( data != null );
 
         GetCardPreviewImage();
     }
@@ -32,8 +59,6 @@ public class SearchListEntry : MonoBehaviour
 
         if( Constants.Instance.DownloadImages && cardData.cardAPIData != null )
         {
-            cardData.smallImages = new Texture2D[1];
-         
             if( cardData.smallImages != null )
             {
                 Debug.Assert( cardData.imageIndex == 0 || cardData.artVariationsRequested );
@@ -41,6 +66,7 @@ public class SearchListEntry : MonoBehaviour
             }
             else
             {
+                cardData.smallImages = new Texture2D[1];
                 var smallImageUrl = cardData.cardAPIData.card_images[cardData.imageIndex].image_url_small;
                 StartCoroutine( APICallHandler.Instance.DownloadImage( smallImageUrl, true, ( texture ) => OnImageDownloaded( 0, texture ) ) );
             }
@@ -68,6 +94,7 @@ public class SearchListEntry : MonoBehaviour
             return;
 
         cardData.imageIndex = index;
+        cardData.cardId = cardData.cardAPIData.card_images[index].id;
         bool noData = cardData.smallImages == null || index >= cardData.smallImages.Length;
 
         if( cardData.artVariationsRequested && noData )
