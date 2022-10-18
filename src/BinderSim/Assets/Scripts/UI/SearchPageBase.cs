@@ -149,9 +149,17 @@ public abstract class SearchPageBase : EventReceiverInstance
                 MissingMemberHandling = MissingMemberHandling.Ignore,
             };
 
-            Root data = JsonConvert.DeserializeObject<Root>( result, settings );
+            Root data = null;
 
-            if( data.data.IsEmpty() )
+            try
+            {
+                data =JsonConvert.DeserializeObject<Root>( result, settings );
+            }
+            catch( Exception )
+            {
+            }
+
+            if( data == null || data.data == null || data.data.IsEmpty() )
             {
                 AddCard( new CardDataRuntime() { name = "No results found" } );
                 cardCountText?.gameObject.SetActive( false );

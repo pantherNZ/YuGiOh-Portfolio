@@ -12,6 +12,8 @@ public class SearchListEntry : MonoBehaviour
     [SerializeField] TMPro.TextMeshProUGUI titleText;
     [SerializeField] TMPro.TextMeshProUGUI typeText;
     [SerializeField] TMPro.TMP_Dropdown setDropdown;
+    [SerializeField] TMPro.TMP_Dropdown conditionDropdown;
+    [SerializeField] TMPro.TMP_Dropdown rarityDropdown;
     [SerializeField] Button addButton;
     [SerializeField] Button removeButton;
 
@@ -26,14 +28,22 @@ public class SearchListEntry : MonoBehaviour
         SetBackgroundColour( Color.clear );
 
         titleText.text = data.name;
-        typeText.text = data.cardAPIData.type;
 
-        leftCardImageButton?.gameObject.SetActive( data.cardAPIData.card_images.Count > 1 );
-        rightCardImageButton?.gameObject.SetActive( data.cardAPIData.card_images.Count > 1 );
+        leftCardImageButton?.gameObject.SetActive( data.cardAPIData != null && data.cardAPIData.card_images.Count > 1 );
+        rightCardImageButton?.gameObject.SetActive( data.cardAPIData != null && data.cardAPIData.card_images.Count > 1 );
+        cardImage?.gameObject.SetActive( data.cardAPIData != null );
+        setDropdown?.gameObject.SetActive( data.cardAPIData != null );
+        conditionDropdown?.gameObject.SetActive( data.cardAPIData != null );
+        rarityDropdown?.gameObject.SetActive( data.cardAPIData != null );
+
+        if( data == null || data.cardAPIData == null )
+            return;
+
         leftCardImageButton?.onClick.AddListener( () => LoadArtVariation( cardData.imageIndex - 1 ) );
         rightCardImageButton?.onClick.AddListener( () => LoadArtVariation( cardData.imageIndex + 1 ) );
+        typeText.text = data.cardAPIData.type;
 
-        if( setDropdown != null && data != null )
+        if( setDropdown != null )
         {
             var options =
                 data.cardAPIData.card_sets == null
@@ -96,6 +106,9 @@ public class SearchListEntry : MonoBehaviour
         cardData.imageIndex = index;
         cardData.cardId = cardData.cardAPIData.card_images[index].id;
         bool noData = cardData.smallImages == null || index >= cardData.smallImages.Length;
+
+        if( !Constants.Instance.DownloadImages )
+            return;
 
         if( cardData.artVariationsRequested && noData )
             return;
