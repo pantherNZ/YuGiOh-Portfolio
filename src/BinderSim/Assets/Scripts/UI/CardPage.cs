@@ -305,15 +305,10 @@ public class CardPage : EventReceiverInstance
             {
                 int pos = i;
                 var dispatcher = grid.transform.GetChild( i ).GetComponent<EventDispatcher>();
-                dispatcher.OnDoubleClickEvent = ( e ) => LeftMouseFilter( e, () => OpenSearchPanel( page, pos ) );
-                dispatcher.OnBeginDragEvent = ( e ) => LeftMouseFilter( e, () => StartDragging( page, pos ) );
+                dispatcher.OnDoubleClickEvent = ( e ) => UIUtility.LeftMouseFilter( false, e, () => OpenSearchPanel( page, pos ) );
+                dispatcher.OnBeginDragEvent = ( e ) => UIUtility.LeftMouseFilter( false, e, () => StartDragging( page, pos ) );
             }
         }
-    }
-
-    void LeftMouseFilter( PointerEventData e, Action func )
-    {
-        InputPriority.Instance.Request( () => e.button == PointerEventData.InputButton.Left, "SearchPageButton", 1, func );
     }
 
     private void StartDragging( int page, int pos )

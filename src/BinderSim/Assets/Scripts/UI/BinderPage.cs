@@ -219,7 +219,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
         var eventDispatcher = binder.binderUI.GetComponent<EventDispatcher>();
 
-        eventDispatcher.OnPointerUpEvent = ( PointerEventData e ) =>
+        eventDispatcher.OnPointerUpEvent = ( e ) =>
         {
             // Select
             if( e.button == PointerEventData.InputButton.Left )
@@ -237,7 +237,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             }
         };
 
-        eventDispatcher.OnDoubleClickEvent = ( PointerEventData e ) =>
+        eventDispatcher.OnDoubleClickEvent = ( e ) => UIUtility.LeftMouseFilter( true, e, () =>
         {
             if( currentSelectedBinderIdx != binder.index )
                 ToggleBinderSelected( binder );
@@ -251,7 +251,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
             // Otherwise, double click to open binder
             EditBinder();
-        };
+        } );
     }
 
     private void ToggleBinderSelected( BinderDataRuntime binder )
@@ -884,59 +884,6 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         };
     }
 
-    private const int maxChars = 91;
-    private const int asciiCharStart = 33;
-
-    public void ExportAsString( TMPro.TMP_InputField text )
-    {
-        if( currentSelectedBinderIdx == null )
-            return;
-
-        using var memoryStream = new MemoryStream();
-        using var writer = new BinaryWriter( memoryStream );
-        currentBinderSavingIndex = currentSelectedBinderIdx.Value;
-        writer.Write( ( byte )SaveGameSystem.currentVersion );
-        ( this as ISavableComponent ).Serialise( writer );
-        text.text = "https://panthernz.github.io/YuGiOh-Portfolio/?binder=" + GetStringFromBytes( memoryStream.ToArray() );
-    }
-
-    public void CopyTextToClipBoard( TMPro.TMP_InputField text)
-    {
-        GUIUtility.systemCopyBuffer = text.text;
-
-#if UNITY_WEBGL && !UNITY_EDITOR
-        if( Application.platform == RuntimePlatform.WebGLPlayer )
-            WebGLCopyAndPasteAPI.passCopyToBrowser( GUIUtility.systemCopyBuffer );
-#endif
-    }
-
-    private static string GetStringFromBytes( Byte[] bts )
-    {
-        StringBuilder str = new StringBuilder();
-
-        foreach( var bt in bts )
-        {
-            if( bt <= maxChars )
-            {
-                str.Append( ( char )( bt + asciiCharStart ) );
-            }
-            else if( bt <= maxChars * 2 )
-            {
-                str.Append( 'A' );
-                str.Append( ( char )( bt - maxChars + asciiCharStart ) );
-            }
-            else
-            {
-                str.Append( 'B' );
-                str.Append( ( char )( bt - maxChars * 2 + asciiCharStart ) );
-            }
-
-            str[str.Length - 1] = FixChar( str[str.Length - 1], false );
-        }
-
-        return str.ToString();
-    }
-
     public void ImportFromString( TMPro.TMP_InputField text )
     {
         ImportFromStringInternal( text.text, null );
@@ -950,7 +897,9 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         try
         {
             importButton.interactable = false;
-            var bytes = GetBytesFromString( text );
+            var compressedbytes = StringHelper.GetBytesFromString( text );
+            //var bytes = SevenZip.Compression.LZMA.SevenZipHelper.Decompress( compressedbytes );
+            var bytes = Compression.Deflate.Decompress( compressedbytes );
             using var memoryStream = new MemoryStream( bytes, writable: false );
             using var reader = new BinaryReader( memoryStream );
             var version = reader.ReadByte();
@@ -967,49 +916,29 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         return true;
     }
 
-    private static Byte[] GetBytesFromString( string str )
+    public void ExportAsString( TMPro.TMP_InputField text )
     {
-        List<Byte> bts = new List<byte>();
+        if( currentSelectedBinderIdx == null )
+            return;
 
-        for( int idx = 0; idx < str.Length; ++idx )
-        {
-            var c = str[idx];
-
-            if( c == 'A' )
-            {
-                c = str[++idx];
-                bts.Add( ( byte )( FixChar( c, true ) + maxChars - asciiCharStart ) );
-            }
-            else if( c == 'B' )
-            {
-                c = str[++idx];
-                bts.Add( ( byte )( FixChar( c, true ) + maxChars * 2 - asciiCharStart ) );
-            }
-            else
-            {
-                bts.Add( ( byte )( FixChar( c, true ) - asciiCharStart ) );
-            }
-        }
-
-        return bts.ToArray();
+        using var memoryStream = new MemoryStream();
+        using var writer = new BinaryWriter( memoryStream );
+        currentBinderSavingIndex = currentSelectedBinderIdx.Value;
+        writer.Write( ( byte )SaveGameSystem.currentVersion );
+        ( this as ISavableComponent ).Serialise( writer );
+        var bytes = memoryStream.ToArray();
+        var compressedBytes = Compression.Deflate.Compress( bytes );
+        //SevenZip.Compression.LZMA.SevenZipHelper.Compress( memoryStream.ToArray() );
+        text.text = "https://panthernz.github.io/YuGiOh-Portfolio/?binder=" + StringHelper.GetStringFromBytes( compressedBytes );
     }
 
-    private static char FixChar( char c, bool import )
+    public void CopyTextToClipBoard( TMPro.TMP_InputField text)
     {
-        if( import )
-        {
-            if( c == '|' )
-                return 'A';
-            else if( c == '}' )
-                return 'B';
-        }
-        else
-        {
-            if( c == 'A' )
-                return '|';
-            else if( c == 'B' )
-                return '}';
-        }
-        return c;
+        GUIUtility.systemCopyBuffer = text.text;
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+        if( Application.platform == RuntimePlatform.WebGLPlayer )
+            WebGLCopyAndPasteAPI.passCopyToBrowser( GUIUtility.systemCopyBuffer );
+#endif
     }
 }
