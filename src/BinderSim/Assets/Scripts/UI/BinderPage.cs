@@ -364,7 +364,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     private class ImportCardExtraData
     {
         public string setCode;
-        public CardCondition condition;
+        public CardConditions.Values condition;
         public int count;
     }
 
@@ -411,7 +411,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
             var cardName = string.Join( ",", data.Skip( 1 ).Take( data.Length - 7 ) ).Trim();
             var conditionStr = data[data.Length - 5].Trim();
-            CardCondition condition = ( CardCondition )Enum.Parse( typeof( CardCondition ), conditionStr, true );
+            var condition = CardConditions.ParseConditionString( conditionStr );
 
             var extraData = new ImportCardExtraData()
             {
@@ -877,7 +877,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         {
             cardId = cardId,
             count = countAndCondition & 63,
-            condition = ( CardCondition )( countAndCondition >> 5 ),
+            condition = ( CardConditions.Values )( countAndCondition >> 5 ),
             cardIndex = cardAndImageIndices >> 4,
             //imageIndex = cardAndImageIndices & 15
             imageIndex = 0
@@ -898,7 +898,6 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         {
             importButton.interactable = false;
             var compressedbytes = StringHelper.GetBytesFromString( text );
-            //var bytes = SevenZip.Compression.LZMA.SevenZipHelper.Decompress( compressedbytes );
             var bytes = Compression.Deflate.Decompress( compressedbytes );
             using var memoryStream = new MemoryStream( bytes, writable: false );
             using var reader = new BinaryReader( memoryStream );
@@ -928,7 +927,6 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         ( this as ISavableComponent ).Serialise( writer );
         var bytes = memoryStream.ToArray();
         var compressedBytes = Compression.Deflate.Compress( bytes );
-        //SevenZip.Compression.LZMA.SevenZipHelper.Compress( memoryStream.ToArray() );
         text.text = "https://panthernz.github.io/YuGiOh-Portfolio/?binder=" + StringHelper.GetStringFromBytes( compressedBytes );
     }
 

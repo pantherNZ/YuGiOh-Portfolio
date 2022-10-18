@@ -135,7 +135,7 @@ public class CardData
     public int cardId;    // JSON id
     public int cardIndex; // Index of the card within the variations (think 1 index for each different set)
     public int imageIndex; // Index of the card art within the variations (unrelated to set, no mapping unfortunately)
-    public CardCondition condition;
+    public CardConditions.Values condition;
     public int count;
 }
 
@@ -216,13 +216,49 @@ public static class InventoryData
     } );
 }
 
-public enum CardCondition
+public static class CardConditions
 {
-    Mint,
-    NearMint,
-    Excellent,
-    Good,
-    LightPlayed,
-    Played,
-    Poor,
+    public enum Values
+    {
+        Mint,
+        NearMint,
+        Excellent,
+        Good,
+        LightPlayed,
+        Played,
+        Poor,
+        MaxValues,
+    }
+
+    public static readonly ReadOnlyCollection<string> valueStrings = new ReadOnlyCollection<string>(
+        new string[( int )Values.MaxValues]
+    {
+        "Mint",
+        "Near Mint",
+        "Near Mint",
+        "Lightly Played",
+        "Moderately Played",
+        "Heavily Played",
+        "Damaged",
+    } );
+
+    public static Values ParseConditionString( string conditionStr )
+    {
+        conditionStr = conditionStr.Replace( " ", string.Empty );
+        int found = valueStrings.IndexOf( conditionStr );
+
+        if( found != -1 )
+            return ( Values )found; 
+        return Utility.ParseEnum<Values>( conditionStr, true );
+    }
+
+    public static string ParseConditionEnum( Values condition )
+    {
+        return valueStrings[( int )condition];
+    }
+
+    public static string[] GetValues()
+    {
+        return valueStrings.ToArray();
+    }
 }

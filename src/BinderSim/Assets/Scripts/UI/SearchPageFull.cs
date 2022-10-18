@@ -14,12 +14,12 @@ public class SearchPageFull : SearchPageBase
         newCardUIEntry.transform.SetParent( cardList.transform );
 
         var searchEntry = newCardUIEntry.GetComponent<SearchListEntry>();
-        searchEntry.AddButton.gameObject.SetActive( card.cardAPIData != null && IsAddButtonActive() );
-        searchEntry.RemoveButton.gameObject.SetActive( card.cardAPIData != null && IsRemoveButtonActive() );
+        searchEntry.AddButton?.gameObject.SetActive( card.cardAPIData != null && IsAddButtonActive() );
+        searchEntry.RemoveButton?.gameObject.SetActive( card.cardAPIData != null && IsRemoveButtonActive() );
 
         if( IsAddButtonActive() )
         {
-            searchEntry.AddButton.onClick.AddListener( () =>
+            searchEntry.AddButton?.onClick.AddListener( () =>
             {
                 // Main page adds the card to inventory
                 if( behaviour == SearchPageOrigin.MainPage )
@@ -40,7 +40,7 @@ public class SearchPageFull : SearchPageBase
         
         if( IsRemoveButtonActive() )
         {
-            searchEntry.RemoveButton.onClick.AddListener( () =>
+            searchEntry.RemoveButton?.onClick.AddListener( () =>
             {
                 RemoveCard( card );
             } );
