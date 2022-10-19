@@ -220,27 +220,53 @@ public static class CardConditions
 {
     public enum Values
     {
-        Mint,
         NearMint,
-        Excellent,
-        Good,
-        LightPlayed,
-        Played,
-        Poor,
+        LightlyPlayed,
+        ModeratelyPlayed,
+        HeavilyPlayed,
+        Damaged,
         MaxValues,
     }
 
     public static readonly ReadOnlyCollection<string> valueStrings = new ReadOnlyCollection<string>(
         new string[( int )Values.MaxValues]
     {
-        "Mint",
-        "Near Mint",
         "Near Mint",
         "Lightly Played",
         "Moderately Played",
         "Heavily Played",
         "Damaged",
     } );
+
+    public static readonly ReadOnlyCollection<string> dragonShieldValues = new ReadOnlyCollection<string>(
+        new string[]
+    {
+        "Mint",
+        "NearMint",
+        "Excellent",
+        "Good",
+        "LightPlayed",
+        "Played",
+        "Poor",
+    } );
+
+    public static readonly ReadOnlyCollection<Values> dragonShieldValueMappings = new ReadOnlyCollection<Values>(
+        new Values[]
+    {
+        Values.NearMint,
+        Values.NearMint,
+        Values.NearMint,
+        Values.LightlyPlayed,
+        Values.LightlyPlayed,
+        Values.ModeratelyPlayed,
+        Values.HeavilyPlayed,
+    } );
+
+    public static Values ParseDragonShieldConditionString( string conditionStr )
+    {
+        var index = dragonShieldValues.IndexOf( conditionStr );
+        return index != -1 ? dragonShieldValueMappings[index] : Values.NearMint;
+    }
 
     public static Values ParseConditionString( string conditionStr )
     {

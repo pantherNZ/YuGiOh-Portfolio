@@ -38,7 +38,7 @@ public class SearchListEntry : MonoBehaviour
         setDropdown?.gameObject.SetActive( dataValid );
         conditionDropdown?.gameObject.SetActive( dataValid );
         rarityText?.gameObject.SetActive( dataValid );
-        countText?.gameObject.SetActive( dataValid && data.count > 1 );
+        countText?.gameObject.SetActive( dataValid );
 
         if( data == null || data.cardAPIData == null )
             return;

@@ -411,7 +411,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
             var cardName = string.Join( ",", data.Skip( 1 ).Take( data.Length - 7 ) ).Trim();
             var conditionStr = data[data.Length - 5].Trim();
-            var condition = CardConditions.ParseConditionString( conditionStr );
+            var condition = CardConditions.ParseDragonShieldConditionString( conditionStr );
 
             var extraData = new ImportCardExtraData()
             {
