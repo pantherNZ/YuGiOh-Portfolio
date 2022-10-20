@@ -79,6 +79,7 @@
     <Compile Include="Assets\Scripts\RequestJsonFormat.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserLinux.cs" />
     <Compile Include="Assets\Scripts\UI\UIUtility.cs" />
+    <Compile Include="Assets\Scripts\UI\SearchListResultButtons.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -132,8 +132,10 @@ public abstract class SearchPageBase : EventReceiverInstance
             AddCard( card );
         }
 
-        cardCountText.text ??= String.Format( "{0} Card{1}", count, count == 1 ? string.Empty : "s" );
-        totalValueText.text ??= String.Format( "Total Value: ${0:0.00}", totalValue );
+        if( cardCountText != null )
+            cardCountText.text = String.Format( "{0} Card{1}", count, count == 1 ? string.Empty : "s" );
+        if( totalValueText != null ) 
+            totalValueText.text = String.Format( "Total Value: ${0:0.00}", totalValue );
 
         if( count == 0 )
             AddCard( new CardDataRuntime() { name = "No results found" } );
