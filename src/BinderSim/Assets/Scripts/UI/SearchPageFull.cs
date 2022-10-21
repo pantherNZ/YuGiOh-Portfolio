@@ -7,6 +7,7 @@ public class SearchPageFull : SearchPageBase
     [SerializeField] Button advancedSearchButton = null;
     [SerializeField] Button importFromFileButton = null;
     [SerializeField] GameObject entryOptionsPanel = null;
+    [SerializeField] GameObject countHeaderText = null;
 
     private float scaleModifier = 1.0f;
 
@@ -24,6 +25,8 @@ public class SearchPageFull : SearchPageBase
         newCardUIEntry.transform.SetParent( cardList.transform );
 
         var searchEntry = newCardUIEntry.GetComponent<SearchListEntry>();
+        searchEntry.Initialise( card );
+        searchEntry.CountText?.gameObject.SetActive( GetDropDownOption() != InventoryData.Options.SearchOnline && card.cardAPIData != null );
 
         searchEntry.SettingsButton.onClick.AddListener( () =>
         {
@@ -47,7 +50,7 @@ public class SearchPageFull : SearchPageBase
             if( IsAddToInventoryButtonActive() )
             {
                 ++buttonCount;
-                buttons.AddToBinderButton.onClick.AddListener( () =>
+                buttons.AddToInventoryButton.onClick.AddListener( () =>
                 {
                     BinderPage.Instance.Inventory.Add( cardData[entryIdx] );
 
@@ -61,7 +64,7 @@ public class SearchPageFull : SearchPageBase
             if( IsAddToBinderButtonActive() )
             {
                 ++buttonCount;
-                buttons.AddToInventoryButton.onClick.AddListener( () =>
+                buttons.AddToBinderButton.onClick.AddListener( () =>
                 {
                     currentCardSelectedIdx = entryIdx;
                     ChooseCard();
@@ -130,6 +133,7 @@ public class SearchPageFull : SearchPageBase
         bool inventoryNonSearchMode = GetDropDownOption() != InventoryData.Options.SearchOnline;
         advancedSearchButton.gameObject.SetActive( !inventoryNonSearchMode );
         importFromFileButton.gameObject.SetActive( inventoryNonSearchMode );
+        countHeaderText.SetActive( inventoryNonSearchMode );
     }
     bool IsModifyingCurrentBinder()
     {

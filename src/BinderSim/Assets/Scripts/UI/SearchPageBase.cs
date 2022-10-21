@@ -72,7 +72,7 @@ public abstract class SearchPageBase : EventReceiverInstance
     public void SearchCards()
     {
         // Remove current card entries (skip/leave header)
-        for( int i = 0; i < cardList.transform.childCount; ++i )
+        for( int i = 1; i < cardList.transform.childCount; ++i )
             cardList.transform.GetChild( i ).gameObject.Destroy();
         currentCardSelectedIdx = null;
         searchUIEntries.Clear();
@@ -181,6 +181,7 @@ public abstract class SearchPageBase : EventReceiverInstance
                         cardIndex = 0,
                         cardAPIData = card.DeepCopy(),
                         condition = CardConditions.Values.NearMint,
+                        count = 1,
                     } );
                 }
 
@@ -214,8 +215,6 @@ public abstract class SearchPageBase : EventReceiverInstance
 
         // On click
         var eventDispatcher = newCardUIEntry.GetComponentInChildren<EventDispatcher>();
-        var searchEntry = newCardUIEntry.GetComponent<SearchListEntry>();
-        searchEntry.Initialise( card );
 
         // Used for the empty 'no search results' card (not a real card - has no data)
         if( card.cardAPIData == null )

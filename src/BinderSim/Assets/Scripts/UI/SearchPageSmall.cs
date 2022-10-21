@@ -23,6 +23,9 @@ public class SearchPageSmall : SearchPageBase
         newCardUIEntry.transform.SetParent( cardList.transform );
         newCardUIEntry.GetComponentInChildren<EventDispatcher>().OnBeginDragEvent += ( e ) => LeftMouseFilter( e, () => StartDragging( newCardUIEntry, entryIdx ) );
 
+        var searchEntry = newCardUIEntry.GetComponent<SearchListEntry>();
+        searchEntry.Initialise( card );
+
         return newCardUIEntry;
     }
 

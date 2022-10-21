@@ -19,6 +19,7 @@ public class SearchListEntry : MonoBehaviour
     [SerializeField] Button settingsButton;
 
     public Button SettingsButton { get => settingsButton; private set { } }
+    public TMPro.TextMeshProUGUI CountText { get => countText; private set { } }
 
     private CardDataRuntime cardData;
 
@@ -35,6 +36,7 @@ public class SearchListEntry : MonoBehaviour
         cardImage?.gameObject.SetActive( dataValid );
         setDropdown?.gameObject.SetActive( dataValid );
         conditionDropdown?.gameObject.SetActive( dataValid );
+        typeText?.gameObject.SetActive( dataValid );
         rarityText?.gameObject.SetActive( dataValid );
         countText?.gameObject.SetActive( dataValid );
         settingsButton?.gameObject.SetActive( dataValid );
