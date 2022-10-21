@@ -59,8 +59,10 @@
     <Compile Include="Assets\Scripts\EventTypes.cs" />
     <Compile Include="Assets\Scripts\BytesToString.cs" />
     <Compile Include="Assets\Scripts\UI\SearchPageBase.cs" />
+    <Compile Include="Assets\Scripts\UI\UIUtility.cs" />
     <Compile Include="Assets\Scripts\YGOAPICallHandler.cs" />
     <Compile Include="Assets\Scripts\WebGLCopyAndPaste.cs" />
+    <Compile Include="Assets\Scripts\UI\SearchListResultButtons.cs" />
     <Compile Include="Assets\Scripts\UI\ModifyPageButtons.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserEditor.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserMac.cs" />
@@ -78,8 +80,6 @@
     <Compile Include="Assets\Scripts\UI\GUIClickController.cs" />
     <Compile Include="Assets\Scripts\RequestJsonFormat.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserLinux.cs" />
-    <Compile Include="Assets\Scripts\UI\UIUtility.cs" />
-    <Compile Include="Assets\Scripts\UI\SearchListResultButtons.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

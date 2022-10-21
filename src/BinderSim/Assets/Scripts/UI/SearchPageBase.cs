@@ -223,12 +223,7 @@ public abstract class SearchPageBase : EventReceiverInstance
 
         eventDispatcher.OnPointerDownEvent += ( PointerEventData e ) =>
         {
-            bool unselect = currentCardSelectedIdx == thisIdx;
-            if( currentCardSelectedIdx != null || unselect )
-                GetSelectedCard().GetComponent<SearchListEntry>().SetBackgroundColour( Color.clear );
-            if( !unselect )
-                searchEntry.SetBackgroundColour( selectedEntryColour );
-            currentCardSelectedIdx = unselect ? null : thisIdx as int?;
+            ToggleResultSelected( thisIdx );
         };
 
         if( behaviour != SearchPageOrigin.MainPage )
@@ -256,6 +251,22 @@ public abstract class SearchPageBase : EventReceiverInstance
     {
         BinderPage.Instance.Inventory.Remove( card );
         SearchCards();
+    }
+
+    protected void ToggleResultSelected( int index )
+    {
+        bool unselect = currentCardSelectedIdx == index;
+        if( currentCardSelectedIdx != null || unselect )
+            UnselectCurrentResult();
+        if( !unselect )
+            searchUIEntries[cardData[index]].GetComponent<SearchListEntry>().SetBackgroundColour( selectedEntryColour );
+        currentCardSelectedIdx = unselect ? null : index as int?;
+    }
+
+    protected void UnselectCurrentResult()
+    {
+        GetSelectedCard().GetComponent<SearchListEntry>().SetBackgroundColour( Color.clear );
+        currentCardSelectedIdx = null;
     }
 
     protected abstract GameObject AddCardUI( CardDataRuntime card, int entryIdx );

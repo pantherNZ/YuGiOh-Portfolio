@@ -27,8 +27,12 @@ public class SearchPageFull : SearchPageBase
 
         searchEntry.SettingsButton.onClick.AddListener( () =>
         {
+            if( currentCardSelectedIdx != entryIdx )
+                ToggleResultSelected( entryIdx );
+
             entryOptionsPanel.SetActive( true );
-            ( entryOptionsPanel.transform as RectTransform ).anchoredPosition = Utility.GetMouseOrTouchPos();
+            var pos = ( searchEntry.SettingsButton.transform as RectTransform ).GetWorldRect().center;
+            ( entryOptionsPanel.transform as RectTransform ).anchoredPosition = pos;
 
             var buttons = entryOptionsPanel.GetComponent<SearchListResultButtons>();
             buttons.AddToBinderButton.gameObject.SetActive( card.cardAPIData != null && IsAddToBinderButtonActive() );
@@ -81,7 +85,11 @@ public class SearchPageFull : SearchPageBase
 
         var closePanelButton = entryOptionsPanel.GetComponentInChildren<Button>();
         closePanelButton.onClick.RemoveAllListeners();
-        closePanelButton.onClick.AddListener( FixScaleModifier );
+        closePanelButton.onClick.AddListener( () =>
+        {
+            UnselectCurrentResult();
+            FixScaleModifier();
+        } );
 
         return newCardUIEntry;
     }
