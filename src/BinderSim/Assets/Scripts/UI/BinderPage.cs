@@ -281,6 +281,9 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                 case PageType.CardPage:
                     mainMenuPage.SetActive( false );
                     break;
+                case PageType.SearchPageFull:
+                    mainMenuPage.SetActive( false );
+                    break;
             }
         }
         else if( e is BinderLoadedEvent )

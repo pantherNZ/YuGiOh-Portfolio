@@ -21,6 +21,7 @@ public abstract class SearchPageBase : EventReceiverInstance
     [SerializeField] TMPro.TMP_Dropdown optionsDropdown = null;
     [SerializeField] TMPro.TextMeshProUGUI cardCountText = null;
     [SerializeField] TMPro.TextMeshProUGUI totalValueText = null;
+    [SerializeField] protected TMPro.TextMeshProUGUI titleText = null;
     [SerializeField] Button minimiseMaximiseButton = null;
 
     protected List<CardDataRuntime> cardData = new List<CardDataRuntime>();
@@ -29,7 +30,8 @@ public abstract class SearchPageBase : EventReceiverInstance
     protected int? currentCardSelectedIdx;
     protected int? currentBinderIdx;
     protected SearchPageOrigin behaviour = SearchPageOrigin.None;
-    private SearchPageFlags flags;
+    protected SearchPageFlags flags;
+    protected string replacingCardName;
     private Coroutine searchCountdown;
 
     protected override void Start()
@@ -72,7 +74,7 @@ public abstract class SearchPageBase : EventReceiverInstance
     public void SearchCards()
     {
         // Remove current card entries (skip/leave header)
-        for( int i = 1; i < cardList.transform.childCount; ++i )
+        for( int i = ( ContainsHeader() ? 1 : 0 ); i < cardList.transform.childCount; ++i )
             cardList.transform.GetChild( i ).gameObject.Destroy();
         currentCardSelectedIdx = null;
         searchUIEntries.Clear();
@@ -82,6 +84,8 @@ public abstract class SearchPageBase : EventReceiverInstance
         SearchRequest( search );
     }
 
+    protected abstract bool ContainsHeader();
+
     void SearchRequest( string search )
     {
         var dropDownIdx = GetDropDownOptionIdx();
@@ -90,9 +94,15 @@ public abstract class SearchPageBase : EventReceiverInstance
         if( filter == InventoryData.Options.SearchOnline )
         {
             if( search.Length > 0 )
+            {
                 StartCoroutine( APICallHandler.Instance.SendCardSearchRequestFuzzy( search, false, OnSearchResultReceived ) );
-            else if( cardCountText != null )
-                cardCountText.gameObject.SetActive( false );
+            }
+            else
+            {
+                if( cardCountText != null )
+                    cardCountText.gameObject.SetActive( false );
+                AddCard( new CardDataRuntime() { name = "No results found" } );
+            }
             return;
         }
 
@@ -196,7 +206,7 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     protected GameObject GetSelectedCard()
     {
-        return currentCardSelectedIdx.HasValue ? cardList.transform.GetChild( currentCardSelectedIdx.Value ).gameObject : null;
+        return currentCardSelectedIdx.HasValue ? cardList.transform.GetChild( 1 + currentCardSelectedIdx.Value ).gameObject : null;
     }
 
     public void AddCard( CardDataRuntime card )
@@ -264,7 +274,8 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     protected void UnselectCurrentResult()
     {
-        GetSelectedCard().GetComponent<SearchListEntry>().SetBackgroundColour( Color.clear );
+        if( GetSelectedCard() != null )
+            GetSelectedCard().GetComponent<SearchListEntry>().SetBackgroundColour( Color.clear );
         currentCardSelectedIdx = null;
     }
 
@@ -356,7 +367,8 @@ public abstract class SearchPageBase : EventReceiverInstance
             {
                 page = fullscreen ? PageType.SearchPageFull : PageType.SearchPage,
                 behaviour = behaviour,
-                flags = flags
+                flags = flags,
+                replacingCard = replacingCardName,
             } );
         }
     }
@@ -380,6 +392,7 @@ public abstract class SearchPageBase : EventReceiverInstance
         behaviour = request.behaviour;
         flags = request.flags;
         currentBinderIdx = binderIndex;
+        replacingCardName = request.replacingCard;
         ShowPageInternal();
     }
 

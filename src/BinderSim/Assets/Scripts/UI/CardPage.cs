@@ -74,9 +74,6 @@ public class CardPage : EventReceiverInstance
                     if( e is OpenCardPageEvent openPageRequest )
                         LoadBinder( openPageRequest.binder );
                     break;
-                case PageType.SearchPageFull:
-                    cardsPage.SetActive( false );
-                    break;
             }
         }
         else if( e is CardSelectedEvent cardSelectedEvent )
@@ -474,6 +471,9 @@ public class CardPage : EventReceiverInstance
                 ? SearchPageFlags.SettingCards
                 : SearchPageFlags.ReplacingCard )
                     | ( FindNextEmptyCardSlot() == null ? SearchPageFlags.PageFull : 0 ),
+            replacingCard = currentbinder.data.cardList[page][pos] != null
+                ? currentbinder.data.cardList[page][pos].name
+                : String.Empty
         } );
     }
 

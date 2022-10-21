@@ -16,6 +16,11 @@ public class SearchPageSmall : SearchPageBase
         base.Start();
     }
 
+    protected override bool ContainsHeader()
+    {
+        return false;
+    }
+
     protected override GameObject AddCardUI( CardDataRuntime card, int entryIdx )
     {
         // Add UI elements
@@ -49,6 +54,17 @@ public class SearchPageSmall : SearchPageBase
             var openInventory = e as OpenInventoryPageEvent;
             ShowPage( openPageRequest, openInventory?.currentBinderIdx );
         }
+    }
+
+    protected override void ShowPageInternal()
+    {
+        base.ShowPageInternal();
+
+        titleText.SetText(
+            flags.HasFlag( SearchPageFlags.SettingCards )
+            ? "Choosing Card"
+            : "Replacing Card" );
+        titleText.gameObject.SetActive( behaviour != SearchPageOrigin.MainPage );
     }
 
     public void SwitchSides( RectTransform button )

@@ -19,6 +19,7 @@ public class OpenSearchPageEvent : PageChangeRequestEvent
 {
     public SearchPageOrigin behaviour;
     public SearchPageFlags flags;
+    public string replacingCard;
 }
 
 public class OpenInventoryPageEvent : OpenSearchPageEvent

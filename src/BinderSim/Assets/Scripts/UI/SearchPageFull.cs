@@ -18,6 +18,11 @@ public class SearchPageFull : SearchPageBase
         entryOptionsPanel.SetActive( false );
     }
 
+    protected override bool ContainsHeader()
+    {
+        return true;
+    }
+
     protected override GameObject AddCardUI( CardDataRuntime card, int entryIdx )
     {
         // Add UI elements
@@ -124,6 +129,13 @@ public class SearchPageFull : SearchPageBase
         base.ShowPageInternal();
 
         GetSelectedCard()?.GetComponent<EventDispatcher>().OnPointerUpEvent.Invoke( null );
+
+        titleText.SetText(
+            behaviour == SearchPageOrigin.MainPage
+            ? "Modifying Inventory"
+            : flags.HasFlag( SearchPageFlags.SettingCards )
+            ? "Choosing Card"
+            : "Replacing: " + replacingCardName );
     }
 
     protected override void UpdateButtons()
