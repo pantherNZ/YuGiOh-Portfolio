@@ -13,7 +13,7 @@ public class Constants : MonoBehaviour
     public int SaveGameVersion = 1;
     public bool DownloadImages = true;
     public bool DownloadLargeImages = true;
-    public int DefaultStartingNumPages = 20;
+    public int DefaultStartingNumPages = 10;
     public int DefaultStartingPageWidth = 3;
     public int DefaultStartingPageHeight = 3;
 }

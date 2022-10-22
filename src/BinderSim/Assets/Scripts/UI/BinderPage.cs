@@ -853,6 +853,10 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                                 Debug.Assert( pageIdx < newBinder.cardList.Count && cardIdx < newBinder.cardList[pageIdx].Count );
                                 newBinder.cardList[pageIdx][cardIdx] = newCard;
                                 newCard.insideBinderIdx = bindexIndex;
+
+                                if( newCard.imageIndex >= card.card_images.Count )
+                                    newCard.imageIndex = 0;
+
                                 inventory.Add( newCard );
                             }
                         }
@@ -882,8 +886,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             count = countAndCondition & 63,
             condition = ( CardConditions.Values )( countAndCondition >> 5 ),
             cardIndex = cardAndImageIndices >> 4,
-            //imageIndex = cardAndImageIndices & 15
-            imageIndex = 0
+            imageIndex = cardAndImageIndices & 15
         };
     }
 

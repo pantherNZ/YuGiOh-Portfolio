@@ -206,7 +206,7 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     protected GameObject GetSelectedCard()
     {
-        return currentCardSelectedIdx.HasValue ? cardList.transform.GetChild( 1 + currentCardSelectedIdx.Value ).gameObject : null;
+        return currentCardSelectedIdx.HasValue ? cardList.transform.GetChild( ( ContainsHeader() ? 1 : 0 ) + currentCardSelectedIdx.Value ).gameObject : null;
     }
 
     public void AddCard( CardDataRuntime card )
@@ -369,6 +369,7 @@ public abstract class SearchPageBase : EventReceiverInstance
                 behaviour = behaviour,
                 flags = flags,
                 replacingCard = replacingCardName,
+                searchText = searchInput.text
             } );
         }
     }
@@ -393,6 +394,7 @@ public abstract class SearchPageBase : EventReceiverInstance
         flags = request.flags;
         currentBinderIdx = binderIndex;
         replacingCardName = request.replacingCard;
+        searchInput.SetTextWithoutNotify( request.searchText );
         ShowPageInternal();
     }
 
