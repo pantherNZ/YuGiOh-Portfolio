@@ -135,7 +135,9 @@ public class SearchPageFull : SearchPageBase
             ? "Modifying Inventory"
             : flags.HasFlag( SearchPageFlags.SettingCards )
             ? "Choosing Card"
-            : "Replacing: " + replacingCardName );
+            : flags.HasFlag( SearchPageFlags.ReplacingCard )
+            ? "Replacing: " + replacingCardName
+            : "Searching Cards" );
     }
 
     protected override void UpdateButtons()

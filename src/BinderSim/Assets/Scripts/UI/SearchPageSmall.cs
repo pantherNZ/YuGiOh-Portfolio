@@ -63,7 +63,9 @@ public class SearchPageSmall : SearchPageBase
         titleText.SetText(
             flags.HasFlag( SearchPageFlags.SettingCards )
             ? "Choosing Card"
-            : "Replacing Card" );
+            : flags.HasFlag( SearchPageFlags.ReplacingCard )
+            ? "Replacing Card" 
+            : "Searching Cards" );
         titleText.gameObject.SetActive( behaviour != SearchPageOrigin.MainPage );
     }
 

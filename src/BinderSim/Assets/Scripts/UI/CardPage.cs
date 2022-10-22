@@ -32,6 +32,7 @@ public class CardPage : EventReceiverInstance
     private int height;
     private int currentPage;
     private int? currentModifyCardIdx;
+    private bool openFullScreenSearch;
 
     // Drag data
     private GameObject dragging;
@@ -70,6 +71,10 @@ public class CardPage : EventReceiverInstance
                     cardsPage.SetActive( false );
                     break;
                 case PageType.CardPage:
+                    var cancelRequest = e as CloseSearchPageEvent;
+                    if( cancelRequest != null && cancelRequest.fromFullscreen != null )
+                        openFullScreenSearch = cancelRequest.fromFullscreen.Value;
+
                     cardsPage.SetActive( true );
                     if( e is OpenCardPageEvent openPageRequest )
                         LoadBinder( openPageRequest.binder );
@@ -453,7 +458,7 @@ public class CardPage : EventReceiverInstance
     {
         EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
         {
-            page = PageType.SearchPage,
+            page = openFullScreenSearch ? PageType.SearchPageFull : PageType.SearchPage,
             behaviour = SearchPageOrigin.CardPageSearch,
             flags = ( FindNextEmptyCardSlot() == null ? SearchPageFlags.PageFull : 0 ),
         } );
@@ -465,7 +470,7 @@ public class CardPage : EventReceiverInstance
 
         EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
         {
-            page = PageType.SearchPage,
+            page = openFullScreenSearch ? PageType.SearchPageFull : PageType.SearchPage,
             behaviour = SearchPageOrigin.CardPageSearch,
             flags = ( currentbinder.data.cardList[page][pos] == null
                 ? SearchPageFlags.SettingCards

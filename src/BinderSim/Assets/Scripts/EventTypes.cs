@@ -23,6 +23,15 @@ public class OpenSearchPageEvent : PageChangeRequestEvent
     public string searchText;
 }
 
+public class CloseSearchPageEvent : PageChangeRequestEvent
+{
+    public CloseSearchPageEvent()
+    {
+        page = PageType.CardPage;
+    }
+    public bool? fromFullscreen;
+}
+
 public class OpenInventoryPageEvent : OpenSearchPageEvent
 {
     public OpenInventoryPageEvent() 

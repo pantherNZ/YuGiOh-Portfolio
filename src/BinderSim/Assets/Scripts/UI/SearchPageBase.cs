@@ -341,11 +341,12 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     public void Cancel()
     {
-        EventSystem.Instance.TriggerEvent( new PageChangeRequestEvent() 
+        EventSystem.Instance.TriggerEvent( new CloseSearchPageEvent() 
         { 
             page = behaviour == SearchPageOrigin.MainPage
                 ? PageType.BinderPage 
-                : PageType.CardPage 
+                : PageType.CardPage,
+            fromFullscreen = behaviour == SearchPageOrigin.CardPageSearch ? ContainsHeader() as bool? : null
         } );
     }
 
