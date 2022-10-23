@@ -30,7 +30,7 @@ public class SearchPageFull : SearchPageBase
         newCardUIEntry.transform.SetParent( cardList.transform );
 
         var searchEntry = newCardUIEntry.GetComponent<SearchListEntry>();
-        searchEntry.Initialise( card );
+        searchEntry.Initialise( card, behaviour, flags );
         searchEntry.CountText?.gameObject.SetActive( GetDropDownOption() != InventoryData.Options.SearchOnline && card.cardAPIData != null );
 
         searchEntry.SettingsButton.onClick.AddListener( () =>

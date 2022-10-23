@@ -16,4 +16,6 @@ public class Constants : MonoBehaviour
     public int DefaultStartingNumPages = 10;
     public int DefaultStartingPageWidth = 3;
     public int DefaultStartingPageHeight = 3;
+
+    public Material greyscaleMaterial;
 }

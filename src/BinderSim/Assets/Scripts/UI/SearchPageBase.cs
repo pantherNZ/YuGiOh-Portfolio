@@ -318,6 +318,8 @@ public abstract class SearchPageBase : EventReceiverInstance
         {
             card = data,
             fromDragDrop = fromDragDrop,
+            fromInventory = GetDropDownOption() == InventoryData.Options.AllCards
+                || GetDropDownOption() == InventoryData.Options.UnusedCards
         } );
 
         // Only hide this page if we are selecting for a specific card

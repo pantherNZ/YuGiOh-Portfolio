@@ -11,6 +11,7 @@ public class CardSelectedEvent : IBaseEvent
 { 
     public CardDataRuntime card;
     public bool fromDragDrop = false;
+    public bool fromInventory = false;
 }
 
 public class CardImageLoadedEvent : IBaseEvent { public CardDataRuntime card; }

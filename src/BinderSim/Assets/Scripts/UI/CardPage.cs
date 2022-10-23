@@ -155,6 +155,8 @@ public class CardPage : EventReceiverInstance
 
     private void LoadCard( CardSelectedEvent e )
     {
+        var data = e.card;
+
         // From drag and drop - calculate mouse pos to determine which card to replace
         if( e.fromDragDrop )
         {
@@ -192,10 +194,44 @@ public class CardPage : EventReceiverInstance
             }
         }
 
+        if( data != null )
+        {
+            // Add to inventory if a new card
+            if( data.insideBinderIdx == null && !e.fromInventory )
+            {
+                BinderPage.Instance.Inventory.Add( data );
+            }
+            // Otherwise remove from binder
+            else if( data.insideBinderIdx != null )
+            {
+                int foundIdx = -1;
+                int foundPage = BinderPage.Instance.BinderData[data.insideBinderIdx.Value].data.cardList.FindIndex( ( cardPage ) =>
+                {
+                    foreach( var (idx, card) in cardPage.Enumerate() )
+                    {
+                        if( card == data )
+                        {
+                            foundIdx = idx;
+                            return true;
+                        }
+                    }
+                    return false;
+                } );
+
+                if( data.insideBinderIdx != null )
+                {
+                    var prevIdx = currentModifyCardIdx;
+                    currentModifyCardIdx = GetIndexFromPageAndPos( foundPage, foundIdx );
+                    LoadCard( new CardSelectedEvent() { card = null } );
+                    currentModifyCardIdx = prevIdx;
+                }
+            }
+        }
+
         var (page, pos) = GetPageAndPosFromIndex( currentModifyCardIdx.Value );
         var grid = GetGrid( page );
         var image = grid.transform.GetChild( pos ).GetComponent<Image>();
-        var data = e.card;
+
         image.sprite = Utility.CreateSprite( data == null ? defaultCardImage : data.smallImages[data.imageIndex] );
         var prevCard = currentbinder.data.cardList[page][pos];
         currentbinder.data.cardList[page][pos] = data;
@@ -207,9 +243,7 @@ public class CardPage : EventReceiverInstance
             if( !e.fromDragDrop && FindNextEmptyCardSlot() == null )
                 EventSystem.Instance.TriggerEvent( new PageFullEvent() );
 
-            // Add to inventory
             data.insideBinderIdx = BinderPage.Instance.BinderData.IndexOf( currentbinder );
-            BinderPage.Instance.Inventory.Add( data );
         }
         else if( prevCard != null )
         {
@@ -315,6 +349,7 @@ public class CardPage : EventReceiverInstance
     private void StartDragging( int page, int pos )
     {
         // Can't move empty cards
+        if( currentbinder.data.cardList[page][pos] == null )
         if( currentbinder.data.cardList[page][pos] == null )
             return;
 

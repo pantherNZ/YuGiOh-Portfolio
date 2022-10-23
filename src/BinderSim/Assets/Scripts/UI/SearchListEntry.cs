@@ -17,20 +17,27 @@ public class SearchListEntry : MonoBehaviour
     [SerializeField] TMPro.TMP_Dropdown conditionDropdown;
     [SerializeField] TMPro.TextMeshProUGUI countText;
     [SerializeField] Button settingsButton;
+    [SerializeField] Button increaseCountButton;
+    [SerializeField] Button decreaseCountButton;
 
     public Button SettingsButton { get => settingsButton; private set { } }
     public TMPro.TextMeshProUGUI CountText { get => countText; private set { } }
 
     private CardDataRuntime cardData;
 
-    public void Initialise( CardDataRuntime data )
+    public void Initialise( CardDataRuntime data, SearchPageOrigin behaviour, SearchPageFlags flags )
     {
         cardData = data;
         SetBackgroundColour( Color.clear );
 
-        titleText.text = data.name;
-
         bool dataValid = data != null && data.cardAPIData != null;
+        bool showCardInUse = dataValid && data.insideBinderIdx != null && behaviour != SearchPageOrigin.MainPage;
+
+        titleText.text = data.name +
+            ( showCardInUse
+            ? "\n<color=#A10000>In Use: " + BinderPage.Instance.BinderData[data.insideBinderIdx.Value].data.name
+            : string.Empty );
+
         leftCardImageButton?.gameObject.SetActive( dataValid && data.cardAPIData.card_images.Count > 1 );
         rightCardImageButton?.gameObject.SetActive( dataValid && data.cardAPIData.card_images.Count > 1 );
         cardImage?.gameObject.SetActive( dataValid );
@@ -41,13 +48,16 @@ public class SearchListEntry : MonoBehaviour
         countText?.gameObject.SetActive( dataValid );
         settingsButton?.gameObject.SetActive( dataValid );
 
-        if( data == null || data.cardAPIData == null )
+        if( !dataValid )
             return;
 
         leftCardImageButton?.onClick.AddListener( () => LoadArtVariation( cardData.imageIndex - 1 ) );
         rightCardImageButton?.onClick.AddListener( () => LoadArtVariation( cardData.imageIndex + 1 ) );
         typeText?.SetText( data.cardAPIData.type );
         countText?.SetText( data.count.ToString() );
+
+        if( showCardInUse )
+            cardImage.material = Constants.Instance.greyscaleMaterial;
 
         if( conditionDropdown != null )
         {
@@ -75,6 +85,19 @@ public class SearchListEntry : MonoBehaviour
             } );
         }
 
+        decreaseCountButton?.gameObject.SetActive( data.count > 1 );
+        decreaseCountButton?.onClick.AddListener( () =>
+        {
+            data.count--;
+            UpdateUI();
+        } );
+
+        increaseCountButton?.onClick.AddListener( () =>
+        {
+            data.count++;
+            UpdateUI();
+        } );
+
         UpdateUI();
         GetCardPreviewImage();
     }
@@ -84,6 +107,10 @@ public class SearchListEntry : MonoBehaviour
         rarityText?.SetText( cardData.cardAPIData.card_sets != null 
             ? cardData.cardAPIData.card_sets[cardData.cardIndex].set_rarity
             : "Unknown" );
+
+        cardData.count = Mathf.Clamp( cardData.count, 0, 32 );
+        decreaseCountButton?.gameObject.SetActive( cardData.count > 1 );
+        countText?.SetText( cardData.count.ToString() );
     }
 
     private void GetCardPreviewImage()
