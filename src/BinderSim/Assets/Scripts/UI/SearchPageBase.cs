@@ -23,6 +23,7 @@ public abstract class SearchPageBase : EventReceiverInstance
     [SerializeField] TMPro.TextMeshProUGUI totalValueText = null;
     [SerializeField] protected TMPro.TextMeshProUGUI titleText = null;
     [SerializeField] Button minimiseMaximiseButton = null;
+    [SerializeField] Button clearCardButton = null;
 
     protected List<CardDataRuntime> cardData = new List<CardDataRuntime>();
     protected List<CardDataRuntime> tempImportInventory;
@@ -42,7 +43,7 @@ public abstract class SearchPageBase : EventReceiverInstance
 
         searchInput.onValueChanged.AddListener( OnSearchTextchanged );
 
-        optionsDropdown.onValueChanged.AddListener( ( _ ) =>
+        optionsDropdown.onValueChanged.AddListener( (_) =>
         {
             var newOption = GetDropDownOption();
             if( newOption != InventoryData.Options.TempInventory && tempImportInventory != null )
@@ -54,6 +55,15 @@ public abstract class SearchPageBase : EventReceiverInstance
 
             UpdateButtons();
             SearchCards();
+        } );
+
+        clearCardButton.onClick.AddListener( () =>
+        {
+            EventSystem.Instance.TriggerEvent( new CardSelectedEvent()
+            {
+                card = null
+            } );
+            Cancel();
         } );
     }
 
@@ -402,6 +412,7 @@ public abstract class SearchPageBase : EventReceiverInstance
     protected virtual void ShowPageInternal()
     {
         searchListPage.SetActive( true );
+        clearCardButton.gameObject.SetActive( flags.HasFlag( SearchPageFlags.ReplacingCard ) );
         PopulateOptions();
         SetDropDownOption( GetDefaultBehaviour() );
         SearchCards();

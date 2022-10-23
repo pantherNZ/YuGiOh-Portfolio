@@ -71,8 +71,7 @@ public class CardPage : EventReceiverInstance
                     cardsPage.SetActive( false );
                     break;
                 case PageType.CardPage:
-                    var cancelRequest = e as CloseSearchPageEvent;
-                    if( cancelRequest != null && cancelRequest.fromFullscreen != null )
+                    if( e is CloseSearchPageEvent cancelRequest && cancelRequest.fromFullscreen != null )
                         openFullScreenSearch = cancelRequest.fromFullscreen.Value;
 
                     cardsPage.SetActive( true );
