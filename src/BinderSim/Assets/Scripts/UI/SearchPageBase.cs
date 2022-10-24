@@ -33,7 +33,8 @@ public abstract class SearchPageBase : EventReceiverInstance
     protected SearchPageOrigin behaviour = SearchPageOrigin.None;
     protected SearchPageFlags flags;
     protected string replacingCardName;
-    private Coroutine searchCountdown;
+    private Coroutine searchCountdownHandle;
+    private Coroutine searchRequestHandle;
 
     protected override void Start()
     {
@@ -69,10 +70,10 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     private void OnSearchTextchanged( string text )
     {
-        if( searchCountdown != null )
-            StopCoroutine( searchCountdown );
+        if( searchCountdownHandle != null )
+            StopCoroutine( searchCountdownHandle );
 
-        searchCountdown = StartCoroutine( TextChangedTimer() );
+        searchCountdownHandle = StartCoroutine( TextChangedTimer() );
     }
 
     private IEnumerator TextChangedTimer()
@@ -98,6 +99,9 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     void SearchRequest( string search )
     {
+        if( searchRequestHandle != null )
+            StopCoroutine( searchRequestHandle );
+
         var dropDownIdx = GetDropDownOptionIdx();
         var filter = GetDropDownOption();
 
@@ -105,7 +109,7 @@ public abstract class SearchPageBase : EventReceiverInstance
         {
             if( search.Length > 0 )
             {
-                StartCoroutine( APICallHandler.Instance.SendCardSearchRequestFuzzy( search, false, OnSearchResultReceived ) );
+                searchRequestHandle = StartCoroutine( APICallHandler.Instance.SendCardSearchRequestFuzzy( search, true, OnSearchResultReceived ) );
             }
             else
             {
@@ -125,6 +129,8 @@ public abstract class SearchPageBase : EventReceiverInstance
 
         foreach( var( idx, card ) in inventory.Enumerate() )
         {
+            if( card.cardAPIData == null )
+                continue;
             if( filter == InventoryData.Options.AllCardsInBinders && card.insideBinderIdx == null )
                 continue;
             if( filter == InventoryData.Options.UnusedCards && card.insideBinderIdx != null )
@@ -175,7 +181,7 @@ public abstract class SearchPageBase : EventReceiverInstance
 
             try
             {
-                data =JsonConvert.DeserializeObject<Root>( result, settings );
+                data = JsonConvert.DeserializeObject<Root>( result, settings );
             }
             catch( Exception )
             {
@@ -314,12 +320,16 @@ public abstract class SearchPageBase : EventReceiverInstance
             return;
         }
 
+        bool fromInventory = GetDropDownOption() == InventoryData.Options.AllCards
+                || GetDropDownOption() == InventoryData.Options.UnusedCards
+                || GetDropDownOption() == InventoryData.Options.AllCardsInBinders
+                || GetDropDownOption() == InventoryData.Options.CardsInBinderX;
+
         EventSystem.Instance.TriggerEvent( new CardSelectedEvent()
         {
             card = data,
             fromDragDrop = fromDragDrop,
-            fromInventory = GetDropDownOption() == InventoryData.Options.AllCards
-                || GetDropDownOption() == InventoryData.Options.UnusedCards
+            fromInventory = fromInventory
         } );
 
         // Only hide this page if we are selecting for a specific card
@@ -348,6 +358,11 @@ public abstract class SearchPageBase : EventReceiverInstance
                     card = data,
                 } );
             } ) );
+        }
+
+        if( fromInventory )
+        {
+            SearchCards();
         }
     }
 
