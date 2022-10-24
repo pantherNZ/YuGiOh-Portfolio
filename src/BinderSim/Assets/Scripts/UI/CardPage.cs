@@ -194,12 +194,15 @@ public class CardPage : EventReceiverInstance
             }
         }
 
+        bool sortInventory = false;
+
         if( data != null )
         {
             // Add to inventory if a new card
             if( data.insideBinderIdx == null && !e.fromInventory )
             {
                 BinderPage.Instance.Inventory.Add( data );
+                sortInventory = true;
             }
             // Otherwise remove from binder
             else if( data.insideBinderIdx != null )
@@ -253,13 +256,18 @@ public class CardPage : EventReceiverInstance
                 EventSystem.Instance.TriggerEvent( new PageFullEvent() );
 
             data.insideBinderIdx = BinderPage.Instance.BinderData.IndexOf( currentbinder );
+            sortInventory = true;
         }
 
         // Set previous card to not being inside a binder
         if( prevCard != null )
         {
             BinderPage.Instance.Inventory.Find( ( x ) => x.cardId == prevCard.cardId ).insideBinderIdx = null;
+            sortInventory = true;
         }
+
+        if( sortInventory )
+            BinderPage.Instance.SortInventory();
 
         EventSystem.Instance.TriggerEvent( new SaveGameEvent() { } );
     }
@@ -351,8 +359,8 @@ public class CardPage : EventReceiverInstance
             {
                 int pos = i;
                 var dispatcher = grid.transform.GetChild( i ).GetComponent<EventDispatcher>();
-                dispatcher.OnDoubleClickEvent = ( e ) => UIUtility.LeftMouseFilter( false, e, () => OpenSearchPanel( page, pos ) );
-                dispatcher.OnBeginDragEvent = ( e ) => UIUtility.LeftMouseFilter( false, e, () => StartDragging( page, pos ) );
+                dispatcher.OnDoubleClickEvent = ( e ) => AppUtility.LeftMouseFilter( false, e, () => OpenSearchPanel( page, pos ) );
+                dispatcher.OnBeginDragEvent = ( e ) => AppUtility.LeftMouseFilter( false, e, () => StartDragging( page, pos ) );
             }
         }
     }

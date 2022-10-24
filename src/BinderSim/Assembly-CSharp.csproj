@@ -59,7 +59,7 @@
     <Compile Include="Assets\Scripts\EventTypes.cs" />
     <Compile Include="Assets\Scripts\BytesToString.cs" />
     <Compile Include="Assets\Scripts\UI\SearchPageBase.cs" />
-    <Compile Include="Assets\Scripts\UI\UIUtility.cs" />
+    <Compile Include="Assets\Scripts\UI\AppUtility.cs" />
     <Compile Include="Assets\Scripts\YGOAPICallHandler.cs" />
     <Compile Include="Assets\Scripts\WebGLCopyAndPaste.cs" />
     <Compile Include="Assets\Scripts\UI\SearchListResultButtons.cs" />

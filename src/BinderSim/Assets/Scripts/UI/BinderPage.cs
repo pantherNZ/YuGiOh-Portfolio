@@ -237,7 +237,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             }
         };
 
-        eventDispatcher.OnDoubleClickEvent = ( e ) => UIUtility.LeftMouseFilter( true, e, () =>
+        eventDispatcher.OnDoubleClickEvent = ( e ) => AppUtility.LeftMouseFilter( true, e, () =>
         {
             if( currentSelectedBinderIdx != binder.index )
                 ToggleBinderSelected( binder );
@@ -697,7 +697,6 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         var request = "https://db.ygoprodeck.com/api/v7/cardinfo.php?id=";
         StringBuilder uri = new StringBuilder();
         int counter = 0;
-        Dictionary<int, List<int>> iventoryByCardIds = new Dictionary<int, List<int>>();
 
         foreach( var( idx, card ) in Inventory.Enumerate() )
         {
@@ -705,15 +704,6 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             {
                 uri.Append( uri.Length > 0 ? ", " : String.Empty );
                 uri.Append( card.cardId );
-                
-                if( iventoryByCardIds.TryGetValue( card.cardId, out var items ) )
-                {
-                    items.Add( idx );
-                }
-                else
-                {
-                    iventoryByCardIds.Add( card.cardId, new List<int> { idx } );
-                }
             }
 
             if( uri.Length > 0 &&
@@ -726,16 +716,13 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
                     foreach( var card in data.data )
                     {
-                        if( !iventoryByCardIds.TryGetValue( card.id, out List<int> cardsInInventory ) )
+                        foreach( var inventoryCard in inventory )
                         {
-                            Debug.LogError( "Failed to find return json card in list: " + card.name );
-                            continue;
-                        }
-
-                        foreach( var inventoryIdx in cardsInInventory )
-                        {
-                            Inventory[inventoryIdx].cardAPIData = card.DeepCopy();
-                            Inventory[inventoryIdx].name = card.name;
+                            if( inventoryCard.cardId == card.id )
+                            {
+                                inventoryCard.cardAPIData = card.DeepCopy();
+                                inventoryCard.name = card.name;
+                            }
                         }
                     }
                 } ) );
@@ -863,6 +850,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
                         if( ++importDataCount[name].importRequestsComplete == importDataCount[name].importRequestsTotal )
                         {
+                            SortInventory();
                             importDataCount.Remove( name );
                             callback?.Invoke();
                         }
@@ -944,5 +932,11 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         if( Application.platform == RuntimePlatform.WebGLPlayer )
             WebGLCopyAndPasteAPI.passCopyToBrowser( GUIUtility.systemCopyBuffer );
 #endif
+    }
+
+    public void SortInventory()
+    {
+        inventory.RemoveAll( ( x ) => x.cardAPIData == null || x.name == null );
+        AppUtility.SortInventory( inventory );
     }
 }

@@ -29,7 +29,7 @@ public class SearchPageSmall : SearchPageBase
         newCardUIEntry.GetComponentInChildren<EventDispatcher>().OnBeginDragEvent += ( e ) => LeftMouseFilter( e, () => StartDragging( newCardUIEntry, entryIdx ) );
 
         var searchEntry = newCardUIEntry.GetComponent<SearchListEntry>();
-        searchEntry.Initialise( card, behaviour, flags );
+        searchEntry.Initialise( card, behaviour, flags, GetDropDownOption() );
 
         return newCardUIEntry;
     }

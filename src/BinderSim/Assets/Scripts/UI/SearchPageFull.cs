@@ -30,8 +30,7 @@ public class SearchPageFull : SearchPageBase
         newCardUIEntry.transform.SetParent( cardList.transform );
 
         var searchEntry = newCardUIEntry.GetComponent<SearchListEntry>();
-        searchEntry.Initialise( card, behaviour, flags );
-        searchEntry.CountText?.gameObject.SetActive( GetDropDownOption() != InventoryData.Options.SearchOnline && card.cardAPIData != null );
+        searchEntry.Initialise( card, behaviour, flags, GetDropDownOption() );
 
         searchEntry.SettingsButton.onClick.AddListener( () =>
         {
@@ -58,6 +57,7 @@ public class SearchPageFull : SearchPageBase
                 buttons.AddToInventoryButton.onClick.AddListener( () =>
                 {
                     BinderPage.Instance.Inventory.Add( cardData[entryIdx] );
+                    BinderPage.Instance.SortInventory();
 
                     if( GetDropDownOption() == InventoryData.Options.AllCards || GetDropDownOption() == InventoryData.Options.UnusedCards )
                         SearchCards();

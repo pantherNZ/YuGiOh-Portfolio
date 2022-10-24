@@ -126,6 +126,7 @@ public abstract class SearchPageBase : EventReceiverInstance
         var inventory = filter == InventoryData.Options.TempInventory
             ? tempImportInventory
             : BinderPage.Instance.Inventory;
+        AppUtility.SortInventory( inventory );
 
         foreach( var( idx, card ) in inventory.Enumerate() )
         {

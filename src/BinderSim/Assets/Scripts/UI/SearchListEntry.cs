@@ -25,7 +25,7 @@ public class SearchListEntry : MonoBehaviour
 
     private CardDataRuntime cardData;
 
-    public void Initialise( CardDataRuntime data, SearchPageOrigin behaviour, SearchPageFlags flags )
+    public void Initialise( CardDataRuntime data, SearchPageOrigin behaviour, SearchPageFlags flags, InventoryData.Options mode )
     {
         cardData = data;
         SetBackgroundColour( Color.clear );
@@ -45,8 +45,10 @@ public class SearchListEntry : MonoBehaviour
         conditionDropdown?.gameObject.SetActive( dataValid );
         typeText?.gameObject.SetActive( dataValid );
         rarityText?.gameObject.SetActive( dataValid );
-        countText?.gameObject.SetActive( dataValid );
         settingsButton?.gameObject.SetActive( dataValid );
+        countText?.gameObject.SetActive( dataValid && mode != InventoryData.Options.SearchOnline );
+        increaseCountButton?.gameObject.SetActive( dataValid && mode != InventoryData.Options.SearchOnline );
+        decreaseCountButton?.gameObject.SetActive( dataValid && data.count > 1 && mode != InventoryData.Options.SearchOnline );
 
         if( !dataValid )
             return;
@@ -85,7 +87,6 @@ public class SearchListEntry : MonoBehaviour
             } );
         }
 
-        decreaseCountButton?.gameObject.SetActive( data.count > 1 );
         decreaseCountButton?.onClick.AddListener( () =>
         {
             data.count--;
