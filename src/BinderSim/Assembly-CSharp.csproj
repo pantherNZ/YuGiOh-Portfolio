@@ -56,34 +56,55 @@
     <Analyzer Include="D:\Software\Visual Studio 2022\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\TouchPad.cs" />
     <Compile Include="Assets\Scripts\EventTypes.cs" />
+    <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\PageView_Map_Right.cs" />
     <Compile Include="Assets\Scripts\BytesToString.cs" />
     <Compile Include="Assets\Scripts\UI\SearchPageBase.cs" />
     <Compile Include="Assets\Scripts\UI\AppUtility.cs" />
+    <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\PageView_Map_Left.cs" />
+    <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\PageView.cs" />
+    <Compile Include="Assets\EndlessBook\Book\Scripts\Unpack.cs" />
     <Compile Include="Assets\Scripts\YGOAPICallHandler.cs" />
+    <Compile Include="Assets\EndlessBook\Book\Scripts\Page.cs" />
+    <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\MimicChild.cs" />
+    <Compile Include="Assets\EndlessBook\Book\Scripts\PageAnimationCompleted.cs" />
     <Compile Include="Assets\Scripts\WebGLCopyAndPaste.cs" />
     <Compile Include="Assets\Scripts\UI\SearchListResultButtons.cs" />
+    <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\Demo02.cs" />
+    <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\RotateCamera.cs" />
     <Compile Include="Assets\Scripts\UI\ModifyPageButtons.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserEditor.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserMac.cs" />
     <Compile Include="Assets\Scripts\UI\BinderPage.cs" />
+    <Compile Include="Assets\EndlessBook\Book\Scripts\BookAnimationCompleted.cs" />
+    <Compile Include="Assets\EndlessBook\Book\Scripts\EndlessBook.cs" />
     <Compile Include="Assets\Scripts\UI\SearchPageFull.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserWindows.cs" />
+    <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\PageView_02.cs" />
+    <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\RotateObject.cs" />
     <Compile Include="Assets\Scripts\Constants.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\IStandaloneFileBrowser.cs" />
+    <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\PageView_Front.cs" />
     <Compile Include="Assets\Scripts\UI\CardPage.cs" />
     <Compile Include="Assets\Scripts\UI\SearchListEntry.cs" />
     <Compile Include="Assets\Scripts\UI\SearchPageSmall.cs" />
     <Compile Include="Assets\Scripts\UI\BinderListEntry.cs" />
+    <Compile Include="Assets\EndlessBook\Demos\Demo 03 - Manual Page Turn\Scripts\Demo03.cs" />
+    <Compile Include="Assets\EndlessBook\Book\Scripts\PageData.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowser.cs" />
+    <Compile Include="Assets\EndlessBook\Demos\Demo 01\Scripts\Demo01.cs" />
+    <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\Candle.cs" />
     <Compile Include="Assets\Scripts\DataTypes.cs" />
     <Compile Include="Assets\Scripts\UI\GUIClickController.cs" />
+    <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\PageView_Map.cs" />
     <Compile Include="Assets\Scripts\RequestJsonFormat.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserLinux.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\EndlessBook\changelog.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
@@ -99,7 +120,9 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
+    <None Include="Assets\EndlessBook\Demos\Demo 02\Shaders\Page_04.shader" />
     <None Include="Assets\Scripts\Shaders\GreyscaleImage.shader" />
+    <None Include="Assets\EndlessBook\readme.txt" />
     <None Include="Assets\StandaloneFileBrowser\Plugins\System.Windows.Forms.dll" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
@@ -113,6 +136,9 @@
     </Reference>
     <Reference Include="UnityEngine.AccessibilityModule">
       <HintPath>D:\Software\Unity\2021.1.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.AccessibilityModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>D:\Software\Unity\2021.1.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.AnimationModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AssetBundleModule">
       <HintPath>D:\Software\Unity\2021.1.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.AssetBundleModule.dll</HintPath>
@@ -161,6 +187,9 @@
     </Reference>
     <Reference Include="UnityEngine.PerformanceReportingModule">
       <HintPath>D:\Software\Unity\2021.1.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.PerformanceReportingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>D:\Software\Unity\2021.1.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ProfilerModule">
       <HintPath>D:\Software\Unity\2021.1.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.ProfilerModule.dll</HintPath>

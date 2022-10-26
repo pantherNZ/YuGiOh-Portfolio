@@ -1,3 +1,6 @@
 [submodule "src/BinderSim/Assets/Utility"]
 	path = src/BinderSim/Assets/Utility
 	url = https://github.com/pantherNZ/UnityScriptUtility
+[submodule "src/BinderSim/Assets/EndlessBook"]
+	path = src/BinderSim/Assets/EndlessBook
+	url = https://github.com/pantherNZ/EndlessBook.git
