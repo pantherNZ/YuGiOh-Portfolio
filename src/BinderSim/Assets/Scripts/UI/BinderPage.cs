@@ -209,6 +209,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         } );
 
         var texts = binder.binderUI.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
+        references.cardCountText.text = string.Format( "{0}/{1}", binder.data.NumCards, binder.data.MaxCards );
         references.pageCountText.text = binder.data.pageCount.ToString();
         var pageSizeStr = string.Format( "{0}x{1}", binder.data.pageWidth, binder.data.pageHeight );
         references.pageSizeDropdown.SetValueWithoutNotify( references.pageSizeDropdown.options.FindIndex( x => x.text == pageSizeStr ) );
@@ -745,7 +746,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         var newBinderUI = Instantiate( binderEntryPrefab );
         newBinderUI.transform.SetParent( bindersList.transform );
 
-        var newBinder = new BinderData( id, name, pageCount, pageWidth, pageHeight, imagePath );
+        var newBinder = new BinderData( id, name, pageCount, pageWidth, pageHeight, imagePath, dateCreated );
         var bindexIndex = BinderData.Count;
 
         binderData.Add( new BinderDataRuntime()

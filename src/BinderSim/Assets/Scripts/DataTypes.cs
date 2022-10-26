@@ -20,11 +20,13 @@ public class BinderData
         int? pageCount = null, 
         int? pageWidth = null, 
         int? pageHeight = null, 
-        string imagePath = null )
+        string imagePath = null,
+        DateTime? dateCreated = null )
     {
         this.id = id;
         this.name = name;
         this.imagePath = imagePath;
+        this.dateCreated = dateCreated ?? DateTime.Now;
         Resize( pageCount != null ? pageCount.Value : Constants.Instance.DefaultStartingNumPages
             , pageWidth != null ? pageWidth.Value : Constants.Instance.DefaultStartingPageWidth
             , pageHeight != null ? pageHeight.Value : Constants.Instance.DefaultStartingPageHeight );
