@@ -269,7 +269,7 @@ public class CardPage : EventReceiverInstance
         if( sortInventory )
             BinderPage.Instance.SortInventory();
 
-        EventSystem.Instance.TriggerEvent( new SaveGameEvent() { } );
+        EventSystem.Instance.TriggerEvent( new BinderDataUpdateEvent() { binder = currentbinder.data } );
     }
 
     private void PopulateGrid()
@@ -562,7 +562,7 @@ public class CardPage : EventReceiverInstance
 
         UpdateHeaderInfo();
         PopulateGrid();
-        EventSystem.Instance.TriggerEvent( new SaveGameEvent() { } );
+        EventSystem.Instance.TriggerEvent( new BinderDataUpdateEvent() { binder = currentbinder.data } );
     }
 
     public void RemovePage( bool left )
@@ -570,7 +570,7 @@ public class CardPage : EventReceiverInstance
         currentbinder.data.Remove( left ? currentPage - 1 : currentPage );
         UpdateHeaderInfo();
         PopulateGrid();
-        EventSystem.Instance.TriggerEvent( new SaveGameEvent() { } );
+        EventSystem.Instance.TriggerEvent( new BinderDataUpdateEvent() { binder = currentbinder.data } );
     }
 
     public void SwapPage( bool left, int withIndex )

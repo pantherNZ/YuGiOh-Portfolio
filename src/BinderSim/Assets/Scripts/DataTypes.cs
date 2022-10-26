@@ -12,6 +12,7 @@ public enum PageType
     SearchPageFull,
 }
 
+[Serializable]
 public class BinderData
 {
     public BinderData( 
@@ -109,6 +110,7 @@ public class BinderData
     }
 }
 
+[Serializable]
 public class BinderDataRuntime
 {
     public void AddCards( List<CardDataRuntime> cards )
@@ -131,6 +133,7 @@ public class BinderDataRuntime
     public int index;
 }
 
+[Serializable]
 public class CardData
 {
     public string name;
@@ -149,6 +152,28 @@ public class CardDataRuntime : CardData
     public bool largeImageRequested;
     public bool artVariationsRequested;
     public int? insideBinderIdx;        // Index of the binder this card is a part of currently
+
+    public CardDataRuntime DeepCopy()
+    {
+        return new CardDataRuntime()
+        {
+            // Base
+            name = name,
+            cardId = cardId,
+            cardIndex = cardIndex,
+            imageIndex = imageIndex,
+            condition = condition,
+            count = count,
+
+            // Runtime
+            cardAPIData = cardAPIData,
+            smallImages = smallImages,
+            largeImage = largeImage,
+            largeImageRequested = largeImageRequested,
+            artVariationsRequested = artVariationsRequested,
+            insideBinderIdx = insideBinderIdx,
+        };
+    }
 }
 
 public enum SearchPageOrigin

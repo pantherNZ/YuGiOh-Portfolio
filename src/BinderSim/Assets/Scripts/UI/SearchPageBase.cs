@@ -206,7 +206,7 @@ public abstract class SearchPageBase : EventReceiverInstance
                         name = card.name,
                         cardId = card.id,
                         cardIndex = 0,
-                        cardAPIData = card.DeepCopy(),
+                        cardAPIData = card,
                         condition = CardConditions.Values.NearMint,
                         count = 1,
                     } );
@@ -313,7 +313,7 @@ public abstract class SearchPageBase : EventReceiverInstance
 
         Debug.Assert( currentCardSelectedIdx != null );
 
-        var data = cardData[currentCardSelectedIdx.Value];
+        var data = cardData[currentCardSelectedIdx.Value].DeepCopy();
 
         if( data.smallImages == null )
         {

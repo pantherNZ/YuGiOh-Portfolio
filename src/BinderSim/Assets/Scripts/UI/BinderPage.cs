@@ -161,7 +161,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             binderUI = newBinder,
         } );
 
-        UpdateBinderUIEntry( binderData.Back(), true );
+        UpdateBinderUIEntry( binderData.Back() );
         return binderData.Back();
     }
 
@@ -198,7 +198,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         EventSystem.Instance.TriggerEvent( new BinderDataUpdateEvent() { binder = binder.data } );
     }
 
-    private void UpdateBinderUIEntry( BinderDataRuntime binder, bool newBinder )
+    private void UpdateBinderUIEntry( BinderDataRuntime binder )
     {
         var references = binder.binderUI.GetComponent<BinderListEntry>();
         references.nameInput.SetTextWithoutNotify( binder.data.name );
@@ -297,7 +297,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             {
                 if( binder.data.id == binderUpdateEvent.binder.id )
                 {
-                    UpdateBinderUIEntry( binder, false );
+                    UpdateBinderUIEntry( binder );
                     break;
                 }
             }
@@ -755,7 +755,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             binderUI = newBinderUI,
         } );
 
-        UpdateBinderUIEntry( binderData.Back(), true );
+        UpdateBinderUIEntry( binderData.Back() );
 
         var request = "https://db.ygoprodeck.com/api/v7/cardinfo.php?id=";
         StringBuilder uri = new StringBuilder();
@@ -763,6 +763,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         Dictionary<int, List<CardDataRuntime>> idToCardData = new Dictionary<int, List<CardDataRuntime>>();
         int gaps = 0;
         var callback = onCompleteCallback;
+        var placeholderCard = new CardDataRuntime();
 
         importDataCount.Add( name, new ImportCountData() );
 
@@ -792,6 +793,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                         var deserialisedCard = DeserialiseCard( saveVersion, reader, false );
                         // Store index in the page inside the card ID (later the id will be set back once the data is loaded from API)
                         deserialisedCard.cardId = page * pageWidth * pageHeight + card;
+                        newBinder.cardList[page][card] = placeholderCard;
 
                         var pageIdx = deserialisedCard.cardId / ( pageWidth * pageHeight );
                         var cardIdx = Utility.Mod( deserialisedCard.cardId, pageWidth * pageHeight );
@@ -861,6 +863,8 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                 }
             }
         }
+
+        UpdateBinderUIEntry( binderData.Back() );
     }
 
     private CardDataRuntime DeserialiseCard( int saveVersion, BinaryReader reader, bool deserialiseId )
