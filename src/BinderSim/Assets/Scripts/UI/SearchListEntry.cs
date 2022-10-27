@@ -46,9 +46,9 @@ public class SearchListEntry : MonoBehaviour
         typeText?.gameObject.SetActive( dataValid );
         rarityText?.gameObject.SetActive( dataValid );
         settingsButton?.gameObject.SetActive( dataValid );
-        countText?.gameObject.SetActive( dataValid && mode != InventoryData.Options.SearchOnline );
-        increaseCountButton?.gameObject.SetActive( dataValid && mode != InventoryData.Options.SearchOnline );
-        decreaseCountButton?.gameObject.SetActive( dataValid && data.count > 1 && mode != InventoryData.Options.SearchOnline );
+        countText?.gameObject.SetActive( dataValid );
+        increaseCountButton?.gameObject.SetActive( dataValid );
+        decreaseCountButton?.gameObject.SetActive( dataValid && data.count > 1 );
 
         if( !dataValid )
             return;
@@ -64,7 +64,7 @@ public class SearchListEntry : MonoBehaviour
         if( conditionDropdown != null )
         {
             conditionDropdown.AddOptions( CardConditions.GetValues().ToList() );
-            conditionDropdown.SetValueWithoutNotify( ( int )CardConditions.Values.NearMint );
+            conditionDropdown.SetValueWithoutNotify( ( int )data.condition );
             conditionDropdown.onValueChanged.AddListener( idx =>
             {
                 data.condition = ( CardConditions.Values )idx;
@@ -79,7 +79,7 @@ public class SearchListEntry : MonoBehaviour
                 : data.cardAPIData.card_sets.Select( x => string.Format( "{0} ({1})", x.set_name, x.set_code ) ).ToList();
 
             setDropdown.AddOptions( options );
-            setDropdown.SetValueWithoutNotify( 0 );
+            setDropdown.SetValueWithoutNotify( data.cardIndex );
             setDropdown.onValueChanged.AddListener( idx =>
             {
                 data.cardIndex = idx;

@@ -321,7 +321,7 @@ public class CardPage : EventReceiverInstance
             {
                 var texture = defaultCardImage;
                 
-                if( card != null )
+                if( card != null && card.cardAPIData != null )
                 {
                     if( card.largeImage != null )
                     {

@@ -56,7 +56,7 @@ public class SearchPageFull : SearchPageBase
                 ++buttonCount;
                 buttons.AddToInventoryButton.onClick.AddListener( () =>
                 {
-                    BinderPage.Instance.Inventory.Add( cardData[entryIdx] );
+                    BinderPage.Instance.Inventory.Add( cardData[entryIdx].DeepCopy() );
                     BinderPage.Instance.SortInventory();
 
                     if( GetDropDownOption() == InventoryData.Options.AllCards || GetDropDownOption() == InventoryData.Options.UnusedCards )

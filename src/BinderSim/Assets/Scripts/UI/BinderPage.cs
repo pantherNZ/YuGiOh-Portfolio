@@ -69,15 +69,21 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
 #if UNITY_WEBGL && !UNITY_EDITOR
         var url = Uri.UnescapeDataString( Application.absoluteURL );
-        //var url = "?binder=\"CAUA$BN4B0B9BF+oA+A=|cA/A4A*A+A8!!!!!!!!5!$$!ANqJ#|!AXAx1\"|!A9A-B,&|!BJBY;&|!AJA>m$|!B@$Al\"|!B-APy#|!AtA}A9%|!AgB[A>$|!vBjBjBj";
+        //var url = "?binder=\"B+J8atwA:B;+oA+A=|cA/A4A*A+A8B=B`BbA?BUB\"BEAN+!$$!7An\"&\"!AmBjBjBj";
         var values = url.Split( '?' );
         if( values.Length > 1 )
         {
-            if( values[1].StartsWithGet( "binder=", out var binderKey ) )
+            var code = string.Join( "?", values, 1, values.Length - 1 );
+
+            if( code.StartsWithGet( "binder=", out var binderKey ) )
             {
                 if( ImportFromStringInternal( binderKey, () => QuickEditBinder( binderData.Count - 1 ) ) )
                 {
                     QuickEditBinder( binderData.Count - 1 );
+                }
+                // else
+                {
+                    // TODO: Display loading binder failed
                 }
             }
         }
@@ -666,13 +672,6 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             writer.Write( -gaps );
     }
 
-    void SerialiseCard( BinaryWriter writer, CardDataRuntime card )
-    {
-        writer.Write( card.cardId );
-        writer.Write( ( byte )( ( ( byte )card.condition << 5 ) | Mathf.Min( 64, card.count ) ) );
-        writer.Write( ( byte )( ( card.cardIndex << 4 ) | card.imageIndex ) );
-    }
-
     void ISavableComponent.Deserialise( int saveVersion, BinaryReader reader )
     {
         DeserialiseInternal( saveVersion, reader, null );
@@ -765,7 +764,10 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         var callback = onCompleteCallback;
         var placeholderCard = new CardDataRuntime();
 
-        importDataCount.Add( name, new ImportCountData() );
+        var readName = name;
+        while( importDataCount.ContainsKey( readName ) )
+            readName += "%";
+        importDataCount.Add( readName, new ImportCountData() );
 
         for( int page = 0; page < pageCount; ++page )
         {
@@ -819,7 +821,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                     ( numCards % maxCardsPerRequest == 0 || // Either at X cards, push a request
                     ( page == pageCount - 1 && card == ( pageWidth * pageHeight ) - 1 ) ) ) // Or on the last card of the loop
                 {
-                    ++importDataCount[name].importRequestsTotal;
+                    ++importDataCount[readName].importRequestsTotal;
 
                     StartCoroutine( APICallHandler.Instance.SendGetRequest( request + uri.ToString(), true, ( json ) =>
                     {
@@ -851,10 +853,10 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                             }
                         }
 
-                        if( ++importDataCount[name].importRequestsComplete == importDataCount[name].importRequestsTotal )
+                        if( ++importDataCount[readName].importRequestsComplete == importDataCount[readName].importRequestsTotal )
                         {
                             SortInventory();
-                            importDataCount.Remove( name );
+                            importDataCount.Remove( readName );
                             callback?.Invoke();
                         }
                     } ) );
@@ -867,19 +869,32 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         UpdateBinderUIEntry( binderData.Back() );
     }
 
+    private const int countMask = ( 1 << 5 ) - 1;
+    private const int imageMask = ( 1 << 4 ) - 1;
+
+    void SerialiseCard( BinaryWriter writer, CardDataRuntime card )
+    {
+        writer.Write( card.cardId );
+        writer.Write( ( byte )( ( ( byte )card.condition << 5 ) | Mathf.Min( countMask, card.count ) ) );
+        writer.Write( ( byte )( ( card.cardIndex << 4 ) | Mathf.Min( imageMask, card.imageIndex ) ) );
+    }
+
     private CardDataRuntime DeserialiseCard( int saveVersion, BinaryReader reader, bool deserialiseId )
     {
         var cardId = deserialiseId ? reader.ReadInt32() : 0;
         var countAndCondition = reader.ReadByte();
         var cardAndImageIndices = reader.ReadByte();
 
+        var count = countAndCondition & countMask;
+        var condition = ( CardConditions.Values )( countAndCondition >> 5 );
+
         return new CardDataRuntime()
         {
             cardId = cardId,
-            count = countAndCondition & 63,
-            condition = ( CardConditions.Values )( countAndCondition >> 5 ),
+            count = count,
+            condition = condition,
             cardIndex = cardAndImageIndices >> 4,
-            imageIndex = cardAndImageIndices & 15
+            imageIndex = cardAndImageIndices & imageMask
         };
     }
 
@@ -896,8 +911,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         try
         {
             importButton.interactable = false;
-            var compressedbytes = StringHelper.GetBytesFromString( text );
-            var bytes = Compression.Deflate.Decompress( compressedbytes );
+            var bytes = StringHelper.GetBytesFromString( text );
             using var memoryStream = new MemoryStream( bytes, writable: false );
             using var reader = new BinaryReader( memoryStream );
             var version = reader.ReadByte();
@@ -925,8 +939,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         writer.Write( ( byte )SaveGameSystem.currentVersion );
         ( this as ISavableComponent ).Serialise( writer );
         var bytes = memoryStream.ToArray();
-        var compressedBytes = Compression.Deflate.Compress( bytes );
-        text.text = "https://panthernz.github.io/YuGiOh-Portfolio/?binder=" + StringHelper.GetStringFromBytes( compressedBytes );
+        text.text = "https://panthernz.github.io/YuGiOh-Portfolio/?binder=" + StringHelper.GetStringFromBytes( bytes );
     }
 
     public void CopyTextToClipBoard( TMPro.TMP_InputField text)
@@ -934,8 +947,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         GUIUtility.systemCopyBuffer = text.text;
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-        if( Application.platform == RuntimePlatform.WebGLPlayer )
-            WebGLCopyAndPasteAPI.passCopyToBrowser( GUIUtility.systemCopyBuffer );
+        WebGLCopyAndPasteAPI.passCopyToBrowser( GUIUtility.systemCopyBuffer );
 #endif
     }
 

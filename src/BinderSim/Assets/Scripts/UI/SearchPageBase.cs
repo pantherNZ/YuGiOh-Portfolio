@@ -142,7 +142,9 @@ public abstract class SearchPageBase : EventReceiverInstance
                 if( card.insideBinderIdx == null || card.insideBinderIdx.Value != binderIndex )
                     continue;
             }
-            if( search.Length > 0 && !card.name.ToLower().Contains( search ) )
+            if( search.Length > 0 
+                && !card.name.ToLower().Contains( search ) 
+                && !card.cardAPIData.desc.ToLower().Contains( search ) )
                 continue;
 
             count++;
@@ -338,9 +340,10 @@ public abstract class SearchPageBase : EventReceiverInstance
         // (pageFull set to true via the PageFullEvent)
         if( !fromDragDrop && ( flags.HasFlag( SearchPageFlags.ReplacingCard ) || flags.HasFlag( SearchPageFlags.SettingCards ) ) )
         {
-            EventSystem.Instance.TriggerEvent( new PageChangeRequestEvent()
+            EventSystem.Instance.TriggerEvent( new CloseSearchPageEvent()
             {
-                page = PageType.CardPage
+                page = PageType.CardPage,
+                fromFullscreen = behaviour == SearchPageOrigin.CardPageSearch ? ContainsHeader() as bool? : null
             } );
         }
 
@@ -369,6 +372,9 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     public void Cancel()
     {
+        if( behaviour == SearchPageOrigin.MainPage )
+            EventSystem.Instance.TriggerEvent( new SaveGameEvent() { } );
+
         EventSystem.Instance.TriggerEvent( new CloseSearchPageEvent() 
         { 
             page = behaviour == SearchPageOrigin.MainPage
