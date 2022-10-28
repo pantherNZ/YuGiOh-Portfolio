@@ -142,10 +142,11 @@ public abstract class SearchPageBase : EventReceiverInstance
                 if( card.insideBinderIdx == null || card.insideBinderIdx.Value != binderIndex )
                     continue;
             }
+
+            var betaName = card.cardAPIData.misc_info.Count > 0 ? card.cardAPIData.misc_info[0].beta_name : string.Empty;
             if( search.Length > 0 
-                && !card.name.ToLower().Contains( search ) )
-                // TODO: Retrieve and also search the beta name
-                //&& !card.cardAPIData.ToLower().Contains( search ) )
+                && !card.name.ToLower().Contains( search )
+                && !betaName.ToLower().Contains( search ) )
                 continue;
 
             count++;
@@ -215,7 +216,8 @@ public abstract class SearchPageBase : EventReceiverInstance
                     } );
                 }
 
-                cardCountText.text ??= String.Format( "{0} Card{1}", data.data.Count, data.data.Count == 1 ? string.Empty : "s" );
+                if( cardCountText != null )
+                    cardCountText.text = String.Format( "{0} Card{1}", data.data.Count, data.data.Count == 1 ? string.Empty : "s" );
             }
         }
         //catch( Exception e )

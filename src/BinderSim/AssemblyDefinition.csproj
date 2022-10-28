@@ -82,6 +82,8 @@
     <Compile Include="Assets\Utility\EventSystem.cs" />
     <Compile Include="Assets\Utility\MultiImageButton.cs" />
     <Compile Include="Assets\Utility\HashedString.cs" />
+    <Compile Include="Assets\Utility\UnityNullable.cs" />
+    <Compile Include="Assets\Utility\EventDispatcherV2.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Utility\AssemblyDefinition.asmdef" />
