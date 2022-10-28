@@ -9,7 +9,7 @@ public class SearchPageFull : SearchPageBase
     [SerializeField] GameObject entryOptionsPanel = null;
     [SerializeField] GameObject countHeaderText = null;
 
-    private float scaleModifier = 1.0f;
+    private Vector2 buttonsSizeDelta;
 
     protected override void Start()
     {
@@ -32,14 +32,18 @@ public class SearchPageFull : SearchPageBase
         var searchEntry = newCardUIEntry.GetComponent<SearchListEntry>();
         searchEntry.Initialise( card, behaviour, flags, GetDropDownOption() );
 
-        searchEntry.SettingsButton.onClick.AddListener( () =>
+        buttonsSizeDelta = ( entryOptionsPanel.transform as RectTransform ).sizeDelta;
+        var eventDispatcher = newCardUIEntry.GetComponentInChildren<EventDispatcher>();
+
+        eventDispatcher.OnPointerDownEvent += ( e ) => AppUtility.RightMouseFilter( true, e, () =>
         {
+            FixScaleModifier();
+
             if( currentCardSelectedIdx != entryIdx )
                 ToggleResultSelected( entryIdx );
 
             entryOptionsPanel.SetActive( true );
-            var pos = ( searchEntry.SettingsButton.transform as RectTransform ).GetWorldRect().center;
-            ( entryOptionsPanel.transform as RectTransform ).anchoredPosition = pos;
+            ( entryOptionsPanel.transform as RectTransform ).anchoredPosition = Utility.GetMouseOrTouchPos();
 
             var buttons = entryOptionsPanel.GetComponent<SearchListResultButtons>();
             buttons.AddToBinderButton.gameObject.SetActive( card.cardAPIData != null && IsAddToBinderButtonActive() );
@@ -87,8 +91,8 @@ public class SearchPageFull : SearchPageBase
                 } );
             }
 
-            scaleModifier = buttonCount / 3.0f;
-            ( entryOptionsPanel.transform as RectTransform ).sizeDelta *= new Vector2( 1.0f, scaleModifier );
+            var scaleModifier = buttonCount / 3.0f;
+            ( entryOptionsPanel.transform as RectTransform ).sizeDelta = buttonsSizeDelta * new Vector2( 1.0f, scaleModifier );
         } );
 
         var closePanelButton = entryOptionsPanel.GetComponentInChildren<Button>();
@@ -104,7 +108,7 @@ public class SearchPageFull : SearchPageBase
 
     private void FixScaleModifier()
     {
-        ( entryOptionsPanel.transform as RectTransform ).sizeDelta *= new Vector2( 1.0f, 1.0f / scaleModifier );
+        ( entryOptionsPanel.transform as RectTransform ).sizeDelta = buttonsSizeDelta;
     }
 
     public override void OnEventReceived( IBaseEvent e )

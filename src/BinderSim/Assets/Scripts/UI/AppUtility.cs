@@ -12,6 +12,14 @@ public static class AppUtility
             InputPriority.Instance.Request( () => e.button == PointerEventData.InputButton.Left, "SearchPageButton", 1, func );
     }
 
+    public static void RightMouseFilter( bool instant, PointerEventData e, Action func )
+    {
+        if( instant && e.button == PointerEventData.InputButton.Right )
+            func();
+        else
+            InputPriority.Instance.Request( () => e.button == PointerEventData.InputButton.Right, "SearchPageButton", 1, func );
+    }
+
     public static void SortInventory( List<CardDataRuntime> cards )
     {
         cards.Sort( ( a, b ) =>

@@ -143,8 +143,9 @@ public abstract class SearchPageBase : EventReceiverInstance
                     continue;
             }
             if( search.Length > 0 
-                && !card.name.ToLower().Contains( search ) 
-                && !card.cardAPIData.desc.ToLower().Contains( search ) )
+                && !card.name.ToLower().Contains( search ) )
+                // TODO: Retrieve and also search the beta name
+                //&& !card.cardAPIData.ToLower().Contains( search ) )
                 continue;
 
             count++;
@@ -249,10 +250,10 @@ public abstract class SearchPageBase : EventReceiverInstance
         if( card.cardAPIData == null )
             return;
 
-        eventDispatcher.OnPointerDownEvent += ( PointerEventData e ) =>
+        eventDispatcher.OnPointerDownEvent += ( e ) => AppUtility.LeftMouseFilter( true, e, () =>
         {
             ToggleResultSelected( thisIdx );
-        };
+        } );
 
         if( behaviour != SearchPageOrigin.MainPage )
         {
