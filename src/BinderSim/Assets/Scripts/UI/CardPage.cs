@@ -569,7 +569,10 @@ public class CardPage : EventReceiverInstance
     {
         currentbinder.data.Remove( left ? currentPage - 1 : currentPage );
         UpdateHeaderInfo();
-        PopulateGrid();
+        if( currentPage >= currentbinder.data.pageCount )
+            PrevPage();
+        else
+            PopulateGrid();
         EventSystem.Instance.TriggerEvent( new BinderDataUpdateEvent() { binder = currentbinder.data } );
     }
 

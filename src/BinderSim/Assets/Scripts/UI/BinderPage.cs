@@ -710,7 +710,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                 ( counter++ >= maxCardsPerRequest || idx == Inventory.Count - 1 ) )
             {
                 var cardToModify = card;
-                StartCoroutine( APICallHandler.Instance.SendGetRequest( request + uri.ToString(), true, ( json ) =>
+                StartCoroutine( APICallHandler.Instance.SendGetRequest( request + uri.ToString() + "&misc=yes", true, ( json ) =>
                 {
                     Root data = JsonConvert.DeserializeObject<Root>( json );
 

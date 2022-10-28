@@ -143,7 +143,10 @@ public abstract class SearchPageBase : EventReceiverInstance
                     continue;
             }
 
-            var betaName = card.cardAPIData.misc_info.Count > 0 ? card.cardAPIData.misc_info[0].beta_name : string.Empty;
+            var betaName = card.cardAPIData.misc_info != null && card.cardAPIData.misc_info.Count > 0 
+                ? card.cardAPIData.misc_info[0].beta_name 
+                : string.Empty;
+
             if( search.Length > 0 
                 && !card.name.ToLower().Contains( search )
                 && !betaName.ToLower().Contains( search ) )
