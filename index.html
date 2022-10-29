@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | YugiohBinder</title>
+    <title>Yugioh Binder</title>
   </head>
-  <body style="text-align: center">
-    <canvas id="unity-canvas" width=1920 height=1080 style="width: 1920px; height: 1080px; background: #231F20"></canvas>
+  <body style="text-align: center; overflow: hidden;">
+    <canvas id="unity-canvas" width=1920 height=1080 style="width: 98vw; height: 98vh; max-width: 100%; max-height: 100%; overflow: hidden; background: #231F20"></canvas>
     <script src="Build/YuGiOh-Portfolio-Build.loader.js"></script>
     <script>
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
@@ -22,11 +22,9 @@
         frameworkUrl: "Build/YuGiOh-Portfolio-Build.framework.js",
         codeUrl: "Build/YuGiOh-Portfolio-Build.wasm",
         streamingAssetsUrl: "StreamingAssets",
-        companyName: "DefaultCompany",
-        productName: "YugiohBinder",
+        companyName: "ReflexGames",
+        productName: "Yugioh Binder",
         productVersion: "1.0",
-        // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
-        // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
       }).then((unityInstance) => {
         window.gameInstance = unityInstance; 
       }).catch((message) => {
