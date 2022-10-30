@@ -220,7 +220,16 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         var pageSizeStr = string.Format( "{0}x{1}", binder.data.pageWidth, binder.data.pageHeight );
         references.pageSizeDropdown.SetValueWithoutNotify( references.pageSizeDropdown.options.FindIndex( x => x.text == pageSizeStr ) );
         references.dateText.text = binder.data.dateCreated.ToShortDateString();
-        references.binderImage.color = Color.clear;
+
+        references.optionsButton.onClick.AddListener( () =>
+        {
+            if( currentSelectedBinderIdx != binder.index )
+                ToggleBinderSelected( binder );
+            binderActionButtons.SetActive( true );
+            var btnRect = ( references.optionsButton.transform as RectTransform );
+            var panelRect = ( binderActionButtons.transform as RectTransform );
+            panelRect.anchoredPosition = btnRect.GetWorldRect().center - new Vector2( panelRect.rect.width, btnRect.rect.height );
+        } );
 
         binder.index = binderData.Count - 1;
 

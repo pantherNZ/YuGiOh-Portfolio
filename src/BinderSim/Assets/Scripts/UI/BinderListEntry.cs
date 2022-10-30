@@ -8,5 +8,5 @@ public class BinderListEntry : MonoBehaviour
     public TMPro.TextMeshProUGUI pageCountText;
     public TMPro.TMP_Dropdown pageSizeDropdown;
     public TMPro.TextMeshProUGUI dateText;
-    public Image binderImage;
+    public Button optionsButton;
 }
