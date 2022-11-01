@@ -108,6 +108,18 @@ public class BinderData
         }
         private set { }
     }
+    public bool HasCards
+    {
+        get
+        {
+            foreach( var x in cardList )
+                foreach( var y in x )
+                    if( y != null )
+                        return true;
+            return false;
+        }
+        private set { }
+    }
 }
 
 [Serializable]

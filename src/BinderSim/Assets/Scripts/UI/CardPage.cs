@@ -26,6 +26,7 @@ public class CardPage : EventReceiverInstance
     [SerializeField] GameObject modifyPageButtonsLeft = null;
     [SerializeField] GameObject modifyPageButtonsRight = null;
     [SerializeField] GameObject clearCardDropLocation = null;
+    [SerializeField] Color clearCardAreaImageHighlightColour;
 
     private BinderDataRuntime currentbinder;
     private int width;
@@ -33,6 +34,8 @@ public class CardPage : EventReceiverInstance
     private int currentPage;
     private int? currentModifyCardIdx;
     private bool openFullScreenSearch;
+    private Image clearCardAreaImage;
+    private Color clearCardAreaImageDefaultColour;
 
     // Drag data
     private GameObject dragging;
@@ -53,6 +56,8 @@ public class CardPage : EventReceiverInstance
         height = Constants.Instance.DefaultStartingPageHeight;
 
         clearCardDropLocation.SetActive( false );
+        clearCardAreaImage = clearCardDropLocation.GetComponentInChildren<Image>();
+        clearCardAreaImageDefaultColour = clearCardAreaImage.color;
     }
 
     public void SaveAndExit()
@@ -420,8 +425,7 @@ public class CardPage : EventReceiverInstance
         var worldRect = ( clearCardDropLocation.transform as RectTransform ).GetWorldRect();
         if( worldRect.Contains( ( dragging.transform as RectTransform ).GetWorldRect().center ) )
         {
-            currentModifyCardIdx = dragCardIdx;
-            LoadCard( new CardSelectedEvent() { card = null } );
+            RemoveCardFromBinder( currentbinder.data.cardList[page][pos], true );
             return;
         }
 
@@ -438,6 +442,20 @@ public class CardPage : EventReceiverInstance
             if( Utility.IsMouseUpOrTouchEnd() )
                 StopDragging();
         }
+    }
+
+    public void ClearCardAreaImagePointerEnter()
+    {
+        clearCardAreaImage.color = clearCardAreaImageHighlightColour;
+        var image = dragging.GetComponent<Image>();
+        image.color = image.color.SetA( 0.5f );
+    }
+
+    public void ClearCardAreaImagePointerExit()
+    {
+        clearCardAreaImage.color = clearCardAreaImageDefaultColour;
+        var image = dragging.GetComponent<Image>();
+        image.color = image.color.SetA( 1.0f );
     }
 
     private int GetOtherPageIndex( int page )

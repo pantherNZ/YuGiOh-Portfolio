@@ -176,7 +176,7 @@ public abstract class SearchPageBase : EventReceiverInstance
             totalValueText.text = String.Format( "Total Value: ${0:0.00}", totalValue );
 
         if( count == 0 )
-            AddCard( new CardDataRuntime() { name = "No results found" } );
+            AddCard( new CardDataRuntime() { name = "No cards found" } );
     }
 
     void OnSearchResultReceived( string result )
@@ -481,7 +481,7 @@ public abstract class SearchPageBase : EventReceiverInstance
 
             if( val == InventoryData.Options.CardsInBinderX )
                 options.AddRange( BinderPage.Instance.BinderData
-                        .Where( ( x ) => x.data.cardList.Count > 0 )
+                        .Where( ( x ) => x.data.HasCards )
                         .Select( ( x ) => string.Format( str, x.data.name ) ) );
             else
                 options.Add( str );
