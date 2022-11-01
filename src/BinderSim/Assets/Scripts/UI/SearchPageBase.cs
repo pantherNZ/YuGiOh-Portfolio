@@ -35,6 +35,7 @@ public abstract class SearchPageBase : EventReceiverInstance
     protected string replacingCardName;
     private Coroutine searchCountdownHandle;
     private Coroutine searchRequestHandle;
+    private InventoryData.Options? savedBehaviour;
 
     protected override void Start()
     {
@@ -56,6 +57,9 @@ public abstract class SearchPageBase : EventReceiverInstance
 
             UpdateButtons();
             SearchCards();
+
+            if( behaviour == SearchPageOrigin.CardPageSearch )
+                savedBehaviour = newOption;
         } );
 
         clearCardButton.onClick.AddListener( () =>
@@ -493,6 +497,9 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     InventoryData.Options GetDefaultBehaviour()
     {
+        if( savedBehaviour != null )
+            return savedBehaviour.Value;
+
         if( tempImportInventory != null )
             return InventoryData.Options.TempInventory;
 
