@@ -399,7 +399,7 @@ public class CardPage : EventReceiverInstance
             return;
 
         var (page, pos) = GetPageAndPosFromIndex( dragCardIdx );
-        var otherpageIdx = GetOtherPageIndex( page );
+        var otherPageIdx = GetOtherPageIndex( page );
         var grid = GetGrid( page );
         var otherGrid = grid == cardsDisplayGridLeft ? cardsDisplayGridRight : cardsDisplayGridLeft;
 
@@ -408,13 +408,13 @@ public class CardPage : EventReceiverInstance
 
         for( int i = 0; i < currentbinder.data.pageWidth * currentbinder.data.pageHeight; ++i )
         {
-            if( grid.isActiveAndEnabled &&
-                StopDraggingCollisionCheck( grid.transform.GetChild( i ).gameObject, page, pos, page, i ) )
-                return;
+            if( grid.IsActive() && grid.transform.childCount >= i && page >= 0 && page < currentbinder.data.cardList.Count )
+                if( StopDraggingCollisionCheck( grid.transform.GetChild( i ).gameObject, page, pos, page, i ) )
+                    return;
 
-            if( otherGrid.isActiveAndEnabled &&
-                StopDraggingCollisionCheck( otherGrid.transform.GetChild( i ).gameObject, page, pos, otherpageIdx, i ) )
-                return;
+            if( otherGrid.IsActive() && otherGrid.transform.childCount >= i && otherPageIdx >= 0 && otherPageIdx < currentbinder.data.cardList.Count )
+                if( StopDraggingCollisionCheck( otherGrid.transform.GetChild( i ).gameObject, page, pos, otherPageIdx, i ) )
+                    return;
         }
 
         var worldRect = ( clearCardDropLocation.transform as RectTransform ).GetWorldRect();
