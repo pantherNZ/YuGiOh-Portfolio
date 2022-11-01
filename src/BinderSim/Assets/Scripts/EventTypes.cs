@@ -14,6 +14,12 @@ public class CardSelectedEvent : IBaseEvent
     public bool fromInventory = false;
 }
 
+public class CardRemovedEvent : IBaseEvent 
+{ 
+    public CardDataRuntime card;
+    public bool fromInventory = false;
+}
+
 public class CardImageLoadedEvent : IBaseEvent { public CardDataRuntime card; }
 
 public class OpenSearchPageEvent : PageChangeRequestEvent
@@ -22,6 +28,7 @@ public class OpenSearchPageEvent : PageChangeRequestEvent
     public SearchPageFlags flags;
     public string replacingCard;
     public string searchText;
+    public int? currentBinderIdx;
 }
 
 public class CloseSearchPageEvent : PageChangeRequestEvent
@@ -39,7 +46,6 @@ public class OpenInventoryPageEvent : OpenSearchPageEvent
     { 
         page = PageType.SearchPageFull;
     }
-    public int currentBinderIdx;
 }
 
 public class PageFullEvent : IBaseEvent { }

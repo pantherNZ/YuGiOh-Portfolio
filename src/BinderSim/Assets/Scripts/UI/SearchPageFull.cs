@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class SearchPageFull : SearchPageBase
@@ -16,6 +17,7 @@ public class SearchPageFull : SearchPageBase
         base.Start();
 
         entryOptionsPanel.SetActive( false );
+        buttonsSizeDelta = ( entryOptionsPanel.transform as RectTransform ).sizeDelta;
     }
 
     protected override bool ContainsHeader()
@@ -32,67 +34,15 @@ public class SearchPageFull : SearchPageBase
         var searchEntry = newCardUIEntry.GetComponent<SearchListEntry>();
         searchEntry.Initialise( card, behaviour, flags, GetDropDownOption() );
 
-        buttonsSizeDelta = ( entryOptionsPanel.transform as RectTransform ).sizeDelta;
+        if( card == null || card.cardAPIData == null )
+            return newCardUIEntry;
+
         var eventDispatcher = newCardUIEntry.GetComponentInChildren<EventDispatcher>();
+        var buttons = entryOptionsPanel.GetComponent<SearchListResultButtons>();
 
         eventDispatcher.OnPointerDownEvent += ( e ) => AppUtility.RightMouseFilter( true, e, () =>
         {
-            FixScaleModifier();
-
-            if( currentCardSelectedIdx != entryIdx )
-                ToggleResultSelected( entryIdx );
-
-            entryOptionsPanel.SetActive( true );
-            ( entryOptionsPanel.transform as RectTransform ).anchoredPosition = Utility.GetMouseOrTouchPos();
-
-            var buttons = entryOptionsPanel.GetComponent<SearchListResultButtons>();
-            buttons.AddToBinderButton.gameObject.SetActive( card.cardAPIData != null && IsAddToBinderButtonActive() );
-            buttons.AddToInventoryButton.gameObject.SetActive( card.cardAPIData != null && IsAddToInventoryButtonActive() );
-            buttons.RemoveButton.gameObject.SetActive( card.cardAPIData != null && IsRemoveButtonActive() );
-
-            buttons.AddToBinderButton.onClick.RemoveAllListeners();
-            buttons.AddToInventoryButton.onClick.RemoveAllListeners();
-            buttons.RemoveButton.onClick.RemoveAllListeners();
-
-            int buttonCount = 0;
-            if( IsAddToInventoryButtonActive() )
-            {
-                ++buttonCount;
-                buttons.AddToInventoryButton.onClick.AddListener( () =>
-                {
-                    BinderPage.Instance.Inventory.Add( cardData[entryIdx].DeepCopy() );
-                    BinderPage.Instance.SortInventory();
-
-                    if( GetDropDownOption() == InventoryData.Options.AllCards || GetDropDownOption() == InventoryData.Options.UnusedCards )
-                        SearchCards();
-
-                    FixScaleModifier();
-                } );
-            }
-
-            if( IsAddToBinderButtonActive() )
-            {
-                ++buttonCount;
-                buttons.AddToBinderButton.onClick.AddListener( () =>
-                {
-                    currentCardSelectedIdx = entryIdx;
-                    ChooseCard();
-                    FixScaleModifier();
-                } );
-            }
-
-            if( IsRemoveButtonActive() )
-            {
-                ++buttonCount;
-                buttons.RemoveButton.onClick.AddListener( () =>
-                {
-                    RemoveCard( card );
-                    FixScaleModifier();
-                } );
-            }
-
-            var scaleModifier = buttonCount / 3.0f;
-            ( entryOptionsPanel.transform as RectTransform ).sizeDelta = buttonsSizeDelta * new Vector2( 1.0f, scaleModifier );
+            ShowEntryOptionsPanel( card, entryIdx, Utility.GetMouseOrTouchPos(), buttons );
         } );
 
         var closePanelButton = entryOptionsPanel.GetComponentInChildren<Button>();
@@ -103,7 +53,146 @@ public class SearchPageFull : SearchPageBase
             FixScaleModifier();
         } );
 
+        searchEntry.SettingsButton.onClick.AddListener( () =>
+        {
+            int buttonsCount = Convert.ToInt32( IsRemoveFromInventoryButtonActive( card ) )
+                    + Convert.ToInt32( IsRemoveFromBinderButtonActive( card ) )
+                    + Convert.ToInt32( IsAddToBinderButtonActive( card ) )
+                    + Convert.ToInt32( IsAddToInventoryButtonActive( card ) );
+
+            // More than 1 button active, use the settings button
+            if( buttonsCount >= 2 )
+            {
+                var btnRect = ( searchEntry.SettingsButtonIcon.transform as RectTransform );
+                var panelRect = ( entryOptionsPanel.transform as RectTransform );
+                var pos = btnRect.GetWorldRect().center - new Vector2( panelRect.rect.width, btnRect.rect.height );
+                ShowEntryOptionsPanel( card, entryIdx, pos, buttons );
+            }
+            else if( IsRemoveFromInventoryButtonActive( card ) )
+            {
+                RemoveFromInventoryButtonPressed( card, entryIdx );
+            }
+            else if( IsRemoveFromBinderButtonActive( card ) )
+            {
+                RemoveFromBinderButtonPressed( card, entryIdx );
+            }
+            else if( IsAddToBinderButtonActive( card ) )
+            {
+                AddBinderButtonPressed( card, entryIdx );
+            }
+            else if( IsAddToInventoryButtonActive( card ) )
+            {
+                AddInventoryButtonPressed( card, entryIdx );
+            }
+        } );
+
+        int buttonsCount = Convert.ToInt32( IsRemoveFromInventoryButtonActive( card ) )
+                    + Convert.ToInt32( IsRemoveFromBinderButtonActive( card ) )
+                    + Convert.ToInt32( IsAddToBinderButtonActive( card ) )
+                    + Convert.ToInt32( IsAddToInventoryButtonActive( card ) );
+        if( buttonsCount == 1 )
+        {
+            searchEntry.SettingsButtonIcon.sprite = Utility.CreateSprite(
+                IsRemoveFromInventoryButtonActive( card ) || IsRemoveFromBinderButtonActive( card )
+                ? searchEntry.RemoveTexture
+                : searchEntry.AddTexture );
+        }
+
         return newCardUIEntry;
+    }
+
+    private void ShowEntryOptionsPanel( CardDataRuntime card, int entryIdx, Vector2 pos, SearchListResultButtons buttons )
+    {
+        if( currentCardSelectedIdx != entryIdx )
+            ToggleResultSelected( entryIdx );
+
+        entryOptionsPanel.SetActive( true );
+        ( entryOptionsPanel.transform as RectTransform ).anchoredPosition = pos;
+
+        buttons.AddToBinderButton.gameObject.SetActive( card.cardAPIData != null && IsAddToBinderButtonActive( card ) );
+        buttons.AddToInventoryButton.gameObject.SetActive( card.cardAPIData != null && IsAddToInventoryButtonActive( card ) );
+        buttons.RemoveFromInventoryButton.gameObject.SetActive( card.cardAPIData != null && IsRemoveFromInventoryButtonActive( card ) );
+        buttons.RemoveFromBinderButton.gameObject.SetActive( card.cardAPIData != null && IsRemoveFromBinderButtonActive( card ) );
+
+        buttons.AddToBinderButton.onClick.RemoveAllListeners();
+        buttons.AddToInventoryButton.onClick.RemoveAllListeners();
+        buttons.RemoveFromInventoryButton.onClick.RemoveAllListeners();
+        buttons.RemoveFromBinderButton.onClick.RemoveAllListeners();
+
+        int buttonCount = 0;
+        if( IsAddToInventoryButtonActive( card ) )
+        {
+            ++buttonCount;
+            buttons.AddToInventoryButton.onClick.AddListener( () =>
+            {
+                AddInventoryButtonPressed( card, entryIdx );
+                FixScaleModifier();
+            } );
+        }
+
+        if( IsAddToBinderButtonActive( card ) )
+        {
+            ++buttonCount;
+            buttons.AddToBinderButton.onClick.AddListener( () =>
+            {
+                AddBinderButtonPressed( card, entryIdx );
+                FixScaleModifier();
+            } );
+        }
+
+        if( IsRemoveFromInventoryButtonActive( card ) )
+        {
+            ++buttonCount;
+            buttons.RemoveFromInventoryButton.onClick.AddListener( () =>
+            {
+                RemoveFromInventoryButtonPressed( card, entryIdx );
+                FixScaleModifier();
+            } );
+        }
+
+        if( IsRemoveFromBinderButtonActive( card ) )
+        {
+            ++buttonCount;
+            buttons.RemoveFromBinderButton.onClick.AddListener( () =>
+            {
+                RemoveFromBinderButtonPressed( card, entryIdx );
+                FixScaleModifier();
+            } );
+        }
+
+        FixScaleModifier();
+        ( entryOptionsPanel.transform as RectTransform ).sizeDelta = buttonsSizeDelta * new Vector2( 1.0f, buttonCount / 4.0f );
+    }
+
+    private void AddBinderButtonPressed( CardDataRuntime card, int entryIdx )
+    {
+        currentCardSelectedIdx = entryIdx;
+        ChooseCard();
+    }
+
+    private void AddInventoryButtonPressed( CardDataRuntime card, int entryIdx )
+    {
+        BinderPage.Instance.Inventory.Add( cardData[entryIdx].DeepCopy() );
+        BinderPage.Instance.SortInventory();
+
+        if( GetDropDownOption() == InventoryData.Options.AllCards || GetDropDownOption() == InventoryData.Options.UnusedCards )
+            SearchCards();
+    }
+
+    private void RemoveFromInventoryButtonPressed( CardDataRuntime card, int entryIdx )
+    {
+        BinderPage.Instance.Inventory.Remove( card );
+        SearchCards();
+    }
+
+    private void RemoveFromBinderButtonPressed( CardDataRuntime card, int entryIdx )
+    {
+        EventSystem.Instance.TriggerEvent( new CardRemovedEvent()
+        {
+            card = card,
+            fromInventory = FromInventory()
+        } );
+        SearchCards();
     }
 
     private void FixScaleModifier()
@@ -123,8 +212,7 @@ public class SearchPageFull : SearchPageBase
                 return;
             }
 
-            var openInventory = e as OpenInventoryPageEvent;
-            ShowPage( openPageRequest, openInventory?.currentBinderIdx );
+            ShowPage( openPageRequest, openPageRequest.currentBinderIdx );
         }
     }
 
@@ -153,46 +241,35 @@ public class SearchPageFull : SearchPageBase
         importFromFileButton.gameObject.SetActive( inventoryNonSearchMode );
         countHeaderText.SetActive( inventoryNonSearchMode );
     }
-    bool IsModifyingCurrentBinder()
+
+    bool IsModifyingCurrentBinder( CardDataRuntime card )
     {
-        return currentBinderIdx != null &&
-            GetDropDownOptionIdx() - ( int )InventoryData.Options.CardsInBinderX == currentBinderIdx.Value;
+        return currentBinderIdx != null && card.insideBinderIdx != null && card.insideBinderIdx == currentBinderIdx.Value;
     }
 
-    bool IsRemoveButtonActive()
+    bool IsAddToBinderButtonActive( CardDataRuntime card )
     {
-        // main page AND not searching online and not in temp inventory (file inventory)
-        if( behaviour == SearchPageOrigin.MainPage
-            && GetDropDownOption() != InventoryData.Options.SearchOnline
-            && GetDropDownOption() != InventoryData.Options.TempInventory )
-            return true;
-
-        // OR we are looking at the cards in our current binder
-        if( IsModifyingCurrentBinder() )
-            return true;
-
-        return false;
+        return behaviour != SearchPageOrigin.MainPage && !IsModifyingCurrentBinder( card );
     }
 
-    bool IsAddToBinderButtonActive()
+    bool IsAddToInventoryButtonActive( CardDataRuntime card )
     {
-        return behaviour != SearchPageOrigin.MainPage && !IsModifyingCurrentBinder();
+        return GetDropDownOption() == InventoryData.Options.SearchOnline
+            || GetDropDownOption() == InventoryData.Options.TempInventory;
     }
 
-    bool IsAddToInventoryButtonActive()
+    bool IsRemoveFromBinderButtonActive( CardDataRuntime card )
     {
-        // - not main page
-        // - OR we are searching online
-        // - OR we are searching a temp inventory( file inventory )
-        if( behaviour != SearchPageOrigin.MainPage
-            || GetDropDownOption() == InventoryData.Options.SearchOnline
-            || GetDropDownOption() == InventoryData.Options.TempInventory )
-        {
-            // AND we aren't looking at the cards in our current binder
-            return !IsModifyingCurrentBinder();
-        }
-
-        return false;
+        // We are looking at the cards in our current binder
+        return behaviour != SearchPageOrigin.MainPage && IsModifyingCurrentBinder( card );
     }
 
+    bool IsRemoveFromInventoryButtonActive( CardDataRuntime card )
+    {
+        if( IsAddToInventoryButtonActive( card ) )
+            return false;
+        if( behaviour != SearchPageOrigin.MainPage )
+            return false;
+        return !IsModifyingCurrentBinder( card ) || GetDropDownOption() != InventoryData.Options.UnusedCards;
+    }
 }

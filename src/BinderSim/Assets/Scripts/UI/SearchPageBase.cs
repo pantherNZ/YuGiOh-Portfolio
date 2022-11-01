@@ -144,7 +144,7 @@ public abstract class SearchPageBase : EventReceiverInstance
             }
 
             var betaName = card.cardAPIData.misc_info != null && card.cardAPIData.misc_info.Count > 0 
-                ? card.cardAPIData.misc_info[0].beta_name 
+                ? ( card.cardAPIData.misc_info[0].beta_name ?? string.Empty )
                 : string.Empty;
 
             if( search.Length > 0 
@@ -281,12 +281,6 @@ public abstract class SearchPageBase : EventReceiverInstance
         };
     }
 
-    public void RemoveCard( CardDataRuntime card )
-    {
-        BinderPage.Instance.Inventory.Remove( card );
-        SearchCards();
-    }
-
     protected void ToggleResultSelected( int index )
     {
         bool unselect = currentCardSelectedIdx == index;
@@ -321,18 +315,18 @@ public abstract class SearchPageBase : EventReceiverInstance
 
         Debug.Assert( currentCardSelectedIdx != null );
 
-        var data = cardData[currentCardSelectedIdx.Value].DeepCopy();
+        bool fromInventory = FromInventory();
+
+        var data = cardData[currentCardSelectedIdx.Value];
+
+        if( !fromInventory )
+            data = data.DeepCopy();
 
         if( data.smallImages == null )
         {
             Debug.LogWarning( "Failed to choose card as the preview image hasn't finished downloading yet" );
             return;
         }
-
-        bool fromInventory = GetDropDownOption() == InventoryData.Options.AllCards
-                || GetDropDownOption() == InventoryData.Options.UnusedCards
-                || GetDropDownOption() == InventoryData.Options.AllCardsInBinders
-                || GetDropDownOption() == InventoryData.Options.CardsInBinderX;
 
         EventSystem.Instance.TriggerEvent( new CardSelectedEvent()
         {
@@ -376,6 +370,14 @@ public abstract class SearchPageBase : EventReceiverInstance
         }
     }
 
+    protected bool FromInventory()
+    {
+        return GetDropDownOption() == InventoryData.Options.AllCards
+                || GetDropDownOption() == InventoryData.Options.UnusedCards
+                || GetDropDownOption() == InventoryData.Options.AllCardsInBinders
+                || GetDropDownOption() == InventoryData.Options.CardsInBinderX;
+    }
+
     public void Cancel()
     {
         if( behaviour == SearchPageOrigin.MainPage )
@@ -392,27 +394,15 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     public void ShowFullscreenSearch( bool fullscreen )
     {
-        if( currentBinderIdx != null )
+        EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
         {
-            EventSystem.Instance.TriggerEvent( new OpenInventoryPageEvent()
-            {
-                page = fullscreen ? PageType.SearchPageFull : PageType.SearchPage,
-                behaviour = behaviour,
-                flags = flags,
-                currentBinderIdx = currentBinderIdx.Value,
-            } );
-        }
-        else
-        {
-            EventSystem.Instance.TriggerEvent( new OpenSearchPageEvent()
-            {
-                page = fullscreen ? PageType.SearchPageFull : PageType.SearchPage,
-                behaviour = behaviour,
-                flags = flags,
-                replacingCard = replacingCardName,
-                searchText = searchInput.text
-            } );
-        }
+            page = fullscreen ? PageType.SearchPageFull : PageType.SearchPage,
+            behaviour = behaviour,
+            flags = flags,
+            replacingCard = replacingCardName,
+            searchText = searchInput.text,
+            currentBinderIdx = currentBinderIdx,
+        } );
     }
 
     public override void OnEventReceived( IBaseEvent e )
@@ -481,7 +471,9 @@ public abstract class SearchPageBase : EventReceiverInstance
                 continue;
 
             if( val == InventoryData.Options.CardsInBinderX )
-                options.AddRange( BinderPage.Instance.BinderData.Select( ( x ) => string.Format( str, x.data.name ) ) );
+                options.AddRange( BinderPage.Instance.BinderData
+                        .Where( ( x ) => x.data.cardList.Count > 0 )
+                        .Select( ( x ) => string.Format( str, x.data.name ) ) );
             else
                 options.Add( str );
         }

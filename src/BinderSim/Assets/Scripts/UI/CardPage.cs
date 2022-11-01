@@ -84,6 +84,10 @@ public class CardPage : EventReceiverInstance
         {
             LoadCard( cardSelectedEvent );
         }
+        else if( e is CardRemovedEvent cardRemovedEvent )
+        {
+            RemoveCardFromBinder( cardRemovedEvent.card, cardRemovedEvent.fromInventory );
+        }
         else if( e is BinderLoadedEvent binderLoadedEvent )
         {
             //LoadBinder( binderLoadedEvent.data );
@@ -194,58 +198,14 @@ public class CardPage : EventReceiverInstance
             }
         }
 
-        bool sortInventory = false;
-
         if( data != null )
-        {
-            // Add to inventory if a new card
-            if( data.insideBinderIdx == null && !e.fromInventory )
-            {
-                BinderPage.Instance.Inventory.Add( data );
-                sortInventory = true;
-            }
-            // Otherwise remove from binder
-            else if( data.insideBinderIdx != null )
-            {
-                int foundIdx = -1;
-                int foundPage = BinderPage.Instance.BinderData[data.insideBinderIdx.Value].data.cardList.FindIndex( ( cardPage ) =>
-                {
-                    foreach( var (idx, card) in cardPage.Enumerate() )
-                    {
-                        if( card == data )
-                        {
-                            foundIdx = idx;
-                            return true;
-                        }
-                    }
-                    return false;
-                } );
-
-                if( data.insideBinderIdx != null )
-                {
-                    // If this is in the current binder, we need to update the UI (and clear the card)
-                    if( BinderPage.Instance.BinderData[data.insideBinderIdx.Value] == currentbinder )
-                    {
-                        var prevIdx = currentModifyCardIdx;
-                        currentModifyCardIdx = GetIndexFromPageAndPos( foundPage, foundIdx );
-                        LoadCard( new CardSelectedEvent() { card = null } );
-                        currentModifyCardIdx = prevIdx;
-                    }
-                    else
-                    {
-                        // Clear this card from the old binder
-                        BinderPage.Instance.BinderData[data.insideBinderIdx.Value].data.cardList[foundPage][foundIdx] = null;
-                    }
-                }
-            }
-        }
+            RemoveCardFromBinder( data, e.fromInventory );
 
         var (page, pos) = GetPageAndPosFromIndex( currentModifyCardIdx.Value );
         var grid = GetGrid( page );
         var image = grid.transform.GetChild( pos ).GetComponent<Image>();
 
         image.sprite = Utility.CreateSprite( data == null ? defaultCardImage : data.smallImages[data.imageIndex] );
-        var prevCard = currentbinder.data.cardList[page][pos];
         currentbinder.data.cardList[page][pos] = data;
         UpdateHeaderInfo();
         currentModifyCardIdx = null;
@@ -256,20 +216,64 @@ public class CardPage : EventReceiverInstance
                 EventSystem.Instance.TriggerEvent( new PageFullEvent() );
 
             data.insideBinderIdx = BinderPage.Instance.BinderData.IndexOf( currentbinder );
-            sortInventory = true;
-        }
-
-        // Set previous card to not being inside a binder
-        if( prevCard != null )
-        {
-            BinderPage.Instance.Inventory.Find( ( x ) => x.cardId == prevCard.cardId ).insideBinderIdx = null;
-            sortInventory = true;
-        }
-
-        if( sortInventory )
             BinderPage.Instance.SortInventory();
+        }
 
         EventSystem.Instance.TriggerEvent( new BinderDataUpdateEvent() { binder = currentbinder.data } );
+    }
+
+    private void RemoveCardFromBinder( CardDataRuntime data, bool fromInventory )
+    {
+        // Add to inventory if a new card
+        if( data.insideBinderIdx == null && !fromInventory )
+        {
+            BinderPage.Instance.Inventory.Add( data );
+        }
+        // Otherwise remove from binder
+        else if( data.insideBinderIdx != null )
+        {
+            int foundIdx = -1;
+            int foundPage = BinderPage.Instance.BinderData[data.insideBinderIdx.Value].data.cardList.FindIndex( ( cardPage ) =>
+            {
+                foreach( var (idx, card) in cardPage.Enumerate() )
+                {
+                    if( card == data )
+                    {
+                        foundIdx = idx;
+                        return true;
+                    }
+                }
+                return false;
+            } );
+
+            if( foundIdx == -1 )
+            {
+                Debug.LogError( "Failed to find card idx when removing card from binder (but the card has insideBinderIdx set to this binder)" );
+                return;
+            }
+
+            if( data.insideBinderIdx != null )
+            {
+                // If this is in the current binder, we need to update the UI (and clear the card)
+                if( BinderPage.Instance.BinderData[data.insideBinderIdx.Value] == currentbinder )
+                {
+                    var prevIdx = currentModifyCardIdx;
+                    currentModifyCardIdx = GetIndexFromPageAndPos( foundPage, foundIdx );
+                    LoadCard( new CardSelectedEvent() { card = null } );
+                    currentModifyCardIdx = prevIdx;
+                }
+                else
+                {
+                    // Clear this card from the old binder
+                    BinderPage.Instance.BinderData[data.insideBinderIdx.Value].data.cardList[foundPage][foundIdx] = null;
+                }
+
+                // Set previous card to not being inside a binder
+                data.insideBinderIdx = null;
+            }
+        }
+
+        BinderPage.Instance.SortInventory();
     }
 
     private void PopulateGrid()
@@ -444,13 +448,13 @@ public class CardPage : EventReceiverInstance
     private int GetIndexFromPageAndPos( int page, int pos )
     { 
         // Add pageSize to the idx to indicate we are modifying the right page (or don't if left page)
-        return Utility.Mod( page + 1, 2 ) * currentbinder.data.pageWidth * currentbinder.data.pageHeight + pos;
+        return page * currentbinder.data.pageWidth * currentbinder.data.pageHeight + pos;
     }
 
     private Pair<int, int> GetPageAndPosFromIndex( int idx )
     {
         return new Pair<int, int>(
-            idx >= ( currentbinder.data.pageWidth * currentbinder.data.pageHeight ) ? currentPage : currentPage - 1,
+            idx / ( currentbinder.data.pageWidth * currentbinder.data.pageHeight ),
             Utility.Mod( idx, currentbinder.data.pageWidth * currentbinder.data.pageHeight )
         );
     }
@@ -514,6 +518,7 @@ public class CardPage : EventReceiverInstance
             page = openFullScreenSearch ? PageType.SearchPageFull : PageType.SearchPage,
             behaviour = SearchPageOrigin.CardPageSearch,
             flags = ( FindNextEmptyCardSlot() == null ? SearchPageFlags.PageFull : 0 ),
+            currentBinderIdx = BinderPage.Instance.BinderData.IndexOf( currentbinder ),
         } );
     }
 
@@ -531,7 +536,8 @@ public class CardPage : EventReceiverInstance
                     | ( FindNextEmptyCardSlot() == null ? SearchPageFlags.PageFull : 0 ),
             replacingCard = currentbinder.data.cardList[page][pos] != null
                 ? currentbinder.data.cardList[page][pos].name
-                : String.Empty
+                : String.Empty,
+            currentBinderIdx = BinderPage.Instance.BinderData.IndexOf( currentbinder ),
         } );
     }
 

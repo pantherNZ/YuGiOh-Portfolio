@@ -17,10 +17,16 @@ public class SearchListEntry : MonoBehaviour
     [SerializeField] TMPro.TMP_Dropdown conditionDropdown;
     [SerializeField] TMPro.TextMeshProUGUI countText;
     [SerializeField] Button settingsButton;
+    [SerializeField] Image settingsButtonIcon;
     [SerializeField] Button increaseCountButton;
     [SerializeField] Button decreaseCountButton;
+    [SerializeField] Texture2D addTexture;
+    [SerializeField] Texture2D removeTexture;
 
     public Button SettingsButton { get => settingsButton; private set { } }
+    public Image SettingsButtonIcon { get => settingsButtonIcon; private set { } }
+    public Texture2D AddTexture { get => addTexture; private set { } }
+    public Texture2D RemoveTexture { get => removeTexture; private set { } }
     public TMPro.TextMeshProUGUI CountText { get => countText; private set { } }
 
     private CardDataRuntime cardData;

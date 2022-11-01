@@ -51,8 +51,7 @@ public class SearchPageSmall : SearchPageBase
                 return;
             }
 
-            var openInventory = e as OpenInventoryPageEvent;
-            ShowPage( openPageRequest, openInventory?.currentBinderIdx );
+            ShowPage( openPageRequest, openPageRequest.currentBinderIdx );
         }
     }
 
