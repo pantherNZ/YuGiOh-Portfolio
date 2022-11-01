@@ -415,12 +415,17 @@ public abstract class SearchPageBase : EventReceiverInstance
             && pageChangeRequest.page != PageType.SearchPage
             && pageChangeRequest.page != PageType.SearchPageFull )
         {
-            searchListPage.SetActive( false );
+            HidePage();
         }
         else if( e is PageFullEvent )
         {
             flags |= SearchPageFlags.PageFull;
         }
+    }
+
+    protected virtual void HidePage()
+    {
+        searchListPage.SetActive( false );
     }
 
     protected virtual void ShowPage( OpenSearchPageEvent request, int? binderIndex )

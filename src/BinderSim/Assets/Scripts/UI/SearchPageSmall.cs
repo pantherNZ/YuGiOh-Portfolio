@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,8 +9,11 @@ public class SearchPageSmall : SearchPageBase
     [SerializeField] GameObject cardEntryPrefab = null;
     [SerializeField] GameObject dragCardGhostPrefab = null;
     [SerializeField] GameObject searchListPanel = null;
+    [SerializeField] float slideAnimationTimeSec = 0.1f;
+    [SerializeField] Button cardPageSaveAndExitButton;
 
     private GameObject dragging;
+    private bool leftSide = true;
 
     protected override void Start()
     {
@@ -47,7 +51,7 @@ public class SearchPageSmall : SearchPageBase
         {
             if( openPageRequest.page == PageType.SearchPageFull )
             {
-                searchListPage.SetActive( false );
+                HidePage();
                 return;
             }
 
@@ -66,10 +70,43 @@ public class SearchPageSmall : SearchPageBase
             ? "Replacing Card" 
             : "Searching Cards" );
         titleText.gameObject.SetActive( behaviour != SearchPageOrigin.MainPage );
+
+        StartCoroutine( InterpolatePosition( true ) );
+    }
+
+    protected override void HidePage()
+    {
+        StartCoroutine( HidePageInternal() );
+    }
+
+    private IEnumerator HidePageInternal()
+    {
+        yield return InterpolatePosition( false );
+        searchListPage.SetActive( false );
+    }
+
+    private IEnumerator InterpolatePosition( bool show )
+    {
+        var rectTransform = searchListPanel.transform as RectTransform;
+        var moveRight = leftSide == show;
+        var targetX = Mathf.Abs( rectTransform.anchoredPosition.x ) * ( moveRight ? 1.0f : -1.0f );
+        var interp = Mathf.Abs( rectTransform.anchoredPosition.x * 2.0f );
+
+        while( ( moveRight && rectTransform.anchoredPosition.x < targetX ) ||
+               ( !moveRight && rectTransform.anchoredPosition.x > targetX ) )
+        {
+            var diff = targetX - rectTransform.anchoredPosition.x;
+            var delta = Time.deltaTime * ( 1.0f / slideAnimationTimeSec );
+            rectTransform.anchoredPosition += new Vector2( Mathf.Min( Mathf.Abs( diff ), interp * delta ) * Mathf.Sign( diff ), 0.0f );
+            yield return null;
+        }
+
+        rectTransform.anchoredPosition = rectTransform.anchoredPosition.SetX( targetX );
     }
 
     public void SwitchSides( RectTransform button )
     {
+        leftSide = !leftSide;
         var rectTransform = searchListPanel.transform as RectTransform;
         var xPos = rectTransform.anchoredPosition.x;
         rectTransform.anchorMax = rectTransform.anchorMax.SetX( xPos >= 0.0f ? 1.0f : 0.0f );
@@ -128,6 +165,9 @@ public class SearchPageSmall : SearchPageBase
             }, "SearchPageButton", 0, () =>
             {
                 Cancel();
+
+                if( Utility.IsPointerOverGameObject( cardPageSaveAndExitButton.gameObject ) )
+                    cardPageSaveAndExitButton.onClick.Invoke();
             } );
         }
     }
