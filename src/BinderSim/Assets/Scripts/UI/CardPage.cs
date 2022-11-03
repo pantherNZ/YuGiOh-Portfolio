@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class CardPage : EventReceiverInstance
 {
+    [SerializeField] GameObject binderScene = null;
     [SerializeField] GameObject cardsPage = null;
     [SerializeField] AdvancedGridLayout cardsDisplayGridLeft = null;
     [SerializeField] AdvancedGridLayout cardsDisplayGridRight = null;
@@ -46,6 +47,7 @@ public class CardPage : EventReceiverInstance
     {
         base.Start();
         cardsPage.SetActive( false );
+        binderScene.SetActive( false );
 
         prevPageButton.onClick.AddListener( PrevPage );
         nextPageButton.onClick.AddListener( NextPage );
@@ -73,15 +75,10 @@ public class CardPage : EventReceiverInstance
             switch( pageChangeRequest.page )
             {
                 case PageType.BinderPage:
-                    cardsPage.SetActive( false );
+                    Hide();
                     break;
                 case PageType.CardPage:
-                    if( e is CloseSearchPageEvent cancelRequest && cancelRequest.fromFullscreen != null )
-                        openFullScreenSearch = cancelRequest.fromFullscreen.Value;
-
-                    cardsPage.SetActive( true );
-                    if( e is OpenCardPageEvent openPageRequest )
-                        LoadBinder( openPageRequest.binder );
+                    Show( pageChangeRequest );
                     break;
             }
         }
@@ -123,6 +120,24 @@ public class CardPage : EventReceiverInstance
                 }
             }
         }
+    }
+
+    private void Show( PageChangeRequestEvent pageChangeRequest )
+    {
+        binderScene.SetActive( true );
+        cardsPage.SetActive( true );
+
+        if( pageChangeRequest is CloseSearchPageEvent cancelRequest && cancelRequest.fromFullscreen != null )
+            openFullScreenSearch = cancelRequest.fromFullscreen.Value;
+
+        if( pageChangeRequest is OpenCardPageEvent openPageRequest )
+            LoadBinder( openPageRequest.binder );
+    }
+
+    private void Hide()
+    {
+        binderScene.SetActive( false );
+        cardsPage.SetActive( false );
     }
 
     private void LoadBinder( BinderDataRuntime binder )
