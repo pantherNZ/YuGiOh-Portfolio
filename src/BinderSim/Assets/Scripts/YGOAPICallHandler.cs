@@ -89,7 +89,9 @@ class APICallHandler
 
     public struct URLShortenerResult
     {
+#pragma warning disable 0649
         public string url;
+#pragma warning restore 0649
     }
 
     public IEnumerator SendURLShortenerRequest( string url, Action<string> successCallback = null, Action<string> failedCallback = null )
