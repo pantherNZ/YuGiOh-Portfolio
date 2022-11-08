@@ -948,7 +948,21 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         writer.Write( ( byte )SaveGameSystem.currentVersion );
         ( this as ISavableComponent ).Serialise( writer );
         var bytes = memoryStream.ToArray();
-        text.text = "https://panthernz.github.io/YuGiOh-Portfolio/?binder=" + StringHelper.GetStringFromBytes( bytes );
+        text.text = "Loading..";
+
+        var url = "https://panthernz.github.io/YuGiOh-Portfolio/?binder=" + StringHelper.GetStringFromBytes( bytes );
+
+        StartCoroutine( APICallHandler.Instance.SendURLShortenerRequest( url, 
+            // Success
+            ( data ) =>
+            {
+                text.text = data;
+            },
+            // Failed
+            ( error ) =>
+            {
+                text.text = url;
+            } ) );
     }
 
     public void CopyTextToClipBoard( TMPro.TMP_InputField text)

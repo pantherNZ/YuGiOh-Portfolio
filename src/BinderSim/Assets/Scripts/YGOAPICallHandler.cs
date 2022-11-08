@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -66,6 +67,8 @@ class APICallHandler
 
         using( UnityWebRequest webRequest = UnityWebRequest.Get( uri ) )
         {
+            cachedRequests[uri] = string.Empty;
+
             // Request and wait for the desired page.
             yield return webRequest.SendWebRequest();
 
@@ -79,6 +82,47 @@ class APICallHandler
                 case UnityWebRequest.Result.Success:
                     cachedRequests[uri] = webRequest.downloadHandler.text;
                     successCallback?.Invoke( webRequest.downloadHandler.text );
+                    break;
+            }
+        }
+    }
+
+    public struct URLShortenerResult
+    {
+        public string url;
+    }
+
+    public IEnumerator SendURLShortenerRequest( string url, Action<string> successCallback = null, Action<string> failedCallback = null )
+    {
+        var address = "http://oddreflex.pythonanywhere.com/";
+
+        if( cachedRequests.TryGetValue( url, out string data ) )
+        {
+            successCallback?.Invoke( data );
+            yield break;
+        }
+
+        WWWForm form = new WWWForm();
+        form.AddField( "url", url );
+
+        using( UnityWebRequest webRequest = UnityWebRequest.Post( address, form ) )
+        {
+            cachedRequests[url] = string.Empty;
+
+            // Request and wait for the desired page.
+            yield return webRequest.SendWebRequest();
+
+            switch( webRequest.result )
+            {
+                case UnityWebRequest.Result.ConnectionError:
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError( address + ": Error: " + webRequest.error );
+                    break;
+                case UnityWebRequest.Result.ProtocolError:
+                case UnityWebRequest.Result.Success:
+                    var result = JsonConvert.DeserializeObject<URLShortenerResult>( webRequest.downloadHandler.text );
+                    cachedRequests[url] = result.url;
+                    successCallback?.Invoke( result.url );
                     break;
             }
         }
