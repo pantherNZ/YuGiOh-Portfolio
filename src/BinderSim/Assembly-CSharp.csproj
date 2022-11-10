@@ -57,19 +57,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\TouchPad.cs" />
-    <Compile Include="Assets\Scripts\EventTypes.cs" />
+    <Compile Include="Assets\Scripts\Binder\EventTypes.cs" />
     <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\PageView_Map_Right.cs" />
-    <Compile Include="Assets\Scripts\BytesToString.cs" />
+    <Compile Include="Assets\Scripts\Misc\BytesToString.cs" />
     <Compile Include="Assets\Scripts\UI\SearchPageBase.cs" />
     <Compile Include="Assets\Scripts\UI\AppUtility.cs" />
     <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\PageView_Map_Left.cs" />
     <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\PageView.cs" />
     <Compile Include="Assets\EndlessBook\Book\Scripts\Unpack.cs" />
-    <Compile Include="Assets\Scripts\YGOAPICallHandler.cs" />
+    <Compile Include="Assets\Scripts\Binder\YGOAPICallHandler.cs" />
     <Compile Include="Assets\EndlessBook\Book\Scripts\Page.cs" />
     <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\MimicChild.cs" />
     <Compile Include="Assets\EndlessBook\Book\Scripts\PageAnimationCompleted.cs" />
-    <Compile Include="Assets\Scripts\WebGLCopyAndPaste.cs" />
+    <Compile Include="Assets\Scripts\Misc\WebGLCopyAndPaste.cs" />
     <Compile Include="Assets\Scripts\UI\SearchListResultButtons.cs" />
     <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\Demo02.cs" />
     <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\RotateCamera.cs" />
@@ -83,7 +83,7 @@
     <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserWindows.cs" />
     <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\PageView_02.cs" />
     <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\RotateObject.cs" />
-    <Compile Include="Assets\Scripts\Constants.cs" />
+    <Compile Include="Assets\Scripts\Binder\Constants.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\IStandaloneFileBrowser.cs" />
     <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\PageView_Front.cs" />
     <Compile Include="Assets\Scripts\UI\CardPage.cs" />
@@ -95,11 +95,12 @@
     <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowser.cs" />
     <Compile Include="Assets\EndlessBook\Demos\Demo 01\Scripts\Demo01.cs" />
     <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\Candle.cs" />
-    <Compile Include="Assets\Scripts\DataTypes.cs" />
+    <Compile Include="Assets\Scripts\Binder\DataTypes.cs" />
     <Compile Include="Assets\Scripts\UI\GUIClickController.cs" />
     <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\PageView_Map.cs" />
-    <Compile Include="Assets\Scripts\RequestJsonFormat.cs" />
+    <Compile Include="Assets\Scripts\Misc\RequestJsonFormat.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserLinux.cs" />
+    <Compile Include="Assets\Scripts\Binder\BinderModelHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

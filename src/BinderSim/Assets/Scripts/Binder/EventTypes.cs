@@ -53,3 +53,14 @@ public class PageFullEvent : IBaseEvent { }
 public class SearchEntryDragDropComplete : IBaseEvent { }
 
 public class SaveGameEvent : IBaseEvent { }
+
+public class BinderChangeCardPage : IBaseEvent
+{
+    public int newPage;
+    public int previousPage;
+}
+
+public class BinderPopulateGrid : IBaseEvent
+{
+    public int currentPage;
+}

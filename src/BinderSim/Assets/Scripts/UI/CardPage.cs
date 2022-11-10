@@ -322,6 +322,8 @@ public class CardPage : EventReceiverInstance
         // Show/hide modify buttons depending on first/last page
         modifyPageButtonsLeft.SetActive( currentPage > 0 );
         modifyPageButtonsRight.SetActive( currentPage < currentbinder.data.pageCount - 1 );
+
+        EventSystem.Instance.TriggerEvent( new BinderPopulateGrid(){ currentPage = currentPage } );
     }
 
     private AdvancedGridLayout GetGrid( int page )
@@ -528,9 +530,17 @@ public class CardPage : EventReceiverInstance
     {
         // Deliberately cap at currentbinder.pageCount (not currentbinder.pageCount - 1), because we display pages in multiples of 2
         // If we are on the last page the index will be currentbinder.pageCount but the right side won't be visible/setup
+        var previousPage = currentPage;
         currentPage = Mathf.Clamp( page, 0, currentbinder.data.pageCount );
         currentPageTextLeft.text = page == 0 ? string.Empty : string.Format( "Page: {0}", currentPage );
         currentPageTextRight.text = page >= currentbinder.data.pageCount ? string.Empty : string.Format( "Page: {0}", currentPage + 1 );
+
+        EventSystem.Instance.TriggerEvent( new BinderChangeCardPage()
+        {
+            newPage = currentPage,
+            previousPage = previousPage,
+        } );
+
         PopulateGrid();
     }
 

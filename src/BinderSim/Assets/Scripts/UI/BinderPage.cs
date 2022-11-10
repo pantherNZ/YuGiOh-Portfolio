@@ -909,6 +909,12 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
     public void ImportFromString( TMPro.TMP_InputField text )
     {
+        var key = text.text;
+
+        var url = "panthernz.github.io/YuGiOh-Portfolio/?binder=";
+        if( key.Contains( url ) )
+            key = key.Substring( key.IndexOf( url ) + url.Length );
+
         ImportFromStringInternal( text.text, null );
     }
 

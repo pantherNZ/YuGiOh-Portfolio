@@ -160,12 +160,6 @@ class APICallHandler
         }
     }
 
-
-    // TODO: Save/cache image
-    //byte[] results = request.downloadHandler.data;
-    //string filename = gameObject.name + ".dat";
-    //SaveImage( "Images/" + filename, results );
-
     void SaveImage( string path, byte[] imageBytes )
     {
         //Create Directory if it does not exist
