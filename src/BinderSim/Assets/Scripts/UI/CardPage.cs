@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class CardPage : EventReceiverInstance
 {
-    [SerializeField] GameObject binderScene = null;
     [SerializeField] GameObject cardsPage = null;
     [SerializeField] AdvancedGridLayout cardsDisplayGridLeft = null;
     [SerializeField] AdvancedGridLayout cardsDisplayGridRight = null;
@@ -47,12 +46,11 @@ public class CardPage : EventReceiverInstance
     {
         base.Start();
         cardsPage.SetActive( false );
-        binderScene.SetActive( false );
 
         prevPageButton.onClick.AddListener( PrevPage );
         nextPageButton.onClick.AddListener( NextPage );
-        firstPageButton.onClick.AddListener( () => ChangePage( 0 ) );
-        lastPageButton.onClick.AddListener( () => ChangePage( currentbinder.data.pageCount ) );
+        firstPageButton.onClick.AddListener( () => SendChangePage( 0 ) );
+        lastPageButton.onClick.AddListener( () => SendChangePage( currentbinder.data.pageCount ) );
 
         width = Constants.Instance.DefaultStartingPageWidth;
         height = Constants.Instance.DefaultStartingPageHeight;
@@ -120,11 +118,14 @@ public class CardPage : EventReceiverInstance
                 }
             }
         }
+        else if( e is BinderChangeCardPage changePage )
+        {
+            ChangePage( changePage.newPage );
+        }
     }
 
     private void Show( PageChangeRequestEvent pageChangeRequest )
     {
-        binderScene.SetActive( true );
         cardsPage.SetActive( true );
 
         if( pageChangeRequest is CloseSearchPageEvent cancelRequest && cancelRequest.fromFullscreen != null )
@@ -136,7 +137,6 @@ public class CardPage : EventReceiverInstance
 
     private void Hide()
     {
-        binderScene.SetActive( false );
         cardsPage.SetActive( false );
     }
 
@@ -144,7 +144,7 @@ public class CardPage : EventReceiverInstance
     {
         currentbinder = binder;
         UpdateHeaderInfo();
-        ChangePage( 0 );
+        //ChangePage( 0 );
     }
 
     private void UpdateHeaderInfo()
@@ -299,10 +299,10 @@ public class CardPage : EventReceiverInstance
     private void PopulateGrid()
     {
         // Setup page (and secondary/adjacent page)
-        if( currentPage > 0 )
+        if( currentPage > 0 && currentPage < currentbinder.data.pageCount )
             SetupGrid( currentPage - 1 );
 
-        if( currentPage < currentbinder.data.pageCount - 1 )
+        if( currentPage >= 0 && currentPage < currentbinder.data.pageCount - 1 )
             SetupGrid( currentPage );
 
         // Show/hide page depending on first/last page
@@ -312,12 +312,16 @@ public class CardPage : EventReceiverInstance
             child.gameObject.SetActive( currentPage < currentbinder.data.pageCount - 1 );
 
         // Show/hide next/prev buttons depending on first/last page
-        prevPageButton.gameObject.SetActive( currentPage > 0 );
-        nextPageButton.gameObject.SetActive( currentPage < currentbinder.data.pageCount - 1 );
+        //prevPageButton.gameObject.SetActive( currentPage > 0 );
+        prevPageButton.gameObject.SetActive( false );
+        //nextPageButton.gameObject.SetActive( currentPage < currentbinder.data.pageCount - 1 );
+        nextPageButton.gameObject.SetActive( false );
 
         // Show/hide first/last buttons depending on first/last page
-        firstPageButton.gameObject.SetActive( currentPage > 0 );
-        lastPageButton.gameObject.SetActive( currentPage < currentbinder.data.pageCount - 1 );
+        //firstPageButton.gameObject.SetActive( currentPage > 0 );
+        firstPageButton.gameObject.SetActive( false );
+        //lastPageButton.gameObject.SetActive( currentPage < currentbinder.data.pageCount - 1 );
+        lastPageButton.gameObject.SetActive( false );
 
         // Show/hide modify buttons depending on first/last page
         modifyPageButtonsLeft.SetActive( currentPage > 0 );
@@ -531,27 +535,29 @@ public class CardPage : EventReceiverInstance
         // Deliberately cap at currentbinder.pageCount (not currentbinder.pageCount - 1), because we display pages in multiples of 2
         // If we are on the last page the index will be currentbinder.pageCount but the right side won't be visible/setup
         var previousPage = currentPage;
-        currentPage = Mathf.Clamp( page, 0, currentbinder.data.pageCount );
+        currentPage = page;// Mathf.Clamp( page, 0, currentbinder.data.pageCount );
         currentPageTextLeft.text = page == 0 ? string.Empty : string.Format( "Page: {0}", currentPage );
         currentPageTextRight.text = page >= currentbinder.data.pageCount ? string.Empty : string.Format( "Page: {0}", currentPage + 1 );
+        PopulateGrid();
+    }
 
+    private void SendChangePage( int page )
+    {
+        // Won't update the book currently
         EventSystem.Instance.TriggerEvent( new BinderChangeCardPage()
         {
-            newPage = currentPage,
-            previousPage = previousPage,
+            newPage = page,
         } );
-
-        PopulateGrid();
     }
 
     public void NextPage()
     {
-        ChangePage( currentPage + 2 );
+        SendChangePage( currentPage + 2 );
     }
 
     public void PrevPage()
     {
-        ChangePage( currentPage - 2 );
+        SendChangePage( currentPage - 2 );
     }
 
     public void OpenSearchPanelGeneric()
