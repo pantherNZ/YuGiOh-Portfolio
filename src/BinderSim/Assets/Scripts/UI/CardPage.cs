@@ -31,7 +31,7 @@ public class CardPage : EventReceiverInstance
     private BinderDataRuntime currentbinder;
     private int width;
     private int height;
-    private int currentPage;
+    private int currentPage = -2;
     private int? currentModifyCardIdx;
     private bool openFullScreenSearch;
     private Image clearCardAreaImage;
@@ -49,8 +49,8 @@ public class CardPage : EventReceiverInstance
 
         prevPageButton.onClick.AddListener( PrevPage );
         nextPageButton.onClick.AddListener( NextPage );
-        firstPageButton.onClick.AddListener( () => SendChangePage( 0 ) );
-        lastPageButton.onClick.AddListener( () => SendChangePage( currentbinder.data.pageCount ) );
+        firstPageButton.onClick.AddListener( () => ChangePage( 0 ) );
+        lastPageButton.onClick.AddListener( () => ChangePage( currentbinder.data.pageCount ) );
 
         width = Constants.Instance.DefaultStartingPageWidth;
         height = Constants.Instance.DefaultStartingPageHeight;
@@ -118,9 +118,10 @@ public class CardPage : EventReceiverInstance
                 }
             }
         }
-        else if( e is BinderChangeCardPage changePage )
+        else if( e is BinderChangeCardPageRequest changePage )
         {
-            ChangePage( changePage.newPage );
+            var page = Mathf.Clamp( -1, changePage.nextPage ? currentPage + 2 : currentPage - 2, currentbinder.data.pageCount + 1 );
+            ChangePage( page );
         }
     }
 
@@ -539,25 +540,21 @@ public class CardPage : EventReceiverInstance
         currentPageTextLeft.text = page == 0 ? string.Empty : string.Format( "Page: {0}", currentPage );
         currentPageTextRight.text = page >= currentbinder.data.pageCount ? string.Empty : string.Format( "Page: {0}", currentPage + 1 );
         PopulateGrid();
-    }
 
-    private void SendChangePage( int page )
-    {
-        // Won't update the book currently
         EventSystem.Instance.TriggerEvent( new BinderChangeCardPage()
         {
-            newPage = page,
+            newPage = page
         } );
     }
 
     public void NextPage()
     {
-        SendChangePage( currentPage + 2 );
+        ChangePage( currentPage + 2 );
     }
 
     public void PrevPage()
     {
-        SendChangePage( currentPage - 2 );
+        ChangePage( currentPage - 2 );
     }
 
     public void OpenSearchPanelGeneric()

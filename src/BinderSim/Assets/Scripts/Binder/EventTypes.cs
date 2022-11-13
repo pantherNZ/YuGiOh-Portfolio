@@ -54,10 +54,8 @@ public class SearchEntryDragDropComplete : IBaseEvent { }
 
 public class SaveGameEvent : IBaseEvent { }
 
-public class BinderChangeCardPage : IBaseEvent 
-{ 
-    public int newPage;
-    public echo17.EndlessBook.EndlessBook.StateEnum newState;
-}
+public class BinderChangeCardPage : IBaseEvent { public int newPage; }
+
+public class BinderChangeCardPageRequest : IBaseEvent { public bool nextPage; }
 
 public class BinderPopulateGrid : IBaseEvent { public int currentPage; }

@@ -56,6 +56,17 @@ public class BinderModelHandler : EventReceiverInstance
         audioOn = true;
     }
 
+    private void InitialiseBookMaterial( Material mat, int renderTextureIdx, Action<Material> setMatFunc )
+    {
+        if( mat == unloadedPageMaterial )
+        {
+            var newMaterial = Instantiate( renderTextureBaseMaterial );
+            savedRTs[renderTextureIdx] = Instantiate( renderTextureBase );
+            newMaterial.SetTexture( "_MainTex", savedRTs[renderTextureIdx] );
+            setMatFunc( newMaterial );
+        }
+    }
+
     public override void OnEventReceived( IBaseEvent e )
     {
         if( e is OpenCardPageEvent openCardRequest )
@@ -64,56 +75,45 @@ public class BinderModelHandler : EventReceiverInstance
         }
         else if( e is BinderChangeCardPage cardChange )
         {
-            int page = ToEndlessBookPageNumber( cardChange.newState, cardChange.newPage );
+            var( newState, newPage ) = ToEndlessBookPageData( cardChange.newPage );
 
-            if( cardChange.newState == EndlessBook.StateEnum.OpenFront )
+            if( newState == EndlessBook.StateEnum.OpenFront )
             {
-                if( book.GetMaterial( EndlessBook.MaterialEnum.BookPageFront ) == unloadedPageMaterial )
+                InitialiseBookMaterial( book.GetMaterial( EndlessBook.MaterialEnum.BookPageFront ), 0, ( newMaterial ) =>
                 {
-                    var newMaterial = Instantiate( renderTextureBaseMaterial );
-                    savedRTs[0] = Instantiate( renderTextureBase );
-                    newMaterial.SetTexture( "_MainTex", savedRTs[0] );
                     book.SetMaterial( EndlessBook.MaterialEnum.BookPageFront, newMaterial );
-                }
-
+                } );
                 rightGridCamera.targetTexture = savedRTs[0];
             }
-            else if( cardChange.newState == EndlessBook.StateEnum.OpenBack )
+            else if( newState == EndlessBook.StateEnum.OpenBack )
             {
-                if( book.GetMaterial( EndlessBook.MaterialEnum.BookPageBack ) == unloadedPageMaterial )
+                InitialiseBookMaterial( book.GetMaterial( EndlessBook.MaterialEnum.BookPageFront ), savedRTs.Length - 1, ( newMaterial ) =>
                 {
-                    var newMaterial = Instantiate( renderTextureBaseMaterial );
-                    savedRTs[savedRTs.Length - 1] = Instantiate( renderTextureBase );
-                    newMaterial.SetTexture( "_MainTex", savedRTs[savedRTs.Length - 1] );
                     book.SetMaterial( EndlessBook.MaterialEnum.BookPageBack, newMaterial );
-                }
-
+                } );
                 leftGridCamera.targetTexture = savedRTs[savedRTs.Length - 1];
             }
-            else if( page >= 0 && page < currentBinder.data.pageCount )
+            else if( newPage >= 1 && newPage < currentBinder.data.pageCount )
             {
-                var pageData = page + 1;
-
-                if( book.GetPageData( pageData ).material == unloadedPageMaterial )
+                var leftIdx = newPage;
+                InitialiseBookMaterial( book.GetPageData( leftIdx ).material, leftIdx, ( newMaterial ) =>
                 {
-                    var newMaterial = Instantiate( renderTextureBaseMaterial );
-                    savedRTs[cardChange.newPage - 1] = Instantiate( renderTextureBase );
-                    newMaterial.SetTexture( "_MainTex", savedRTs[cardChange.newPage - 1] );
-                    book.GetPageData( pageData ).material = newMaterial;
-                }
+                    book.SetPageData( leftIdx, new PageData() { material = newMaterial } );
+                } );
+                leftGridCamera.targetTexture = savedRTs[leftIdx];
 
-                leftGridCamera.targetTexture = savedRTs[cardChange.newPage - 1];
-
-                if( book.GetPageData( pageData + 1 ).material == unloadedPageMaterial )
+                var rightIdx = newPage + 1;
+                InitialiseBookMaterial( book.GetPageData( rightIdx ).material, rightIdx, ( newMaterial ) =>
                 {
-                    var newMaterial = Instantiate( renderTextureBaseMaterial );
-                    savedRTs[cardChange.newPage] = Instantiate( renderTextureBase );
-                    newMaterial.SetTexture( "_MainTex", savedRTs[cardChange.newPage] );
-                    book.GetPageData( pageData + 1 ).material = newMaterial;
-                }
-
-                rightGridCamera.targetTexture = savedRTs[cardChange.newPage];
+                    book.SetPageData( rightIdx, new PageData() { material = newMaterial } );
+                } );
+                rightGridCamera.targetTexture = savedRTs[rightIdx];
             }
+
+            if( newState == EndlessBook.StateEnum.OpenMiddle && book.CurrentState == EndlessBook.StateEnum.OpenMiddle )
+                TurnToPage( newPage );
+            else
+                SetState( newState );
         }
         else if( e is BinderPopulateGrid populateGrid )
         {
@@ -141,15 +141,30 @@ public class BinderModelHandler : EventReceiverInstance
         book.SetMaxPagesTurningCount( Mathf.Clamp( currentBinder.data.pageCount / 2, 1, 10 ) );
         savedRTs = new RenderTexture[currentBinder.data.pageCount];
 
+        book.SetMaterial( EndlessBook.MaterialEnum.BookPageFront, unloadedPageMaterial );
+        book.SetMaterial( EndlessBook.MaterialEnum.BookPageBack, unloadedPageMaterial );
+
         var cardCountMinusFrontBack = currentBinder.data.pageCount - 2;
         for( int i = 0; i < cardCountMinusFrontBack; ++i )
         {
             var newPage = book.AddPageData();
             newPage.material = unloadedPageMaterial;
+        
+            //InitialiseBookMaterial( book.GetPageData( i + 1 ).material, i + 1, ( newMaterial ) =>
+            //{
+            //    book.GetPageData( leftIdx ).material = newMaterial;
+            //} );
         }
-
-        book.SetMaterial( EndlessBook.MaterialEnum.BookPageFront, unloadedPageMaterial );
-        book.SetMaterial( EndlessBook.MaterialEnum.BookPageBack, unloadedPageMaterial );
+        
+        // Fuck you
+        //InitialiseBookMaterial( book.GetMaterial( EndlessBook.MaterialEnum.BookPageFront ), 0, ( newMaterial ) =>
+        //{
+        //    book.SetMaterial( EndlessBook.MaterialEnum.BookPageFront, newMaterial );
+        //} );
+        //InitialiseBookMaterial( book.GetMaterial( EndlessBook.MaterialEnum.BookPageBack ), savedRTs.Length - 1, ( newMaterial ) =>
+        //{
+        //    book.SetMaterial( EndlessBook.MaterialEnum.BookPageBack, newMaterial );
+        //} );
 
         // set the book closed
         OnBookStateChanged( EndlessBook.StateEnum.ClosedFront, EndlessBook.StateEnum.ClosedFront, -1 );
@@ -167,170 +182,7 @@ public class BinderModelHandler : EventReceiverInstance
 
     private void TouchPadTouchUpDetected( TouchPad.PageEnum page, Vector2 hitPointNormalized, bool dragging )
     {
-        switch( book.CurrentState )
-        {
-            case EndlessBook.StateEnum.ClosedFront:
-
-                switch( page )
-                {
-                    case TouchPad.PageEnum.Right:
-
-                        // transition from the ClosedFront to the OpenFront states
-                        OpenFront();
-
-                        break;
-                }
-
-                break;
-
-            case EndlessBook.StateEnum.OpenFront:
-
-                switch( page )
-                {
-                    case TouchPad.PageEnum.Left:
-
-                        // transition from the OpenFront to the ClosedFront states
-                        ClosedFront();
-
-                        break;
-
-                    case TouchPad.PageEnum.Right:
-
-                        // transition from the OpenFront to the OpenMiddle states
-                        OpenMiddle();
-
-                        break;
-                }
-
-                break;
-
-            case EndlessBook.StateEnum.OpenMiddle:
-
-                /*
-                PageView pageView;
-
-                if( dragging )
-                {
-                    // get the left page view if available.
-                    // in this demo we only have one group of pages that handle the drag: the map.
-                    // instead of having logic for dragging on both pages, we'll just handle it on the left
-                    pageView = GetPageView( book.CurrentLeftPageNumber );
-
-                    if( pageView != null )
-                    {
-                        // call the drag method on the page view
-                        pageView.Drag( Vector2.zero, true );
-                    }
-
-                    return;
-                }
-
-                switch( page )
-                {
-                    case TouchPad.PageEnum.Left:
-
-                        // get the left page view if available
-                        pageView = GetPageView( book.CurrentLeftPageNumber );
-
-                        if( pageView != null )
-                        {
-                            // cast a ray into the page and exit if we hit something (don't turn the page)
-                            if( pageView.RayCast( hitPointNormalized, BookAction ) )
-                            {
-                                return;
-                            }
-                        }
-
-                        break;
-
-                    case TouchPad.PageEnum.Right:
-
-                        // get the right page view if available
-                        pageView = GetPageView( book.CurrentRightPageNumber );
-
-                        if( pageView != null )
-                        {
-                            // cast a ray into the page and exit if we hit something (don't turn the page)
-                            if( pageView.RayCast( hitPointNormalized, BookAction ) )
-                            {
-                                return;
-                            }
-                        }
-
-                        break;
-                }*/
-
-                break;
-
-            case EndlessBook.StateEnum.OpenBack:
-
-                switch( page )
-                {
-                    case TouchPad.PageEnum.Left:
-
-                        // transition from the OpenBack to the OpenMiddle states
-                        OpenMiddle();
-
-                        break;
-
-                    case TouchPad.PageEnum.Right:
-
-                        // transition from the OpenBack to the ClosedBack states
-                        ClosedBack();
-
-                        break;
-                }
-
-                break;
-
-            case EndlessBook.StateEnum.ClosedBack:
-
-                switch( page )
-                {
-                    case TouchPad.PageEnum.Left:
-
-                        // transition from the ClosedBack to the OpenBack states
-                        OpenBack();
-
-                        break;
-                }
-
-                break;
-
-        }
-
-        switch( page )
-        {
-            case TouchPad.PageEnum.Left:
-
-                if( book.CurrentLeftPageNumber == 1 )
-                {
-                    // if on the first page, transition from the OpenMiddle to the OpenFront states
-                    OpenFront();
-                }
-                else
-                {
-                    // not on the first page, so just turn back one page
-                    book.TurnBackward( singlePageTurnTime, onCompleted: OnBookStateChanged, onPageTurnStart: OnPageTurnStart, onPageTurnEnd: OnPageTurnEnd );
-                }
-
-                break;
-
-            case TouchPad.PageEnum.Right:
-
-                if( book.CurrentRightPageNumber == book.LastPageNumber )
-                {
-                    // if on the last page, transition from the OpenMiddle to the OpenBack states
-                    OpenBack();
-                }
-                else
-                {
-                    // not on the last page, so just turn forward a page
-                    book.TurnForward( singlePageTurnTime, onCompleted: OnBookStateChanged, onPageTurnStart: OnPageTurnStart, onPageTurnEnd: OnPageTurnEnd );
-                }
-
-                break;
-        }
+        EventSystem.Instance.TriggerEvent( new BinderChangeCardPageRequest() { nextPage = page == TouchPad.PageEnum.Right } );
     }
 
     private void OnBookStateChanged(EndlessBook.StateEnum fromState, EndlessBook.StateEnum toState, int pageNumber)
@@ -364,36 +216,25 @@ public class BinderModelHandler : EventReceiverInstance
         }
 
         ToggleTouchPad(true);
-
-        // TODO (Transform pageNumber into the page system the card page uses (halved))
-        EventSystem.Instance.TriggerEvent( new BinderChangeCardPage()
-        {
-            newState = toState,
-            newPage = ToAppPageNumber( toState, pageNumber )
-        } );
     }
 
-    private int ToEndlessBookPageNumber( EndlessBook.StateEnum toState, int page )
+    private Pair<EndlessBook.StateEnum, int> ToEndlessBookPageData( int page )
     {
-        if( page == -1 )
-            return -1;
+        if( page < 0 )
+            return new Pair<EndlessBook.StateEnum, int>( EndlessBook.StateEnum.ClosedFront, -1 );
 
-        if( toState == EndlessBook.StateEnum.OpenMiddle )
-            return page - 2;
+        if( page > currentBinder.data.pageCount )
+            return new Pair<EndlessBook.StateEnum, int>( EndlessBook.StateEnum.ClosedBack, 999 );
 
-        return page;
+        if( page == 0 )
+            return new Pair<EndlessBook.StateEnum, int>( EndlessBook.StateEnum.OpenFront, 0 );
+
+        if( page == currentBinder.data.pageCount )
+            return new Pair<EndlessBook.StateEnum, int>( EndlessBook.StateEnum.OpenBack, 0 );
+
+        return new Pair<EndlessBook.StateEnum, int>( EndlessBook.StateEnum.OpenMiddle, page - 1 );
     }
 
-    private int ToAppPageNumber( EndlessBook.StateEnum toState, int page )
-    {
-        if( page == -1 )
-            return -1;
-
-        if( toState == EndlessBook.StateEnum.OpenMiddle )
-            return page + 2;
-
-        return page;
-    }
 
     private void ToggleTouchPad(bool on)
     {
@@ -436,31 +277,6 @@ public class BinderModelHandler : EventReceiverInstance
                 pageView.Drag(incrementalChange, false);
             }
         }*/
-    }
-
-    private void ClosedFront()
-    {
-        SetState(EndlessBook.StateEnum.ClosedFront);
-    }
-
-    private void OpenFront()
-    {
-        SetState(EndlessBook.StateEnum.OpenFront);
-    }
-
-    private void OpenMiddle()
-    {
-        SetState(EndlessBook.StateEnum.OpenMiddle);
-    }
-
-    private void OpenBack()
-    {
-        SetState(EndlessBook.StateEnum.OpenBack);
-    }
-
-    private void ClosedBack()
-    {
-        SetState(EndlessBook.StateEnum.ClosedBack);
     }
 
     private void SetState(EndlessBook.StateEnum state)
