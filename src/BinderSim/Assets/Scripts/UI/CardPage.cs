@@ -120,7 +120,8 @@ public class CardPage : EventReceiverInstance
         }
         else if( e is BinderChangeCardPageRequest changePage )
         {
-            var page = Mathf.Clamp( -1, changePage.nextPage ? currentPage + 2 : currentPage - 2, currentbinder.data.pageCount + 1 );
+            var page = currentPage == -1 ? 0
+                : Mathf.Clamp( -1, changePage.nextPage ? currentPage + 2 : currentPage - 2, currentbinder.data.pageCount + 1 );
             ChangePage( page );
         }
     }

@@ -84,14 +84,18 @@ public class BinderModelHandler : EventReceiverInstance
                     book.SetMaterial( EndlessBook.MaterialEnum.BookPageFront, newMaterial );
                 } );
                 rightGridCamera.targetTexture = savedRTs[0];
+                leftGridCamera.gameObject.SetActive( false );
+                rightGridCamera.gameObject.SetActive( true );
             }
             else if( newState == EndlessBook.StateEnum.OpenBack )
             {
-                InitialiseBookMaterial( book.GetMaterial( EndlessBook.MaterialEnum.BookPageFront ), savedRTs.Length - 1, ( newMaterial ) =>
+                InitialiseBookMaterial( book.GetMaterial( EndlessBook.MaterialEnum.BookPageBack ), savedRTs.Length - 1, ( newMaterial ) =>
                 {
                     book.SetMaterial( EndlessBook.MaterialEnum.BookPageBack, newMaterial );
                 } );
                 leftGridCamera.targetTexture = savedRTs[savedRTs.Length - 1];
+                leftGridCamera.gameObject.SetActive( true );
+                rightGridCamera.gameObject.SetActive( false );
             }
             else if( newPage >= 1 && newPage < currentBinder.data.pageCount )
             {
@@ -108,6 +112,8 @@ public class BinderModelHandler : EventReceiverInstance
                     book.SetPageData( rightIdx, new PageData() { material = newMaterial } );
                 } );
                 rightGridCamera.targetTexture = savedRTs[rightIdx];
+                leftGridCamera.gameObject.SetActive( true );
+                rightGridCamera.gameObject.SetActive( true );
             }
 
             if( newState == EndlessBook.StateEnum.OpenMiddle && book.CurrentState == EndlessBook.StateEnum.OpenMiddle )
@@ -168,6 +174,7 @@ public class BinderModelHandler : EventReceiverInstance
 
         // set the book closed
         OnBookStateChanged( EndlessBook.StateEnum.ClosedFront, EndlessBook.StateEnum.ClosedFront, -1 );
+        book.SetPageNumber( 1 );
     }
 
     private void Hide()
@@ -187,8 +194,6 @@ public class BinderModelHandler : EventReceiverInstance
 
     private void OnBookStateChanged(EndlessBook.StateEnum fromState, EndlessBook.StateEnum toState, int pageNumber)
     {
-        Debug.LogFormat( "OnBookStateChanged, pageNumber = {0}", pageNumber );
-
         switch( toState)
         {
             case EndlessBook.StateEnum.ClosedFront:
@@ -252,15 +257,10 @@ public class BinderModelHandler : EventReceiverInstance
 
         // turn off the touch pad
         ToggleTouchPad(false);
-
-        if( !flipping )
-            Debug.LogFormat( "OnPageTurnStart, pageNumberFront = {0}, pageNumberBack = {1}", pageNumberFront, pageNumberBack );
     }
 
     private void OnPageTurnEnd( Page page, int pageNumberFront, int pageNumberBack, int pageNumberFirstVisible, int pageNumberLastVisible, Page.TurnDirectionEnum turnDirection )
     {
-        if( !flipping )
-            Debug.LogFormat( "OnPageTurnEnd, pageNumberFront = {0}, pageNumberBack = {1}", pageNumberFront, pageNumberBack );
     }
 
     private void TouchPadDragDetected(TouchPad.PageEnum page, Vector2 touchDownPosition, Vector2 currentPosition, Vector2 incrementalChange)
