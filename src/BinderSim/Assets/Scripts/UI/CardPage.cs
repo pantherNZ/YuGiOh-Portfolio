@@ -31,7 +31,7 @@ public class CardPage : EventReceiverInstance
     private BinderDataRuntime currentbinder;
     private int width;
     private int height;
-    private int currentPage = -2;
+    private int currentPage = -1;
     private int? currentModifyCardIdx;
     private bool openFullScreenSearch;
     private Image clearCardAreaImage;
@@ -120,9 +120,10 @@ public class CardPage : EventReceiverInstance
         }
         else if( e is BinderChangeCardPageRequest changePage )
         {
-            var page = currentPage == -1 ? 0
-                : Mathf.Clamp( -1, changePage.nextPage ? currentPage + 2 : currentPage - 2, currentbinder.data.pageCount + 1 );
-            ChangePage( page );
+            if( changePage.nextPage )
+                NextPage();
+            else
+                PrevPage();
         }
     }
 
@@ -146,7 +147,7 @@ public class CardPage : EventReceiverInstance
     {
         currentbinder = binder;
         UpdateHeaderInfo();
-        //ChangePage( 0 );
+        ChangePage( -1 );
     }
 
     private void UpdateHeaderInfo()
@@ -307,23 +308,20 @@ public class CardPage : EventReceiverInstance
         if( currentPage >= 0 && currentPage < currentbinder.data.pageCount - 1 )
             SetupGrid( currentPage );
 
-        // Show/hide page depending on first/last page
-        foreach( Transform child in cardsDisplayGridLeft.transform )
-            child.gameObject.SetActive( currentPage > 0 );
-        foreach( Transform child in cardsDisplayGridRight.transform )
-            child.gameObject.SetActive( currentPage < currentbinder.data.pageCount - 1 );
-
         // Show/hide next/prev buttons depending on first/last page
-        //prevPageButton.gameObject.SetActive( currentPage > 0 );
-        prevPageButton.gameObject.SetActive( false );
-        //nextPageButton.gameObject.SetActive( currentPage < currentbinder.data.pageCount - 1 );
-        nextPageButton.gameObject.SetActive( false );
+        prevPageButton.gameObject.SetActive( currentPage >= 0 );
+        var prevTooltip = prevPageButton.gameObject.transform.GetChild( 0 ).gameObject;
+        if( prevTooltip.activeSelf )
+            prevTooltip.SetActive( prevPageButton.gameObject.activeSelf );
+
+        nextPageButton.gameObject.SetActive( currentPage <= currentbinder.data.pageCount );
+        var nextTooltip = nextPageButton.gameObject.transform.GetChild( 0 ).gameObject;
+        if( nextTooltip.activeSelf )
+            nextTooltip.SetActive( nextPageButton.gameObject.activeSelf );
 
         // Show/hide first/last buttons depending on first/last page
-        //firstPageButton.gameObject.SetActive( currentPage > 0 );
-        firstPageButton.gameObject.SetActive( false );
-        //lastPageButton.gameObject.SetActive( currentPage < currentbinder.data.pageCount - 1 );
-        lastPageButton.gameObject.SetActive( false );
+        firstPageButton.gameObject.SetActive( currentPage > 0 );
+        lastPageButton.gameObject.SetActive( currentPage < currentbinder.data.pageCount );
 
         // Show/hide modify buttons depending on first/last page
         modifyPageButtonsLeft.SetActive( currentPage > 0 );
@@ -550,12 +548,14 @@ public class CardPage : EventReceiverInstance
 
     public void NextPage()
     {
-        ChangePage( currentPage + 2 );
+        var page = currentPage == -1 ? 0 : Mathf.Min( currentPage + 2, currentbinder.data.pageCount + 2 );
+        ChangePage( page );
     }
 
     public void PrevPage()
     {
-        ChangePage( currentPage - 2 );
+        var page = Mathf.Max( -1, currentPage - 2 );
+        ChangePage( page );
     }
 
     public void OpenSearchPanelGeneric()

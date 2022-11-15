@@ -71,7 +71,7 @@ public class BinderModelHandler : EventReceiverInstance
     {
         if( e is OpenCardPageEvent openCardRequest )
         {
-            currentBinder = openCardRequest.binder;
+            Show( openCardRequest.binder );
         }
         else if( e is BinderChangeCardPage cardChange )
         {
@@ -126,51 +126,32 @@ public class BinderModelHandler : EventReceiverInstance
             //currentPage = populateGrid.currentPage;
         }
 
-        if( e is PageChangeRequestEvent pageChangeRequest )
+        if( e is PageChangeRequestEvent pageChangeRequest && pageChangeRequest.page == PageType.BinderPage )
         {
-            switch( pageChangeRequest.page )
-            {
-                case PageType.BinderPage:
-                    Hide();
-                    break;
-                case PageType.CardPage:
-                    Show();
-                    break;
-            }
+            Hide();
         }
     }
 
-    private void Show()
+    private void Show( BinderDataRuntime newBinder )
     {
-        Debug.Assert( currentBinder != null );
-        binderScene.SetActive( true );
-        book.SetMaxPagesTurningCount( Mathf.Clamp( currentBinder.data.pageCount / 2, 1, 10 ) );
-        savedRTs = new RenderTexture[currentBinder.data.pageCount];
+        if( newBinder != currentBinder )
+        {
+            currentBinder = newBinder;
+            savedRTs = new RenderTexture[currentBinder.data.pageCount];
 
+            var cardCountMinusFrontBack = currentBinder.data.pageCount - 2;
+            for( int i = 0; i < cardCountMinusFrontBack; ++i )
+            {
+                var newPage = book.AddPageData();
+                newPage.material = unloadedPageMaterial;
+            }
+        }
+
+        binderScene.SetActive( true );
+
+        book.SetMaxPagesTurningCount( Mathf.Clamp( currentBinder.data.pageCount / 2, 1, 10 ) );
         book.SetMaterial( EndlessBook.MaterialEnum.BookPageFront, unloadedPageMaterial );
         book.SetMaterial( EndlessBook.MaterialEnum.BookPageBack, unloadedPageMaterial );
-
-        var cardCountMinusFrontBack = currentBinder.data.pageCount - 2;
-        for( int i = 0; i < cardCountMinusFrontBack; ++i )
-        {
-            var newPage = book.AddPageData();
-            newPage.material = unloadedPageMaterial;
-        
-            //InitialiseBookMaterial( book.GetPageData( i + 1 ).material, i + 1, ( newMaterial ) =>
-            //{
-            //    book.GetPageData( leftIdx ).material = newMaterial;
-            //} );
-        }
-        
-        // Fuck you
-        //InitialiseBookMaterial( book.GetMaterial( EndlessBook.MaterialEnum.BookPageFront ), 0, ( newMaterial ) =>
-        //{
-        //    book.SetMaterial( EndlessBook.MaterialEnum.BookPageFront, newMaterial );
-        //} );
-        //InitialiseBookMaterial( book.GetMaterial( EndlessBook.MaterialEnum.BookPageBack ), savedRTs.Length - 1, ( newMaterial ) =>
-        //{
-        //    book.SetMaterial( EndlessBook.MaterialEnum.BookPageBack, newMaterial );
-        //} );
 
         // set the book closed
         OnBookStateChanged( EndlessBook.StateEnum.ClosedFront, EndlessBook.StateEnum.ClosedFront, -1 );
@@ -179,6 +160,8 @@ public class BinderModelHandler : EventReceiverInstance
 
     private void Hide()
     {
+        book.StopTurningPages();
+        book.StopAllCoroutines();
         binderScene.SetActive( false );
     }
 
