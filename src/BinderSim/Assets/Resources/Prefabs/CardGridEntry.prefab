@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 3211222330935089167}
   - component: {fileID: 3211222330935089164}
   - component: {fileID: 2302501352340343368}
-  m_Layer: 5
+  - component: {fileID: 483427915304927735}
+  m_Layer: 7
   m_Name: CardGridEntry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +69,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: a188982da53ec80449106f737ef1cd93, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -90,3 +91,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doubleClickInterval: 0.5
   doubleClickUsePointerUp: 1
+--- !u!65 &483427915304927735
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3211222330935089154}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 219, y: 317, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

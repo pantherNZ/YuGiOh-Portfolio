@@ -1,4 +1,5 @@
-﻿public class BinderLoadedEvent : IBaseEvent { }
+﻿using UnityEngine;
+public class BinderLoadedEvent : IBaseEvent { }
 public class PageChangeRequestEvent : IBaseEvent { public PageType page; }
 public class OpenCardPageEvent : PageChangeRequestEvent 
 {
@@ -59,3 +60,10 @@ public class BinderChangeCardPage : IBaseEvent { public int newPage; }
 public class BinderChangeCardPageRequest : IBaseEvent { public bool nextPage; }
 
 public class BinderPopulateGrid : IBaseEvent { public int currentPage; }
+
+public class StartDraggingEvent : IBaseEvent
+{
+    public int page;
+    public int pos;
+    public Rect colliderBoundsScreen;
+}

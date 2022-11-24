@@ -125,6 +125,10 @@ public class CardPage : EventReceiverInstance
             else
                 PrevPage();
         }
+        else if( e is StartDraggingEvent startDragging )
+        {
+            StartDragging( startDragging );
+        }
     }
 
     private void Show( PageChangeRequestEvent pageChangeRequest )
@@ -350,8 +354,9 @@ public class CardPage : EventReceiverInstance
             foreach( var (pos, card ) in Utility.Enumerate( currentbinder.data.cardList[page] ) )
             {
                 var texture = defaultCardImage;
-                
-                if( card != null && card.cardAPIData != null )
+                var validCard = card != null && card.cardAPIData != null;
+
+                if( validCard )
                 {
                     if( card.largeImage != null )
                     {
@@ -381,40 +386,45 @@ public class CardPage : EventReceiverInstance
                     }
                 }
 
-                grid.transform.GetChild( pos ).GetComponent<Image>().sprite = Utility.CreateSprite( texture );
+                var child = grid.transform.GetChild( pos );
+                child.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
+                child.GetComponent<BoxCollider>().enabled = validCard;
             }
 
             // Setup buttons
-            for( int i = 0; i < grid.transform.childCount; ++i )
-            {
-                int pos = i;
-                var dispatcher = grid.transform.GetChild( i ).GetComponent<EventDispatcher>();
-                dispatcher.OnDoubleClickEvent = ( e ) => AppUtility.LeftMouseFilter( false, e, () => OpenSearchPanel( page, pos ) );
-                dispatcher.OnBeginDragEvent = ( e ) => AppUtility.LeftMouseFilter( false, e, () => StartDragging( page, pos ) );
-            }
+            //for( int i = 0; i < grid.transform.childCount; ++i )
+            //{
+            //    int pos = i;
+            //    var dispatcher = grid.transform.GetChild( i ).GetComponent<EventDispatcher>();
+            //    dispatcher.OnDoubleClickEvent = ( e ) => AppUtility.LeftMouseFilter( false, e, () => OpenSearchPanel( page, pos ) );
+            //    dispatcher.OnBeginDragEvent = ( e ) => AppUtility.LeftMouseFilter( false, e, () => StartDragging( page, pos ) );
+            //}
         }
     }
 
-    private void StartDragging( int page, int pos )
+    private void StartDragging( StartDraggingEvent startDraggingEvent )
     {
+        var page = startDraggingEvent.page;
+        var pos = startDraggingEvent.pos;
+
         // Can't move empty cards
         if( currentbinder.data.cardList[page][pos] == null )
-        if( currentbinder.data.cardList[page][pos] == null )
             return;
-
+        
         var grid = GetGrid( page );
         var cardToCopy = grid.transform.GetChild( pos );
         dragCardIdx = GetIndexFromPageAndPos( page, pos );
 
-        dragOffset = cardToCopy.transform.position.ToVector2() - Utility.GetMouseOrTouchPos();
+        dragOffset = startDraggingEvent.colliderBoundsScreen.center - Utility.GetMouseOrTouchPos();
 
         dragging = Instantiate( dragCardGhostPrefab, cardsPage.transform.parent );
         ( dragging.transform as RectTransform ).anchoredPosition = Utility.GetMouseOrTouchPos() + dragOffset;
         var texture = cardToCopy.GetComponent<Image>().mainTexture as Texture2D;
         dragging.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
         grid.transform.GetChild( pos ).GetComponent<Image>().sprite = Utility.CreateSprite( defaultCardImage );
-        var worldRect = ( cardToCopy.transform as RectTransform ).GetWorldRect();
-        ( dragging.transform as RectTransform ).sizeDelta = new Vector2( worldRect.width, worldRect.height );
+        //var worldRect = ( cardToCopy.transform as RectTransform ).GetWorldRect();
+        //var localRect = max - minl; ( cardToCopy.transform as RectTransform ).rect;
+        ( dragging.transform as RectTransform ).sizeDelta = startDraggingEvent.colliderBoundsScreen.size;
 
         clearCardDropLocation.SetActive( true );
     }
@@ -534,7 +544,6 @@ public class CardPage : EventReceiverInstance
     {
         // Deliberately cap at currentbinder.pageCount (not currentbinder.pageCount - 1), because we display pages in multiples of 2
         // If we are on the last page the index will be currentbinder.pageCount but the right side won't be visible/setup
-        var previousPage = currentPage;
         currentPage = page;// Mathf.Clamp( page, 0, currentbinder.data.pageCount );
         currentPageTextLeft.text = page == 0 ? string.Empty : string.Format( "Page: {0}", currentPage );
         currentPageTextRight.text = page >= currentbinder.data.pageCount ? string.Empty : string.Format( "Page: {0}", currentPage + 1 );
