@@ -4535,6 +4535,7 @@ MonoBehaviour:
   modifyPageButtonsRight: {fileID: 1352463505}
   clearCardDropLocation: {fileID: 892806248}
   clearCardAreaImageHighlightColour: {r: 0.6745283, g: 0.7258147, b: 1, a: 1}
+  binderModelHandler: {fileID: 8097019994365312258}
 --- !u!114 &273409574
 MonoBehaviour:
   m_ObjectHideFlags: 0

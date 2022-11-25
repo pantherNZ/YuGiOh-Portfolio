@@ -27,6 +27,7 @@ public class CardPage : EventReceiverInstance
     [SerializeField] GameObject modifyPageButtonsRight = null;
     [SerializeField] GameObject clearCardDropLocation = null;
     [SerializeField] Color clearCardAreaImageHighlightColour;
+    [SerializeField] BinderModelHandler binderModelHandler;
 
     private BinderDataRuntime currentbinder;
     private int width;
@@ -334,9 +335,14 @@ public class CardPage : EventReceiverInstance
         EventSystem.Instance.TriggerEvent( new BinderPopulateGrid(){ currentPage = currentPage } );
     }
 
+    private bool IsLeftPage( int page )
+    {
+        return page % 2 == 1;
+    }
+
     private AdvancedGridLayout GetGrid( int page )
     {
-        return page == currentPage ? cardsDisplayGridRight : cardsDisplayGridLeft;
+        return IsLeftPage( page ) ? cardsDisplayGridLeft : cardsDisplayGridRight;
     }
 
     private void SetupGrid( int page )
@@ -388,7 +394,6 @@ public class CardPage : EventReceiverInstance
 
                 var child = grid.transform.GetChild( pos );
                 child.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
-                child.GetComponent<BoxCollider>().enabled = validCard;
             }
 
             // Setup buttons
@@ -427,6 +432,11 @@ public class CardPage : EventReceiverInstance
         ( dragging.transform as RectTransform ).sizeDelta = startDraggingEvent.colliderBoundsScreen.size;
 
         clearCardDropLocation.SetActive( true );
+    }
+
+    private Rect GetCardScreenSpaceRect( GameObject gridCard, bool leftPage )
+    {
+        return binderModelHandler.GetCardScreenSpaceRect( gridCard, leftPage );
     }
 
     private void StopDragging()
@@ -513,11 +523,12 @@ public class CardPage : EventReceiverInstance
         if( pageFrom == pageTo && cardFrom == cardTo )
             return false;
 
-        var worldRect = ( card.transform as RectTransform ).GetWorldRect();
+        var cardRect = GetCardScreenSpaceRect( card, IsLeftPage( pageTo ) );
+        var draggingRect = ( dragging.transform as RectTransform ).GetWorldRect();
 
         // Collision check against other cards (centre within card bounds)
         // Swap cards (need to handle swap between page)
-        if( worldRect.Contains( ( dragging.transform as RectTransform ).GetWorldRect().center ) )
+        if( cardRect.Contains( draggingRect.center ) )
         {
             var originTexture = dragging.GetComponent<Image>().mainTexture as Texture2D;
             var texture = card.GetComponent<Image>().mainTexture as Texture2D;
@@ -536,7 +547,8 @@ public class CardPage : EventReceiverInstance
     {
         var grid = GetGrid( page );
         var card = grid.transform.GetChild( pos ).gameObject;
-        var rect = ( card.transform as RectTransform ).GetSceenSpaceRect();
+        var rect = GetCardScreenSpaceRect( card, IsLeftPage( page ) );
+        //var rect = ( card.transform as RectTransform ).GetSceenSpaceRect();
         return grid.isActiveAndEnabled && rect.Contains( Utility.GetMouseOrTouchPos() );
     }
 

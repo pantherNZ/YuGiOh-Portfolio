@@ -224,6 +224,7 @@ public class BinderModelHandler : EventReceiverInstance
         {
             touchDown = false;
             TouchUpDetected( leftPage, hitPositionNormalized, dragging );
+            dragging = false;
         }
     }
 
@@ -265,8 +266,6 @@ public class BinderModelHandler : EventReceiverInstance
         return false;
     }
 
-    List<Ray> rays = new List<Ray>();
-
     private Collider GetPageBounds( int idx )
     {
         var bookModel = book.standins[( int )book.CurrentState];
@@ -293,7 +292,6 @@ public class BinderModelHandler : EventReceiverInstance
 
         if( Physics.Raycast( ray, out var hit, 1000.0f, cardRaycastLayerMask ) )
         {
-            rays.Add( ray );
             var cardIdx = hit.collider.transform.GetChildIndex();
             var page = currentPage + ( leftPage ? -1 : 0 );
             Debug.Assert( cardIdx != -1 );
@@ -301,33 +299,7 @@ public class BinderModelHandler : EventReceiverInstance
             if( currentBinder.data.cardList[page][cardIdx] == null )
                 return;
 
-            // Get rect of the collider in gridCamera screen space
-            var min = gridCamera.WorldToScreenPoint( hit.collider.bounds.min );
-            var max = gridCamera.WorldToScreenPoint( hit.collider.bounds.max );
-
-            // Normalise size & offset into percentages of the grid camera
-            var minPercent = new Vector2( min.x / gridCamera.pixelWidth, min.y / gridCamera.pixelHeight );
-            var maxPercent = new Vector2( max.x / gridCamera.pixelWidth, max.y / gridCamera.pixelHeight );
-
-            // Bounds of the page
-            var colliderIdx = !leftPage && book.CurrentState == EndlessBook.StateEnum.OpenMiddle ? 1 : 0;
-            var pageBounds = GetPageBounds( colliderIdx );
-
-            // Convert to world space using the bounds of the page and the percentages from grid camera screen space
-            // This works because the page bounding volume occupies the same space that the grid camera render texture displays to on the book
-            var minWorldSpace = new Vector3(
-                Mathf.Lerp( pageBounds.bounds.min.x, pageBounds.bounds.max.x, minPercent.x ),
-                pageBounds.bounds.center.y,
-                Mathf.Lerp( pageBounds.bounds.min.z, pageBounds.bounds.max.z, minPercent.y ) );
-            var maxWorldSpace = new Vector3(
-                Mathf.Lerp( pageBounds.bounds.min.x, pageBounds.bounds.max.x, maxPercent.x ),
-                pageBounds.bounds.center.y,
-                Mathf.Lerp( pageBounds.bounds.min.z, pageBounds.bounds.max.z, maxPercent.y ) );
-
-            var mainCamera = Camera.main;
-            var minScreenSpace = mainCamera.WorldToScreenPoint( minWorldSpace );
-            var maxScreenSpace = mainCamera.WorldToScreenPoint( maxWorldSpace );
-            var colliderBoundsScreen = new Rect( minScreenSpace, maxScreenSpace - minScreenSpace );
+            var colliderBoundsScreen = GetCardScreenSpaceRect( hit.collider.gameObject, leftPage );
 
             EventSystem.Instance.TriggerEvent( new StartDraggingEvent()
             {
@@ -340,10 +312,41 @@ public class BinderModelHandler : EventReceiverInstance
         }
     }
 
-    void OnDrawGizmos()
+    public Rect GetCardScreenSpaceRect( GameObject gridCard, bool leftPage )
     {
-        foreach( var ray in rays )
-            Gizmos.DrawRay( ray.origin, ray.origin + ray.direction * 100.0f );
+        var collider = gridCard.GetComponent<BoxCollider>();
+        Debug.Assert( collider != null );
+
+        var gridCamera = leftPage ? leftGridCamera : rightGridCamera;
+
+        // Get rect of the collider in gridCamera screen space
+        var min = gridCamera.WorldToScreenPoint( collider.bounds.min );
+        var max = gridCamera.WorldToScreenPoint( collider.bounds.max );
+
+        // Normalise size & offset into percentages of the grid camera
+        var minPercent = new Vector2( min.x / gridCamera.pixelWidth, min.y / gridCamera.pixelHeight );
+        var maxPercent = new Vector2( max.x / gridCamera.pixelWidth, max.y / gridCamera.pixelHeight );
+
+        // Bounds of the page
+        var colliderIdx = !leftPage && book.CurrentState == EndlessBook.StateEnum.OpenMiddle ? 1 : 0;
+        var pageBounds = GetPageBounds( colliderIdx );
+
+        // Convert to world space using the bounds of the page and the percentages from grid camera screen space
+        // This works because the page bounding volume occupies the same space that the grid camera render texture displays to on the book
+        var minWorldSpace = new Vector3(
+            Mathf.Lerp( pageBounds.bounds.min.x, pageBounds.bounds.max.x, minPercent.x ),
+            pageBounds.bounds.center.y,
+            Mathf.Lerp( pageBounds.bounds.min.z, pageBounds.bounds.max.z, minPercent.y ) );
+        var maxWorldSpace = new Vector3(
+            Mathf.Lerp( pageBounds.bounds.min.x, pageBounds.bounds.max.x, maxPercent.x ),
+            pageBounds.bounds.center.y,
+            Mathf.Lerp( pageBounds.bounds.min.z, pageBounds.bounds.max.z, maxPercent.y ) );
+
+        var minScreenSpace = mainCamera.WorldToScreenPoint( minWorldSpace );
+        var maxScreenSpace = mainCamera.WorldToScreenPoint( maxWorldSpace );
+        var colliderBoundsScreen = new Rect( minScreenSpace, maxScreenSpace - minScreenSpace );
+
+        return colliderBoundsScreen;
     }
 
     private void OnDragDetected( bool leftPage, Vector2 hitPosition, Vector2 hitPointNormalized, Vector2 offset )
