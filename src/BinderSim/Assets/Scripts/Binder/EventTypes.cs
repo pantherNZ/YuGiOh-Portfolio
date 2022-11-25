@@ -66,4 +66,11 @@ public class StartDraggingEvent : IBaseEvent
     public int page;
     public int pos;
     public Rect colliderBoundsScreen;
+    public bool doubleClick;
+}
+
+public class CardDoubleClickEvent : IBaseEvent
+{
+    public int page;
+    public int pos;
 }

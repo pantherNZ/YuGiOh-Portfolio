@@ -14,6 +14,7 @@ public class SearchPageSmall : SearchPageBase
 
     private GameObject dragging;
     private bool leftSide = true;
+    private Coroutine showHideRoutine;
 
     protected override void Start()
     {
@@ -71,12 +72,16 @@ public class SearchPageSmall : SearchPageBase
             : "Searching Cards" );
         titleText.gameObject.SetActive( behaviour != SearchPageOrigin.MainPage );
 
-        StartCoroutine( InterpolatePosition( true ) );
+        if( showHideRoutine != null )
+            StopCoroutine( showHideRoutine );
+        showHideRoutine = StartCoroutine( InterpolatePosition( true ) );
     }
 
     protected override void HidePage()
     {
-        StartCoroutine( HidePageInternal() );
+        if( showHideRoutine != null )
+            StopCoroutine( showHideRoutine );
+        showHideRoutine = StartCoroutine( HidePageInternal() );
     }
 
     private IEnumerator HidePageInternal()
@@ -90,7 +95,7 @@ public class SearchPageSmall : SearchPageBase
         var rectTransform = searchListPanel.transform as RectTransform;
         var moveRight = leftSide == show;
         var targetX = Mathf.Abs( rectTransform.anchoredPosition.x ) * ( moveRight ? 1.0f : -1.0f );
-        var interp = Mathf.Abs( rectTransform.anchoredPosition.x * 2.0f );
+        var interp = Mathf.Abs( targetX - rectTransform.anchoredPosition.x );
 
         while( ( moveRight && rectTransform.anchoredPosition.x < targetX ) ||
                ( !moveRight && rectTransform.anchoredPosition.x > targetX ) )
@@ -158,7 +163,8 @@ public class SearchPageSmall : SearchPageBase
         {
             InputPriority.Instance.Request( () =>
             {
-                return Utility.IsMouseUpOrTouchEnd()
+                return showHideRoutine == null
+                    && Utility.IsMouseUpOrTouchEnd()
                     && !Utility.IsPointerOverGameObject( searchListPanel )
                     && searchListPage.activeInHierarchy;
     

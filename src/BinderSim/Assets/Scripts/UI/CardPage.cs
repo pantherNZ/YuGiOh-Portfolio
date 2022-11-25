@@ -130,6 +130,10 @@ public class CardPage : EventReceiverInstance
         {
             StartDragging( startDragging );
         }
+        else if( e is CardDoubleClickEvent doubleClick )
+        {
+            OpenSearchPanel( doubleClick.page, doubleClick.pos );
+        }
     }
 
     private void Show( PageChangeRequestEvent pageChangeRequest )
@@ -395,15 +399,6 @@ public class CardPage : EventReceiverInstance
                 var child = grid.transform.GetChild( pos );
                 child.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
             }
-
-            // Setup buttons
-            //for( int i = 0; i < grid.transform.childCount; ++i )
-            //{
-            //    int pos = i;
-            //    var dispatcher = grid.transform.GetChild( i ).GetComponent<EventDispatcher>();
-            //    dispatcher.OnDoubleClickEvent = ( e ) => AppUtility.LeftMouseFilter( false, e, () => OpenSearchPanel( page, pos ) );
-            //    dispatcher.OnBeginDragEvent = ( e ) => AppUtility.LeftMouseFilter( false, e, () => StartDragging( page, pos ) );
-            //}
         }
     }
 
@@ -415,6 +410,12 @@ public class CardPage : EventReceiverInstance
         // Can't move empty cards
         if( currentbinder.data.cardList[page][pos] == null )
             return;
+
+        if( startDraggingEvent.doubleClick )
+        {
+            OpenSearchPanel( page, pos );
+            return;
+        }
         
         var grid = GetGrid( page );
         var cardToCopy = grid.transform.GetChild( pos );
@@ -427,8 +428,6 @@ public class CardPage : EventReceiverInstance
         var texture = cardToCopy.GetComponent<Image>().mainTexture as Texture2D;
         dragging.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
         grid.transform.GetChild( pos ).GetComponent<Image>().sprite = Utility.CreateSprite( defaultCardImage );
-        //var worldRect = ( cardToCopy.transform as RectTransform ).GetWorldRect();
-        //var localRect = max - minl; ( cardToCopy.transform as RectTransform ).rect;
         ( dragging.transform as RectTransform ).sizeDelta = startDraggingEvent.colliderBoundsScreen.size;
 
         clearCardDropLocation.SetActive( true );

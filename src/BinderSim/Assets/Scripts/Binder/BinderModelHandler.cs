@@ -36,6 +36,9 @@ public class BinderModelHandler : EventReceiverInstance
     [SerializeField] LayerMask bookRaycastLayerMask;
     [SerializeField] LayerMask cardRaycastLayerMask;
 
+    private float doubleClickTimer = 0.0f;
+    [SerializeField] float doubleClickInterval = 0.5f;
+
     private EndlessBook book;
     private BinderDataRuntime currentBinder;
     private bool audioOn = false;
@@ -208,11 +211,12 @@ public class BinderModelHandler : EventReceiverInstance
         {
             var offset = hitPosition - lastDragPosition;
 
-            const float dragThreshold = 0.007f;
+            const float dragThreshold = 0.004f;
             if( offset.magnitude >= dragThreshold )
             {
+                bool startedDragging = !dragging;
                 dragging = true;
-                OnDragDetected( leftPage, hitPosition, hitPositionNormalized, offset );
+                OnDragDetected( leftPage, hitPosition, hitPositionNormalized, offset, startedDragging );
                 lastDragPosition = hitPosition;
             }
         }
@@ -275,42 +279,6 @@ public class BinderModelHandler : EventReceiverInstance
         return pageBounds;
     }
 
-    // Handle clicking on cards (and dragging)
-    private void TouchDownDetected( bool leftPage, Vector2 hitPointNormalized )
-    {
-        if( book.IsTurningPages || 
-            book.CurrentState == EndlessBook.StateEnum.ClosedFront ||
-            book.CurrentState == EndlessBook.StateEnum.ClosedBack )
-            return;
-
-        var gridCamera = leftPage ? leftGridCamera : rightGridCamera;
-        var screenPoint = new Vector3(
-            gridCamera.pixelWidth * hitPointNormalized.x,
-            gridCamera.pixelHeight * hitPointNormalized.y,
-            0.0f );
-        Ray ray = gridCamera.ScreenPointToRay( screenPoint );
-
-        if( Physics.Raycast( ray, out var hit, 1000.0f, cardRaycastLayerMask ) )
-        {
-            var cardIdx = hit.collider.transform.GetChildIndex();
-            var page = currentPage + ( leftPage ? -1 : 0 );
-            Debug.Assert( cardIdx != -1 );
-
-            if( currentBinder.data.cardList[page][cardIdx] == null )
-                return;
-
-            var colliderBoundsScreen = GetCardScreenSpaceRect( hit.collider.gameObject, leftPage );
-
-            EventSystem.Instance.TriggerEvent( new StartDraggingEvent()
-            {
-                page = page,
-                pos = cardIdx,
-                colliderBoundsScreen = colliderBoundsScreen,
-            } );
-
-            cardClickedOn = true;
-        }
-    }
 
     public Rect GetCardScreenSpaceRect( GameObject gridCard, bool leftPage )
     {
@@ -349,12 +317,75 @@ public class BinderModelHandler : EventReceiverInstance
         return colliderBoundsScreen;
     }
 
-    private void OnDragDetected( bool leftPage, Vector2 hitPosition, Vector2 hitPointNormalized, Vector2 offset )
+    private void TestCardInteraction( bool leftPage, Vector2 hitPointNormalized, Action<Collider, int, int> action )
     {
+        if( book.IsTurningPages ||
+            book.CurrentState == EndlessBook.StateEnum.ClosedFront ||
+            book.CurrentState == EndlessBook.StateEnum.ClosedBack )
+            return;
 
+        var gridCamera = leftPage ? leftGridCamera : rightGridCamera;
+        var screenPoint = new Vector3(
+            gridCamera.pixelWidth * hitPointNormalized.x,
+            gridCamera.pixelHeight * hitPointNormalized.y,
+            0.0f );
+        Ray ray = gridCamera.ScreenPointToRay( screenPoint );
+
+        if( Physics.Raycast( ray, out var hit, 1000.0f, cardRaycastLayerMask ) )
+        {
+            var cardIdx = hit.collider.transform.GetChildIndex();
+            var page = currentPage + ( leftPage ? -1 : 0 );
+            Debug.Assert( cardIdx != -1 );
+            action( hit.collider, page, cardIdx );
+        }
     }
 
-    // Change page handling
+    // Handle double clicking on cards
+    private void TouchDownDetected( bool leftPage, Vector2 hitPointNormalized )
+    {
+        TestCardInteraction( leftPage, hitPointNormalized, ( collider, page, cardIdx ) =>
+        {
+            cardClickedOn = currentBinder.data.cardList[page][cardIdx] != null;
+
+            if( !dragging && Time.time - doubleClickTimer <= doubleClickInterval )
+            {
+                EventSystem.Instance.TriggerEvent( new CardDoubleClickEvent()
+                {
+                    page = page,
+                    pos = cardIdx,
+                } );
+                doubleClickTimer = 0.0f;
+            }
+            else
+            {
+                doubleClickTimer = Time.time;
+            }
+        } );
+    }
+
+    // Dragging cards around
+    private void OnDragDetected( bool leftPage, Vector2 hitPosition, Vector2 hitPointNormalized, Vector2 offset, bool startedDragging )
+    {
+        if( !startedDragging )
+            return;
+
+        TestCardInteraction( leftPage, hitPointNormalized, ( collider, page, cardIdx ) =>
+        {
+            if( currentBinder.data.cardList[page][cardIdx] == null )
+                return;
+
+            var colliderBoundsScreen = GetCardScreenSpaceRect( collider.gameObject, leftPage );
+
+            EventSystem.Instance.TriggerEvent( new StartDraggingEvent()
+            {
+                page = page,
+                pos = cardIdx,
+                colliderBoundsScreen = colliderBoundsScreen,
+            } );
+        } );
+    }
+
+    // Change page handling (mouse up, if no card clicked on)
     private void TouchUpDetected( bool leftPage, Vector2 hitPointNormalized, bool dragging )
     {
         if( !cardClickedOn )
