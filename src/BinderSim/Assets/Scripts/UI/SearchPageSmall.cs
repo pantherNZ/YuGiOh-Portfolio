@@ -107,6 +107,7 @@ public class SearchPageSmall : SearchPageBase
         }
 
         rectTransform.anchoredPosition = rectTransform.anchoredPosition.SetX( targetX );
+        showHideRoutine = null;
     }
 
     public void SwitchSides( RectTransform button )

@@ -253,7 +253,7 @@ public class BinderModelHandler : EventReceiverInstance
             // determine which page was hit
             leftPage = book.CurrentState == EndlessBook.StateEnum.OpenBack ||
                 book.CurrentState == EndlessBook.StateEnum.ClosedBack ||
-                ( book.CurrentState == EndlessBook.StateEnum.OpenMiddle && hit.collider == colliders[0] );
+                ( colliders.Length > 1 && hit.collider == colliders[0] );
             var pageBound = hit.collider == colliders[0] ? colliders[0] : colliders[1];
 
             // set the hit position using the x and z axis
@@ -321,7 +321,9 @@ public class BinderModelHandler : EventReceiverInstance
     {
         if( book.IsTurningPages ||
             book.CurrentState == EndlessBook.StateEnum.ClosedFront ||
-            book.CurrentState == EndlessBook.StateEnum.ClosedBack )
+            book.CurrentState == EndlessBook.StateEnum.ClosedBack ||
+            ( book.CurrentState == EndlessBook.StateEnum.OpenFront && leftPage ) ||
+            ( book.CurrentState == EndlessBook.StateEnum.OpenBack && !leftPage ) )
             return;
 
         var gridCamera = leftPage ? leftGridCamera : rightGridCamera;

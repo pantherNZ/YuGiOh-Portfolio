@@ -32114,6 +32114,7 @@ GameObject:
   - component: {fileID: 8097019994103302756}
   - component: {fileID: 8097019994103302757}
   - component: {fileID: 8097019994103302758}
+  - component: {fileID: 8097019994103302761}
   - component: {fileID: 8097019994103302760}
   m_Layer: 0
   m_Name: BookStandinOpenFront
@@ -32135,6 +32136,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.315, y: 0.01, z: 0.392}
   m_Center: {x: -0.1915, y: 0.06, z: 0}
+--- !u!65 &8097019994103302761
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8097019994103302759}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.33, y: 0.01, z: 0.392}
+  m_Center: {x: 0.135, y: 0.06, z: 0}
 --- !u!114 &8097019994126458381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32384,6 +32398,7 @@ GameObject:
   - component: {fileID: 8097019994167695349}
   - component: {fileID: 8097019994167695350}
   - component: {fileID: 8097019994167695352}
+  - component: {fileID: 8097019994167695353}
   m_Layer: 0
   m_Name: BookStandinOpenBack
   m_TagString: Untagged
@@ -32404,6 +32419,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.315, y: 0.01, z: 0.392}
   m_Center: {x: 0.1915, y: 0.06, z: 0}
+--- !u!65 &8097019994167695353
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8097019994167695351}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.33, y: 0.01, z: 0.392}
+  m_Center: {x: -0.135, y: 0.06, z: 0}
 --- !u!1 &8097019994168150532
 GameObject:
   m_ObjectHideFlags: 0
@@ -32854,6 +32882,7 @@ MonoBehaviour:
   cardRaycastLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  doubleClickInterval: 0.5
 --- !u!4 &8097019994365312263
 Transform:
   m_ObjectHideFlags: 0
