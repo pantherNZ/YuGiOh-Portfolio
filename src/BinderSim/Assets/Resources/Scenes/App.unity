@@ -342,7 +342,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 28736
+    m_Bits: 29248
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 901ac4e8c150bd34e850c01128c11a52, type: 2}
   m_TargetDisplay: 0
@@ -7758,7 +7758,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 28736
+    m_Bits: 29248
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 901ac4e8c150bd34e850c01128c11a52, type: 2}
   m_TargetDisplay: 0
@@ -8224,7 +8224,7 @@ GameObject:
   - component: {fileID: 546913039}
   - component: {fileID: 546913042}
   - component: {fileID: 546913041}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BookStandinOpenMiddle_High
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21037,6 +21037,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1676813660}
   m_CullTransparentMesh: 1
+--- !u!1 &1685289313
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1685289314}
+  - component: {fileID: 1685289315}
+  m_Layer: 8
+  m_Name: BookCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1685289314
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685289313}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8097019994365312263}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1685289315
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685289313}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.715, y: 0.01, z: 0.4}
+  m_Center: {x: 0, y: 0.06, z: 0}
 --- !u!1 &1705685954
 GameObject:
   m_ObjectHideFlags: 0
@@ -29732,7 +29776,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 32801
+    m_Bits: 32929
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -30789,7 +30833,7 @@ GameObject:
   - component: {fileID: 8097019993108512049}
   - component: {fileID: 8097019993108512050}
   - component: {fileID: 8097019993108512052}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BookStandinClosedFront
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32116,7 +32160,7 @@ GameObject:
   - component: {fileID: 8097019994103302758}
   - component: {fileID: 8097019994103302761}
   - component: {fileID: 8097019994103302760}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BookStandinOpenFront
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32269,7 +32313,7 @@ GameObject:
   - component: {fileID: 8097019994160671987}
   - component: {fileID: 8097019994160671996}
   - component: {fileID: 8097019994160671998}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BookStandinClosedBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32399,7 +32443,7 @@ GameObject:
   - component: {fileID: 8097019994167695350}
   - component: {fileID: 8097019994167695352}
   - component: {fileID: 8097019994167695353}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BookStandinOpenBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32876,13 +32920,18 @@ MonoBehaviour:
   renderTextureBase: {fileID: 8400000, guid: 901ac4e8c150bd34e850c01128c11a52, type: 2}
   leftGridCamera: {fileID: 519420031}
   rightGridCamera: {fileID: 17785175}
-  bookRaycastLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
-  cardRaycastLayerMask:
+  pageRaycastLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  cardRaycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
+  bookRaycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  fullBookCollider: {fileID: 1685289315}
   doubleClickInterval: 0.5
+  turnStopSpeed: 1
 --- !u!4 &8097019994365312263
 Transform:
   m_ObjectHideFlags: 0
@@ -32898,6 +32947,7 @@ Transform:
   - {fileID: 8097019993148300482}
   - {fileID: 8097019993907468087}
   - {fileID: 8097019992408205952}
+  - {fileID: 1685289314}
   m_Father: {fileID: 5666772744583684927}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

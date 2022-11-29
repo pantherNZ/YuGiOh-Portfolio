@@ -33,11 +33,14 @@ public class BinderModelHandler : EventReceiverInstance
     [SerializeField] RenderTexture renderTextureBase = null;
     [SerializeField] Camera leftGridCamera = null;
     [SerializeField] Camera rightGridCamera = null;
-    [SerializeField] LayerMask bookRaycastLayerMask;
+    [SerializeField] LayerMask pageRaycastLayerMask;
     [SerializeField] LayerMask cardRaycastLayerMask;
+    [SerializeField] LayerMask bookRaycastLayerMask;
+    [SerializeField] BoxCollider fullBookCollider;
 
     private float doubleClickTimer = 0.0f;
     [SerializeField] float doubleClickInterval = 0.5f;
+    [SerializeField] float turnStopSpeed = 1.0f;
 
     private EndlessBook book;
     private BinderDataRuntime currentBinder;
@@ -50,6 +53,7 @@ public class BinderModelHandler : EventReceiverInstance
     private bool cardClickedOn;
     private bool touchDown;
     private bool dragging;
+    private bool isPageDragMouseDown;
     Vector2 lastDragPosition;
 
     protected override void Start()
@@ -243,7 +247,7 @@ public class BinderModelHandler : EventReceiverInstance
         Ray ray = mainCamera.ScreenPointToRay( mousePosition );
 
         // cast the ray against the collider mask
-        if( Physics.Raycast( ray, out var hit, 1000, bookRaycastLayerMask ) )
+        if( Physics.Raycast( ray, out var hit, 1000, pageRaycastLayerMask ) )
         {
             // hit
             var bookModel = book.standins[( int )book.CurrentState];
@@ -270,15 +274,15 @@ public class BinderModelHandler : EventReceiverInstance
         return false;
     }
 
-    private Collider GetPageBounds( int idx )
+    private Collider GetPageBounds( bool leftPage )
     {
         var bookModel = book.standins[( int )book.CurrentState];
         var colliders = bookModel.GetComponents<BoxCollider>();
+        var idx = !leftPage && colliders.Length > 1 ? 1 : 0;
         var pageBounds = colliders[Mathf.Min( idx, colliders.Length - 1 )];
         Debug.Assert( pageBounds.gameObject.activeSelf );
         return pageBounds;
     }
-
 
     public Rect GetCardScreenSpaceRect( GameObject gridCard, bool leftPage )
     {
@@ -296,8 +300,7 @@ public class BinderModelHandler : EventReceiverInstance
         var maxPercent = new Vector2( max.x / gridCamera.pixelWidth, max.y / gridCamera.pixelHeight );
 
         // Bounds of the page
-        var colliderIdx = !leftPage && book.CurrentState == EndlessBook.StateEnum.OpenMiddle ? 1 : 0;
-        var pageBounds = GetPageBounds( colliderIdx );
+        var pageBounds = GetPageBounds( leftPage );
 
         // Convert to world space using the bounds of the page and the percentages from grid camera screen space
         // This works because the page bounding volume occupies the same space that the grid camera render texture displays to on the book
@@ -347,7 +350,7 @@ public class BinderModelHandler : EventReceiverInstance
     {
         TestCardInteraction( leftPage, hitPointNormalized, ( collider, page, cardIdx ) =>
         {
-            cardClickedOn = currentBinder.data.cardList[page][cardIdx] != null;
+            cardClickedOn = true;
 
             if( !dragging && Time.time - doubleClickTimer <= doubleClickInterval )
             {
@@ -365,34 +368,99 @@ public class BinderModelHandler : EventReceiverInstance
         } );
     }
 
-    // Dragging cards around
+    // Dragging cards around or dragging page manually
     private void OnDragDetected( bool leftPage, Vector2 hitPosition, Vector2 hitPointNormalized, Vector2 offset, bool startedDragging )
     {
-        if( !startedDragging )
-            return;
-
-        TestCardInteraction( leftPage, hitPointNormalized, ( collider, page, cardIdx ) =>
+        // First dragging
+        if( startedDragging )
         {
-            if( currentBinder.data.cardList[page][cardIdx] == null )
-                return;
+            bool draggingCard = false;
 
-            var colliderBoundsScreen = GetCardScreenSpaceRect( collider.gameObject, leftPage );
-
-            EventSystem.Instance.TriggerEvent( new StartDraggingEvent()
+            // Check card drag
+            TestCardInteraction( leftPage, hitPointNormalized, ( collider, page, cardIdx ) =>
             {
-                page = page,
-                pos = cardIdx,
-                colliderBoundsScreen = colliderBoundsScreen,
+                if( currentBinder.data.cardList[page][cardIdx] == null )
+                    return;
+
+                var colliderBoundsScreen = GetCardScreenSpaceRect( collider.gameObject, leftPage );
+                draggingCard = true;
+
+                EventSystem.Instance.TriggerEvent( new StartDraggingEvent()
+                {
+                    page = page,
+                    pos = cardIdx,
+                    colliderBoundsScreen = colliderBoundsScreen,
+                } );
             } );
-        } );
+
+            // Otherwise check page drag
+            if( !draggingCard )
+            {
+                if( book.IsTurningPages || book.IsDraggingPage || UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() )
+                {
+                    // exit if already turning
+                    return;
+                }
+
+                var normalizedTime = GetNormalizedTime();
+                var direction = leftPage ? Page.TurnDirectionEnum.TurnBackward : Page.TurnDirectionEnum.TurnForward;
+                book.TurnPageDragStart( direction );
+                isPageDragMouseDown = true;
+            }
+        }
+        // Continue dragging
+        else if( !book.IsTurningPages && book.IsDraggingPage && isPageDragMouseDown )
+        {
+            // get the normalized time based on the mouse position
+            var normalizedTime = GetNormalizedTime();
+
+            // tell the book to move the manual page drag to the normalized time
+            book.TurnPageDrag( normalizedTime );
+        }
+    }
+
+    private float GetNormalizedTime()
+    {
+        // get the ray from the camera to the screen
+        var ray = mainCamera.ScreenPointToRay( Input.mousePosition );
+
+        // cast a ray and see where it hits
+        if( Physics.Raycast( ray, out var hit, bookRaycastLayerMask ) )
+        {
+            // return the position of the ray cast in terms of the normalized position of the collider box
+            return ( hit.point.x - fullBookCollider.bounds.min.x ) / fullBookCollider.bounds.size.x;
+        }
+
+        // if we didn't hit the collider, then check to see if we are on the
+        // left or right side of the screen and calculate the normalized time appropriately
+        var viewportPoint = mainCamera.ScreenToViewportPoint( Input.mousePosition );
+        return ( viewportPoint.x >= 0.5f ) ? 1 : 0;
     }
 
     // Change page handling (mouse up, if no card clicked on)
     private void TouchUpDetected( bool leftPage, Vector2 hitPointNormalized, bool dragging )
     {
-        if( !cardClickedOn )
-            EventSystem.Instance.TriggerEvent( new BinderChangeCardPageRequest() { nextPage = !leftPage } );
-        cardClickedOn = false;
+        // Page drag release
+        if( isPageDragMouseDown )
+        {
+            isPageDragMouseDown = false;
+
+            if( book.IsTurningPages || !book.IsDraggingPage || UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() )
+            {
+                // if not turning then exit
+                return;
+            }
+            
+            // tell the book to stop manual turning.
+            book.TurnPageDragStop( turnStopSpeed, null, book.TurnPageDragNormalizedTime < 0.5f );
+        }
+        // Not dragging card? Then it's a single click so we turn the page
+        else
+        {
+            if( !cardClickedOn )
+                EventSystem.Instance.TriggerEvent( new BinderChangeCardPageRequest() { nextPage = !leftPage } );
+            cardClickedOn = false;
+        }
     }
 
     private void OnBookStateChanged(EndlessBook.StateEnum fromState, EndlessBook.StateEnum toState, int pageNumber)
@@ -422,8 +490,6 @@ public class BinderModelHandler : EventReceiverInstance
                 bookOpenSound.Play();
                 break;
         }
-
-        ToggleTouchPad(true);
     }
 
     private Pair<EndlessBook.StateEnum, int> ToEndlessBookPageData( int page )
@@ -443,13 +509,6 @@ public class BinderModelHandler : EventReceiverInstance
         return new Pair<EndlessBook.StateEnum, int>( EndlessBook.StateEnum.OpenMiddle, page - 1 );
     }
 
-
-    private void ToggleTouchPad(bool on)
-    {
-        //touchPad.Toggle(TouchPad.PageEnum.Left, on && book.CurrentState != EndlessBook.StateEnum.ClosedFront);
-        //touchPad.Toggle(TouchPad.PageEnum.Right, on && book.CurrentState != EndlessBook.StateEnum.ClosedBack);
-    }
-
     private void OnPageTurnStart(Page page, int pageNumberFront, int pageNumberBack, int pageNumberFirstVisible, int pageNumberLastVisible, Page.TurnDirectionEnum turnDirection)
     {
         // play page turn sound if not flipping through multiple pages
@@ -457,9 +516,6 @@ public class BinderModelHandler : EventReceiverInstance
         {
             pageTurnSound.Play();
         }
-
-        // turn off the touch pad
-        ToggleTouchPad(false);
     }
 
     private void OnPageTurnEnd( Page page, int pageNumberFront, int pageNumberBack, int pageNumberFirstVisible, int pageNumberLastVisible, Page.TurnDirectionEnum turnDirection )
@@ -484,10 +540,6 @@ public class BinderModelHandler : EventReceiverInstance
 
     private void SetState(EndlessBook.StateEnum state)
     {
-        // turn of the touch pad
-        ToggleTouchPad(false);
-
-        // set the state
         book.SetState(state, openCloseTime, OnBookStateChanged);
     }
 

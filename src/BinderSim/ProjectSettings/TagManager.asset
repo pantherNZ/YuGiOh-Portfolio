@@ -12,9 +12,9 @@ TagManager:
   - Water
   - UI
   - Top
-  - Colliders
-  - 
-  - 
+  - PageCollider
+  - BookCollider
+  - CardCollider
   - 
   - 
   - 
