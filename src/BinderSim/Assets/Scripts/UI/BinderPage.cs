@@ -228,7 +228,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
             binderActionButtons.SetActive( true );
             var btnRect = ( references.optionsButton.transform as RectTransform );
             var panelRect = ( binderActionButtons.transform as RectTransform );
-            panelRect.anchoredPosition = btnRect.GetWorldRect().center - new Vector2( panelRect.rect.width, btnRect.rect.height );
+            panelRect.anchoredPosition = btnRect.GetWorldRect().center - new Vector2( panelRect.rect.width, btnRect.rect.height / 2.0f );
         } );
 
         binder.index = binderData.Count - 1;
