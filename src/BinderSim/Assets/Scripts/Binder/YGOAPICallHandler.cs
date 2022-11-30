@@ -94,39 +94,49 @@ class APICallHandler
 #pragma warning restore 0649
     }
 
-    public IEnumerator SendURLShortenerRequest( string url, Action<string> successCallback = null, Action<string> failedCallback = null )
-    {
-        var address = "http://oddreflex.pythonanywhere.com/";
+    public static string URLShortenerAddress = "https://oddreflex.pythonanywhere.com/";
 
+    public IEnumerator SendURLShortenerRequest( string url, bool generate = true, Action<string> successCallback = null, Action<string> failedCallback = null )
+    {
         if( cachedRequests.TryGetValue( url, out string data ) )
         {
             successCallback?.Invoke( data );
             yield break;
         }
 
-        WWWForm form = new WWWForm();
-        form.AddField( "url", url );
+        UnityWebRequest webRequest;
 
-        using( UnityWebRequest webRequest = UnityWebRequest.Post( address, form ) )
+        if( generate )
         {
-            cachedRequests[url] = string.Empty;
+            WWWForm form = new WWWForm();
+            form.AddField( "url", url );
+            url = URLShortenerAddress;
+            webRequest = UnityWebRequest.Post( url, form );
+        }
+        else
+        {
+            webRequest = UnityWebRequest.Get( url );
+        }
 
-            // Request and wait for the desired page.
-            yield return webRequest.SendWebRequest();
+        cachedRequests[url] = string.Empty;
 
-            switch( webRequest.result )
-            {
-                case UnityWebRequest.Result.ConnectionError:
-                case UnityWebRequest.Result.DataProcessingError:
-                    Debug.LogError( address + ": Error: " + webRequest.error );
-                    break;
-                case UnityWebRequest.Result.ProtocolError:
-                case UnityWebRequest.Result.Success:
-                    var result = JsonConvert.DeserializeObject<URLShortenerResult>( webRequest.downloadHandler.text );
-                    cachedRequests[url] = result.url;
-                    successCallback?.Invoke( result.url );
-                    break;
-            }
+        // Request and wait for the desired page.
+        yield return webRequest.SendWebRequest();
+
+        switch( webRequest.result )
+        {
+            case UnityWebRequest.Result.ConnectionError:
+            case UnityWebRequest.Result.DataProcessingError:
+                Debug.LogError( url + ": Error: " + webRequest.error );
+                break;
+            case UnityWebRequest.Result.ProtocolError:
+            case UnityWebRequest.Result.Success:
+                var result = generate ?
+                    JsonConvert.DeserializeObject<URLShortenerResult>( webRequest.downloadHandler.text ).url :
+                    Uri.UnescapeDataString( webRequest.uri.AbsoluteUri );
+                cachedRequests[url] = result;
+                successCallback?.Invoke( result );
+                break;
         }
     }
 

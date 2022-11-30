@@ -913,7 +913,28 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
         var url = "panthernz.github.io/YuGiOh-Portfolio/?binder=";
         if( key.Contains( url ) )
+        {
             key = key.Substring( key.IndexOf( url ) + url.Length );
+        }
+        else if( key.StartsWith( APICallHandler.URLShortenerAddress ) )
+        {
+            StartCoroutine( APICallHandler.Instance.SendURLShortenerRequest( key, false,
+                // Success
+                ( data ) =>
+                {
+                    data = data.Substring( data.IndexOf( url ) + url.Length );
+                    ImportFromStringInternal( data, null );
+                    importButton.interactable = true;
+                },
+                // Failed
+                ( error ) =>
+                {
+                    // Handle error?
+                    importButton.interactable = true;
+                } ) );
+
+            return;
+        }
 
         ImportFromStringInternal( text.text, null );
     }
@@ -958,7 +979,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
         var url = "https://panthernz.github.io/YuGiOh-Portfolio/?binder=" + StringHelper.GetStringFromBytes( bytes );
 
-        StartCoroutine( APICallHandler.Instance.SendURLShortenerRequest( url, 
+        StartCoroutine( APICallHandler.Instance.SendURLShortenerRequest( url, true,
             // Success
             ( data ) =>
             {
