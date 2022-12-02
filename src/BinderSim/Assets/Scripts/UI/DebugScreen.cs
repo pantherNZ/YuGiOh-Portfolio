@@ -25,7 +25,13 @@ public class DebugScreen : MonoBehaviour
 #endif
     }
 
-    public void AddDebugEntry( Func<string> setFunc )
+    public static void AddDebugEntry( Func<string> setFunc )
+    {
+        if( Instance != null )
+            Instance.AddDebugEntryInternal( setFunc );
+    }
+
+    private void AddDebugEntryInternal( Func<string> setFunc )
     {
         entries.Add( setFunc );
         Update();

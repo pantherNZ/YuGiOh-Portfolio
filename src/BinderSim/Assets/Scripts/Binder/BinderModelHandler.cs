@@ -72,6 +72,10 @@ public class BinderModelHandler : EventReceiverInstance
         audioOn = true;
 
         mainCamera = Camera.main;
+
+        DebugScreen.AddDebugEntry( () => String.Format( "Book pages (left,#,right): {0}, {1}, {2}",
+            book.CurrentLeftPageNumber, book.CurrentPageNumber, book.CurrentRightPageNumber ) );
+        DebugScreen.AddDebugEntry( () => String.Format( "Book CurrentState: {0}", book.CurrentState ) );
     }
 
     private void InitialiseBookMaterial( Material mat, int renderTextureIdx, Action<Material> setMatFunc )

@@ -68,7 +68,8 @@ public class CardPage : EventReceiverInstance
             UpdateButtons();
         };
 
-        DebugScreen.Instance.AddDebugEntry( () => String.Format( "pageTurning: {0}", pageTurning ) );
+        DebugScreen.AddDebugEntry( () => String.Format( "pageTurning: {0}", pageTurning ) );
+        DebugScreen.AddDebugEntry( () => String.Format( "currentPage: {0}", currentPage ) );
     }
 
     public void SaveAndExit()
