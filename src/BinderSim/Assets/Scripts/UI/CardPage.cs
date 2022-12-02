@@ -333,8 +333,8 @@ public class CardPage : EventReceiverInstance
         lastPageButton.gameObject.SetActive( currentPage < currentbinder.data.pageCount );
 
         // Show/hide modify buttons depending on first/last page
-        modifyPageButtonsLeft.SetActive( currentPage > 0 );
-        modifyPageButtonsRight.SetActive( currentPage < currentbinder.data.pageCount - 1 );
+        modifyPageButtonsLeft.SetActive( currentPage > 0 && currentPage < currentbinder.data.pageCount );
+        modifyPageButtonsRight.SetActive( currentPage >= 0 && currentPage < currentbinder.data.pageCount - 1 );
 
         EventSystem.Instance.TriggerEvent( new BinderPopulateGrid(){ currentPage = currentPage } );
     }
