@@ -58,6 +58,8 @@ public class BinderModelHandler : EventReceiverInstance
     private bool isPageDragMouseDown;
     Vector2 lastDragPosition;
 
+    public event Action<EndlessBook.StateEnum, EndlessBook.StateEnum, int> onBookStateChanged;
+
     protected override void Start()
     {
         base.Start();
@@ -91,57 +93,17 @@ public class BinderModelHandler : EventReceiverInstance
         }
         else if( e is BinderChangeCardPage cardChange )
         {
-            var( newState, newPage ) = ToEndlessBookPageData( cardChange.newPage );
-
-            if( newState == EndlessBook.StateEnum.OpenFront )
-            {
-                InitialiseBookMaterial( book.GetMaterial( EndlessBook.MaterialEnum.BookPageFront ), 0, ( newMaterial ) =>
-                {
-                    book.SetMaterial( EndlessBook.MaterialEnum.BookPageFront, newMaterial );
-                } );
-                rightGridCamera.targetTexture = savedRTs[0];
-                leftGridCamera.gameObject.SetActive( false );
-                rightGridCamera.gameObject.SetActive( true );
-            }
-            else if( newState == EndlessBook.StateEnum.OpenBack )
-            {
-                InitialiseBookMaterial( book.GetMaterial( EndlessBook.MaterialEnum.BookPageBack ), savedRTs.Length - 1, ( newMaterial ) =>
-                {
-                    book.SetMaterial( EndlessBook.MaterialEnum.BookPageBack, newMaterial );
-                } );
-                leftGridCamera.targetTexture = savedRTs[savedRTs.Length - 1];
-                leftGridCamera.gameObject.SetActive( true );
-                rightGridCamera.gameObject.SetActive( false );
-            }
-            else if( newPage >= 1 && newPage < currentBinder.data.pageCount )
-            {
-                var leftIdx = newPage;
-                InitialiseBookMaterial( book.GetPageData( leftIdx ).material, leftIdx, ( newMaterial ) =>
-                {
-                    book.SetPageData( leftIdx, new PageData() { material = newMaterial } );
-                } );
-                leftGridCamera.targetTexture = savedRTs[leftIdx];
-
-                var rightIdx = newPage + 1;
-                InitialiseBookMaterial( book.GetPageData( rightIdx ).material, rightIdx, ( newMaterial ) =>
-                {
-                    book.SetPageData( rightIdx, new PageData() { material = newMaterial } );
-                } );
-                rightGridCamera.targetTexture = savedRTs[rightIdx];
-                leftGridCamera.gameObject.SetActive( true );
-                rightGridCamera.gameObject.SetActive( true );
-            }
-
-            if( newState == EndlessBook.StateEnum.OpenMiddle && book.CurrentState == EndlessBook.StateEnum.OpenMiddle )
-                TurnToPage( newPage );
-            else
-                SetState( newState );
-
-            currentPage = cardChange.newPage;
+            //currentPage = cardChange.newPage;
+            //Repopulate();           
+        }
+        else if( e is BinderDataUpdateEvent update )
+        {
+            Reinitialise();
         }
         else if( e is BinderPopulateGrid populateGrid )
         {
-            //currentPage = populateGrid.currentPage;
+            currentPage = populateGrid.currentPage;
+            Repopulate();
         }
 
         if( e is PageChangeRequestEvent pageChangeRequest && pageChangeRequest.page == PageType.BinderPage )
@@ -158,14 +120,7 @@ public class BinderModelHandler : EventReceiverInstance
         if( newBinder != currentBinder )
         {
             currentBinder = newBinder;
-            savedRTs = new RenderTexture[currentBinder.data.pageCount];
-
-            var cardCountMinusFrontBack = currentBinder.data.pageCount - 2;
-            for( int i = 0; i < cardCountMinusFrontBack; ++i )
-            {
-                var newPage = book.AddPageData();
-                newPage.material = unloadedPageMaterial;
-            }
+            Reinitialise();
         }
 
         book.SetMaxPagesTurningCount( Mathf.Clamp( currentBinder.data.pageCount / 2, 1, 10 ) );
@@ -176,6 +131,69 @@ public class BinderModelHandler : EventReceiverInstance
         OnBookStateChanged( EndlessBook.StateEnum.ClosedFront, EndlessBook.StateEnum.ClosedFront, -1 );
         book.SetPageNumber( 1 );
 
+    }
+    private void Repopulate()
+    {
+        var (newState, newPage) = ToEndlessBookPageData( currentPage );
+
+        if( newState == EndlessBook.StateEnum.OpenFront )
+        {
+            InitialiseBookMaterial( book.GetMaterial( EndlessBook.MaterialEnum.BookPageFront ), 0, ( newMaterial ) =>
+            {
+                book.SetMaterial( EndlessBook.MaterialEnum.BookPageFront, newMaterial );
+            } );
+            rightGridCamera.targetTexture = savedRTs[0];
+            leftGridCamera.gameObject.SetActive( false );
+            rightGridCamera.gameObject.SetActive( true );
+        }
+        else if( newState == EndlessBook.StateEnum.OpenBack )
+        {
+            InitialiseBookMaterial( book.GetMaterial( EndlessBook.MaterialEnum.BookPageBack ), savedRTs.Length - 1, ( newMaterial ) =>
+            {
+                book.SetMaterial( EndlessBook.MaterialEnum.BookPageBack, newMaterial );
+            } );
+            leftGridCamera.targetTexture = savedRTs[savedRTs.Length - 1];
+            leftGridCamera.gameObject.SetActive( true );
+            rightGridCamera.gameObject.SetActive( false );
+        }
+        else if( newPage >= 1 && newPage < currentBinder.data.pageCount )
+        {
+            var leftIdx = newPage;
+            InitialiseBookMaterial( book.GetPageData( leftIdx ).material, leftIdx, ( newMaterial ) =>
+            {
+                book.SetPageData( leftIdx, new PageData() { material = newMaterial } );
+            } );
+            leftGridCamera.targetTexture = savedRTs[leftIdx];
+
+            var rightIdx = newPage + 1;
+            InitialiseBookMaterial( book.GetPageData( rightIdx ).material, rightIdx, ( newMaterial ) =>
+            {
+                book.SetPageData( rightIdx, new PageData() { material = newMaterial } );
+            } );
+            rightGridCamera.targetTexture = savedRTs[rightIdx];
+            leftGridCamera.gameObject.SetActive( true );
+            rightGridCamera.gameObject.SetActive( true );
+        }
+
+        if( newState == EndlessBook.StateEnum.OpenMiddle && book.CurrentState == EndlessBook.StateEnum.OpenMiddle )
+            TurnToPage( newPage );
+        else
+            SetState( newState );
+    }
+
+    private void Reinitialise()
+    {
+        savedRTs = new RenderTexture[currentBinder.data.pageCount];
+
+        var cardCountMinusFrontBack = currentBinder.data.pageCount - 2;
+        if( ( cardCountMinusFrontBack & 1 ) == 1 )
+            cardCountMinusFrontBack++;
+
+        for( int i = 0; i < cardCountMinusFrontBack; ++i )
+        {
+            var newPage = book.AddPageData();
+            newPage.material = unloadedPageMaterial;
+        }
     }
 
     private void Hide()
@@ -477,6 +495,8 @@ public class BinderModelHandler : EventReceiverInstance
 
     private void OnBookStateChanged(EndlessBook.StateEnum fromState, EndlessBook.StateEnum toState, int pageNumber)
     {
+        onBookStateChanged?.Invoke( fromState, toState, pageNumber );
+
         switch( toState)
         {
             case EndlessBook.StateEnum.ClosedFront:

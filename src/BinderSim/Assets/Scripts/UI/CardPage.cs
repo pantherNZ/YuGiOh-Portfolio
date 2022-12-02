@@ -38,6 +38,8 @@ public class CardPage : EventReceiverInstance
     private Image clearCardAreaImage;
     private Color clearCardAreaImageDefaultColour;
 
+    private bool pageTurning;
+
     // Drag data
     private GameObject dragging;
     private Vector2 dragOffset;
@@ -51,7 +53,7 @@ public class CardPage : EventReceiverInstance
         prevPageButton.onClick.AddListener( PrevPage );
         nextPageButton.onClick.AddListener( NextPage );
         firstPageButton.onClick.AddListener( () => ChangePage( 0 ) );
-        lastPageButton.onClick.AddListener( () => ChangePage( currentbinder.data.pageCount ) );
+        lastPageButton.onClick.AddListener( () => ChangePage( currentbinder.data.pageCount + ( currentbinder.data.pageCount & 1 ) ) );
 
         width = Constants.Instance.DefaultStartingPageWidth;
         height = Constants.Instance.DefaultStartingPageHeight;
@@ -59,6 +61,14 @@ public class CardPage : EventReceiverInstance
         clearCardDropLocation.SetActive( false );
         clearCardAreaImage = clearCardDropLocation.GetComponentInChildren<Image>();
         clearCardAreaImageDefaultColour = clearCardAreaImage.color;
+
+        binderModelHandler.onBookStateChanged += (from, to, page) =>
+        {
+            pageTurning = false;
+            UpdateButtons();
+        };
+
+        DebugScreen.Instance.AddDebugEntry( () => String.Format( "pageTurning: {0}", pageTurning ) );
     }
 
     public void SaveAndExit()
@@ -317,26 +327,31 @@ public class CardPage : EventReceiverInstance
         if( currentPage >= 0 && currentPage < currentbinder.data.pageCount - 1 )
             SetupGrid( currentPage );
 
+        UpdateButtons();
+
+        EventSystem.Instance.QueueEvent( new BinderPopulateGrid() { currentPage = currentPage } );
+    }
+
+    private void UpdateButtons()
+    {
         // Show/hide next/prev buttons depending on first/last page
-        prevPageButton.gameObject.SetActive( currentPage >= 0 );
+        prevPageButton.gameObject.SetActive( currentPage >= 0 && !pageTurning );
         var prevTooltip = prevPageButton.gameObject.transform.GetChild( 0 ).gameObject;
         if( prevTooltip.activeSelf )
             prevTooltip.SetActive( prevPageButton.gameObject.activeSelf );
 
-        nextPageButton.gameObject.SetActive( currentPage <= currentbinder.data.pageCount );
+        nextPageButton.gameObject.SetActive( currentPage <= currentbinder.data.pageCount && !pageTurning );
         var nextTooltip = nextPageButton.gameObject.transform.GetChild( 0 ).gameObject;
         if( nextTooltip.activeSelf )
             nextTooltip.SetActive( nextPageButton.gameObject.activeSelf );
 
         // Show/hide first/last buttons depending on first/last page
-        firstPageButton.gameObject.SetActive( currentPage > 0 );
-        lastPageButton.gameObject.SetActive( currentPage < currentbinder.data.pageCount );
+        firstPageButton.gameObject.SetActive( currentPage > 0 && !pageTurning );
+        lastPageButton.gameObject.SetActive( currentPage < currentbinder.data.pageCount - ( currentbinder.data.pageCount & 1 ) && !pageTurning );
 
         // Show/hide modify buttons depending on first/last page
-        modifyPageButtonsLeft.SetActive( currentPage > 0 && currentPage < currentbinder.data.pageCount );
-        modifyPageButtonsRight.SetActive( currentPage >= 0 && currentPage < currentbinder.data.pageCount - 1 );
-
-        EventSystem.Instance.TriggerEvent( new BinderPopulateGrid(){ currentPage = currentPage } );
+        modifyPageButtonsLeft.SetActive( currentPage > 0 && currentPage < currentbinder.data.pageCount && !pageTurning );
+        modifyPageButtonsRight.SetActive( currentPage >= 0 && currentPage < currentbinder.data.pageCount - 1 && !pageTurning );
     }
 
     private bool IsLeftPage( int page )
@@ -558,6 +573,7 @@ public class CardPage : EventReceiverInstance
         currentPage = page;// Mathf.Clamp( page, 0, currentbinder.data.pageCount );
         currentPageTextLeft.text = page == 0 ? string.Empty : string.Format( "Page: {0}", currentPage );
         currentPageTextRight.text = page >= currentbinder.data.pageCount ? string.Empty : string.Format( "Page: {0}", currentPage + 1 );
+        pageTurning = true;
         PopulateGrid();
 
         EventSystem.Instance.TriggerEvent( new BinderChangeCardPage()
@@ -624,8 +640,8 @@ public class CardPage : EventReceiverInstance
             return;
 
         currentbinder.data.cardList.Swap( from, to );
+        EventSystem.Instance.TriggerEvent( new BinderDataUpdateEvent() { binder = currentbinder.data } );
         PopulateGrid();
-        EventSystem.Instance.TriggerEvent( new SaveGameEvent() { } );
     }
 
     public void AddPage( bool left, int count = 1 )
@@ -633,33 +649,33 @@ public class CardPage : EventReceiverInstance
         for( int i = 0; i < count; ++i )
             currentbinder.data.Insert( left ? currentPage - 1 : currentPage );
 
+        EventSystem.Instance.TriggerEvent( new BinderDataUpdateEvent() { binder = currentbinder.data } );
         UpdateHeaderInfo();
         PopulateGrid();
-        EventSystem.Instance.TriggerEvent( new BinderDataUpdateEvent() { binder = currentbinder.data } );
     }
 
     public void RemovePage( bool left )
     {
         currentbinder.data.Remove( left ? currentPage - 1 : currentPage );
         UpdateHeaderInfo();
+        EventSystem.Instance.TriggerEvent( new BinderDataUpdateEvent() { binder = currentbinder.data } );
         if( currentPage >= currentbinder.data.pageCount )
             PrevPage();
         else
             PopulateGrid();
-        EventSystem.Instance.TriggerEvent( new BinderDataUpdateEvent() { binder = currentbinder.data } );
     }
 
     public void SwapPage( bool left, int withIndex )
     {
         currentbinder.data.Swap( left ? currentPage - 1 : currentPage, withIndex );
+        EventSystem.Instance.TriggerEvent( new BinderDataUpdateEvent() { binder = currentbinder.data } );
         PopulateGrid();
-        EventSystem.Instance.TriggerEvent( new SaveGameEvent() { } );
     }
 
     public void MovePage( bool left, int toIndex )
     {
         currentbinder.data.Move( left ? currentPage - 1 : currentPage, toIndex );
+        EventSystem.Instance.TriggerEvent( new BinderDataUpdateEvent() { binder = currentbinder.data } );
         PopulateGrid();
-        EventSystem.Instance.TriggerEvent( new SaveGameEvent() { } );
     }
 }
