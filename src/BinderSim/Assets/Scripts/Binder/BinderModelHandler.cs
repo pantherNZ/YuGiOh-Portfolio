@@ -37,6 +37,7 @@ public class BinderModelHandler : EventReceiverInstance
     [SerializeField] LayerMask pageRaycastLayerMask;
     [SerializeField] LayerMask cardRaycastLayerMask;
     [SerializeField] LayerMask bookRaycastLayerMask;
+    [SerializeField] LayerMask uiRaycastLayerMask;
     [SerializeField] BoxCollider fullBookCollider;
 
     private float doubleClickTimer = 0.0f;
@@ -251,7 +252,7 @@ public class BinderModelHandler : EventReceiverInstance
         var results = new List<RaycastResult>();
         eventSystem.RaycastAll( pointerEventData, results );
 
-        if( results.Count > 0 )
+        if( results.Any( (x) => ( x.gameObject.layer & uiRaycastLayerMask ) == uiRaycastLayerMask ) )
             return false;
 
         // get a ray from the screen to the page colliders
