@@ -5,6 +5,7 @@ using echo17.EndlessBook.Demo02;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public enum BookActionTypeEnum
 {
@@ -242,6 +243,16 @@ public class BinderModelHandler : EventReceiverInstance
         hitPosition = Vector2.zero;
         hitPositionNormalized = Vector2.zero;
         leftPage = true;
+
+        // Don't raycast into the book if you are clicking on a UI element
+        var eventSystem = UnityEngine.EventSystems.EventSystem.current;
+        var pointerEventData = new PointerEventData( eventSystem );
+        pointerEventData.position = mousePosition;
+        var results = new List<RaycastResult>();
+        eventSystem.RaycastAll( pointerEventData, results );
+
+        if( results.Count > 0 )
+            return false;
 
         // get a ray from the screen to the page colliders
         Ray ray = mainCamera.ScreenPointToRay( mousePosition );
