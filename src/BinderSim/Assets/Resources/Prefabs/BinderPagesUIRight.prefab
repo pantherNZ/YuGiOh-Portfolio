@@ -1223,6 +1223,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardGridEntry (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3211222330935089164, guid: eca2a163a2f5e354da6fb8698e5622ba, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: b542bf960664c5944a7137c9389dc12f, type: 2}
     - target: {fileID: 3211222330935089165, guid: eca2a163a2f5e354da6fb8698e5622ba, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
