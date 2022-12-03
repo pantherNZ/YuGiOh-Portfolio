@@ -223,6 +223,9 @@ public class BinderModelHandler : EventReceiverInstance
 
     private void DetectTouchDown()
     {
+        if( book.IsTurningPages )
+            return;
+
         if( GetHitPoint( out var hitPosition, out var hitPositionNormalized, out var leftPage ) )
         {
             touchDown = true;
@@ -252,6 +255,9 @@ public class BinderModelHandler : EventReceiverInstance
 
     protected virtual void DetectTouchUp()
     {
+        if( book.IsTurningPages )
+            return;
+
         if( GetHitPoint( out var hitPosition, out var hitPositionNormalized, out var leftPage ) )
         {
             touchDown = false;

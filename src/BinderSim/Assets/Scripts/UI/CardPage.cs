@@ -53,7 +53,7 @@ public class CardPage : EventReceiverInstance
         prevPageButton.onClick.AddListener( PrevPage );
         nextPageButton.onClick.AddListener( NextPage );
         firstPageButton.onClick.AddListener( () => ChangePage( 0 ) );
-        lastPageButton.onClick.AddListener( () => ChangePage( currentbinder.data.pageCount + ( currentbinder.data.pageCount & 1 ) ) );
+        lastPageButton.onClick.AddListener( () => ChangePage( currentbinder.data.pageCount - ( currentbinder.data.pageCount & 1 ) ) );
 
         width = Constants.Instance.DefaultStartingPageWidth;
         height = Constants.Instance.DefaultStartingPageHeight;
