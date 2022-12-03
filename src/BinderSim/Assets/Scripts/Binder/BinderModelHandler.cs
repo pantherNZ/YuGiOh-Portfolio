@@ -179,7 +179,7 @@ public class BinderModelHandler : EventReceiverInstance
             rightGridCamera.gameObject.SetActive( true );
         }
 
-        if( newState == EndlessBook.StateEnum.OpenMiddle && book.CurrentState == EndlessBook.StateEnum.OpenMiddle )
+        if( newState == EndlessBook.StateEnum.OpenMiddle )
             TurnToPage( newPage );
         else
             SetState( newState );
