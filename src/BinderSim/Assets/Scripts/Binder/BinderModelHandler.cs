@@ -211,11 +211,13 @@ public class BinderModelHandler : EventReceiverInstance
         {
             DetectTouchDown();
         }
-        if( Utility.IsMouseUpOrTouchEnd() )
+
+        InputPriority.Instance.Request( () => Utility.IsMouseUpOrTouchEnd(), "MouseUp", 0, () =>
         {
             DetectTouchUp();
-        }
-        else if( touchDown && Utility.IsMouseOrTouchHeld() )
+        } );
+
+         if( touchDown && Utility.IsMouseOrTouchHeld() )
         {
             DetectDrag();
         }
