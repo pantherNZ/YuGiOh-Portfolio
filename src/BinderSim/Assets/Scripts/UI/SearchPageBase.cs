@@ -26,7 +26,7 @@ public abstract class SearchPageBase : EventReceiverInstance
     [SerializeField] Button clearCardButton = null;
 
     protected List<CardDataRuntime> cardData = new List<CardDataRuntime>();
-    protected List<CardDataRuntime> tempImportInventory;
+    protected InventoryStorage tempImportInventory;
     protected Dictionary<CardDataRuntime, GameObject> searchUIEntries = new Dictionary<CardDataRuntime, GameObject>();
     protected int? currentCardSelectedIdx;
     protected int? currentBinderIdx;
@@ -130,7 +130,7 @@ public abstract class SearchPageBase : EventReceiverInstance
         var inventory = filter == InventoryData.Options.TempInventory
             ? tempImportInventory
             : BinderPage.Instance.Inventory;
-        AppUtility.SortInventory( inventory );
+        inventory.Sort();
 
         foreach( var( idx, card ) in inventory.Enumerate() )
         {
@@ -312,6 +312,7 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     protected void ChooseCardInternal( bool fromDragDrop )
     {
+        // TODO SHOW PAGE FULL MESSAGE
         if( !fromDragDrop 
             && flags.HasFlag( SearchPageFlags.PageFull ) 
             && !flags.HasFlag( SearchPageFlags.ReplacingCard ) )
@@ -495,7 +496,7 @@ public abstract class SearchPageBase : EventReceiverInstance
     {
         BinderPage.Instance.LoadFromDragonShieldTxtFile( ( importData ) =>
         {
-            tempImportInventory = importData.cards;
+            tempImportInventory = new InventoryStorage( importData.cards, false );
             ShowPageInternal();
         } );
     }

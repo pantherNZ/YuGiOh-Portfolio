@@ -21,6 +21,16 @@ public class CardRemovedEvent : IBaseEvent
     public bool fromInventory = false;
 }
 
+public class CardAddedToInventoryEvent : IBaseEvent
+{
+    public CardDataRuntime card;
+}
+
+public class CardRemovedFromInventoryEvent : IBaseEvent
+{
+    public CardDataRuntime card;
+}
+
 public class CardImageLoadedEvent : IBaseEvent { public CardDataRuntime card; }
 
 public class OpenSearchPageEvent : PageChangeRequestEvent

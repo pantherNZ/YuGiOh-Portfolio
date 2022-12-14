@@ -94,14 +94,15 @@
     <Compile Include="Assets\EndlessBook\Demos\Demo 03 - Manual Page Turn\Scripts\Demo03.cs" />
     <Compile Include="Assets\EndlessBook\Book\Scripts\PageData.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowser.cs" />
+    <Compile Include="Assets\Scripts\Binder\InventoryStorage.cs" />
     <Compile Include="Assets\EndlessBook\Demos\Demo 01\Scripts\Demo01.cs" />
     <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\Candle.cs" />
+    <Compile Include="Assets\Scripts\UI\DebugScreen.cs" />
     <Compile Include="Assets\Scripts\Binder\DataTypes.cs" />
     <Compile Include="Assets\Scripts\UI\GUIClickController.cs" />
     <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\PageView_Map.cs" />
     <Compile Include="Assets\Scripts\Misc\RequestJsonFormat.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserLinux.cs" />
-    <Compile Include="Assets\Scripts\UI\DebugScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

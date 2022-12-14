@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SearchListEntry : MonoBehaviour
+public class SearchListEntry : EventReceiverInstance
 {
     [SerializeField] Image cardImage;
     [SerializeField] Button leftCardImageButton;
@@ -30,19 +30,20 @@ public class SearchListEntry : MonoBehaviour
     public TMPro.TextMeshProUGUI CountText { get => countText; private set { } }
 
     private CardDataRuntime cardData;
+    private SearchPageOrigin pageBehaviour;
+    private SearchPageFlags pageFlags;
+    private InventoryData.Options pageMode;
 
     public void Initialise( CardDataRuntime data, SearchPageOrigin behaviour, SearchPageFlags flags, InventoryData.Options mode )
     {
         cardData = data;
+        pageBehaviour = behaviour;
+        pageFlags = flags;
+        pageMode = mode;
         SetBackgroundColour( Color.clear );
 
         bool dataValid = data != null && data.cardAPIData != null;
-        bool showCardInUse = dataValid && data.insideBinderIdx != null && behaviour != SearchPageOrigin.MainPage;
-
-        titleText.text = data.name +
-            ( showCardInUse
-            ? "\n<color=#A10000>In Use: " + BinderPage.Instance.BinderData[data.insideBinderIdx.Value].data.name
-            : string.Empty );
+        titleText.text = data.name;
 
         leftCardImageButton?.gameObject.SetActive( dataValid && data.cardAPIData.card_images.Count > 1 );
         rightCardImageButton?.gameObject.SetActive( dataValid && data.cardAPIData.card_images.Count > 1 );
@@ -63,9 +64,6 @@ public class SearchListEntry : MonoBehaviour
         rightCardImageButton?.onClick.AddListener( () => LoadArtVariation( cardData.imageIndex + 1 ) );
         typeText?.SetText( data.cardAPIData.type );
         countText?.SetText( data.count.ToString() );
-
-        if( showCardInUse )
-            cardImage.material = Constants.Instance.greyscaleMaterial;
 
         if( conditionDropdown != null )
         {
@@ -106,18 +104,37 @@ public class SearchListEntry : MonoBehaviour
         } );
 
         UpdateUI();
+        UpdateCardText();
         GetCardPreviewImage();
     }
 
     private void UpdateUI()
     {
-        rarityText?.SetText( cardData.cardAPIData.card_sets != null 
+        rarityText?.SetText( cardData.cardAPIData.card_sets != null
             ? cardData.cardAPIData.card_sets[cardData.cardIndex].set_rarity
             : "Unknown" );
 
         cardData.count = Mathf.Clamp( cardData.count, 0, 32 );
         decreaseCountButton?.gameObject.SetActive( cardData.count > 1 );
         countText?.SetText( cardData.count.ToString() );
+    }
+
+    void UpdateCardText()
+    {
+        bool showCardInUse = cardData.insideBinderIdx != null && pageBehaviour != SearchPageOrigin.MainPage;
+        int showCardOwnedCount = ( pageMode == InventoryData.Options.SearchOnline || pageMode == InventoryData.Options.TempInventory )
+            ? BinderPage.Instance.Inventory.Count( x => x.cardId == cardData.cardId )
+            : 0;
+
+        titleText.text = cardData.name +
+            ( showCardInUse
+            ? $"\nIn Use: {BinderPage.Instance.BinderData[cardData.insideBinderIdx.Value].data.name}".ColourRGB( 0xA10000 )
+            : showCardOwnedCount > 0
+            ? $"\nOwned Copies: {showCardOwnedCount}".Navy()
+            : String.Empty );
+
+        if( showCardInUse )
+            cardImage.material = Constants.Instance.greyscaleMaterial;
     }
 
     private void GetCardPreviewImage()
@@ -196,5 +213,21 @@ public class SearchListEntry : MonoBehaviour
 
         if( cardData.imageIndex == index )
             SetCardSprite( index );
+    }
+
+    public override void OnEventReceived( IBaseEvent e )
+    {
+        if( e is CardSelectedEvent cardSelected && cardSelected.card.cardId == cardData.cardId )
+        {
+            UpdateCardText();
+        }
+        else if( e is CardAddedToInventoryEvent cardAdded && cardAdded.card.cardId == cardData.cardId )
+        {
+            UpdateCardText();
+        }
+        else if( e is CardRemovedFromInventoryEvent cardRemoved && cardRemoved.card.cardId == cardData.cardId )
+        {
+            UpdateCardText();
+        }
     }
 }

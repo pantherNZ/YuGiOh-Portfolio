@@ -19,14 +19,4 @@ public static class AppUtility
         else
             InputPriority.Instance.Request( () => e.button == PointerEventData.InputButton.Right, "SearchPageButton", 1, func );
     }
-
-    public static void SortInventory( List<CardDataRuntime> cards )
-    {
-        cards.Sort( ( a, b ) =>
-        {
-            if( a.insideBinderIdx != b.insideBinderIdx )
-                return ( a.insideBinderIdx == null ? -1 : a.insideBinderIdx.Value ).CompareTo( b.insideBinderIdx == null ? -1 : b.insideBinderIdx.Value );
-            return a.name.CompareTo( b.name );
-        } );
-    }
 }

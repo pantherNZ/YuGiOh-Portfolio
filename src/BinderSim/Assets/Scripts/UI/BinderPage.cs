@@ -28,8 +28,8 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
     [SerializeField] Button importButton = null;
     [SerializeField] Color selectedEntryColour = new Color();
 
-    private List<CardDataRuntime> inventory = new List<CardDataRuntime>();
-    public List<CardDataRuntime> Inventory { get => inventory; private set { } }
+    private InventoryStorage inventory = new InventoryStorage();
+    public InventoryStorage Inventory { get => inventory; private set { } }
 
     private List<BinderDataRuntime> binderData = new List<BinderDataRuntime>();
     public ReadOnlyCollection<BinderDataRuntime> BinderData { get => binderData.AsReadOnly(); private set { } }
@@ -563,7 +563,7 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
                 }
             case ImportData.Options.ReplaceInventory:
                 {
-                    inventory = savedImportedData.cards;
+                    inventory = new InventoryStorage( savedImportedData.cards );
                     break;
                 }
             case ImportData.Options.AddToExistingBinderX:
@@ -1003,7 +1003,6 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
     public void SortInventory()
     {
-        inventory.RemoveAll( ( x ) => x.cardAPIData == null || x.name == null );
-        AppUtility.SortInventory( inventory );
+        inventory.Sort();
     }
 }
