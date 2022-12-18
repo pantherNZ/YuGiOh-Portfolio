@@ -186,6 +186,13 @@ public class CardDataRuntime : CardData
             insideBinderIdx = insideBinderIdx,
         };
     }
+
+    public string GetRarityName( string unknownStr = "Unknown" )
+    {
+        return cardAPIData.card_sets != null
+            ? cardAPIData.card_sets[cardIndex].set_rarity
+            : unknownStr;
+    }
 }
 
 public enum SearchPageOrigin

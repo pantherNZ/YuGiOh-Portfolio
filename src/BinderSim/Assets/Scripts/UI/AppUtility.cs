@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 public static class AppUtility
@@ -18,5 +18,25 @@ public static class AppUtility
             func();
         else
             InputPriority.Instance.Request( () => e.button == PointerEventData.InputButton.Right, "SearchPageButton", 1, func );
+    }
+
+    public static Material GetCardMaterialFromRarity( CardDataRuntime card )
+    {
+        if( card == null || card.cardAPIData == null || card.cardAPIData.card_sets == null )
+            return Constants.Instance.BaseCardMaterial;
+
+        switch( card.GetRarityName() )
+        {
+            case "Super Rare":              return Constants.Instance.SecretRareMaterial; // TODO
+            case "Rare":                    return Constants.Instance.BaseCardMaterial; // TODO
+            case "Secret Rare":             return Constants.Instance.SecretRareMaterial;
+            case "Prismatic Secret Rare":   return Constants.Instance.SecretRareMaterial; // TODO
+            case "Ultra Rare":              return Constants.Instance.UltraRareMaterial;
+            case "Ultimate Rare":           return Constants.Instance.UltraRareMaterial; // TODO
+            case "Ghost Rare":              return Constants.Instance.GreyscaleMaterial; // TODO
+            case "Starlight Rare":          return Constants.Instance.SecretRareMaterial; // TODO
+            case "Common":
+            default:                        return Constants.Instance.BaseCardMaterial;
+        }
     }
 }

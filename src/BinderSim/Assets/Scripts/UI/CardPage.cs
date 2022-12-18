@@ -413,7 +413,9 @@ public class CardPage : EventReceiverInstance
                 }
 
                 var child = grid.transform.GetChild( pos );
-                child.GetComponent<Image>().sprite = Utility.CreateSprite( texture );
+                var imageComponent = child.GetComponent<Image>();
+                imageComponent.material = AppUtility.GetCardMaterialFromRarity( card );
+                imageComponent.sprite = Utility.CreateSprite( texture );
             }
         }
     }

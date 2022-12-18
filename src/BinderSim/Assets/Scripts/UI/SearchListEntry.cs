@@ -80,7 +80,7 @@ public class SearchListEntry : EventReceiverInstance
             var options =
                 data.cardAPIData.card_sets == null
                 ? new List<string>() { "Unreleased" }
-                : data.cardAPIData.card_sets.Select( x => string.Format( "{0} ({1})", x.set_name, x.set_code ) ).ToList();
+                : data.cardAPIData.card_sets.Select( x => string.Format( "{0} ({1}) - {2}", x.set_name, x.set_code, x.set_rarity ) ).ToList();
 
             setDropdown.AddOptions( options );
             setDropdown.SetValueWithoutNotify( data.cardIndex );
@@ -110,10 +110,7 @@ public class SearchListEntry : EventReceiverInstance
 
     private void UpdateUI()
     {
-        rarityText?.SetText( cardData.cardAPIData.card_sets != null
-            ? cardData.cardAPIData.card_sets[cardData.cardIndex].set_rarity
-            : "Unknown" );
-
+        rarityText?.SetText( cardData.GetRarityName() );
         cardData.count = Mathf.Clamp( cardData.count, 0, 32 );
         decreaseCountButton?.gameObject.SetActive( cardData.count > 1 );
         countText?.SetText( cardData.count.ToString() );
@@ -134,7 +131,7 @@ public class SearchListEntry : EventReceiverInstance
             : String.Empty );
 
         if( showCardInUse )
-            cardImage.material = Constants.Instance.greyscaleMaterial;
+            cardImage.material = Constants.Instance.GreyscaleMaterial;
     }
 
     private void GetCardPreviewImage()
