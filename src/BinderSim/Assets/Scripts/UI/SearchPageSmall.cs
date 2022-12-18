@@ -124,7 +124,13 @@ public class SearchPageSmall : SearchPageBase
     private void StartDragging( GameObject clickedOn, int entryIdx )
     {
         if( currentCardSelectedIdx == null )
-            clickedOn.GetComponent<EventDispatcher>().OnPointerDownEvent?.Invoke( null );
+        {
+            clickedOn.GetComponent<EventDispatcher>().OnPointerDownEvent?.Invoke(
+                 new PointerEventData( UnityEngine.EventSystems.EventSystem.current )
+                 {
+                     button = PointerEventData.InputButton.Left
+                 } );
+        }
 
         var data = cardData[entryIdx];
 
