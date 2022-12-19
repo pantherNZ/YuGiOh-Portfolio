@@ -19183,10 +19183,10 @@ MonoBehaviour:
   DefaultStartingNumPages: 10
   DefaultStartingPageWidth: 3
   DefaultStartingPageHeight: 3
-  greyscaleMaterial: {fileID: 2100000, guid: 7b0c963e22abc644895eaaf397ee1125, type: 2}
-  baseCardMaterial: {fileID: 2100000, guid: 317681ba3b65ade40b31fd33a7938489, type: 2}
-  secretRareMaterial: {fileID: 2100000, guid: 69fa21baa2a5fe047b816c9a2c2b988b, type: 2}
-  ultraRareMaterial: {fileID: 2100000, guid: b542bf960664c5944a7137c9389dc12f, type: 2}
+  GreyscaleMaterial: {fileID: 2100000, guid: 7b0c963e22abc644895eaaf397ee1125, type: 2}
+  BaseCardMaterial: {fileID: 2100000, guid: 317681ba3b65ade40b31fd33a7938489, type: 2}
+  SecretRareMaterial: {fileID: 2100000, guid: 69fa21baa2a5fe047b816c9a2c2b988b, type: 2}
+  UltraRareMaterial: {fileID: 2100000, guid: b542bf960664c5944a7137c9389dc12f, type: 2}
 --- !u!224 &1513285873
 RectTransform:
   m_ObjectHideFlags: 0
