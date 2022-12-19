@@ -310,13 +310,17 @@ public abstract class SearchPageBase : EventReceiverInstance
         ChooseCardInternal( false );
     }
 
+    protected virtual void ShowInfoMessage( string msg ) { }
+
     protected void ChooseCardInternal( bool fromDragDrop )
     {
-        // TODO SHOW PAGE FULL MESSAGE
-        if( !fromDragDrop 
-            && flags.HasFlag( SearchPageFlags.PageFull ) 
+        if( !fromDragDrop
+            && flags.HasFlag( SearchPageFlags.PageFull )
             && !flags.HasFlag( SearchPageFlags.ReplacingCard ) )
+        {
+            ShowInfoMessage( "Failed:".Red() + " Page Full");
             return;
+        }
 
         Debug.Assert( currentCardSelectedIdx != null );
 
@@ -329,9 +333,11 @@ public abstract class SearchPageBase : EventReceiverInstance
 
         if( data.smallImages == null )
         {
-            Debug.LogWarning( "Failed to choose card as the preview image hasn't finished downloading yet" );
+            ShowInfoMessage( "Failed::".Red() + " Card image not loaded" );
             return;
         }
+
+        ShowInfoMessage( "Success:".Blue() + " Added {0}".Format( data.name ) );
 
         EventSystem.Instance.TriggerEvent( new CardSelectedEvent()
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,8 +10,10 @@ public class SearchPageFull : SearchPageBase
     [SerializeField] Button importFromFileButton = null;
     [SerializeField] GameObject entryOptionsPanel = null;
     [SerializeField] GameObject countHeaderText = null;
+    [SerializeField] TMPro.TextMeshProUGUI infoMessageText = null;
 
     private Vector2 buttonsSizeDelta;
+    private Coroutine fadeOutCoroutine;
 
     protected override void Start()
     {
@@ -168,6 +171,8 @@ public class SearchPageFull : SearchPageBase
     {
         currentCardSelectedIdx = entryIdx;
         ChooseCard();
+
+        ShowInfoMessage( "Success: ".Blue() + "Added {0} to Binder".Format( card.name ) );
     }
 
     private void AddInventoryButtonPressed( CardDataRuntime card, int entryIdx )
@@ -177,12 +182,16 @@ public class SearchPageFull : SearchPageBase
 
         if( GetDropDownOption() == InventoryData.Options.AllCards || GetDropDownOption() == InventoryData.Options.UnusedCards )
             SearchCards();
+
+        ShowInfoMessage( "Success: ".Blue() + "Added {0} to Inventory".Format( card.name ) );
     }
 
     private void RemoveFromInventoryButtonPressed( CardDataRuntime card, int entryIdx )
     {
         BinderPage.Instance.Inventory.Remove( card );
         SearchCards();
+
+        ShowInfoMessage( "Success: ".Blue() + "Removed {0} from Inventory".Format( card.name ) );
     }
 
     private void RemoveFromBinderButtonPressed( CardDataRuntime card, int entryIdx )
@@ -193,6 +202,8 @@ public class SearchPageFull : SearchPageBase
             fromInventory = FromInventory()
         } );
         SearchCards();
+
+        ShowInfoMessage( "Success: ".Blue() + "Removed {0} from Binder".Format( card.name ) );
     }
 
     private void FixScaleModifier()
@@ -271,5 +282,22 @@ public class SearchPageFull : SearchPageBase
         if( behaviour != SearchPageOrigin.MainPage )
             return false;
         return !IsModifyingCurrentBinder( card ) || GetDropDownOption() != InventoryData.Options.UnusedCards;
+    }
+
+    protected override void ShowInfoMessage( string msg ) 
+    {
+        infoMessageText.gameObject.SetActive( true );
+        infoMessageText.text = msg;
+        infoMessageText.color = infoMessageText.color.SetA( 1.0f );
+        if( fadeOutCoroutine != null )
+            StopCoroutine( fadeOutCoroutine );
+        fadeOutCoroutine = StartCoroutine( FadeOutInfoMessage() );
+    }
+
+    private IEnumerator FadeOutInfoMessage()
+    {
+        yield return new WaitForSeconds( 2.0f );
+        yield return Utility.FadeToColour( infoMessageText, infoMessageText.color.SetA( 0.0f ), 2.0f );
+        infoMessageText.gameObject.SetActive( false );
     }
 }

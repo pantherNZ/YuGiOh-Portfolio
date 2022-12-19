@@ -106,7 +106,7 @@ public class CardPage : EventReceiverInstance
         }
         else if( e is CardImageLoadedEvent cardImageLoadedEvent )
         {
-            if( currentbinder == null )
+            if( currentbinder == null || currentPage < 0 || currentPage >= currentbinder.data.cardList.Count )
                 return;
 
             if( currentPage < currentbinder.data.pageCount )
@@ -156,11 +156,14 @@ public class CardPage : EventReceiverInstance
 
         if( pageChangeRequest is OpenCardPageEvent openPageRequest )
             LoadBinder( openPageRequest.binder );
+
+        binderModelHandler.gameObject.SetActive( true );
     }
 
     private void Hide()
     {
         cardsPage.SetActive( false );
+        binderModelHandler.gameObject.SetActive( true );
     }
 
     private void LoadBinder( BinderDataRuntime binder )
@@ -233,7 +236,6 @@ public class CardPage : EventReceiverInstance
         {
             currentModifyCardIdx = FindNextEmptyCardSlot();
 
-            // TODO: Handle properly
             if( currentModifyCardIdx == null )
             {
                 Debug.LogWarning( "No empty slot found to add card to on this page" );
@@ -606,6 +608,9 @@ public class CardPage : EventReceiverInstance
             flags = ( FindNextEmptyCardSlot() == null ? SearchPageFlags.PageFull : 0 ),
             currentBinderIdx = BinderPage.Instance.BinderData.IndexOf( currentbinder ),
         } );
+
+         if( openFullScreenSearch )
+            binderModelHandler.gameObject.SetActive( false );
     }
 
     public void OpenSearchPanel( int page, int pos )
@@ -625,6 +630,9 @@ public class CardPage : EventReceiverInstance
                 : String.Empty,
             currentBinderIdx = BinderPage.Instance.BinderData.IndexOf( currentbinder ),
         } );
+
+        if( openFullScreenSearch )
+            binderModelHandler.gameObject.SetActive( false );
     }
 
     public void OpenInventory()
