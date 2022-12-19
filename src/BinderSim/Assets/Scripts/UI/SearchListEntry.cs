@@ -214,7 +214,7 @@ public class SearchListEntry : EventReceiverInstance
 
     public override void OnEventReceived( IBaseEvent e )
     {
-        if( e is CardSelectedEvent cardSelected && cardSelected.card.cardId == cardData.cardId )
+        if( e is CardSelectedEvent cardSelected && cardSelected != null && cardSelected.card.cardId == cardData.cardId )
         {
             UpdateCardText();
         }
