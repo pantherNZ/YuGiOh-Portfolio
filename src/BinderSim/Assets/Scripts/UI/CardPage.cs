@@ -91,6 +91,9 @@ public class CardPage : EventReceiverInstance
                     Show( pageChangeRequest );
                     break;
             }
+
+            if( e is OpenSearchPageEvent openSearchRequest )
+                binderModelHandler.gameObject.SetActive( openSearchRequest.page != PageType.SearchPageFull );
         }
         else if( e is CardSelectedEvent cardSelectedEvent )
         {

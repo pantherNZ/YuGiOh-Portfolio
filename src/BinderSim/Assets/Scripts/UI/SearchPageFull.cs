@@ -172,7 +172,7 @@ public class SearchPageFull : SearchPageBase
         currentCardSelectedIdx = entryIdx;
         ChooseCard();
 
-        ShowInfoMessage( "Success: ".Blue() + "Added {0} to Binder".Format( card.name ) );
+        ShowInfoMessage( "Added to Binder: ".Blue() + card.name.Black() );
     }
 
     private void AddInventoryButtonPressed( CardDataRuntime card, int entryIdx )
@@ -183,7 +183,7 @@ public class SearchPageFull : SearchPageBase
         if( GetDropDownOption() == InventoryData.Options.AllCards || GetDropDownOption() == InventoryData.Options.UnusedCards )
             SearchCards();
 
-        ShowInfoMessage( "Success: ".Blue() + "Added {0} to Inventory".Format( card.name ) );
+        ShowInfoMessage( "Added to Inventory: ".Blue() + card.name.Black() );
     }
 
     private void RemoveFromInventoryButtonPressed( CardDataRuntime card, int entryIdx )
@@ -191,7 +191,7 @@ public class SearchPageFull : SearchPageBase
         BinderPage.Instance.Inventory.Remove( card );
         SearchCards();
 
-        ShowInfoMessage( "Success: ".Blue() + "Removed {0} from Inventory".Format( card.name ) );
+        ShowInfoMessage( "Removed from Inventory: ".Blue() + card.name.Black() );
     }
 
     private void RemoveFromBinderButtonPressed( CardDataRuntime card, int entryIdx )
@@ -203,7 +203,7 @@ public class SearchPageFull : SearchPageBase
         } );
         SearchCards();
 
-        ShowInfoMessage( "Success: ".Blue() + "Removed {0} from Binder".Format( card.name ) );
+        ShowInfoMessage( "Removed from Binder: ".Blue() + card.name.Black() );
     }
 
     private void FixScaleModifier()

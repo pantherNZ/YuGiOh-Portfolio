@@ -318,7 +318,7 @@ public abstract class SearchPageBase : EventReceiverInstance
             && flags.HasFlag( SearchPageFlags.PageFull )
             && !flags.HasFlag( SearchPageFlags.ReplacingCard ) )
         {
-            ShowInfoMessage( "Failed:".Red() + " Page Full");
+            ShowInfoMessage( "Failed: ".Red() + "Page Full".Black());
             return;
         }
 
@@ -333,11 +333,11 @@ public abstract class SearchPageBase : EventReceiverInstance
 
         if( data.smallImages == null )
         {
-            ShowInfoMessage( "Failed::".Red() + " Card image not loaded" );
+            ShowInfoMessage( "Failed: ".Red() + "Card image not loaded".Black() );
             return;
         }
 
-        ShowInfoMessage( "Success:".Blue() + " Added {0}".Format( data.name ) );
+        ShowInfoMessage( "Added Card: ".Blue() + data.name.Black() );
 
         EventSystem.Instance.TriggerEvent( new CardSelectedEvent()
         {
