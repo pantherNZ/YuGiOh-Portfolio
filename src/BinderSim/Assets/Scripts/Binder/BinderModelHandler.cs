@@ -217,7 +217,12 @@ public class BinderModelHandler : EventReceiverInstance
             DetectTouchDown();
         }
 
-        InputPriority.Instance.Request( () => Utility.IsMouseUpOrTouchEnd(), "MouseUp", 0, () =>
+        InputPriority.Instance.Request( () =>
+        {
+            return !book.IsTurningPages &&
+                Utility.IsMouseUpOrTouchEnd() &&
+                GetHitPoint( out var _, out var _, out var _ );
+        }, "MouseUp", 2, () =>
         {
             DetectTouchUp();
         } );
@@ -262,9 +267,6 @@ public class BinderModelHandler : EventReceiverInstance
 
     protected virtual void DetectTouchUp()
     {
-        if( book.IsTurningPages )
-            return;
-
         if( GetHitPoint( out var hitPosition, out var hitPositionNormalized, out var leftPage ) )
         {
             touchDown = false;

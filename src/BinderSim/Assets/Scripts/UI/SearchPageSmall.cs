@@ -31,17 +31,12 @@ public class SearchPageSmall : SearchPageBase
         // Add UI elements
         var newCardUIEntry = Instantiate( cardEntryPrefab );
         newCardUIEntry.transform.SetParent( cardList.transform );
-        newCardUIEntry.GetComponentInChildren<EventDispatcher>().OnBeginDragEvent += ( e ) => LeftMouseFilter( e, () => StartDragging( newCardUIEntry, entryIdx ) );
+        newCardUIEntry.GetComponentInChildren<EventDispatcher>().OnBeginDragEvent += ( e ) => AppUtility.LeftMouseFilter( false, e, () => StartDragging( newCardUIEntry, entryIdx ) );
 
         var searchEntry = newCardUIEntry.GetComponent<SearchListEntry>();
         searchEntry.Initialise( card, behaviour, flags, GetDropDownOption() );
 
         return newCardUIEntry;
-    }
-
-    void LeftMouseFilter( PointerEventData e, Action func )
-    {
-        InputPriority.Instance.Request( () => e.button == PointerEventData.InputButton.Left, "SearchPageButton", 1, func );
     }
 
     public override void OnEventReceived( IBaseEvent e )
@@ -177,7 +172,7 @@ public class SearchPageSmall : SearchPageBase
                     && !Utility.IsPointerOverGameObject( searchListPanel )
                     && searchListPage.activeInHierarchy;
     
-            }, "SearchPageButton", 0, () =>
+            }, "MouseUp", 0, () =>
             {
                 Cancel();
 
