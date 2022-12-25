@@ -40,6 +40,8 @@ public class BinderModelHandler : EventReceiverInstance
     [SerializeField] LayerMask uiRaycastLayerMask;
     [SerializeField] BoxCollider fullBookCollider;
 
+    [SerializeField] TMPro.TextMeshProUGUI binderCoverText;
+
     private float doubleClickTimer = 0.0f;
     [SerializeField] float doubleClickInterval = 0.5f;
     [SerializeField] float turnStopSpeed = 1.0f;
@@ -119,6 +121,7 @@ public class BinderModelHandler : EventReceiverInstance
     private void Show( BinderDataRuntime newBinder )
     {
         binderScene.SetActive( true );
+        binderCoverText.text = newBinder.data.name;
         book.Reset();
 
         if( newBinder != currentBinder )
