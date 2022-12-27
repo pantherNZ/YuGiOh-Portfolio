@@ -82,7 +82,7 @@ public class BinderModelHandler : EventReceiverInstance
 
     private void InitialiseBookMaterial( Material mat, int renderTextureIdx, Action<Material> setMatFunc )
     {
-        if( mat == unloadedPageMaterial )
+        if( mat == unloadedPageMaterial || savedRTs[renderTextureIdx] == null )
         {
             var newMaterial = Instantiate( renderTextureBaseMaterial );
             savedRTs[renderTextureIdx] = Instantiate( renderTextureBase );
