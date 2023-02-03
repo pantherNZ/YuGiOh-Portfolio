@@ -62,6 +62,7 @@
     <Compile Include="Assets\Scripts\Misc\BytesToString.cs" />
     <Compile Include="Assets\Scripts\UI\SearchPageBase.cs" />
     <Compile Include="Assets\Scripts\UI\AppUtility.cs" />
+    <Compile Include="Assets\Scripts\UI\AdvancedSearchPanel.cs" />
     <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\PageView_Map_Left.cs" />
     <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\PageView.cs" />
     <Compile Include="Assets\EndlessBook\Book\Scripts\Unpack.cs" />

@@ -101,8 +101,15 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     protected abstract bool ContainsHeader();
 
+    protected virtual string SearchRequestPreModify( string search )
+    {
+        return search;
+    }
+
     void SearchRequest( string search )
     {
+        search = SearchRequestPreModify( Uri.EscapeDataString( search ) );
+
         if( searchRequestHandle != null )
             StopCoroutine( searchRequestHandle );
 
@@ -113,7 +120,7 @@ public abstract class SearchPageBase : EventReceiverInstance
         {
             if( search.Length > 0 )
             {
-                searchRequestHandle = StartCoroutine( APICallHandler.Instance.SendCardSearchRequestFuzzy( search, true, OnSearchResultReceived ) );
+                searchRequestHandle = StartCoroutine( APICallHandler.Instance.SendCardSearchRequestFuzzy( search, true, OnSearchResultReceived, true ) );
             }
             else
             {
@@ -206,6 +213,8 @@ public abstract class SearchPageBase : EventReceiverInstance
             }
             else
             {
+                OnSearchResultReceived( ref data );
+
                 foreach( var (idx, card) in data.data.Enumerate() )
                 {
                     // Limit to 100 results for now
@@ -232,6 +241,8 @@ public abstract class SearchPageBase : EventReceiverInstance
         //    Debug.LogError( "SearchPageBase::OnSearchResultReceived failed to deserialize json from result:" + Environment.NewLine + e.Message + Environment.NewLine + result );
         //}
     }
+
+    protected virtual void OnSearchResultReceived( ref Root data ) { }
 
     protected GameObject GetSelectedCard()
     {

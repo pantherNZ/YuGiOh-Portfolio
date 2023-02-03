@@ -84,3 +84,13 @@ public class CardDoubleClickEvent : IBaseEvent
     public int page;
     public int pos;
 }
+
+public class UpdateAdvancedSearch : IBaseEvent
+{
+    public string searchParams;
+    public bool searchDescending;
+    public string searchRarity;
+    public bool sortOnly;
+}
+
+public class AdvancedFiltersToggled : IBaseEvent { }

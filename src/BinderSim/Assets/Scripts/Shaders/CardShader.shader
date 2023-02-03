@@ -178,6 +178,8 @@ Shader "Unlit/CardShader"
             {
                 float4 col = tex2D( _MainTex, i.uv ) * _Brightness;
                 
+                //col = smoothstep( 0.5, 1.0, i.uv.x ) * 
+
                 if( _Rarity == SecretRare || _Rarity == UltraRare )
                 {
                     float rainbow_uv = 1 - i.uv.x + i.uv.y;

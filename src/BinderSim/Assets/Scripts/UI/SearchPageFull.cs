@@ -7,6 +7,7 @@ public class SearchPageFull : SearchPageBase
 {
     [SerializeField] GameObject cardEntryPrefab = null;
     [SerializeField] Button advancedSearchButton = null;
+    [SerializeField] CanvasGroup advancedSearchPanel = null;
     [SerializeField] Button importFromFileButton = null;
     [SerializeField] GameObject entryOptionsPanel = null;
     [SerializeField] GameObject countHeaderText = null;
@@ -14,6 +15,7 @@ public class SearchPageFull : SearchPageBase
 
     private Vector2 buttonsSizeDelta;
     private Coroutine fadeOutCoroutine;
+    private UpdateAdvancedSearch advancedSearchData;
 
     protected override void Start()
     {
@@ -21,6 +23,8 @@ public class SearchPageFull : SearchPageBase
 
         entryOptionsPanel.SetActive( false );
         buttonsSizeDelta = ( entryOptionsPanel.transform as RectTransform ).sizeDelta;
+
+        advancedSearchButton.onClick.AddListener( () => EventSystem.Instance.TriggerEvent( new AdvancedFiltersToggled() ) );
     }
 
     protected override bool ContainsHeader()
@@ -225,6 +229,11 @@ public class SearchPageFull : SearchPageBase
 
             ShowPage( openPageRequest, openPageRequest.currentBinderIdx );
         }
+        else if( e is UpdateAdvancedSearch updateAdvancedSearch )
+        {
+            advancedSearchData = updateAdvancedSearch;
+            SearchCards();
+        }
     }
 
     protected override void ShowPageInternal()
@@ -251,6 +260,9 @@ public class SearchPageFull : SearchPageBase
         advancedSearchButton.gameObject.SetActive( !inventoryNonSearchMode );
         importFromFileButton.gameObject.SetActive( inventoryNonSearchMode );
         countHeaderText.SetActive( inventoryNonSearchMode );
+
+        if( !inventoryNonSearchMode )
+            advancedSearchPanel.SetVisibility( false );
     }
 
     bool IsModifyingCurrentBinder( CardDataRuntime card )
@@ -299,5 +311,19 @@ public class SearchPageFull : SearchPageBase
         yield return new WaitForSeconds( 2.0f );
         yield return Utility.FadeToColour( infoMessageText, infoMessageText.color.SetA( 0.0f ), 2.0f );
         infoMessageText.gameObject.SetActive( false );
+    }
+
+    protected override void OnSearchResultReceived( ref Root data ) 
+    {
+        if( advancedSearchData != null && advancedSearchData.searchDescending )
+            data.data.Reverse();
+    }
+
+    protected override string SearchRequestPreModify( string search )
+    {
+        // Disallow only doing a request which contains just a sort modifier
+        if( advancedSearchData != null && ( !advancedSearchData.sortOnly || search.Length > 0 ) )
+            search += advancedSearchData.searchParams;
+        return search;
     }
 }
