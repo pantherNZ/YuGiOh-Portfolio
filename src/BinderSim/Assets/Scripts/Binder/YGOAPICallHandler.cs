@@ -59,6 +59,8 @@ class APICallHandler
 
     private IEnumerator SendGetRequestInternal( string uri, Action<string> successCallback = null, Action<string> failedCallback = null )
     {
+        uri = uri.Replace( "\'", "%27" );
+
         if( cachedRequests.TryGetValue( uri, out string data ) )
         {
             successCallback?.Invoke( data );

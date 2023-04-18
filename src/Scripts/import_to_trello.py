@@ -6,6 +6,7 @@ from pathlib import Path
 filename = Path(__file__).with_name('yugioh.txt')
 
 
+@RateLimiter(max_calls=100, period=10)
 def trello_request(request_type:str, command:str, headers=dict(), params=dict()):
     return requests.request(request_type,f'{command}?key={TrelloKey.key}&token={TrelloKey.token}', headers=headers, params=params)
 
@@ -39,9 +40,18 @@ def get_list(board_id:str, list_name:str):
     print('[ERROR] Failed finding list')
     return 0
 
+
+# get all cards in the given list by id
+def get_cards(list_id:str):
+    print(f'Getting cards from list with id: {list_id}')
+    response = trello_request('GET', f'https://api.trello.com/1/lists/{list_id}/cards')
+    data = json.loads(response.text)
+    return [x['name'] for x in data]
+
+
 # archive all cards in the given list by id
 def archive_old_cards(list_id:str):
-    print(f'Archiving cards from "Current" list with id: {list_id}')
+    print(f'Archiving cards from list with id: {list_id}')
     response = trello_request('POST', f'https://api.trello.com/1/lists/{list_id}/archiveAllCards')
     
     if response.status_code == 200:
@@ -90,7 +100,6 @@ def load_cards(allow_repeats:bool):
 
 
 # rate limited (100 per 10 sec) add all the cards processed from above
-@RateLimiter(max_calls=100, period=10)
 def generate_next_trello_card(list_id:str, card_name:str, idx:int, total:int):
     params = {
         'idList': list_id,

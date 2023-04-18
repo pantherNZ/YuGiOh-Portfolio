@@ -45,6 +45,8 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
 
     protected override void Start()
     {
+        EventReceiverInstance.modifyListenerWithEnableDisable = false;
+
         base.Start();
 
         Instance = this;
