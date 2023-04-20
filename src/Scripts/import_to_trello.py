@@ -3,8 +3,19 @@ import TrelloKey
 from ratelimiter import RateLimiter
 from pathlib import Path
 
-filename = Path(__file__).with_name('yugioh.txt')
+FILE = 'all.csv'
 
+filename = Path(__file__).with_name(FILE)
+is_csv = FILE.endswith('.csv')
+
+colour_map = {
+    "green":"60cb4b49c8246138305d2b30",
+    "blue":"60cb4b49df8e565d55e26598",
+    "orange":"60cb4b49c8246138305d2b34",
+    "purple":"60cb4b49c8246138305d2b3a",
+    "red":"60cb4b49c8246138305d2b38",
+    "yellow":"60cb4b49c8246138305d2b32",
+}
 
 @RateLimiter(max_calls=100, period=10)
 def trello_request(request_type:str, command:str, headers=dict(), params=dict()):
@@ -60,13 +71,7 @@ def archive_old_cards(list_id:str):
         print(f'[ERROR] FAILED Archiving cards: {response.reason}')
 
 
-def load_cards(allow_repeats:bool):
-     # read txt file data
-    with open(filename, 'r') as file:
-        next(file)
-        next(file)
-        data = file.readlines()
-
+def load_cards_txt(data: list, allow_repeats:bool):
     # parse data and return it
     entries = []
     unique_check = set()
@@ -94,8 +99,41 @@ def load_cards(allow_repeats:bool):
         else:
             continue
 
-    # sort alphabetically
-    entries.sort()
+    return entries
+
+
+def load_cards_csv(data: list, allow_repeats:bool):
+    # parse data and return it
+    entries = []
+    unique_check = set()
+    for idx, card in enumerate(data):
+
+        if card == '\n' or len(card) <= 10:
+            continue
+
+        card_data = card.split(',')
+
+        if len(card_data) < 8:
+            print(f'Failed to load info for card on line {idx}: "f{card}"')
+            continue
+
+        num_columns = len(card_data)
+        name = str.join(',', card_data[3:num_columns-12]).strip().replace('"', '')
+        set_name = card_data[num_columns-12].strip()
+        if set_name.find('-') != -1:
+            set_name = set_name[set_name.find('-')]
+        rarity = card_data[num_columns-9]
+        card_name = f'{name} ({set_name} - {rarity})'
+        
+        if allow_repeats:
+            for _ in range(int(card_data[1])):
+                entries.append(card_name)
+        elif name not in unique_check:
+            unique_check.add(name)
+            entries.append(card_name)
+        else:
+            continue
+
     return entries
 
 
@@ -109,19 +147,37 @@ def generate_next_trello_card(list_id:str, card_name:str, idx:int, total:int):
     
     if response.status_code != 200:
         print(f'[ERROR] FAILED adding card with name: {card_name} because: {response.reason}')
-        return False
+        return None
 
     print(f'Adding card: {card_name} ({idx}/{total})')
-    return True
+    return json.loads(response.text)['id']
+
+
+def add_label_colour_to_card(card_id:str, colour:str):
+    if colour not in colour_map:
+        print(f'[ERROR] FAILED adding label colour to card (not a valid colour): {card_id} colour: {colour}')
+        return
+
+    params = {
+        'value': colour_map[colour]
+    }    
+    response = trello_request('POST', f'https://api.trello.com/1/cards/{card_id}/idLabels', params=params)
+        
+    if response.status_code != 200:
+        print(f'[ERROR] FAILED adding label colour to card (request failed): {card_id} colour: {colour}')
 
 
 # call func above to add each card name as a trello card
-def generate_trello_cards(list_id:str, card_names:list):
+def generate_trello_cards(list_id:str, card_names:list, colours:dict = {}):
     print(f'Adding {len(card_names)} new cards to "Current" list with id: {list_id}')
         
     for idx, card in enumerate( card_names ):
-        if not generate_next_trello_card(list_id, card, idx, len(card_names)):
+        new_card_id = generate_next_trello_card(list_id, card, idx, len(card_names))
+        if new_card_id == None:
             return
+
+        if card in colours:
+            add_label_colour_to_card(new_card_id, colours[card])
 
     print(f'SUCCESS Finished adding {len(card_names)} new cards')
 
@@ -134,6 +190,12 @@ if __name__ == '__main__':
 
     archive_old_cards(list_id)
 
-    cards = load_cards(allow_repeats=False)
+    with open(filename, 'r') as file:
+        next(file)
+        next(file)
+        data = file.readlines()
+
+    cards = load_cards_csv(data, allow_repeats=False) if is_csv else load_cards_txt(data, allow_repeats=False)
+    cards.sort()
 
     generate_trello_cards(list_id, cards)
