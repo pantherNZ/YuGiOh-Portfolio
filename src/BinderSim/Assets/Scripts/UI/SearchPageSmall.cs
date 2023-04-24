@@ -158,7 +158,7 @@ public class SearchPageSmall : SearchPageBase
         {
             ( dragging.transform as RectTransform ).anchoredPosition = Utility.GetMouseOrTouchPos();
 
-            InputPriority.Instance.Request( () => Utility.IsMouseUpOrTouchEnd(), "MouseUp", 1, () =>
+            InputPriority.Instance.Request( () => Utility.IsMouseUpOrTouchEnd(), "MouseUp", 3, () =>
             {
                 StopDragging();
             } );
