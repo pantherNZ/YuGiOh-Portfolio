@@ -329,7 +329,7 @@ public abstract class SearchPageBase : EventReceiverInstance
             && flags.HasFlag( SearchPageFlags.PageFull )
             && !flags.HasFlag( SearchPageFlags.ReplacingCard ) )
         {
-            ShowInfoMessage( "Failed: ".Red() + "Page Full".Black());
+            ShowInfoMessage( "Failed: ".Red() + "Page full".Black());
             return;
         }
 

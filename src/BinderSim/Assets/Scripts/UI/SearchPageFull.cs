@@ -173,41 +173,41 @@ public class SearchPageFull : SearchPageBase
 
     private void AddBinderButtonPressed( CardDataRuntime card, int entryIdx )
     {
+        ShowInfoMessage( "Added to Binder: ".Blue() + card.name.Black() );
+
         currentCardSelectedIdx = entryIdx;
         ChooseCard();
-
-        ShowInfoMessage( "Added to Binder: ".Blue() + card.name.Black() );
     }
 
     private void AddInventoryButtonPressed( CardDataRuntime card, int entryIdx )
     {
+        ShowInfoMessage( "Added to Inventory: ".Blue() + card.name.Black() );
+
         BinderPage.Instance.Inventory.Add( cardData[entryIdx].DeepCopy() );
         BinderPage.Instance.SortInventory();
 
         if( GetDropDownOption() == InventoryData.Options.AllCards || GetDropDownOption() == InventoryData.Options.UnusedCards )
             SearchCards();
-
-        ShowInfoMessage( "Added to Inventory: ".Blue() + card.name.Black() );
     }
 
     private void RemoveFromInventoryButtonPressed( CardDataRuntime card, int entryIdx )
     {
+        ShowInfoMessage( "Removed from Inventory: ".Blue() + card.name.Black() );
+
         BinderPage.Instance.Inventory.Remove( card );
         SearchCards();
-
-        ShowInfoMessage( "Removed from Inventory: ".Blue() + card.name.Black() );
     }
 
     private void RemoveFromBinderButtonPressed( CardDataRuntime card, int entryIdx )
     {
+        ShowInfoMessage( "Removed from Binder: ".Blue() + card.name.Black() );
+
         EventSystem.Instance.TriggerEvent( new CardRemovedEvent()
         {
             card = card,
             fromInventory = FromInventory()
         } );
         SearchCards();
-
-        ShowInfoMessage( "Removed from Binder: ".Blue() + card.name.Black() );
     }
 
     private void FixScaleModifier()
