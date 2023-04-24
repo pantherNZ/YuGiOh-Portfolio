@@ -199,7 +199,7 @@ public class CardPage : EventReceiverInstance
             for( int cardIdx = 0; cardIdx < currentbinder.data.pageWidth * currentbinder.data.pageHeight; ++cardIdx )
             {
                 if( currentbinder.data.cardList[pageIdx][cardIdx] == null )
-                    return Utility.Mod( pageIdx + 1, 2 ) * currentbinder.data.pageWidth * currentbinder.data.pageHeight + cardIdx;
+                    return Utility.Mod( pageIdx, 2 ) * currentbinder.data.pageWidth * currentbinder.data.pageHeight + cardIdx;
             }
         }
 
