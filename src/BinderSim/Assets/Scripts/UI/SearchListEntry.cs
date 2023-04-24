@@ -130,7 +130,7 @@ public class SearchListEntry : EventReceiverInstance
             ? $"\nOwned Copies: {showCardOwnedCount}".Navy()
             : String.Empty );
 
-        if( showCardInUse )
+        if( showCardInUse && cardImage != null && cardImage.isActiveAndEnabled )
             cardImage.material = Constants.Instance.GreyscaleMaterial;
     }
 
