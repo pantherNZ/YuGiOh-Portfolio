@@ -173,8 +173,6 @@ public class SearchPageFull : SearchPageBase
 
     private void AddBinderButtonPressed( CardDataRuntime card, int entryIdx )
     {
-        ShowInfoMessage( "Added to Binder: ".Blue() + card.name.Black() );
-
         currentCardSelectedIdx = entryIdx;
         ChooseCard();
     }

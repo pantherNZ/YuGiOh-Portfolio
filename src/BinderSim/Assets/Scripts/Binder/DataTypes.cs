@@ -209,6 +209,9 @@ public enum SearchPageFlags
     SettingCards = 1 << 1,
     ReplacingCard = 1 << 2,
     PageFull = 1 << 3,
+    BinderFull = 1 << 4,
+    FillAllPages = 1 << 5,
+    RequestedFillAllPages = 1 << 6,
 }
 
 public class ImportData

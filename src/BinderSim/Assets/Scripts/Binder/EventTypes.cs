@@ -13,6 +13,7 @@ public class CardSelectedEvent : IBaseEvent
     public CardDataRuntime card;
     public bool fromDragDrop = false;
     public bool fromInventory = false;
+    public bool findEmptySlotInBinder = false;
 }
 
 public class CardRemovedEvent : IBaseEvent 
@@ -60,6 +61,7 @@ public class OpenInventoryPageEvent : OpenSearchPageEvent
 }
 
 public class PageFullEvent : IBaseEvent { }
+public class BinderFullEvent : IBaseEvent { }
 
 public class SearchEntryDragDropComplete : IBaseEvent { }
 

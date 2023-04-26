@@ -192,18 +192,30 @@ public class CardPage : EventReceiverInstance
         return string.Format( "{0}x{1}", currentbinder.data.pageWidth, currentbinder.data.pageHeight );
     }
 
-    private int? FindNextEmptyCardSlot()
+    private int? FindNextEmptyCardSlot( int startPage, int endPage )
     {
-        for( int pageIdx = Mathf.Max( 0, currentPage - 1 ); pageIdx <= currentPage && pageIdx < currentbinder.data.cardList.Count; ++pageIdx )
+        for( int pageIdx = startPage; pageIdx < endPage; ++pageIdx )
         {
             for( int cardIdx = 0; cardIdx < currentbinder.data.pageWidth * currentbinder.data.pageHeight; ++cardIdx )
             {
                 if( currentbinder.data.cardList[pageIdx][cardIdx] == null )
-                    return Utility.Mod( pageIdx, 2 ) * currentbinder.data.pageWidth * currentbinder.data.pageHeight + cardIdx;
+                    return pageIdx * currentbinder.data.pageWidth * currentbinder.data.pageHeight + cardIdx;
             }
         }
 
         return null;
+    }
+
+    private int? FindNextEmptyCardSlot( bool searchWholeBinder )
+    {
+        int startPage = Mathf.Max( 0, currentPage - 1 );
+        int endPage = searchWholeBinder ? currentbinder.data.cardList.Count : Mathf.Min( currentPage + 1, currentbinder.data.cardList.Count );
+        var slot = FindNextEmptyCardSlot( startPage, endPage );
+
+        if( slot == null && searchWholeBinder )
+            slot = FindNextEmptyCardSlot( 0, startPage );
+
+        return slot;
     }
 
     private void LoadCard( CardSelectedEvent e )
@@ -237,11 +249,11 @@ public class CardPage : EventReceiverInstance
         // Null card means we just want to add card to next valid empty card slot
         else if( currentModifyCardIdx == null )
         {
-            currentModifyCardIdx = FindNextEmptyCardSlot();
+            currentModifyCardIdx = FindNextEmptyCardSlot( e.findEmptySlotInBinder );
 
             if( currentModifyCardIdx == null )
             {
-                Debug.LogWarning( "No empty slot found to add card to on this page" );
+                Debug.LogError( "No empty slot found to add card to on this page/binder" );
                 return;
             }
         }
@@ -260,8 +272,12 @@ public class CardPage : EventReceiverInstance
 
         if( data != null )
         {
-            if( !e.fromDragDrop && FindNextEmptyCardSlot() == null )
+            if( !e.fromDragDrop && FindNextEmptyCardSlot( false ) == null )
+            {
                 EventSystem.Instance.TriggerEvent( new PageFullEvent() );
+                if( FindNextEmptyCardSlot( true ) == null )
+                    EventSystem.Instance.TriggerEvent( new BinderFullEvent() );
+            }
 
             data.insideBinderIdx = BinderPage.Instance.BinderData.IndexOf( currentbinder );
             BinderPage.Instance.SortInventory();
@@ -300,25 +316,22 @@ public class CardPage : EventReceiverInstance
                 return;
             }
 
-            if( data.insideBinderIdx != null )
+            // If this is in the current binder, we need to update the UI (and clear the card)
+            if( BinderPage.Instance.BinderData[data.insideBinderIdx.Value] == currentbinder )
             {
-                // If this is in the current binder, we need to update the UI (and clear the card)
-                if( BinderPage.Instance.BinderData[data.insideBinderIdx.Value] == currentbinder )
-                {
-                    var prevIdx = currentModifyCardIdx;
-                    currentModifyCardIdx = GetIndexFromPageAndPos( foundPage, foundIdx );
-                    LoadCard( new CardSelectedEvent() { card = null } );
-                    currentModifyCardIdx = prevIdx;
-                }
-                else
-                {
-                    // Clear this card from the old binder
-                    BinderPage.Instance.BinderData[data.insideBinderIdx.Value].data.cardList[foundPage][foundIdx] = null;
-                }
-
-                // Set previous card to not being inside a binder
-                data.insideBinderIdx = null;
+                var prevIdx = currentModifyCardIdx;
+                currentModifyCardIdx = GetIndexFromPageAndPos( foundPage, foundIdx );
+                LoadCard( new CardSelectedEvent() { card = null } );
+                currentModifyCardIdx = prevIdx;
             }
+            else
+            {
+                // Clear this card from the old binder
+                BinderPage.Instance.BinderData[data.insideBinderIdx.Value].data.cardList[foundPage][foundIdx] = null;
+            }
+
+            // Set previous card to not being inside a binder
+            data.insideBinderIdx = null;
         }
 
         BinderPage.Instance.SortInventory();
@@ -608,7 +621,8 @@ public class CardPage : EventReceiverInstance
         {
             page = openFullScreenSearch ? PageType.SearchPageFull : PageType.SearchPage,
             behaviour = SearchPageOrigin.CardPageSearch,
-            flags = ( FindNextEmptyCardSlot() == null ? SearchPageFlags.PageFull : 0 ),
+            flags = ( FindNextEmptyCardSlot( false ) == null ? SearchPageFlags.PageFull : 0 ) |
+                    ( FindNextEmptyCardSlot( true ) == null ? SearchPageFlags.PageFull : 0 ),
             currentBinderIdx = BinderPage.Instance.BinderData.IndexOf( currentbinder ),
         } );
 
@@ -627,7 +641,8 @@ public class CardPage : EventReceiverInstance
             flags = ( currentbinder.data.cardList[page][pos] == null
                 ? SearchPageFlags.SettingCards
                 : SearchPageFlags.ReplacingCard )
-                    | ( FindNextEmptyCardSlot() == null ? SearchPageFlags.PageFull : 0 ),
+                    | ( FindNextEmptyCardSlot( false ) == null ? SearchPageFlags.PageFull : 0 )
+                    | ( FindNextEmptyCardSlot( true ) == null ? SearchPageFlags.BinderFull : 0 ),
             replacingCard = currentbinder.data.cardList[page][pos] != null
                 ? currentbinder.data.cardList[page][pos].name
                 : String.Empty,
@@ -644,7 +659,8 @@ public class CardPage : EventReceiverInstance
         {
             behaviour = SearchPageOrigin.CardPageInventory,
             currentBinderIdx = BinderPage.Instance.BinderData.IndexOf(currentbinder),
-            flags = ( FindNextEmptyCardSlot() == null ? SearchPageFlags.PageFull : 0 ),
+            flags = ( FindNextEmptyCardSlot( false ) == null ? SearchPageFlags.PageFull : 0 ) |
+                    ( FindNextEmptyCardSlot( true ) == null ? SearchPageFlags.BinderFull : 0 ),
         } );
     }
 

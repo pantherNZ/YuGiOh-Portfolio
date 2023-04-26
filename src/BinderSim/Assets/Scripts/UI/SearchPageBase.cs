@@ -24,6 +24,7 @@ public abstract class SearchPageBase : EventReceiverInstance
     [SerializeField] protected TMPro.TextMeshProUGUI titleText = null;
     [SerializeField] Button minimiseMaximiseButton = null;
     [SerializeField] Button clearCardButton = null;
+    [SerializeField] DialogBox dialog = null;
 
     protected List<CardDataRuntime> cardData = new List<CardDataRuntime>();
     protected InventoryStorage tempImportInventory;
@@ -329,8 +330,27 @@ public abstract class SearchPageBase : EventReceiverInstance
             && flags.HasFlag( SearchPageFlags.PageFull )
             && !flags.HasFlag( SearchPageFlags.ReplacingCard ) )
         {
-            ShowInfoMessage( "Failed: ".Red() + "Page full".Black());
-            return;
+            if( flags.HasFlag( SearchPageFlags.BinderFull ) )
+            {
+                ShowInfoMessage( "Failed: ".Red() + "Binder full".Black() );
+                return;
+            }
+            else if( !flags.HasFlag( SearchPageFlags.RequestedFillAllPages ) )
+            {
+                flags |= SearchPageFlags.RequestedFillAllPages;
+                dialog.gameObject.SetActive( true );
+                dialog.onConfirm += () =>
+                {
+                    flags |= SearchPageFlags.FillAllPages;
+                    ChooseCardInternal( fromDragDrop );
+                };
+                return;
+            }
+            else if ( !flags.HasFlag( SearchPageFlags.FillAllPages ) )
+            {
+                ShowInfoMessage( "Failed: ".Red() + "Page full".Black() );
+                return;
+            }
         }
 
         Debug.Assert( currentCardSelectedIdx != null );
@@ -354,7 +374,8 @@ public abstract class SearchPageBase : EventReceiverInstance
         {
             card = data,
             fromDragDrop = fromDragDrop,
-            fromInventory = fromInventory
+            fromInventory = fromInventory,
+            findEmptySlotInBinder = flags.HasFlag( SearchPageFlags.FillAllPages ),
         } );
 
         // Only hide this page if we are selecting for a specific card
@@ -412,6 +433,8 @@ public abstract class SearchPageBase : EventReceiverInstance
                 : PageType.CardPage,
             fromFullscreen = behaviour == SearchPageOrigin.CardPageSearch ? ContainsHeader() as bool? : null
         } );
+
+        flags &= ~SearchPageFlags.RequestedFillAllPages;
     }
 
     public void ShowFullscreenSearch( bool fullscreen )
@@ -438,6 +461,10 @@ public abstract class SearchPageBase : EventReceiverInstance
         else if( e is PageFullEvent )
         {
             flags |= SearchPageFlags.PageFull;
+        }
+        else if( e is BinderFullEvent )
+        {
+            flags |= SearchPageFlags.BinderFull;
         }
     }
 
