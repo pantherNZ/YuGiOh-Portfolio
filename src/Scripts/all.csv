@@ -1,564 +1,587 @@
 "sep=,"
 Folder Name,Quantity,Trade Quantity,Card Name,Set Code,Set Name,Card Number,Rarity,Condition,Printing,Language,Price Bought,Date Bought,LOW,MID,MARKET
-all,1,0,ABC-Dragon Buster,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN059,Secret Rare,NearMint,Unlimited,English,2.32,2023-01-25,7.00,7.51,3.98
-all,1,0,"Aether, the Empowering Dragon",YS14,Super Starter Space-Time Showdown,YS14-EN011,Common,NearMint,1st Edition,English,0.20,2022-01-08,0.02,0.25,0.19
+all,1,0,ABC-Dragon Buster,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN059,Secret Rare,NearMint,Unlimited,English,2.32,2023-01-25,6.00,7.14,4.33
+all,1,0,"Aether, the Empowering Dragon",YS14,Super Starter Space-Time Showdown,YS14-EN011,Common,NearMint,1st Edition,English,0.20,2022-01-08,0.03,0.25,0.19
 all,1,0,"Aether, the Evil Empowering Dragon",CT13,2016 Mega-Tins,CT13-EN011,Super Rare,NearMint,Limited,English,0.25,2022-01-08,0.05,0.42,0.24
 all,1,0,"Aether, the Evil Empowering Dragon",CT13,2016 Mega-Tins,CT13-EN011,Super Rare,NearMint,Limited,English,0.31,2022-03-05,0.05,0.42,0.24
-all,1,0,Alba-Lenatus the Abyss Dragon,DIFO,Dimension Force,DIFO-EN035,Secret Rare,NearMint,1st Edition,English,9.75,2022-07-17,11.50,16.35,13.59
-all,1,0,Albion the Branded Dragon,LIOV,Lightning Overdrive,LIOV-EN033,Ultra Rare,NearMint,1st Edition,English,10.83,2022-07-17,1.50,3.00,2.37
-all,1,0,Albion the Shrouded Dragon,DAMA,Dawn Of Majesty,DAMA-EN008,Super Rare,NearMint,1st Edition,English,0.91,2022-07-17,0.41,1.40,1.32
+all,1,0,Alba-Lenatus the Abyss Dragon,DIFO,Dimension Force,DIFO-EN035,Secret Rare,NearMint,1st Edition,English,9.75,2022-07-17,11.00,14.99,13.77
+all,1,0,Albion the Branded Dragon,LIOV,Lightning Overdrive,LIOV-EN033,Ultra Rare,NearMint,1st Edition,English,10.83,2022-07-17,0.95,3.24,3.30
+all,1,0,Albion the Shrouded Dragon,DAMA,Dawn Of Majesty,DAMA-EN008,Super Rare,NearMint,1st Edition,English,0.91,2022-07-17,0.50,1.43,1.15
 all,1,0,Alexandrite Dragon,BP02,Battle Pack 2: War of the Giants,BP02-EN004,Common,NearMint,1st Edition,English,0.58,2022-01-08,0.28,0.50,0.50
-all,1,0,All-Eyes Phantom Dragon,BLHR,"Battles of Legend: Hero's Revenge",BLHR-EN043,Secret Rare,NearMint,1st Edition,English,1.02,2022-01-08,0.25,0.93,0.53
+all,1,0,All-Eyes Phantom Dragon,BLHR,"Battles of Legend: Hero's Revenge",BLHR-EN043,Secret Rare,NearMint,1st Edition,English,1.02,2022-01-08,0.25,0.91,0.53
 all,1,0,"Amorphactor Pain, the Imagination Dracoverlord",SHVI,Shining Victories,SHVI-EN044,Super Rare,NearMint,1st Edition,English,0.75,2022-01-08,0.50,0.80,0.66
-all,1,0,"Amorphactor Pain, the Imagination Dracoverlord",OP15,Ots Tournament Pack 15,OP15-EN021,Common,NearMint,Unlimited,English,0.25,2022-01-24,0.19,0.31,0.22
-all,1,0,Amorphage Lechery,SHVI,Shining Victories,SHVI-EN025,Ultra Rare,NearMint,1st Edition,English,0.63,2022-01-08,0.38,0.61,0.58
-all,1,0,Ancient Fairy Dragon,CT06,Collectible Tin 2009,CT06-EN002,Secret Rare,NearMint,Limited,English,5.70,2022-01-08,8.00,14.62,14.56
-all,1,0,Ancient Fairy Dragon,CT06,Collectible Tin 2009,CT06-EN002,Secret Rare,NearMint,Limited,English,7.44,2022-03-05,8.00,14.62,14.56
-all,1,0,Ancient Gear Gadjiltron Dragon,SD10,Structure Deck: Machine Re-Volt,SD10-EN001,Ultra Rare,NearMint,Unlimited,English,0.46,2022-01-08,0.40,1.04,1.01
-all,1,0,Ancient Pixie Dragon,PGLD,Premium Gold,PGLD-EN006,Gold Secret Rare,NearMint,1st Edition,English,5.74,2022-01-08,3.60,5.00,4.12
-all,1,0,Arc Rebellion Xyz Dragon,PHRA,Phantom Rage,PHRA-EN041,Secret Rare,NearMint,1st Edition,English,4.04,2022-03-05,1.99,4.48,3.62
-all,1,0,Arcanite Magician,PGL3,Premium Gold: Infinite Gold,PGL3-EN060,Gold Rare,NearMint,1st Edition,English,0.57,2022-03-07,0.30,0.62,0.59
-all,2,0,Archfiend Black Skull Dragon,CORE,Clash of Rebellions,CORE-EN048,Ultra Rare,NearMint,1st Edition,English,10.10,2022-01-08,7.41,10.00,8.71
-all,1,0,Archfiend Commander,CT11,2014 Mega-Tins,CT11-EN006,Super Rare,NearMint,Limited,English,0.30,2023-01-25,0.10,0.39,0.18
-all,1,0,"Archfiend Emperor, the First Lord of Horror",JOTL,Judgment of the Light,JOTL-ENDE1,Ultra Rare,NearMint,Limited,English,0.36,2022-01-08,0.10,0.50,0.47
-all,1,0,Archfiend Empress,LDS3,Legendary Duelists: Season 3,LDS3-EN007,Ultra Rare,NearMint,1st Edition,English,0.24,2023-01-25,0.10,0.29,0.23
-all,1,0,"Archfiend's Ascent",FIGA,Fists of the Gadgets,FIGA-EN033,Secret Rare,NearMint,1st Edition,English,0.52,2022-01-08,0.19,0.54,0.39
-all,1,0,"Archfiend's Awakening",FIGA,Fists of the Gadgets,FIGA-EN031,Secret Rare,NearMint,1st Edition,English,0.83,2022-01-08,0.34,1.00,1.83
-all,1,0,"Archfiend's Call",FIGA,Fists of the Gadgets,FIGA-EN032,Secret Rare,NearMint,1st Edition,English,0.47,2022-01-08,0.22,0.61,0.61
-all,1,0,"Archfiend's Manifestation",FIGA,Fists of the Gadgets,FIGA-EN034,Secret Rare,NearMint,1st Edition,English,0.77,2022-01-08,0.24,0.77,0.69
-all,1,0,Archnemeses Eschatos,ETCO,Eternity Code,ETCO-EN009,Ultra Rare,NearMint,1st Edition,English,6.53,2022-03-05,6.00,8.75,6.23
-all,1,0,Archnemeses Eschatos,ETCO,Eternity Code,ETCO-EN009,Ultra Rare,NearMint,1st Edition,English,4.85,2022-03-22,6.00,8.75,6.23
-all,1,0,Arkbrave Dragon,GFTP,Ghosts From The Past,GFTP-EN072,Ultra Rare,NearMint,1st Edition,English,0.21,2022-01-08,0.04,0.26,0.23
-all,1,0,Armed Dragon LV10,GFTP,Ghosts From The Past,GFTP-EN075,Ultra Rare,NearMint,1st Edition,English,1.13,2022-01-08,0.38,1.35,1.09
-all,2,0,Armed Dragon LV10 White,BLVO,Blazing Vortex,BLVO-EN005,Ultra Rare,NearMint,1st Edition,English,1.04,2022-01-08,0.43,1.13,0.97
-all,1,0,Armed Dragon LV7,SOD,Soul of the Duelist,SOD-EN015,Ultra Rare,NearMint,Unlimited,English,9.43,2022-01-08,3.90,5.98,6.23
-all,1,0,Armed Dragon Thunder LV10,BLVO,Blazing Vortex,BLVO-EN001,Secret Rare,NearMint,1st Edition,English,3.24,2022-01-08,0.86,2.16,2.10
-all,1,0,Armed Dragon Thunder LV7,BLVO,Blazing Vortex,BLVO-EN002,Ultra Rare,NearMint,1st Edition,English,2.47,2022-09-22,0.25,1.24,0.76
-all,1,0,"Armed Dragon, the Armored Dragon",HAC1,Hidden Arsenal Chapter 1,HAC1-EN173,Secret Rare,NearMint,Limited,English,2.41,2022-03-22,0.35,1.02,0.85
-all,1,0,"Armillyre, the Starleader Dragon",DUOV,Duel Overload,DUOV-EN029,Ultra Rare,NearMint,1st Edition,English,0.25,2022-01-24,0.18,0.34,0.25
-all,1,0,Armityle the Chaos Phantasm ,SDSA,Structure Deck: Sacred Beasts,SDSA-EN045,Ultra Rare,NearMint,1st Edition,English,0.78,2022-01-08,0.55,1.37,1.64
-all,1,0,Armityle the Chaos Phantasm - Phantom of Fury,PHRA,Phantom Rage,PHRA-EN035,Ultra Rare,NearMint,1st Edition,English,0.67,2022-01-08,0.53,1.00,0.98
-all,1,0,"Artemis, the Magistus Moon Maiden",BLCR,Battles Of Legend: Crystal Revenge,BLCR-EN095,Secret Rare,NearMint,1st Edition,English,0.77,2023-01-25,0.27,0.84,0.78
-all,1,0,Ascension Sky Dragon,LEHD,Legendary Hero Decks,LEHD-ENB34,Ultra Rare,NearMint,1st Edition,English,0.48,2022-01-08,0.08,0.49,0.32
-all,1,0,Assault Wyvern,MVP1S,The Dark Side of Dimensions Movie Pack: Secret Edition,MVP1-ENS03,Secret Rare,NearMint,1st Edition,English,0.44,2022-01-08,0.14,0.58,0.58
-all,1,0,Atomic Scrap Dragon,STOR,Storm Of Ragnarok,STOR-EN043,Ultimate Rare,NearMint,Unlimited,English,4.90,2022-01-08,2.92,4.34,3.64
-all,1,0,A-to-Z-Dragon Buster Cannon,SDKS,Structure Deck: Seto Kaiba,SDKS-EN040,Ultra Rare,NearMint,1st Edition,English,0.57,2022-01-08,0.25,0.63,0.60
-all,1,0,Awakening of the Possessed - Rasenryu,DLCS,Dragons Of Legend: The Complete Series,DLCS-EN144,Secret Rare,NearMint,Limited,English,1.19,2022-01-24,0.11,1.01,0.68
-all,1,0,Azure-Eyes Silver Dragon,SDBE,Saga Of Blue-Eyes White Dragon Structure Deck,SDBE-EN040,Ultra Rare,NearMint,1st Edition,English,1.04,2022-01-08,0.23,0.94,0.68
+all,1,0,"Amorphactor Pain, the Imagination Dracoverlord",OP15,Ots Tournament Pack 15,OP15-EN021,Common,NearMint,Unlimited,English,0.25,2022-01-24,0.19,0.33,0.21
+all,1,0,Amorphage Lechery,SHVI,Shining Victories,SHVI-EN025,Ultra Rare,NearMint,1st Edition,English,0.63,2022-01-08,0.38,0.60,0.59
+all,1,0,Amulet Dragon,DRL3,Dragons of Legend: Unleashed,DRL3-EN043,Ultra Rare,NearMint,1st Edition,English,1.09,2023-04-29,0.50,1.12,1.09
+all,1,0,Ancient Fairy Dragon,CT06,Collectible Tin 2009,CT06-EN002,Secret Rare,NearMint,Limited,English,5.70,2022-01-08,5.82,12.00,14.05
+all,1,0,Ancient Fairy Dragon,CT06,Collectible Tin 2009,CT06-EN002,Secret Rare,NearMint,Limited,English,7.44,2022-03-05,5.82,12.00,14.05
+all,1,0,Ancient Gear Gadjiltron Dragon,SD10,Structure Deck: Machine Re-Volt,SD10-EN001,Ultra Rare,NearMint,Unlimited,English,0.46,2022-01-08,0.38,1.04,1.01
+all,1,0,Ancient Gear Reactor Dragon,SR03,Machine Reactor Structure Deck,SR03-EN001,Ultra Rare,NearMint,1st Edition,English,1.42,2023-04-26,0.96,1.58,1.43
+all,1,0,Ancient Pixie Dragon,PGLD,Premium Gold,PGLD-EN006,Gold Secret Rare,NearMint,1st Edition,English,5.74,2022-01-08,3.60,5.00,4.57
+all,1,0,Arc Rebellion Xyz Dragon,PHRA,Phantom Rage,PHRA-EN041,Secret Rare,NearMint,1st Edition,English,4.04,2022-03-05,1.99,4.23,3.74
+all,1,0,Arcanite Magician,PGL3,Premium Gold: Infinite Gold,PGL3-EN060,Gold Rare,NearMint,1st Edition,English,0.57,2022-03-07,0.40,0.67,0.63
+all,2,0,Archfiend Black Skull Dragon,CORE,Clash of Rebellions,CORE-EN048,Ultra Rare,NearMint,1st Edition,English,10.10,2022-01-08,8.42,10.00,8.83
+all,1,0,Archfiend Commander,CT11,2014 Mega-Tins,CT11-EN006,Super Rare,NearMint,Limited,English,0.30,2023-01-25,0.10,0.40,0.21
+all,1,0,"Archfiend Emperor, the First Lord of Horror",JOTL,Judgment of the Light,JOTL-ENDE1,Ultra Rare,NearMint,Limited,English,0.36,2022-01-08,0.10,0.50,0.48
+all,1,0,Archfiend Empress,LDS3,Legendary Duelists: Season 3,LDS3-EN007,Ultra Rare,NearMint,1st Edition,English,0.24,2023-01-25,0.10,0.30,0.28
+all,1,0,"Archfiend's Ascent",FIGA,Fists of the Gadgets,FIGA-EN033,Secret Rare,NearMint,1st Edition,English,0.52,2022-01-08,0.15,0.51,0.44
+all,1,0,"Archfiend's Awakening",FIGA,Fists of the Gadgets,FIGA-EN031,Secret Rare,NearMint,1st Edition,English,0.83,2022-01-08,0.26,1.00,1.93
+all,1,0,"Archfiend's Call",FIGA,Fists of the Gadgets,FIGA-EN032,Secret Rare,NearMint,1st Edition,English,0.47,2022-01-08,0.20,0.60,0.63
+all,1,0,"Archfiend's Manifestation",FIGA,Fists of the Gadgets,FIGA-EN034,Secret Rare,NearMint,1st Edition,English,0.77,2022-01-08,0.20,0.79,0.76
+all,1,0,Archnemeses Eschatos,ETCO,Eternity Code,ETCO-EN009,Ultra Rare,NearMint,1st Edition,English,6.53,2022-03-05,6.00,8.51,6.63
+all,1,0,Archnemeses Eschatos,ETCO,Eternity Code,ETCO-EN009,Ultra Rare,NearMint,1st Edition,English,4.85,2022-03-22,6.00,8.51,6.63
+all,1,0,Arkbrave Dragon,GFTP,Ghosts From The Past,GFTP-EN072,Ultra Rare,NearMint,1st Edition,English,0.21,2022-01-08,0.04,0.26,0.22
+all,1,0,Armed Dragon LV10,GFTP,Ghosts From The Past,GFTP-EN075,Ultra Rare,NearMint,1st Edition,English,1.13,2022-01-08,0.38,1.36,1.17
+all,2,0,Armed Dragon LV10 White,BLVO,Blazing Vortex,BLVO-EN005,Ultra Rare,NearMint,1st Edition,English,1.04,2022-01-08,0.44,1.10,0.85
+all,1,0,Armed Dragon LV7,SOD,Soul of the Duelist,SOD-EN015,Ultra Rare,NearMint,Unlimited,English,9.43,2022-01-08,3.45,5.98,6.17
+all,1,0,Armed Dragon Thunder LV10,BLVO,Blazing Vortex,BLVO-EN001,Secret Rare,NearMint,1st Edition,English,3.24,2022-01-08,0.95,2.10,2.08
+all,1,0,Armed Dragon Thunder LV7,BLVO,Blazing Vortex,BLVO-EN002,Ultra Rare,NearMint,1st Edition,English,2.47,2022-09-22,0.20,1.21,0.73
+all,1,0,"Armed Dragon, the Armored Dragon",HAC1,Hidden Arsenal Chapter 1,HAC1-EN173,Secret Rare,NearMint,Limited,English,2.41,2022-03-22,0.40,1.00,0.83
+all,1,0,"Armillyre, the Starleader Dragon",DUOV,Duel Overload,DUOV-EN029,Ultra Rare,NearMint,1st Edition,English,0.25,2022-01-24,0.18,0.35,0.25
+all,1,0,Armityle the Chaos Phantasm ,SDSA,Structure Deck: Sacred Beasts,SDSA-EN045,Ultra Rare,NearMint,1st Edition,English,0.78,2022-01-08,0.55,1.37,1.65
+all,1,0,Armityle the Chaos Phantasm - Phantom of Fury,PHRA,Phantom Rage,PHRA-EN035,Ultra Rare,NearMint,1st Edition,English,0.67,2022-01-08,0.48,1.00,0.81
+all,1,0,"Artemis, the Magistus Moon Maiden",BLCR,Battles Of Legend: Crystal Revenge,BLCR-EN095,Secret Rare,NearMint,1st Edition,English,0.77,2023-01-25,0.25,0.90,0.70
+all,1,0,Ascension Sky Dragon,LEHD,Legendary Hero Decks,LEHD-ENB34,Ultra Rare,NearMint,1st Edition,English,0.48,2022-01-08,0.08,0.49,0.33
+all,1,0,Assault Wyvern,MVP1S,The Dark Side of Dimensions Movie Pack: Secret Edition,MVP1-ENS03,Secret Rare,NearMint,1st Edition,English,0.44,2022-01-08,0.13,0.56,0.58
+all,1,0,Atomic Scrap Dragon,STOR,Storm Of Ragnarok,STOR-EN043,Ultimate Rare,NearMint,Unlimited,English,4.90,2022-01-08,2.69,4.41,3.53
+all,1,0,A-to-Z-Dragon Buster Cannon,SDKS,Structure Deck: Seto Kaiba,SDKS-EN040,Ultra Rare,NearMint,1st Edition,English,0.57,2022-01-08,0.30,0.62,0.61
+all,1,0,Awakening of the Possessed - Rasenryu,DLCS,Dragons Of Legend: The Complete Series,DLCS-EN144,Secret Rare,NearMint,Limited,English,1.19,2022-01-24,0.15,1.00,0.65
+all,1,0,Azure-Eyes Silver Dragon,SDBE,Saga Of Blue-Eyes White Dragon Structure Deck,SDBE-EN040,Ultra Rare,NearMint,1st Edition,English,1.04,2022-01-08,0.22,0.89,0.66
 all,1,0,Baby Mudragon,MP22,"2022 Tin Of The Pharaoh's Gods",MP22-EN172,Ultra Rare,NearMint,1st Edition,English,0.14,2023-01-25,0.03,0.15,0.11
-all,1,0,"Bahalutiya, the Grand Radiance",LIOV,Lightning Overdrive,LIOV-EN023,Secret Rare,NearMint,1st Edition,English,1.45,2022-01-08,0.69,1.86,1.24
-all,1,0,Barrel Dragon,HAC1,Hidden Arsenal Chapter 1,HAC1-EN006,Duel Terminal Ultra Parallel Rare,NearMint,1st Edition,English,0.29,2022-03-22,0.03,0.28,0.24
-all,1,0,Beast-Eyes Pendulum Dragon,JUMP,Shonen Jump Magazine,JUMP-EN074,Ultra Rare,NearMint,Limited,English,2.92,2022-01-08,1.99,2.99,2.20
-all,1,0,Beelze of the Diabolic Dragons,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN071,Secret Rare,NearMint,Unlimited,English,4.42,2022-01-08,2.80,4.67,3.25
-all,1,0,Beelzeus of the Diabolic Dragons,YF08,"5D's volume 8 Promotional Card",YF08-EN001,Ultra Rare,NearMint,Limited,English,11.01,2022-07-17,4.84,7.51,7.76
-all,1,0,Berserk Dragon,DCR,Dark Crisis,DCR-019,Super Rare,NearMint,Unlimited,English,1.88,2022-01-08,0.99,1.76,1.76
-all,1,0,Black Dragon Collapserpent,BLHR,"Battles of Legend: Hero's Revenge",BLHR-EN077,Ultra Rare,NearMint,1st Edition,English,0.73,2022-01-08,0.09,0.78,0.51
-all,1,0,Black Rose Dragon,CSOC,Crossroads of Chaos,CSOC-EN039,Ultra Rare,NearMint,Unlimited,English,7.73,2022-01-08,5.00,8.49,8.04
-all,3,0,Black Rose Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN110,Ultra Rare,NearMint,1st Edition,English,0.73,2022-01-08,0.40,0.85,0.52
-all,1,0,Black Rose Moonlight Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN112,Ultra Rare,NearMint,1st Edition,English,3.37,2022-01-08,1.99,3.37,3.28
-all,1,0,Black Skull Dragon ,DLG1,Dark Legends,DLG1-EN029,Rare,NearMint,Unlimited,English,3.09,2022-01-08,0.99,1.90,1.49
-all,1,0,Black Skull Dragon ,MRD,Metal Raiders,MRD-018,Ultra Rare,Played,1st Edition,English,295.00,2022-01-08,239.01,398.95,399.95
-all,1,0,Black Skull Dragon ,BPT,Booster Pack Tin,BPT-006,Secret Rare,NearMint,Limited,English,61.94,2023-01-25,23.00,53.00,62.00
-all,1,0,Blackfeather Darkrage Dragon,PGLD,Premium Gold,PGLD-EN017,Gold Secret Rare,NearMint,1st Edition,English,1.77,2022-01-08,1.37,2.25,1.89
-all,1,0,Black-Winged Assault Dragon,DABL,Darkwing Blast,DABL-EN042,Ultra Rare,NearMint,1st Edition,English,1.25,2023-01-25,0.89,1.82,2.29
-all,1,0,Black-Winged Dragon,DP11,Duelist Pack: Crow,DP11-EN016,Super Rare,NearMint,1st Edition,English,1.41,2022-01-08,2.98,5.01,5.51
-all,1,0,Black-Winged Dragon,LC5D,"Legendary Collection 5D's Mega Pack",LC5D-EN135,Common,NearMint,1st Edition,English,0.36,2022-01-24,0.25,0.59,0.58
-all,1,0,"Blaster, Dragon Ruler of Infernos",CT10,Collectible Tin 2013,CT10-EN002,Secret Rare,NearMint,Limited,English,4.42,2022-01-08,4.75,8.22,7.78
-all,1,0,Blue Rose Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN104,Ultra Rare,NearMint,1st Edition,English,0.50,2022-01-08,0.20,0.56,0.31
+all,1,0,"Bahalutiya, the Grand Radiance",LIOV,Lightning Overdrive,LIOV-EN023,Secret Rare,NearMint,1st Edition,English,1.45,2022-01-08,0.66,1.90,1.15
+all,1,0,Barrel Dragon,HAC1,Hidden Arsenal Chapter 1,HAC1-EN006,Duel Terminal Ultra Parallel Rare,NearMint,1st Edition,English,0.29,2022-03-22,0.03,0.29,0.23
+all,1,0,Beast-Eyes Pendulum Dragon,JUMP,Shonen Jump Magazine,JUMP-EN074,Ultra Rare,NearMint,Limited,English,2.92,2022-01-08,1.95,2.98,2.06
+all,1,0,Beelze of the Diabolic Dragons,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN071,Secret Rare,NearMint,Unlimited,English,4.42,2022-01-08,2.78,4.85,3.33
+all,1,0,Beelzeus of the Diabolic Dragons,YF08,"5D's volume 8 Promotional Card",YF08-EN001,Ultra Rare,NearMint,Limited,English,11.01,2022-07-17,4.79,7.84,7.59
+all,1,0,Berserk Dragon,DCR,Dark Crisis,DCR-019,Super Rare,NearMint,Unlimited,English,1.88,2022-01-08,1.05,1.99,1.73
+all,1,0,Black Dragon Collapserpent,BLHR,"Battles of Legend: Hero's Revenge",BLHR-EN077,Ultra Rare,NearMint,1st Edition,English,0.73,2022-01-08,0.40,0.86,0.53
+all,1,0,Black Rose Dragon,CSOC,Crossroads of Chaos,CSOC-EN039,Ultra Rare,NearMint,Unlimited,English,7.73,2022-01-08,5.87,10.01,7.93
+all,3,0,Black Rose Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN110,Ultra Rare,NearMint,1st Edition,English,0.73,2022-01-08,0.40,0.94,0.53
+all,1,0,Black Rose Moonlight Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN112,Ultra Rare,NearMint,1st Edition,English,3.37,2022-01-08,1.99,3.29,3.09
+all,1,0,Black Skull Dragon ,DLG1,Dark Legends,DLG1-EN029,Rare,NearMint,Unlimited,English,3.09,2022-01-08,0.99,1.99,1.29
+all,1,0,Black Skull Dragon ,MRD,Metal Raiders,MRD-018,Ultra Rare,Played,1st Edition,English,295.00,2022-01-08,240.00,400.00,399.95
+all,1,0,Black Skull Dragon ,BPT,Booster Pack Tin,BPT-006,Secret Rare,NearMint,Limited,English,61.94,2023-01-25,22.00,45.21,58.47
+all,1,0,Blackfeather Darkrage Dragon,PGLD,Premium Gold,PGLD-EN017,Gold Secret Rare,NearMint,1st Edition,English,1.77,2022-01-08,1.40,2.25,1.88
+all,1,0,Black-Winged Assault Dragon,DABL,Darkwing Blast,DABL-EN042,Ultra Rare,NearMint,1st Edition,English,1.25,2023-01-25,0.93,1.75,1.65
+all,1,0,Black-Winged Dragon,DP11,Duelist Pack: Crow,DP11-EN016,Super Rare,NearMint,1st Edition,English,1.41,2022-01-08,2.98,5.01,5.24
+all,1,0,Black-Winged Dragon,LC5D,"Legendary Collection 5D's Mega Pack",LC5D-EN135,Common,NearMint,1st Edition,English,0.36,2022-01-24,0.39,0.59,0.57
+all,1,0,"Blaster, Dragon Ruler of Infernos",CT10,Collectible Tin 2013,CT10-EN002,Secret Rare,NearMint,Limited,English,4.42,2022-01-08,6.00,8.22,7.35
+all,1,0,Blue Rose Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN104,Ultra Rare,NearMint,1st Edition,English,0.50,2022-01-08,0.15,0.53,0.30
 all,1,0,Blue Rose Dragon,LC5D,"Legendary Collection 5D's Mega Pack",LC5D-EN093,Super Rare,NearMint,1st Edition,English,0.85,2022-01-24,0.24,0.66,0.49
-all,1,0,Blue-Eyes Abyss Dragon,MAMA,Magnificent Mavens,MAMA-EN056,Ultra Rare,NearMint,1st Edition,English,0.86,2023-01-25,0.26,1.00,0.82
-all,1,0,Blue-Eyes Alternative Ultimate Dragon,TN19,2019 Gold Sarcophagus Tin,TN19-EN001,Prismatic Secret Rare,NearMint,Limited,English,6.79,2022-01-08,6.90,9.00,9.94
-all,1,0,Blue-Eyes Alternative White Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN008,Ultra Rare,NearMint,1st Edition,English,13.04,2023-01-25,10.11,15.00,16.58
-all,1,0,Blue-Eyes Chaos Dragon,LED3,Legendary Duelists: White Dragon Abyss,LED3-EN001,Ultra Rare,NearMint,1st Edition,English,9.28,2022-01-07,8.99,11.87,10.59
-all,1,0,Blue-Eyes Chaos Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN017,Secret Rare,NearMint,1st Edition,English,8.25,2022-01-08,7.76,11.00,8.38
-all,2,0,Blue-Eyes Chaos MAX Dragon,MVP1,The Dark Side of Dimensions Movie Pack,MVP1-EN004,Ultra Rare,NearMint,Unlimited,English,1.84,2022-01-08,1.98,2.69,2.02
-all,1,0,Blue-Eyes Jet Dragon,BACH,Battle Of Chaos,BACH-EN004,Secret Rare,NearMint,1st Edition,English,17.81,2022-03-07,25.00,29.70,27.66
-all,1,0,Blue-Eyes Shining Dragon,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN008,Secret Rare,NearMint,Unlimited,English,5.20,2022-01-08,3.90,6.00,5.32
-all,1,0,Blue-Eyes Solid Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN014,Ultra Rare,NearMint,1st Edition,English,1.77,2022-01-08,1.10,1.78,1.73
-all,2,0,Blue-Eyes Spirit Dragon,CT13,2016 Mega-Tins,CT13-EN009,Ultra Rare,NearMint,Limited,English,3.09,2022-01-08,2.00,3.32,3.01
-all,1,0,Blue-Eyes Toon Dragon,SDP,Starter Deck Pegasus,SDP-020,Common,NearMint,1st Edition,English,2.03,2022-01-08,0.69,2.14,2.21
-all,2,0,Blue-Eyes Twin Burst Dragon,MP17,2017 Mega-Tins Mega Pack,MP17-EN056,Secret Rare,NearMint,1st Edition,English,5.34,2022-01-08,2.91,3.49,3.27
-all,1,0,Blue-Eyes Tyrant Dragon,BACH,Battle Of Chaos,BACH-EN037,Ultra Rare,NearMint,1st Edition,English,5.40,2022-03-07,6.23,9.70,8.40
-all,3,0,Blue-Eyes Ultimate Dragon,LDK2,Legendary Decks II,LDK2-ENK40,Ultra Rare,NearMint,1st Edition,English,1.24,2022-01-08,1.49,1.98,1.99
-all,1,0,Blue-Eyes Ultimate Dragon,JUMP,Shonen Jump Magazine,JMP-EN005,Secret Rare,NearMint,Limited,English,16.65,2023-01-25,7.66,15.14,17.49
-all,1,0,Blue-Eyes White Dragon,SDK,Starter Deck Kaiba,SDK-001,Ultra Rare,Poor,Unlimited,English,32.64,2022-01-08,18.60,34.56,33.90
-all,1,0,Blue-Eyes White Dragon,SKE,Starter Deck Kaiba Evolution,SKE-001,Super Rare,NearMint,Unlimited,English,2.01,2022-01-08,0.65,1.64,2.28
-all,3,0,Blue-Eyes White Dragon,CT14,2017 Mega-Tins,CT14-EN002,Secret Rare,NearMint,Limited,English,3.21,2022-01-08,1.79,3.77,3.32
-all,2,0,Blue-Eyes White Dragon,LC01,Legendary Collection,LC01-EN004,Ultra Rare,NearMint,Limited,English,1.22,2022-01-08,0.05,1.24,1.20
-all,2,0,Blue-Eyes White Dragon,SDBE,Saga Of Blue-Eyes White Dragon Structure Deck,SDBE-EN001,Ultra Rare,NearMint,1st Edition,English,1.45,2022-01-08,0.79,1.78,1.52
-all,1,0,Blue-Eyes White Dragon,SDBE,Saga Of Blue-Eyes White Dragon Structure Deck,SDBE-EN001,Ultra Rare,NearMint,Unlimited,English,0.90,2022-01-08,0.50,1.03,0.88
-all,1,0,Blue-Eyes White Dragon,MAGO,Maximum Gold,MAGO-EN001,Premium Gold Rare,NearMint,1st Edition,English,21.63,2022-01-24,12.51,19.54,17.02
-all,1,0,Blue-Eyes White Dragon,MGED,Maximum Gold: El Dorado,MGED-EN001,Premium Gold Rare,NearMint,1st Edition,English,3.54,2022-01-24,0.79,2.18,1.29
-all,1,0,Blue-Eyes White Dragon,MVP1,The Dark Side of Dimensions Movie Pack,MVP1-EN055,Ultra Rare,NearMint,1st Edition,English,2.27,2022-03-05,1.49,2.97,2.91
-all,1,0,Blue-Eyes White Dragon,MVP1,The Dark Side of Dimensions Movie Pack,MVP1-EN055,Ultra Rare,NearMint,Unlimited,English,1.95,2022-03-05,1.52,1.92,1.67
-all,1,0,Blue-Eyes White Dragon,BPT,Booster Pack Tin,BPT-009,Secret Rare,NearMint,Limited,English,34.34,2023-01-25,13.79,30.11,32.89
-all,1,0,Blue-Eyes White Dragon,KACB,"Kaiba's Collector Box",KACB-EN001,Ultra Rare,NearMint,Limited,English,1.23,2023-01-25,0.98,2.00,1.44
-all,1,0,Blue-Eyes White Dragon,SDK,Starter Deck Kaiba,SDK-001,Ultra Rare,NearMint,Unlimited,English,30.50,2023-01-25,18.60,34.56,33.90
+all,1,0,Blue-Eyes Abyss Dragon,MAMA,Magnificent Mavens,MAMA-EN056,Ultra Rare,NearMint,1st Edition,English,0.86,2023-01-25,0.26,1.00,0.79
+all,1,0,Blue-Eyes Alternative Ultimate Dragon,TN19,2019 Gold Sarcophagus Tin,TN19-EN001,Prismatic Secret Rare,NearMint,Limited,English,6.79,2022-01-08,6.89,9.04,8.61
+all,1,0,Blue-Eyes Alternative White Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN008,Ultra Rare,NearMint,1st Edition,English,13.04,2023-01-25,10.00,14.37,15.83
+all,1,0,Blue-Eyes Chaos Dragon,LED3,Legendary Duelists: White Dragon Abyss,LED3-EN001,Ultra Rare,NearMint,1st Edition,English,9.28,2022-01-07,9.21,11.66,10.62
+all,1,0,Blue-Eyes Chaos Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN017,Secret Rare,NearMint,1st Edition,English,8.25,2022-01-08,8.00,11.69,9.61
+all,2,0,Blue-Eyes Chaos MAX Dragon,MVP1,The Dark Side of Dimensions Movie Pack,MVP1-EN004,Ultra Rare,NearMint,Unlimited,English,1.84,2022-01-08,1.98,2.55,1.99
+all,1,0,Blue-Eyes Jet Dragon,BACH,Battle Of Chaos,BACH-EN004,Secret Rare,NearMint,1st Edition,English,17.81,2022-03-07,26.24,30.00,28.19
+all,1,0,Blue-Eyes Shining Dragon,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN008,Secret Rare,NearMint,Unlimited,English,5.20,2022-01-08,3.93,7.00,5.58
+all,1,0,Blue-Eyes Solid Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN014,Ultra Rare,NearMint,1st Edition,English,1.77,2022-01-08,1.00,1.89,1.71
+all,2,0,Blue-Eyes Spirit Dragon,CT13,2016 Mega-Tins,CT13-EN009,Ultra Rare,NearMint,Limited,English,3.09,2022-01-08,2.00,3.25,2.97
+all,1,0,Blue-Eyes Toon Dragon,SDP,Starter Deck Pegasus,SDP-020,Common,NearMint,1st Edition,English,2.03,2022-01-08,0.69,2.17,2.21
+all,2,0,Blue-Eyes Twin Burst Dragon,MP17,2017 Mega-Tins Mega Pack,MP17-EN056,Secret Rare,NearMint,1st Edition,English,5.34,2022-01-08,2.92,3.50,3.69
+all,1,0,Blue-Eyes Tyrant Dragon,BACH,Battle Of Chaos,BACH-EN037,Ultra Rare,NearMint,1st Edition,English,5.40,2022-03-07,7.50,9.64,8.31
+all,3,0,Blue-Eyes Ultimate Dragon,LDK2,Legendary Decks II,LDK2-ENK40,Ultra Rare,NearMint,1st Edition,English,1.24,2022-01-08,1.49,1.96,2.03
+all,1,0,Blue-Eyes Ultimate Dragon,JUMP,Shonen Jump Magazine,JMP-EN005,Secret Rare,NearMint,Limited,English,16.65,2023-01-25,9.63,17.14,18.14
+all,1,0,Blue-Eyes White Dragon,SDK,Starter Deck Kaiba,SDK-001,Ultra Rare,Poor,Unlimited,English,32.64,2022-01-08,19.99,32.00,34.60
+all,1,0,Blue-Eyes White Dragon,SKE,Starter Deck Kaiba Evolution,SKE-001,Super Rare,NearMint,Unlimited,English,2.01,2022-01-08,0.64,1.99,2.15
+all,3,0,Blue-Eyes White Dragon,CT14,2017 Mega-Tins,CT14-EN002,Secret Rare,NearMint,Limited,English,3.21,2022-01-08,1.78,3.93,3.52
+all,2,0,Blue-Eyes White Dragon,LC01,Legendary Collection,LC01-EN004,Ultra Rare,NearMint,Limited,English,1.22,2022-01-08,0.05,1.25,1.01
+all,2,0,Blue-Eyes White Dragon,SDBE,Saga Of Blue-Eyes White Dragon Structure Deck,SDBE-EN001,Ultra Rare,NearMint,1st Edition,English,1.45,2022-01-08,0.79,1.94,1.45
+all,1,0,Blue-Eyes White Dragon,SDBE,Saga Of Blue-Eyes White Dragon Structure Deck,SDBE-EN001,Ultra Rare,NearMint,Unlimited,English,0.90,2022-01-08,0.50,1.07,0.98
+all,1,0,Blue-Eyes White Dragon,MAGO,Maximum Gold,MAGO-EN001,Premium Gold Rare,NearMint,1st Edition,English,21.63,2022-01-24,13.14,19.99,16.92
+all,1,0,Blue-Eyes White Dragon,MGED,Maximum Gold: El Dorado,MGED-EN001,Premium Gold Rare,NearMint,1st Edition,English,3.54,2022-01-24,0.89,2.52,1.38
+all,1,0,Blue-Eyes White Dragon,MVP1,The Dark Side of Dimensions Movie Pack,MVP1-EN055,Ultra Rare,NearMint,1st Edition,English,2.27,2022-03-05,1.94,3.10,2.96
+all,1,0,Blue-Eyes White Dragon,MVP1,The Dark Side of Dimensions Movie Pack,MVP1-EN055,Ultra Rare,NearMint,Unlimited,English,1.95,2022-03-05,1.49,1.82,1.65
+all,1,0,Blue-Eyes White Dragon,BPT,Booster Pack Tin,BPT-009,Secret Rare,NearMint,Limited,English,34.34,2023-01-25,12.95,30.05,32.28
+all,1,0,Blue-Eyes White Dragon,KACB,"Kaiba's Collector Box",KACB-EN001,Ultra Rare,NearMint,Limited,English,1.23,2023-01-25,0.99,2.19,1.44
+all,1,0,Blue-Eyes White Dragon,SDK,Starter Deck Kaiba,SDK-001,Ultra Rare,NearMint,Unlimited,English,30.50,2023-01-25,19.99,32.00,34.60
 all,1,0,Booster Dragon,DUPO,Duel Power,DUPO-EN025,Ultra Rare,NearMint,1st Edition,English,0.20,2022-01-08,0.05,0.30,0.22
-all,1,0,Borrelcode Dragon,BODE,Burst Of Destiny,BODE-EN050,Ultra Rare,NearMint,1st Edition,English,1.21,2022-01-24,0.43,1.00,0.82
-all,1,0,Borrelend Dragon,GFP2,Ghosts From The Past: The 2Nd Haunting,GFP2-EN006,Ultra Rare,NearMint,1st Edition,English,1.95,2022-07-17,0.15,1.09,0.92
-all,1,0,Borreload eXcharge Dragon,"RIRA",Rising Rampage,RIRA-EN039,Ultra Rare,NearMint,1st Edition,English,0.63,2022-01-08,0.23,0.79,0.77
-all,1,0,Borreload eXcharge Dragon,"RIRA",Rising Rampage,RIRA-EN039,Ultra Rare,NearMint,Unlimited,English,0.78,2022-01-24,0.25,0.85,0.90
-all,2,0,Borreload Furious Dragon,SDRR,Structure Deck: Rokket Revolt,SDRR-EN042,Ultra Rare,NearMint,1st Edition,English,0.43,2022-01-24,0.40,0.77,0.52
-all,1,0,Borreload Riot Dragon,BODE,Burst Of Destiny,BODE-EN036,Ultra Rare,NearMint,1st Edition,English,0.71,2022-01-08,0.19,0.74,0.42
-all,1,0,Borreload Riot Dragon,BODE,Burst Of Destiny,BODE-EN036,Ultra Rare,NearMint,1st Edition,English,0.80,2022-01-24,0.19,0.74,0.42
-all,1,0,Borrelsword Dragon,MAGO,Maximum Gold,MAGO-EN039,Premium Gold Rare,NearMint,1st Edition,English,5.45,2022-01-24,0.43,1.90,1.15
-all,2,0,Brave-Eyes Pendulum Dragon,RATE,Raging Tempest,RATE-EN039,Secret Rare,NearMint,1st Edition,English,3.57,2022-01-08,8.95,12.59,10.47
-all,1,0,Brigrand the Glory Dragon,PHRA,Phantom Rage,PHRA-EN031,Ultra Rare,NearMint,1st Edition,English,0.85,2022-01-08,2.00,3.40,2.74
-all,1,0,"Brionac, Dragon of the Ice Barrier",DUSA,Duelist Saga,DUSA-EN073,Ultra Rare,NearMint,1st Edition,English,1.26,2022-01-08,0.68,1.31,1.11
-all,1,0,Buster Dragon,GFTP,Ghosts From The Past,GFTP-EN097,Ultra Rare,NearMint,1st Edition,English,0.91,2022-01-08,0.49,1.10,0.91
-all,1,0,Buster Dragon,BOSH,Breakers of Shadow,BOSH-EN052,Ultra Rare,NearMint,Unlimited,English,1.60,2022-01-24,0.73,1.55,1.09
-all,1,0,Chaos Dragon Levianeer,MAGO,Maximum Gold,MAGO-EN017,Premium Gold Rare,NearMint,1st Edition,English,3.81,2022-01-08,0.63,1.83,1.86
-all,1,0,Chaos Emperor Dragon - Envoy of the End,TOCH,Toon Chaos,TOCH-EN030,Rare,NearMint,1st Edition,English,0.69,2022-01-08,0.18,0.49,0.47
-all,1,0,"Chaos Ruler, the Chaotic Magical Dragon",MP21,2021 Tin Of Ancient Battles,MP21-EN128,Ultra Rare,NearMint,1st Edition,English,1.04,2022-01-08,0.39,1.50,0.75
-all,1,0,Chimeratech Fortress Dragon,PGL3,Premium Gold: Infinite Gold,PGL3-EN057,Gold Rare,NearMint,1st Edition,English,5.65,2022-03-05,0.65,1.65,1.11
-all,1,0,Chimeratech Megafleet Dragon,BLAR,Battles Of Legend: Armageddon,BLAR-EN085,Secret Rare,NearMint,1st Edition,English,5.25,2022-03-05,0.64,1.97,1.19
-all,1,0,Chimeratech Overdragon,PGLD,Premium Gold,PGLD-EN056,Gold Rare,NearMint,1st Edition,English,1.39,2022-03-05,0.49,1.00,0.98
-all,1,0,Chimeratech Rampage Dragon,LEDD,Legendary Dragon Decks,LEDD-ENB29,Ultra Rare,NearMint,1st Edition,English,2.39,2022-03-05,0.15,0.63,0.51
-all,1,0,Chthonian Emperor Dragon,TAEV,Tactical Evolution,TAEV-EN019,Ultra Rare,NearMint,1st Edition,English,2.46,2022-01-08,0.88,1.47,1.43
-all,1,0,Chthonian Emperor Dragon,TAEV,Tactical Evolution,TAEV-EN019,Ultra Rare,NearMint,Unlimited,English,2.45,2022-07-17,0.50,1.48,1.65
-all,1,0,Clear Vice Dragon,SOVR,Stardust Overdrive,SOVR-EN098,Secret Rare,NearMint,Unlimited,English,10.57,2022-01-08,4.67,11.42,11.79
-all,1,0,Clear Wing Fast Dragon,DUDE,Duel Devastator,DUDE-EN011,Ultra Rare,NearMint,1st Edition,English,0.20,2022-01-08,0.04,0.32,0.21
-all,1,0,Clear Wing Synchro Dragon,MP16,2016 Mega-Tins Mega Pack,MP16-EN022,Secret Rare,NearMint,1st Edition,English,3.12,2022-01-08,1.00,2.79,1.71
-all,1,0,Coral Dragon,TDIL,The Dark Illusion,TDIL-EN051,Secret Rare,NearMint,1st Edition,English,11.80,2022-01-08,22.00,27.99,21.48
-all,1,0,Cosmic Blazar Dragon,DUSA,Duelist Saga,DUSA-EN034,Ultra Rare,NearMint,1st Edition,English,3.21,2022-01-08,3.49,8.45,7.03
-all,1,0,Crossrose Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN114,Ultra Rare,NearMint,1st Edition,English,0.67,2022-01-08,0.23,0.66,0.40
-all,1,0,Crossrose Dragon,DUOV,Duel Overload,DUOV-EN015,Ultra Rare,NearMint,1st Edition,English,0.62,2022-01-24,0.20,0.68,0.54
-all,1,0,Crystal Beast Rainbow Dragon,GFP2,Ghosts From The Past: The 2Nd Haunting,GFP2-EN001,Ultra Rare,NearMint,1st Edition,English,0.83,2022-07-17,0.04,0.47,0.20
-all,1,0,Crystal Clear Wing Synchro Dragon,LED8,Legendary Duelists: Synchro Storm,LED8-EN005,Ultra Rare,NearMint,1st Edition,English,4.78,2022-01-24,1.89,5.73,5.51
-all,1,0,Crystal Wing Synchro Dragon,BLLR,"Battles of Legend: Light's Revenge",BLLR-EN062,Secret Rare,NearMint,1st Edition,English,10.36,2022-01-08,6.00,9.00,8.66
-all,1,0,"Curse of Dragon, the Cursed Dragon",LDS1,Legendary Duelists: Season 1,LDS1-EN118,Ultra Rare,NearMint,1st Edition,English,0.23,2022-01-08,0.03,0.35,0.29
-all,1,0,"Curse of Dragon, the Cursed Dragon",MP21,2021 Tin Of Ancient Battles,MP21-EN098,Common,NearMint,1st Edition,English,0.09,2022-07-17,0.01,0.18,0.07
-all,1,0,Curse of Dragonfire,MIL1,Millennium Pack,MIL1-EN002,Ultra Rare,NearMint,1st Edition,English,1.95,2022-03-05,0.71,1.72,1.67
-all,1,0,Cyber Dragon,HAC1,Hidden Arsenal Chapter 1,HAC1-EN014,Duel Terminal Ultra Parallel Rare,NearMint,1st Edition,English,2.39,2022-03-22,0.20,1.00,0.91
-all,1,0,Cyber Dragon Infinity,MP16,2016 Mega-Tins Mega Pack,MP16-EN237,Secret Rare,NearMint,1st Edition,English,8.16,2022-01-08,5.90,7.71,7.22
-all,1,0,Cyber Dragon Infinity,MAGO,Maximum Gold,MAGO-EN033a,Premium Gold Rare,NearMint,1st Edition,English,3.48,2022-01-08,2.53,4.00,3.73
-all,1,0,Cyber Dragon Nachster,LDS2,Legendary Duelists: Season 2,LDS2-EN032,Ultra Rare,NearMint,1st Edition,English,2.18,2022-03-22,0.48,1.41,1.04
-all,1,0,Cyber Dragon Sieger,LDS2,Legendary Duelists: Season 2,LDS2-EN034,Common,NearMint,1st Edition,English,1.90,2022-01-24,1.22,2.00,1.63
-all,1,0,Cyber End Dragon,SDCS,Structure Deck: Cyber Strike,SDCS-EN041,Ultra Rare,NearMint,1st Edition,English,0.41,2022-01-08,0.12,0.30,0.22
-all,1,0,Cyber Eternity Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN033,Ultra Rare,NearMint,1st Edition,English,5.96,2022-01-08,1.95,3.19,3.61
-all,1,0,Cyberdark End Dragon,SDCS,Structure Deck: Cyber Strike,SDCS-EN044,Ultra Rare,NearMint,1st Edition,English,0.31,2022-01-08,0.11,0.32,0.20
-all,1,0,Cyberse Clock Dragon,SOFU,Soul Fusion,SOFU-EN034,Ultra Rare,NearMint,Unlimited,English,0.52,2022-01-08,0.24,0.73,0.34
-all,1,0,Cyberse Quantum Dragon,MP20,2020 Tin Of Lost Memories,MP20-EN018,Prismatic Secret Rare,NearMint,1st Edition,English,1.72,2022-01-08,0.48,1.10,1.24
-all,1,0,D/D/D Deviser King Deus Machinex,BACH,Battle Of Chaos,BACH-EN044,Ultra Rare,NearMint,1st Edition,English,5.27,2023-01-25,4.59,6.43,6.54
-all,1,0,Daigusto Eguls,HA05,Hidden Arsenal 5 Steelswarm Invasion,HA05-EN054,Secret Rare,NearMint,1st Edition,English,0.78,2022-01-08,0.38,0.75,0.60
-all,2,0,Dark Anthelion Dragon,DUOV,Duel Overload,DUOV-EN036,Ultra Rare,NearMint,1st Edition,English,0.25,2022-01-08,0.01,0.39,0.29
-all,1,0,Dark Armed Dragon,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN068,Secret Rare,NearMint,1st Edition,English,2.89,2022-01-08,3.00,6.03,5.39
-all,1,0,Dark Armed Dragon,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN068,Secret Rare,NearMint,1st Edition,English,4.87,2022-03-05,3.00,6.03,5.39
-all,2,0,"Dark Armed, the Dragon of Annihilation",BLAR,Battles Of Legend: Armageddon,BLAR-EN050,Secret Rare,NearMint,1st Edition,English,1.94,2022-01-08,14.00,15.98,14.81
-all,1,0,Dark End Dragon,JUMP,Shonen Jump Magazine,JUMP-EN044,Ultra Rare,NearMint,Limited,English,2.22,2022-01-08,7.98,9.11,8.83
-all,1,0,Dark Horus,PTDN,Phantom Darkness,PTDN-EN016,Ultra Rare,NearMint,1st Edition,English,11.25,2022-01-24,5.50,9.90,10.60
-all,1,0,Dark Magician Girl,LART,The Lost Art Promotion,LART-EN035,Ultra Rare,NearMint,Limited,English,31.67,2022-01-08,24.00,28.00,26.29
-all,1,0,Dark Magician Girl,MP22,"2022 Tin Of The Pharaoh's Gods",MP22-EN268,Prismatic Secret Rare,NearMint,1st Edition,English,16.83,2023-01-25,8.00,15.99,12.89
-all,1,0,Dark Magician Girl the Dragon Knight,DRL3,Dragons of Legend: Unleashed,DRL3-EN044,Ultra Rare,NearMint,1st Edition,English,3.75,2022-01-08,3.28,5.89,4.99
-all,1,0,Dark Magician Girl the Dragon Knight,DLCS,Dragons Of Legend: The Complete Series,DLCS-EN006(G),Ultra Rare,NearMint,1st Edition,English,2.27,2022-01-08,2.12,3.22,3.22
-all,1,0,Dark Rebellion Xyz Dragon,CT12,2015 Mega-Tins,CT12-EN002,Platinum Secret Rare,NearMint,Limited,English,2.50,2022-01-08,1.00,2.23,1.98
-all,1,0,Dark Requiem Xyz Dragon,INOV,Invasion: Vengeance,INOV-EN049,Secret Rare,NearMint,Unlimited,English,7.65,2022-01-08,1.65,3.10,2.18
-all,1,0,Dark Requiem Xyz Dragon,GFTP,Ghosts From The Past,GFTP-EN099,Ultra Rare,NearMint,1st Edition,English,0.81,2022-01-08,0.10,0.50,0.40
-all,1,0,"Darkest Diabolos, Lord of the Lair",SR06,Structure Deck: Lair Of Darkness,SR06-EN001,Ultra Rare,NearMint,1st Edition,English,3.46,2022-01-08,0.94,3.47,2.68
+all,1,0,Borrelcode Dragon,BODE,Burst Of Destiny,BODE-EN050,Ultra Rare,NearMint,1st Edition,English,1.21,2022-01-24,0.37,1.00,0.79
+all,1,0,Borrelend Dragon,GFP2,Ghosts From The Past: The 2Nd Haunting,GFP2-EN006,Ultra Rare,NearMint,1st Edition,English,1.95,2022-07-17,0.15,1.09,0.90
+all,1,0,Borreload eXcharge Dragon,"RIRA",Rising Rampage,RIRA-EN039,Ultra Rare,NearMint,1st Edition,English,0.63,2022-01-08,0.22,0.79,0.73
+all,1,0,Borreload eXcharge Dragon,"RIRA",Rising Rampage,RIRA-EN039,Ultra Rare,NearMint,Unlimited,English,0.78,2022-01-24,0.25,0.85,1.01
+all,2,0,Borreload Furious Dragon,SDRR,Structure Deck: Rokket Revolt,SDRR-EN042,Ultra Rare,NearMint,1st Edition,English,0.43,2022-01-24,0.40,0.75,0.52
+all,1,0,Borreload Riot Dragon,BODE,Burst Of Destiny,BODE-EN036,Ultra Rare,NearMint,1st Edition,English,0.71,2022-01-08,0.15,0.75,0.38
+all,1,0,Borreload Riot Dragon,BODE,Burst Of Destiny,BODE-EN036,Ultra Rare,NearMint,1st Edition,English,0.80,2022-01-24,0.15,0.75,0.38
+all,1,0,Borrelsword Dragon,MAGO,Maximum Gold,MAGO-EN039,Premium Gold Rare,NearMint,1st Edition,English,5.45,2022-01-24,0.46,1.90,0.87
+all,2,0,Brave-Eyes Pendulum Dragon,RATE,Raging Tempest,RATE-EN039,Secret Rare,NearMint,1st Edition,English,3.57,2022-01-08,10.00,12.24,10.72
+all,1,0,Brigrand the Glory Dragon,PHRA,Phantom Rage,PHRA-EN031,Ultra Rare,NearMint,1st Edition,English,0.85,2022-01-08,1.25,2.99,2.33
+all,1,0,"Brionac, Dragon of the Ice Barrier",DUSA,Duelist Saga,DUSA-EN073,Ultra Rare,NearMint,1st Edition,English,1.26,2022-01-08,0.59,1.26,1.09
+all,1,0,Buster Dragon,GFTP,Ghosts From The Past,GFTP-EN097,Ultra Rare,NearMint,1st Edition,English,0.91,2022-01-08,0.48,1.10,0.88
+all,1,0,Buster Dragon,BOSH,Breakers of Shadow,BOSH-EN052,Ultra Rare,NearMint,Unlimited,English,1.60,2022-01-24,0.74,1.69,1.07
+all,1,0,Chaos Dragon Levianeer,MAGO,Maximum Gold,MAGO-EN017,Premium Gold Rare,NearMint,1st Edition,English,3.81,2022-01-08,0.75,1.79,1.37
+all,1,0,Chaos Emperor Dragon - Envoy of the End,TOCH,Toon Chaos,TOCH-EN030,Rare,NearMint,1st Edition,English,0.69,2022-01-08,0.18,0.49,0.48
+all,1,0,Chaos Emperor Dragon - Envoy of the End,IOC,Invasion of Chaos,IOC-000,Secret Rare,NearMint,Unlimited,English,21.10,2023-04-26,18.39,29.27,20.65
+all,1,0,"Chaos Emperor, the Dragon of Armageddon",BLAR,Battles Of Legend: Armageddon,BLAR-EN051,Secret Rare,NearMint,1st Edition,English,56.02,2023-04-26,54.00,69.26,55.51
+all,1,0,"Chaos Ruler, the Chaotic Magical Dragon",MP21,2021 Tin Of Ancient Battles,MP21-EN128,Ultra Rare,NearMint,1st Edition,English,1.04,2022-01-08,0.39,1.43,0.77
+all,1,0,Chimeratech Fortress Dragon,PGL3,Premium Gold: Infinite Gold,PGL3-EN057,Gold Rare,NearMint,1st Edition,English,5.65,2022-03-05,0.65,1.72,1.11
+all,1,0,Chimeratech Megafleet Dragon,BLAR,Battles Of Legend: Armageddon,BLAR-EN085,Secret Rare,NearMint,1st Edition,English,5.25,2022-03-05,0.61,2.00,1.26
+all,1,0,Chimeratech Overdragon,PGLD,Premium Gold,PGLD-EN056,Gold Rare,NearMint,1st Edition,English,1.39,2022-03-05,0.49,1.00,1.02
+all,1,0,Chimeratech Rampage Dragon,LEDD,Legendary Dragon Decks,LEDD-ENB29,Ultra Rare,NearMint,1st Edition,English,2.39,2022-03-05,0.11,0.70,0.49
+all,1,0,Chthonian Emperor Dragon,TAEV,Tactical Evolution,TAEV-EN019,Ultra Rare,NearMint,1st Edition,English,2.46,2022-01-08,0.86,1.50,1.43
+all,1,0,Chthonian Emperor Dragon,TAEV,Tactical Evolution,TAEV-EN019,Ultra Rare,NearMint,Unlimited,English,2.45,2022-07-17,0.50,1.56,1.65
+all,1,0,Clear Vice Dragon,SOVR,Stardust Overdrive,SOVR-EN098,Secret Rare,NearMint,Unlimited,English,10.57,2022-01-08,7.42,11.40,11.79
+all,1,0,Clear Wing Fast Dragon,DUDE,Duel Devastator,DUDE-EN011,Ultra Rare,NearMint,1st Edition,English,0.20,2022-01-08,0.04,0.35,0.24
+all,1,0,Clear Wing Synchro Dragon,MP16,2016 Mega-Tins Mega Pack,MP16-EN022,Secret Rare,NearMint,1st Edition,English,3.12,2022-01-08,1.65,2.70,1.77
+all,1,0,Coral Dragon,TDIL,The Dark Illusion,TDIL-EN051,Secret Rare,NearMint,1st Edition,English,11.80,2022-01-08,19.15,24.51,21.60
+all,1,0,Cosmic Blazar Dragon,DUSA,Duelist Saga,DUSA-EN034,Ultra Rare,NearMint,1st Edition,English,3.21,2022-01-08,3.25,7.03,7.51
+all,1,0,Crossrose Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN114,Ultra Rare,NearMint,1st Edition,English,0.67,2022-01-08,0.25,0.66,0.36
+all,1,0,Crossrose Dragon,DUOV,Duel Overload,DUOV-EN015,Ultra Rare,NearMint,1st Edition,English,0.62,2022-01-24,0.20,0.61,0.55
+all,1,0,Crystal Beast Rainbow Dragon,GFP2,Ghosts From The Past: The 2Nd Haunting,GFP2-EN001,Ultra Rare,NearMint,1st Edition,English,0.83,2022-07-17,0.04,0.46,0.21
+all,1,0,Crystal Clear Wing Synchro Dragon,LED8,Legendary Duelists: Synchro Storm,LED8-EN005,Ultra Rare,NearMint,1st Edition,English,4.78,2022-01-24,1.89,5.86,5.45
+all,1,0,Crystal Wing Synchro Dragon,BLLR,"Battles of Legend: Light's Revenge",BLLR-EN062,Secret Rare,NearMint,1st Edition,English,10.36,2022-01-08,6.00,11.39,8.78
+all,1,0,"Curse of Dragon, the Cursed Dragon",LDS1,Legendary Duelists: Season 1,LDS1-EN118,Ultra Rare,NearMint,1st Edition,English,0.23,2022-01-08,0.03,0.36,0.31
+all,1,0,"Curse of Dragon, the Cursed Dragon",MP21,2021 Tin Of Ancient Battles,MP21-EN098,Common,NearMint,1st Edition,English,0.09,2022-07-17,0.01,0.19,0.06
+all,1,0,Curse of Dragonfire,MIL1,Millennium Pack,MIL1-EN002,Ultra Rare,NearMint,1st Edition,English,1.95,2022-03-05,0.74,1.78,1.67
+all,1,0,Cyber Dragon,HAC1,Hidden Arsenal Chapter 1,HAC1-EN014,Duel Terminal Ultra Parallel Rare,NearMint,1st Edition,English,2.39,2022-03-22,0.20,1.00,0.88
+all,1,0,Cyber Dragon Infinity,MP16,2016 Mega-Tins Mega Pack,MP16-EN237,Secret Rare,NearMint,1st Edition,English,8.16,2022-01-08,5.65,7.84,7.46
+all,1,0,Cyber Dragon Infinity,MAGO,Maximum Gold,MAGO-EN033a,Premium Gold Rare,NearMint,1st Edition,English,3.48,2022-01-08,2.49,4.00,3.66
+all,1,0,Cyber Dragon Nachster,LDS2,Legendary Duelists: Season 2,LDS2-EN032,Ultra Rare,NearMint,1st Edition,English,2.18,2022-03-22,0.40,1.40,1.01
+all,1,0,Cyber Dragon Sieger,LDS2,Legendary Duelists: Season 2,LDS2-EN034,Common,NearMint,1st Edition,English,1.90,2022-01-24,0.85,1.83,1.81
+all,1,0,Cyber End Dragon,SDCS,Structure Deck: Cyber Strike,SDCS-EN041,Ultra Rare,NearMint,1st Edition,English,0.41,2022-01-08,0.12,0.30,0.21
+all,1,0,Cyber Eternity Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN033,Ultra Rare,NearMint,1st Edition,English,5.96,2022-01-08,2.00,3.65,4.81
+all,1,0,Cyberdark End Dragon,SDCS,Structure Deck: Cyber Strike,SDCS-EN044,Ultra Rare,NearMint,1st Edition,English,0.31,2022-01-08,0.10,0.34,0.26
+all,1,0,Cyberse Clock Dragon,SOFU,Soul Fusion,SOFU-EN034,Ultra Rare,NearMint,Unlimited,English,0.52,2022-01-08,0.24,0.65,0.34
+all,1,0,Cyberse Quantum Dragon,MP20,2020 Tin Of Lost Memories,MP20-EN018,Prismatic Secret Rare,NearMint,1st Edition,English,1.72,2022-01-08,0.47,1.11,1.17
+all,1,0,D/D/D Deviser King Deus Machinex,BACH,Battle Of Chaos,BACH-EN044,Ultra Rare,NearMint,1st Edition,English,5.27,2023-01-25,4.50,6.27,5.51
+all,1,0,Daigusto Eguls,HA05,Hidden Arsenal 5 Steelswarm Invasion,HA05-EN054,Secret Rare,NearMint,1st Edition,English,0.78,2022-01-08,0.30,0.75,0.60
+all,2,0,Dark Anthelion Dragon,DUOV,Duel Overload,DUOV-EN036,Ultra Rare,NearMint,1st Edition,English,0.25,2022-01-08,0.01,0.39,0.28
+all,1,0,Dark Armed Dragon,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN068,Secret Rare,NearMint,1st Edition,English,2.89,2022-01-08,3.00,6.00,5.67
+all,1,0,Dark Armed Dragon,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN068,Secret Rare,NearMint,1st Edition,English,4.87,2022-03-05,3.00,6.00,5.67
+all,2,0,"Dark Armed, the Dragon of Annihilation",BLAR,Battles Of Legend: Armageddon,BLAR-EN050,Secret Rare,NearMint,1st Edition,English,1.94,2022-01-08,11.97,15.00,13.09
+all,1,0,Dark End Dragon,JUMP,Shonen Jump Magazine,JUMP-EN044,Ultra Rare,NearMint,Limited,English,2.22,2022-01-08,7.84,9.24,9.52
+all,1,0,Dark Horus,PTDN,Phantom Darkness,PTDN-EN016,Ultra Rare,NearMint,1st Edition,English,11.25,2022-01-24,5.50,9.22,10.53
+all,1,0,Dark Magician Girl,LART,The Lost Art Promotion,LART-EN035,Ultra Rare,NearMint,Limited,English,31.67,2022-01-08,24.75,28.07,26.23
+all,1,0,Dark Magician Girl,MP22,"2022 Tin Of The Pharaoh's Gods",MP22-EN268,Prismatic Secret Rare,NearMint,1st Edition,English,16.83,2023-01-25,12.68,16.64,13.52
+all,1,0,Dark Magician Girl the Dragon Knight,DRL3,Dragons of Legend: Unleashed,DRL3-EN044,Ultra Rare,NearMint,1st Edition,English,3.75,2022-01-08,4.00,5.99,5.14
+all,1,0,Dark Magician Girl the Dragon Knight,DLCS,Dragons Of Legend: The Complete Series,DLCS-EN006(G),Ultra Rare,NearMint,1st Edition,English,2.27,2022-01-08,2.12,3.21,3.17
+all,1,0,Dark Magician the Dragon Knight,LEDD,Legendary Dragon Decks,LEDD-ENA00,Ultra Rare,NearMint,1st Edition,English,1.38,2023-04-29,0.97,1.99,1.38
+all,1,0,Dark Rebellion Xyz Dragon,CT12,2015 Mega-Tins,CT12-EN002,Platinum Secret Rare,NearMint,Limited,English,2.50,2022-01-08,1.00,2.39,1.89
+all,1,0,Dark Requiem Xyz Dragon,INOV,Invasion: Vengeance,INOV-EN049,Secret Rare,NearMint,Unlimited,English,7.65,2022-01-08,1.50,3.57,2.06
+all,1,0,Dark Requiem Xyz Dragon,GFTP,Ghosts From The Past,GFTP-EN099,Ultra Rare,NearMint,1st Edition,English,0.81,2022-01-08,0.10,0.52,0.39
+all,1,0,"Darkest Diabolos, Lord of the Lair",SR06,Structure Deck: Lair Of Darkness,SR06-EN001,Ultra Rare,NearMint,1st Edition,English,3.46,2022-01-08,0.94,3.50,2.36
 all,1,0,Darkflare Dragon,PGLD,Premium Gold,PGLD-EN040,Gold Rare,NearMint,1st Edition,English,0.42,2022-01-08,0.17,0.55,0.57
-all,1,0,"Darkness Metal, the Dragon of Dark Steel",BLAR,Battles Of Legend: Armageddon,BLAR-EN047,Secret Rare,NearMint,1st Edition,English,3.34,2022-03-05,2.94,5.00,5.00
-all,1,0,Darkstorm Dragon,ORCS,Order of Chaos,ORCS-EN037,Super Rare,NearMint,1st Edition,English,0.48,2022-01-08,0.24,0.55,0.53
+all,1,0,"Darkness Metal, the Dragon of Dark Steel",BLAR,Battles Of Legend: Armageddon,BLAR-EN047,Secret Rare,NearMint,1st Edition,English,3.34,2022-03-05,3.95,4.99,4.82
+all,1,0,Darkstorm Dragon,ORCS,Order of Chaos,ORCS-EN037,Super Rare,NearMint,1st Edition,English,0.48,2022-01-08,0.24,0.56,0.53
 all,1,0,Darkstorm Dragon,OP03,OTS Tournament Pack 3,OP03-EN024,Common,NearMint,Unlimited,English,0.21,2022-01-24,0.15,0.35,0.21
-all,1,0,Debris Dragon,LC5D,"Legendary Collection 5D's Mega Pack",LC5D-EN009,Secret Rare,NearMint,1st Edition,English,4.98,2022-01-08,9.50,12.95,10.38
-all,1,0,Deep-Eyes White Dragon,MVP1,The Dark Side of Dimensions Movie Pack,MVP1-EN005,Ultra Rare,NearMint,1st Edition,English,1.47,2022-01-08,0.35,0.99,0.73
-all,1,0,Des Volstgalph,GLD2,Gold Series 2009,GLD2-EN002,Gold Rare,NearMint,Limited,English,6.82,2022-01-08,1.64,2.52,2.48
-all,1,0,Desperado Barrel Dragon,LDS1,Legendary Duelists: Season 1,LDS1-EN076,Ultra Rare,NearMint,1st Edition,English,0.67,2022-01-08,0.26,0.90,0.92
-all,3,0,Destruction Dragon,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN108,Secret Rare,NearMint,Unlimited,English,1.29,2022-01-08,0.72,1.49,1.30
+all,1,0,Debris Dragon,LC5D,"Legendary Collection 5D's Mega Pack",LC5D-EN009,Secret Rare,NearMint,1st Edition,English,4.98,2022-01-08,9.50,12.83,10.34
+all,1,0,Deep-Eyes White Dragon,MVP1,The Dark Side of Dimensions Movie Pack,MVP1-EN005,Ultra Rare,NearMint,1st Edition,English,1.47,2022-01-08,0.35,0.99,0.72
+all,1,0,Des Volstgalph,GLD2,Gold Series 2009,GLD2-EN002,Gold Rare,NearMint,Limited,English,6.82,2022-01-08,1.64,2.21,2.53
+all,1,0,Desperado Barrel Dragon,LDS1,Legendary Duelists: Season 1,LDS1-EN076,Ultra Rare,NearMint,1st Edition,English,0.67,2022-01-08,0.26,0.90,0.85
+all,3,0,Destruction Dragon,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN108,Secret Rare,NearMint,Unlimited,English,1.29,2022-01-08,0.72,1.49,1.31
 all,1,0,Destruction Dragon,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN108,Secret Rare,NearMint,1st Edition,English,2.50,2022-03-05,0.68,1.64,2.97
 all,1,0,Divine Dragon - Excelion,SOI,Shadow of Infinity,SOI-EN033,Ultimate Rare,NearMint,Unlimited,English,0.00,2022-03-05,8.00,8.00,
-all,1,0,Divine Dragon Lord Felgrand,SR02,Rise Of The True Dragons Structure Deck,SR02-EN001,Ultra Rare,NearMint,1st Edition,English,1.31,2022-01-08,0.25,0.99,0.77
+all,1,0,Divine Dragon Lord Felgrand,SR02,Rise Of The True Dragons Structure Deck,SR02-EN001,Ultra Rare,NearMint,1st Edition,English,1.31,2022-01-08,0.34,0.99,0.78
 all,1,0,Doom Virus Dragon,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN064,Ultra Rare,NearMint,1st Edition,English,0.39,2022-01-08,0.18,0.50,0.34
-all,1,0,Doomkaiser Dragon,CSOC,Crossroads of Chaos,CSOC-EN043,Ultimate Rare,NearMint,Unlimited,English,17.11,2022-01-08,11.49,20.67,22.69
+all,1,0,Doomkaiser Dragon,CSOC,Crossroads of Chaos,CSOC-EN043,Ultimate Rare,NearMint,Unlimited,English,17.11,2022-01-08,11.34,17.93,20.22
 all,1,0,Doomkaiser Dragon,DL16,Duelist League 16,DL16-EN011,Rare,NearMint,Unlimited,English,0.00,2023-01-25,20.00,28.02,
-all,1,0,Doomkaiser Dragon/Assault Mode,CRMS,Crimson Crisis,CRMS-EN019,Ultra Rare,NearMint,1st Edition,English,1.62,2022-01-08,0.79,1.24,1.26
-all,1,0,Doublebyte Dragon,DUPO,Duel Power,DUPO-EN020,Ultra Rare,NearMint,1st Edition,English,0.21,2022-03-22,0.07,0.32,0.30
-all,3,0,Dragocytos Corrupted Nethersoul Dragon,PGL2,Premium Gold: Return of the Bling,PGL2-EN014,Gold Secret Rare,NearMint,1st Edition,English,1.00,2022-01-08,0.45,0.88,0.75
-all,1,0,Dragon Buster Destruction Sword,BLAR,Battles Of Legend: Armageddon,BLAR-EN079,Ultra Rare,NearMint,1st Edition,English,0.69,2022-01-08,0.25,0.76,0.44
-all,1,0,Dragon Buster Destruction Sword,BOSH,Breakers of Shadow,BOSH-EN020,Common,NearMint,Unlimited,English,0.38,2022-01-24,0.12,0.48,0.34
+all,1,0,Doomkaiser Dragon/Assault Mode,CRMS,Crimson Crisis,CRMS-EN019,Ultra Rare,NearMint,1st Edition,English,1.62,2022-01-08,0.79,1.30,1.27
+all,1,0,Doublebyte Dragon,DUPO,Duel Power,DUPO-EN020,Ultra Rare,NearMint,1st Edition,English,0.21,2022-03-22,0.07,0.31,0.29
+all,3,0,Dragocytos Corrupted Nethersoul Dragon,PGL2,Premium Gold: Return of the Bling,PGL2-EN014,Gold Secret Rare,NearMint,1st Edition,English,1.00,2022-01-08,0.42,0.95,0.79
+all,1,0,Dragon Buster Destruction Sword,BLAR,Battles Of Legend: Armageddon,BLAR-EN079,Ultra Rare,NearMint,1st Edition,English,0.69,2022-01-08,0.21,0.75,0.55
+all,1,0,Dragon Buster Destruction Sword,BOSH,Breakers of Shadow,BOSH-EN020,Common,NearMint,Unlimited,English,0.38,2022-01-24,0.12,0.48,0.31
 all,1,0,Dragon Ice,GLAS,"Gladiator's Assault",GLAS-EN084,Secret Rare,NearMint,Unlimited,English,22.98,2022-03-05,13.49,21.34,14.31
-all,1,0,Dragon Knight Draco-Equiste,CT07,Collectible Tin 2010,CT07-EN003,Secret Rare,NearMint,Limited,English,1.17,2022-01-08,0.38,1.09,0.71
-all,1,0,Dragon Master Knight,UE02,Ultimate Edition 2,UE02-EN001,Ultra Rare,NearMint,Limited,English,5.98,2022-01-08,1.54,3.50,3.77
-all,1,0,Dragon Spirit of White,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN018,Secret Rare,NearMint,Unlimited,English,3.57,2022-01-08,0.90,2.44,2.22
-all,1,0,Dragonecro Nethersoul Dragon,PGLD,Premium Gold,PGLD-EN015,Gold Secret Rare,NearMint,1st Edition,English,7.39,2022-01-08,1.20,3.83,1.58
-all,1,0,Dragonmaid Lorpar,MYFI,Mystic Fighters,MYFI-EN021,Secret Rare,NearMint,1st Edition,English,9.07,2022-07-17,7.49,9.17,8.62
-all,1,0,Dragonmaid Nudyarl,MYFI,Mystic Fighters,MYFI-EN017,Secret Rare,NearMint,1st Edition,English,4.19,2022-03-05,1.75,2.76,2.68
-all,1,0,Dragonmaid Sheou,MP21,2021 Tin Of Ancient Battles,MP21-EN065,Prismatic Secret Rare,NearMint,1st Edition,English,0.74,2022-01-08,0.40,0.94,0.57
-all,1,0,Dragunity Arma Gram,GFTP,Ghosts From The Past,GFTP-EN036,Ultra Rare,NearMint,1st Edition,English,1.00,2022-01-08,0.82,1.85,1.84
-all,1,0,Dragunity Arma Gram,GFTP,Ghosts From The Past,GFTP-EN036,Ultra Rare,NearMint,1st Edition,English,1.34,2022-03-05,0.82,1.85,1.84
-all,1,0,Dragunity Arma Leyvaten,SDDL,Dragunity Legion Structure Deck,SDDL-EN001,Ultra Rare,NearMint,1st Edition,English,1.00,2022-03-05,0.15,0.79,0.58
-all,1,0,Dragunity Guisarme,HAC1,Hidden Arsenal Chapter 1,HAC1-EN172,Secret Rare,NearMint,Limited,English,3.26,2022-03-22,0.25,0.89,0.72
-all,1,0,Dragunity Knight - Areadbhair,GFTP,Ghosts From The Past,GFTP-EN043,Ultra Rare,NearMint,1st Edition,English,0.69,2022-01-08,0.25,0.79,0.62
-all,1,0,Dragunity Knight - Areadbhair,GFTP,Ghosts From The Past,GFTP-EN043,Ultra Rare,NearMint,1st Edition,English,0.65,2022-03-05,0.25,0.79,0.62
-all,1,0,Dragunity Knight - Ascalon,CYHO,Cybernetic Horizon,CYHO-EN033,Ultra Rare,NearMint,1st Edition,English,1.75,2022-03-05,0.83,2.09,1.88
-all,1,0,Dragunity Knight - Barcha,HAC1,Hidden Arsenal Chapter 1,HAC1-EN165,Duel Terminal Ultra Parallel Rare,NearMint,1st Edition,English,0.56,2022-03-22,0.05,0.40,0.27
-all,1,0,Dragunity Knight - Gae Bulg,HA03,Hidden Arsenal 3,HA03-EN057,Secret Rare,NearMint,1st Edition,English,2.33,2022-03-05,0.42,1.05,0.78
-all,1,0,Dragunity Knight - Gae Dearg,BLLR,"Battles of Legend: Light's Revenge",BLLR-EN059,Ultra Rare,NearMint,1st Edition,English,2.28,2022-03-05,0.34,0.96,0.60
-all,1,0,Dragunity Knight - Romulus,MP20,2020 Tin Of Lost Memories,MP20-EN145,Prismatic Secret Rare,NearMint,1st Edition,English,1.32,2022-01-08,0.45,1.46,1.48
-all,1,0,Dragunity Knight - Trident,HA04,"Hidden Arsenal 4 Trishula'S Triumph",HA04-EN028,Secret Rare,NearMint,1st Edition,English,4.40,2022-01-08,1.00,2.10,1.58
-all,1,0,Dragunity Knight - Vajrayana,SHVA,Shadows in Valhalla,SHVA-EN050,Secret Rare,NearMint,1st Edition,English,0.81,2022-01-24,0.22,0.78,0.60
-all,1,0,Dragunity Knight - Vajrayana,SHVA,Shadows in Valhalla,SHVA-EN050,Secret Rare,NearMint,1st Edition,English,0.80,2022-03-05,0.22,0.78,0.60
-all,1,0,Dragunity Phalanx,GFTP,Ghosts From The Past,GFTP-EN073,Ultra Rare,NearMint,1st Edition,English,0.26,2022-01-08,0.03,0.32,0.22
-all,1,0,Dramaturge of Despia,MP22,"2022 Tin Of The Pharaoh's Gods",MP22-EN124,Prismatic Secret Rare,NearMint,1st Edition,English,0.43,2023-01-25,0.15,0.50,0.38
-all,1,0,Eclipse Wyvern,PGLD,Premium Gold,PGLD-EN041,Gold Rare,NearMint,1st Edition,English,1.02,2022-07-17,0.51,0.99,0.78
-all,1,0,Evilswarm Bahamut,HA07,Hidden Arsenal 7 Knight Of Stars,HA07-EN024,Secret Rare,NearMint,1st Edition,English,1.68,2022-01-08,0.68,0.99,1.01
-all,1,0,Evilswarm Ophion,HA07,Hidden Arsenal 7 Knight Of Stars,HA07-EN064,Secret Rare,NearMint,1st Edition,English,2.07,2022-01-08,2.24,4.39,3.28
-all,1,0,Evilswarm Ouroboros,PGL3,Premium Gold: Infinite Gold,PGL3-EN072,Gold Rare,NearMint,1st Edition,English,0.80,2022-01-08,0.10,0.75,0.47
-all,1,0,Evolzar Dolkka,CT09,Collectible Tin 2012,CT09-EN001,Secret Rare,NearMint,Limited,English,1.56,2022-01-08,1.24,2.71,2.57
-all,1,0,Evolzar Dolkka,MGED,Maximum Gold: El Dorado,MGED-EN029,Premium Gold Rare,NearMint,1st Edition,English,0.74,2022-03-22,0.10,0.76,0.51
-all,1,0,Evolzar Laggia,DUSA,Duelist Saga,DUSA-EN088,Ultra Rare,NearMint,1st Edition,English,4.39,2022-01-08,1.28,3.40,2.27
-all,1,0,Evolzar Laggia,MGED,Maximum Gold: El Dorado,MGED-EN028,Premium Gold Rare,NearMint,1st Edition,English,0.78,2022-03-22,0.25,0.81,0.54
-all,1,0,Evolzar Solda,ORCS,Order of Chaos,ORCS-EN045,Ultra Rare,NearMint,Unlimited,English,2.28,2022-01-08,4.95,6.95,4.65
-all,1,0,Exodia the Forbidden One,YGLD,"Yugi'S Legendary Decks",YGLD-ENA17,Ultra Rare,NearMint,Unlimited,English,2.65,2022-01-08,2.24,3.47,3.03
-all,1,0,"Exodia, the Legendary Defender",TN19,2019 Gold Sarcophagus Tin,TN19-EN003,Prismatic Secret Rare,NearMint,Limited,English,0.65,2022-01-08,0.25,0.85,0.59
-all,1,0,Exploder Dragonwing,RGBT,Raging Battle,RGBT-EN040,Ultra Rare,NearMint,Unlimited,English,3.52,2022-01-08,5.84,8.59,7.81
-all,1,0,Fallen of Albaz,MP21,2021 Tin Of Ancient Battles,MP21-EN107,Ultra Rare,NearMint,1st Edition,English,1.16,2022-01-08,0.74,1.89,1.45
-all,1,0,Fantastical Dragon Phantazmay,MAGO,Maximum Gold,MAGO-EN018,Premium Gold Rare,NearMint,1st Edition,English,3.39,2022-01-08,0.29,1.02,0.57
-all,1,0,Felgrand Dragon,SDRL,Rise Of The Dragon Lords Structure Deck,SDRL-EN001,Ultra Rare,NearMint,1st Edition,English,0.79,2022-01-08,0.03,1.00,1.10
-all,1,0,Firewall Dragon,COTD,Code of the Duelist,COTD-EN043,Secret Rare,NearMint,Unlimited,English,3.98,2022-03-05,2.99,6.99,3.08
-all,1,0,Firewall Dragon Darkfluid,CHIM,Chaos Impact,CHIM-EN037,Secret Rare,NearMint,1st Edition,English,1.10,2022-03-05,1.35,3.29,2.50
-all,1,0,Firewall eXceed Dragon,MP20,2020 Tin Of Lost Memories,MP20-EN067,Super Rare,NearMint,1st Edition,English,0.23,2022-01-24,0.09,0.29,0.20
-all,1,0,Five-Headed Dragon,SD09,"Structure Deck Dinosaur's Rage",SD09-ENSS1,Ultra Rare,NearMint,Limited,English,3.17,2022-01-08,0.78,2.00,1.93
-all,1,0,Five-Headed Dragon,BLHR,"Battles of Legend: Hero's Revenge",BLHR-EN000,Secret Rare,NearMint,1st Edition,English,5.63,2022-01-08,4.09,6.83,6.10
-all,1,0,Five-Headed Link Dragon,DUOV,Duel Overload,DUOV-EN007,Ultra Rare,NearMint,1st Edition,English,1.76,2022-01-24,1.00,2.04,1.83
-all,1,0,Flash Charge Dragon,BLRR,Battles of Legend: Relentless Revenge,BLRR-EN045,Secret Rare,NearMint,1st Edition,English,1.92,2022-03-05,1.28,2.29,2.08
-all,1,0,Fossil Dragon Skullgar,BLAR,Battles Of Legend: Armageddon,BLAR-EN010,Secret Rare,NearMint,1st Edition,English,0.58,2022-01-08,0.10,0.78,0.47
-all,1,0,Fossil Dragon Skullgios,BLAR,Battles Of Legend: Armageddon,BLAR-EN009,Secret Rare,NearMint,1st Edition,English,0.73,2022-01-08,0.10,0.95,0.64
-all,1,0,Frost and Flame Dragon,TAEV,Tactical Evolution,TAEV-EN033,Secret Rare,NearMint,1st Edition,English,34.64,2023-01-25,30.98,55.01,29.25
-all,1,0,Gaia the Dragon Champion,MAGO,Maximum Gold,MAGO-EN025,Premium Gold Rare,NearMint,1st Edition,English,0.51,2022-01-08,0.14,0.63,0.46
-all,2,0,Gaia the Dragon Champion,LOB,Legend of Blue Eyes White Dragon,LOB-125,Secret Rare,NearMint,Unlimited,English,5.53,2022-01-08,3.48,7.67,7.05
-all,1,0,Gaia the Dragon Champion,LOB,Legend of Blue Eyes White Dragon,LOB-125,Secret Rare,NearMint,Unlimited,English,6.40,2023-01-25,3.48,7.67,7.05
-all,2,0,Gaia the Magical Knight of Dragons,MP21,2021 Tin Of Ancient Battles,MP21-EN124,Prismatic Secret Rare,NearMint,1st Edition,English,0.31,2022-01-08,0.10,0.50,0.28
-all,1,0,Gaiarmor Dragonshell,MP22,"2022 Tin Of The Pharaoh's Gods",MP22-EN147,Ultra Rare,NearMint,1st Edition,English,0.12,2023-01-25,0.01,0.25,0.35
+all,1,0,Dragon Knight Draco-Equiste,CT07,Collectible Tin 2010,CT07-EN003,Secret Rare,NearMint,Limited,English,1.17,2022-01-08,0.38,1.00,0.76
+all,1,0,Dragon Master Knight,UE02,Ultimate Edition 2,UE02-EN001,Ultra Rare,NearMint,Limited,English,5.98,2022-01-08,1.58,3.27,3.57
+all,1,0,Dragon Spirit of White,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN018,Secret Rare,NearMint,Unlimited,English,3.57,2022-01-08,0.90,2.96,1.81
+all,1,0,Dragonecro Nethersoul Dragon,PGLD,Premium Gold,PGLD-EN015,Gold Secret Rare,NearMint,1st Edition,English,7.39,2022-01-08,1.20,3.34,1.76
+all,1,0,Dragonmaid Lorpar,MYFI,Mystic Fighters,MYFI-EN021,Secret Rare,NearMint,1st Edition,English,9.07,2022-07-17,7.50,9.04,7.72
+all,1,0,Dragonmaid Nudyarl,MYFI,Mystic Fighters,MYFI-EN017,Secret Rare,NearMint,1st Edition,English,4.19,2022-03-05,1.45,2.75,2.40
+all,1,0,Dragonmaid Sheou,MP21,2021 Tin Of Ancient Battles,MP21-EN065,Prismatic Secret Rare,NearMint,1st Edition,English,0.74,2022-01-08,0.25,0.90,0.49
+all,1,0,Dragunity Arma Gram,GFTP,Ghosts From The Past,GFTP-EN036,Ultra Rare,NearMint,1st Edition,English,1.00,2022-01-08,0.73,1.98,2.01
+all,1,0,Dragunity Arma Gram,GFTP,Ghosts From The Past,GFTP-EN036,Ultra Rare,NearMint,1st Edition,English,1.34,2022-03-05,0.73,1.98,2.01
+all,1,0,Dragunity Arma Leyvaten,SDDL,Dragunity Legion Structure Deck,SDDL-EN001,Ultra Rare,NearMint,1st Edition,English,1.00,2022-03-05,0.15,0.80,0.59
+all,1,0,Dragunity Guisarme,HAC1,Hidden Arsenal Chapter 1,HAC1-EN172,Secret Rare,NearMint,Limited,English,3.26,2022-03-22,0.20,0.89,0.72
+all,1,0,Dragunity Knight - Areadbhair,GFTP,Ghosts From The Past,GFTP-EN043,Ultra Rare,NearMint,1st Edition,English,0.69,2022-01-08,0.25,0.80,0.64
+all,1,0,Dragunity Knight - Areadbhair,GFTP,Ghosts From The Past,GFTP-EN043,Ultra Rare,NearMint,1st Edition,English,0.65,2022-03-05,0.25,0.80,0.64
+all,1,0,Dragunity Knight - Ascalon,CYHO,Cybernetic Horizon,CYHO-EN033,Ultra Rare,NearMint,1st Edition,English,1.75,2022-03-05,0.98,2.01,1.84
+all,1,0,Dragunity Knight - Barcha,HAC1,Hidden Arsenal Chapter 1,HAC1-EN165,Duel Terminal Ultra Parallel Rare,NearMint,1st Edition,English,0.56,2022-03-22,0.05,0.42,0.28
+all,1,0,Dragunity Knight - Gae Bulg,HA03,Hidden Arsenal 3,HA03-EN057,Secret Rare,NearMint,1st Edition,English,2.33,2022-03-05,0.41,1.06,0.77
+all,1,0,Dragunity Knight - Gae Dearg,BLLR,"Battles of Legend: Light's Revenge",BLLR-EN059,Ultra Rare,NearMint,1st Edition,English,2.28,2022-03-05,0.34,0.96,0.56
+all,1,0,Dragunity Knight - Romulus,MP20,2020 Tin Of Lost Memories,MP20-EN145,Prismatic Secret Rare,NearMint,1st Edition,English,1.32,2022-01-08,0.44,1.36,1.26
+all,1,0,Dragunity Knight - Trident,HA04,"Hidden Arsenal 4 Trishula'S Triumph",HA04-EN028,Secret Rare,NearMint,1st Edition,English,4.40,2022-01-08,1.00,2.10,1.63
+all,1,0,Dragunity Knight - Vajrayana,SHVA,Shadows in Valhalla,SHVA-EN050,Secret Rare,NearMint,1st Edition,English,0.81,2022-01-24,0.22,0.80,0.60
+all,1,0,Dragunity Knight - Vajrayana,SHVA,Shadows in Valhalla,SHVA-EN050,Secret Rare,NearMint,1st Edition,English,0.80,2022-03-05,0.22,0.80,0.60
+all,1,0,Dragunity Phalanx,GFTP,Ghosts From The Past,GFTP-EN073,Ultra Rare,NearMint,1st Edition,English,0.26,2022-01-08,0.03,0.35,0.21
+all,1,0,Dramaturge of Despia,MP22,"2022 Tin Of The Pharaoh's Gods",MP22-EN124,Prismatic Secret Rare,NearMint,1st Edition,English,0.43,2023-01-25,0.15,0.49,0.35
+all,1,0,Eclipse Wyvern,PGLD,Premium Gold,PGLD-EN041,Gold Rare,NearMint,1st Edition,English,1.02,2022-07-17,0.51,1.00,0.81
+all,1,0,Evilswarm Bahamut,HA07,Hidden Arsenal 7 Knight Of Stars,HA07-EN024,Secret Rare,NearMint,1st Edition,English,1.68,2022-01-08,0.59,1.00,1.01
+all,1,0,Evilswarm Ophion,HA07,Hidden Arsenal 7 Knight Of Stars,HA07-EN064,Secret Rare,NearMint,1st Edition,English,2.07,2022-01-08,2.25,4.16,3.47
+all,1,0,Evilswarm Ouroboros,PGL3,Premium Gold: Infinite Gold,PGL3-EN072,Gold Rare,NearMint,1st Edition,English,0.80,2022-01-08,0.10,0.75,0.51
+all,1,0,Evolzar Dolkka,CT09,Collectible Tin 2012,CT09-EN001,Secret Rare,NearMint,Limited,English,1.56,2022-01-08,0.99,2.61,2.67
+all,1,0,Evolzar Dolkka,MGED,Maximum Gold: El Dorado,MGED-EN029,Premium Gold Rare,NearMint,1st Edition,English,0.74,2022-03-22,0.10,0.76,0.50
+all,1,0,Evolzar Laggia,DUSA,Duelist Saga,DUSA-EN088,Ultra Rare,NearMint,1st Edition,English,4.39,2022-01-08,1.99,3.83,2.27
+all,1,0,Evolzar Laggia,MGED,Maximum Gold: El Dorado,MGED-EN028,Premium Gold Rare,NearMint,1st Edition,English,0.78,2022-03-22,0.25,0.83,0.47
+all,1,0,Evolzar Solda,ORCS,Order of Chaos,ORCS-EN045,Ultra Rare,NearMint,Unlimited,English,2.28,2022-01-08,5.75,7.11,4.78
+all,1,0,Exodia the Forbidden One,YGLD,"Yugi'S Legendary Decks",YGLD-ENA17,Ultra Rare,NearMint,Unlimited,English,2.65,2022-01-08,2.04,3.40,3.04
+all,1,0,"Exodia, the Legendary Defender",TN19,2019 Gold Sarcophagus Tin,TN19-EN003,Prismatic Secret Rare,NearMint,Limited,English,0.65,2022-01-08,0.25,0.82,0.60
+all,1,0,Exploder Dragonwing,RGBT,Raging Battle,RGBT-EN040,Ultra Rare,NearMint,Unlimited,English,3.52,2022-01-08,6.12,9.47,7.81
+all,1,0,Fallen of Albaz,MP21,2021 Tin Of Ancient Battles,MP21-EN107,Ultra Rare,NearMint,1st Edition,English,1.16,2022-01-08,0.73,1.72,1.31
+all,1,0,Fantastical Dragon Phantazmay,MAGO,Maximum Gold,MAGO-EN018,Premium Gold Rare,NearMint,1st Edition,English,3.39,2022-01-08,0.29,1.02,0.59
+all,1,0,Felgrand Dragon,SDRL,Rise Of The Dragon Lords Structure Deck,SDRL-EN001,Ultra Rare,NearMint,1st Edition,English,0.79,2022-01-08,0.24,0.99,1.07
+all,1,0,Firewall Dragon,COTD,Code of the Duelist,COTD-EN043,Secret Rare,NearMint,Unlimited,English,3.98,2022-03-05,3.20,7.49,3.70
+all,1,0,Firewall Dragon Darkfluid,CHIM,Chaos Impact,CHIM-EN037,Secret Rare,NearMint,1st Edition,English,1.10,2022-03-05,1.52,5.50,3.32
+all,1,0,Firewall eXceed Dragon,MP20,2020 Tin Of Lost Memories,MP20-EN067,Super Rare,NearMint,1st Edition,English,0.23,2022-01-24,0.09,0.30,0.20
+all,1,0,Five-Headed Dragon,SD09,"Structure Deck Dinosaur's Rage",SD09-ENSS1,Ultra Rare,NearMint,Limited,English,3.17,2022-01-08,0.80,2.00,2.01
+all,1,0,Five-Headed Dragon,BLHR,"Battles of Legend: Hero's Revenge",BLHR-EN000,Secret Rare,NearMint,1st Edition,English,5.63,2022-01-08,3.75,6.03,6.93
+all,1,0,Five-Headed Link Dragon,DUOV,Duel Overload,DUOV-EN007,Ultra Rare,NearMint,1st Edition,English,1.76,2022-01-24,1.00,2.02,1.73
+all,1,0,Flash Charge Dragon,BLRR,Battles of Legend: Relentless Revenge,BLRR-EN045,Secret Rare,NearMint,1st Edition,English,1.92,2022-03-05,1.24,2.28,2.40
+all,1,0,Fossil Dragon Skullgar,BLAR,Battles Of Legend: Armageddon,BLAR-EN010,Secret Rare,NearMint,1st Edition,English,0.58,2022-01-08,0.10,0.79,0.53
+all,1,0,Fossil Dragon Skullgios,BLAR,Battles Of Legend: Armageddon,BLAR-EN009,Secret Rare,NearMint,1st Edition,English,0.73,2022-01-08,0.10,0.96,0.62
+all,1,0,Frost and Flame Dragon,TAEV,Tactical Evolution,TAEV-EN033,Secret Rare,NearMint,1st Edition,English,34.64,2023-01-25,30.98,39.99,29.25
+all,1,0,Gaia the Dragon Champion,MAGO,Maximum Gold,MAGO-EN025,Premium Gold Rare,NearMint,1st Edition,English,0.51,2022-01-08,0.14,0.65,0.51
+all,2,0,Gaia the Dragon Champion,LOB,Legend of Blue Eyes White Dragon,LOB-125,Secret Rare,NearMint,Unlimited,English,5.53,2022-01-08,2.77,9.27,6.81
+all,1,0,Gaia the Dragon Champion,LOB,Legend of Blue Eyes White Dragon,LOB-125,Secret Rare,NearMint,Unlimited,English,6.40,2023-01-25,2.77,9.27,6.81
+all,2,0,Gaia the Magical Knight of Dragons,MP21,2021 Tin Of Ancient Battles,MP21-EN124,Prismatic Secret Rare,NearMint,1st Edition,English,0.31,2022-01-08,0.10,0.49,0.30
+all,1,0,Gaiarmor Dragonshell,MP22,"2022 Tin Of The Pharaoh's Gods",MP22-EN147,Ultra Rare,NearMint,1st Edition,English,0.12,2023-01-25,0.01,0.22,0.15
 all,1,0,Galaxy Serpent,JOTL,Judgment of the Light,JOTL-EN000,Super Rare,NearMint,Unlimited,English,0.81,2022-01-08,0.22,0.72,0.78
 all,1,0,Galaxy Stealth Dragon,DLCS,Dragons Of Legend: The Complete Series,DLCS-EN126(B),Ultra Rare,NearMint,1st Edition,English,0.38,2022-01-08,0.18,0.50,0.45
-all,1,0,Galaxy Stealth Dragon,DLCS,Dragons Of Legend: The Complete Series,DLCS-EN126(G),Ultra Rare,NearMint,1st Edition,English,0.38,2022-01-08,0.20,0.45,0.43
-all,1,0,Galaxy Stealth Dragon,DLCS,Dragons Of Legend: The Complete Series,DLCS-EN126(P),Ultra Rare,NearMint,1st Edition,English,0.55,2022-01-08,0.19,0.49,0.44
-all,1,0,Galaxy-Eyes Afterglow Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN052,Secret Rare,NearMint,1st Edition,English,10.92,2022-03-07,0.56,7.13,5.77
-all,1,0,Galaxy-Eyes Afterglow Dragon,MAMA,Magnificent Mavens,MAMA-EN057,Ultra Rare,NearMint,1st Edition,English,0.52,2023-01-25,0.17,0.97,0.72
-all,1,0,Galaxy-Eyes Cipher Blade Dragon,JUMP,Shonen Jump Magazine,JUMP-EN081,Ultra Rare,NearMint,Limited,English,2.06,2022-01-08,1.62,2.48,2.24
-all,1,0,Galaxy-Eyes Cipher X Dragon,GFTP,Ghosts From The Past,GFTP-EN011,Ultra Rare,NearMint,1st Edition,English,1.87,2022-01-08,2.49,5.25,4.88
-all,2,0,Galaxy-Eyes Full Armor Photon Dragon,DUPO,Duel Power,DUPO-EN063,Ultra Rare,NearMint,1st Edition,English,0.94,2022-01-08,0.65,1.50,1.86
-all,1,0,Galaxy-Eyes Photon Dragon,PHSW,Photon Shockwave,PHSW-EN011,Ultimate Rare,NearMint,1st Edition,English,66.15,2022-01-08,42.00,63.99,77.88
+all,1,0,Galaxy Stealth Dragon,DLCS,Dragons Of Legend: The Complete Series,DLCS-EN126(G),Ultra Rare,NearMint,1st Edition,English,0.38,2022-01-08,0.20,0.46,0.39
+all,1,0,Galaxy Stealth Dragon,DLCS,Dragons Of Legend: The Complete Series,DLCS-EN126(P),Ultra Rare,NearMint,1st Edition,English,0.55,2022-01-08,0.19,0.49,0.43
+all,1,0,Galaxy-Eyes Afterglow Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN052,Secret Rare,NearMint,1st Edition,English,10.92,2022-03-07,4.76,6.65,5.29
+all,1,0,Galaxy-Eyes Afterglow Dragon,MAMA,Magnificent Mavens,MAMA-EN057,Ultra Rare,NearMint,1st Edition,English,0.52,2023-01-25,0.19,0.98,0.65
+all,1,0,Galaxy-Eyes Cipher Blade Dragon,JUMP,Shonen Jump Magazine,JUMP-EN081,Ultra Rare,NearMint,Limited,English,2.06,2022-01-08,1.62,2.50,2.16
+all,1,0,Galaxy-Eyes Cipher X Dragon,GFTP,Ghosts From The Past,GFTP-EN011,Ultra Rare,NearMint,1st Edition,English,1.87,2022-01-08,2.49,5.14,3.72
+all,2,0,Galaxy-Eyes Full Armor Photon Dragon,DUPO,Duel Power,DUPO-EN063,Ultra Rare,NearMint,1st Edition,English,0.94,2022-01-08,0.49,1.35,1.92
+all,1,0,Galaxy-Eyes Photon Dragon,PHSW,Photon Shockwave,PHSW-EN011,Ultimate Rare,NearMint,1st Edition,English,66.15,2022-01-08,42.00,64.79,78.34
 all,1,0,Galaxy-Eyes Solflare Dragon,MP19,2019 Gold Sarcophagus Tin Mega Pack,MP19-EN188,Prismatic Secret Rare,NearMint,,English,1.21,2022-01-24,,,
-all,1,0,Gandora the Dragon of Destruction,CT07,Collectible Tin 2010,CT07-EN020,Super Rare,NearMint,Limited,English,0.52,2022-01-08,0.23,0.65,0.56
+all,1,0,Gandora the Dragon of Destruction,CT07,Collectible Tin 2010,CT07-EN020,Super Rare,NearMint,Limited,English,0.52,2022-01-08,0.23,0.65,0.54
 all,1,0,Gandora-X the Dragon of Demolition,MVP1S,The Dark Side of Dimensions Movie Pack: Secret Edition,MVP1-ENS49,Secret Rare,NearMint,,English,0.00,2022-01-08,,,
-all,1,0,Gandora-X the Dragon of Demolition,MVP1G,The Dark Side of Dimensions Movie Pack Gold Edition,MVP1-ENG49,Gold Rare,NearMint,Unlimited,English,0.26,2022-03-22,0.19,0.49,0.62
-all,1,0,"Gizmek Okami, the Dreaded Deluge Dragon",ROTD,Rise Of The Duelist,ROTD-EN032,Ultra Rare,NearMint,1st Edition,English,0.95,2022-01-08,0.24,0.99,0.58
-all,1,0,Golem Dragon,JUMP,Shonen Jump Magazine,JUMP-EN040,Ultra Rare,NearMint,Limited,English,2.08,2022-03-05,0.50,1.49,1.43
-all,1,0,Greedy Venom Fusion Dragon,FUEN,Fusion Enforcers,FUEN-EN010,Secret Rare,NearMint,1st Edition,English,3.22,2022-01-08,1.40,2.48,4.99
-all,1,0,Guardragon Elpy,MP20,2020 Tin Of Lost Memories,MP20-EN021,Prismatic Secret Rare,NearMint,1st Edition,English,0.85,2022-03-05,0.25,0.85,0.55
-all,1,0,Guardragon Pisty,SAST,Savage Strike,SAST-EN052,Super Rare,NearMint,Unlimited,English,0.80,2022-01-24,0.60,0.99,0.83
-all,1,0,"Gungnir, Dragon of the Ice Barrier",HA03,Hidden Arsenal 3,HA03-EN030,Secret Rare,NearMint,1st Edition,English,5.12,2022-01-08,2.16,4.54,4.36
-all,1,0,"Hamon, Lord of Striking Thunder",MP21,2021 Tin Of Ancient Battles,MP21-EN253,Prismatic Secret Rare,NearMint,1st Edition,English,1.09,2022-01-08,0.20,0.99,0.73
-all,1,0,"Hamon, Lord of Striking Thunder",MP21,2021 Tin Of Ancient Battles,MP21-EN253,Prismatic Secret Rare,NearMint,1st Edition,English,1.02,2022-03-05,0.20,0.99,0.73
+all,1,0,Gandora-X the Dragon of Demolition,MVP1G,The Dark Side of Dimensions Movie Pack Gold Edition,MVP1-ENG49,Gold Rare,NearMint,Unlimited,English,0.26,2022-03-22,0.19,0.45,0.62
+all,1,0,"Gizmek Okami, the Dreaded Deluge Dragon",ROTD,Rise Of The Duelist,ROTD-EN032,Ultra Rare,NearMint,1st Edition,English,0.95,2022-01-08,0.24,0.99,0.67
+all,1,0,Golem Dragon,JUMP,Shonen Jump Magazine,JUMP-EN040,Ultra Rare,NearMint,Limited,English,2.08,2022-03-05,0.50,1.49,1.40
+all,1,0,Greedy Venom Fusion Dragon,FUEN,Fusion Enforcers,FUEN-EN010,Secret Rare,NearMint,1st Edition,English,3.22,2022-01-08,1.49,2.49,3.52
+all,1,0,Guardragon Elpy,MP20,2020 Tin Of Lost Memories,MP20-EN021,Prismatic Secret Rare,NearMint,1st Edition,English,0.85,2022-03-05,0.25,0.88,0.58
+all,1,0,Guardragon Pisty,SAST,Savage Strike,SAST-EN052,Super Rare,NearMint,Unlimited,English,0.80,2022-01-24,0.74,0.99,0.78
+all,1,0,"Gungnir, Dragon of the Ice Barrier",HA03,Hidden Arsenal 3,HA03-EN030,Secret Rare,NearMint,1st Edition,English,5.12,2022-01-08,2.15,4.54,4.36
+all,1,0,"Hamon, Lord of Striking Thunder",MP21,2021 Tin Of Ancient Battles,MP21-EN253,Prismatic Secret Rare,NearMint,1st Edition,English,1.09,2022-01-08,0.19,0.96,0.71
+all,1,0,"Hamon, Lord of Striking Thunder",MP21,2021 Tin Of Ancient Battles,MP21-EN253,Prismatic Secret Rare,NearMint,1st Edition,English,1.02,2022-03-05,0.19,0.96,0.71
 all,1,0,Hardened Armed Dragon,RGBT,Raging Battle,RGBT-EN083,Secret Rare,NearMint,Unlimited,English,7.30,2022-03-05,6.00,7.74,9.25
-all,3,0,"Harpie's Pet Dragon",LDS2,Legendary Duelists: Season 2,LDS2-EN066,Ultra Rare,NearMint,1st Edition,English,0.92,2022-01-08,0.40,0.97,0.58
-all,1,0,"Harpie's Pet Phantasmal Dragon",MAGO,Maximum Gold,MAGO-EN132,Rare,NearMint,1st Edition,English,0.43,2022-01-08,0.10,0.48,0.43
-all,1,0,"Harpie's Pet Phantasmal Dragon",MAGO,Maximum Gold,MAGO-EN132,Rare,NearMint,1st Edition,English,0.36,2022-03-05,0.10,0.48,0.43
-all,1,0,Heavenly Zephyr - Miradora,BLVO,Blazing Vortex,BLVO-EN029,Secret Rare,NearMint,1st Edition,English,2.95,2022-03-05,0.84,2.73,1.44
-all,1,0,Hibernation Dragon,BLRR,Battles of Legend: Relentless Revenge,BLRR-EN041,Secret Rare,NearMint,1st Edition,English,1.27,2022-01-08,0.50,1.00,0.83
-all,1,0,Hieratic Dragon King of Atum,GAOV,Galactic Overlord,GAOV-EN047,Super Rare,NearMint,1st Edition,English,3.65,2022-01-08,1.24,3.05,2.67
-all,2,0,Hieratic Dragon of Eset,GFTP,Ghosts From The Past,GFTP-EN049,Ultra Rare,NearMint,1st Edition,English,0.33,2022-01-08,0.01,0.30,0.20
-all,1,0,Hieratic Dragon of Sutekh,GAOV,Galactic Overlord,GAOV-EN025,Ultimate Rare,NearMint,1st Edition,English,8.09,2022-01-08,2.40,6.49,5.55
-all,1,0,Hieratic Dragon of Tefnuit,DUPO,Duel Power,DUPO-EN080,Ultra Rare,NearMint,1st Edition,English,0.26,2022-01-08,0.04,0.25,0.17
-all,1,0,Hieratic Seal of the Heavenly Spheres,GFTP,Ghosts From The Past,GFTP-EN053,Ultra Rare,NearMint,1st Edition,English,7.20,2022-03-05,0.35,2.12,0.96
-all,2,0,Hieratic Sky Dragon Overlord of Heliopolis,GFTP,Ghosts From The Past,GFTP-EN004,Ultra Rare,NearMint,1st Edition,English,0.95,2022-01-08,0.85,1.47,1.18
-all,1,0,Hieratic Sun Dragon Overlord of Heliopolis,CT09,Collectible Tin 2012,CT09-EN004,Secret Rare,NearMint,Limited,English,0.83,2022-01-08,0.50,1.48,1.18
-all,1,0,Horus the Black Flame Dragon LV8,EEN,Elemental Energy,EEN-ENSE1,Secret Rare,NearMint,Limited,English,7.09,2022-03-05,3.25,6.10,6.36
-all,1,0,Hot Red Dragon Archfiend,YF06,"5D's volume 6 Promotional Card",YF06-EN001,Ultra Rare,NearMint,Limited,English,6.38,2022-01-08,3.79,5.55,4.43
-all,1,0,Hot Red Dragon Archfiend Abyss,DUPO,Duel Power,DUPO-EN057,Ultra Rare,NearMint,1st Edition,English,1.37,2022-01-08,0.44,1.05,0.87
+all,3,0,"Harpie's Pet Dragon",LDS2,Legendary Duelists: Season 2,LDS2-EN066,Ultra Rare,NearMint,1st Edition,English,0.92,2022-01-08,0.40,0.99,0.58
+all,1,0,"Harpie's Pet Phantasmal Dragon",MAGO,Maximum Gold,MAGO-EN132,Rare,NearMint,1st Edition,English,0.43,2022-01-08,0.10,0.47,0.40
+all,1,0,"Harpie's Pet Phantasmal Dragon",MAGO,Maximum Gold,MAGO-EN132,Rare,NearMint,1st Edition,English,0.36,2022-03-05,0.10,0.47,0.40
+all,1,0,Heavenly Zephyr - Miradora,BLVO,Blazing Vortex,BLVO-EN029,Secret Rare,NearMint,1st Edition,English,2.95,2022-03-05,0.80,2.63,1.41
+all,1,0,Hibernation Dragon,BLRR,Battles of Legend: Relentless Revenge,BLRR-EN041,Secret Rare,NearMint,1st Edition,English,1.27,2022-01-08,0.49,0.99,0.81
+all,1,0,Hieratic Dragon King of Atum,GAOV,Galactic Overlord,GAOV-EN047,Super Rare,NearMint,1st Edition,English,3.65,2022-01-08,1.24,2.81,2.70
+all,2,0,Hieratic Dragon of Eset,GFTP,Ghosts From The Past,GFTP-EN049,Ultra Rare,NearMint,1st Edition,English,0.33,2022-01-08,0.01,0.30,0.21
+all,1,0,Hieratic Dragon of Sutekh,GAOV,Galactic Overlord,GAOV-EN025,Ultimate Rare,NearMint,1st Edition,English,8.09,2022-01-08,2.50,6.90,5.50
+all,1,0,Hieratic Dragon of Tefnuit,DUPO,Duel Power,DUPO-EN080,Ultra Rare,NearMint,1st Edition,English,0.26,2022-01-08,0.05,0.25,0.12
+all,1,0,Hieratic Seal of the Heavenly Spheres,GFTP,Ghosts From The Past,GFTP-EN053,Ultra Rare,NearMint,1st Edition,English,7.20,2022-03-05,0.36,2.10,0.91
+all,2,0,Hieratic Sky Dragon Overlord of Heliopolis,GFTP,Ghosts From The Past,GFTP-EN004,Ultra Rare,NearMint,1st Edition,English,0.95,2022-01-08,0.85,1.44,1.15
+all,1,0,Hieratic Sun Dragon Overlord of Heliopolis,CT09,Collectible Tin 2012,CT09-EN004,Secret Rare,NearMint,Limited,English,0.83,2022-01-08,0.50,1.32,1.06
+all,1,0,Horus the Black Flame Dragon LV8,EEN,Elemental Energy,EEN-ENSE1,Secret Rare,NearMint,Limited,English,7.09,2022-03-05,2.37,6.32,6.38
+all,1,0,Hot Red Dragon Archfiend,YF06,"5D's volume 6 Promotional Card",YF06-EN001,Ultra Rare,NearMint,Limited,English,6.38,2022-01-08,3.49,5.77,4.43
+all,1,0,Hot Red Dragon Archfiend Abyss,DUPO,Duel Power,DUPO-EN057,Ultra Rare,NearMint,1st Edition,English,1.37,2022-01-08,0.43,1.00,0.77
 all,1,0,Hot Red Dragon Archfiend Bane,HSRD,High-Speed Riders,HSRD-EN042,Secret Rare,NearMint,,English,0.00,2022-01-08,,,
-all,1,0,Hot Red Dragon Archfiend King Calamity,SHVI,Shining Victories,SHVI-EN097,Ultra Rare,NearMint,Unlimited,English,0.97,2022-01-08,0.80,1.64,1.39
-all,1,0,House Dragonmaid,MAGO,Maximum Gold,MAGO-EN027,Premium Gold Rare,NearMint,1st Edition,English,1.73,2022-01-08,1.60,2.94,3.02
-all,1,0,Hundred Dragon,DLCS,Dragons Of Legend: The Complete Series,DLCS-EN146,Secret Rare,NearMint,Limited,English,1.96,2022-01-08,0.98,1.81,1.74
-all,1,0,Hundred Dragon,DLCS,Dragons Of Legend: The Complete Series,DLCS-EN146,Secret Rare,NearMint,Limited,English,1.48,2022-03-07,0.98,1.81,1.74
-all,1,0,Hundred Eyes Dragon,JUMP,Shonen Jump Magazine,JUMP-EN039,Ultra Rare,NearMint,Limited,English,3.01,2022-01-08,1.00,2.36,2.45
-all,3,0,Hyozanryu,GFTP,Ghosts From The Past,GFTP-EN071,Ultra Rare,NearMint,1st Edition,English,0.24,2022-01-08,0.01,0.25,0.20
-all,1,0,"Ignister Prominence, the Blasting Dracoslayer",CORE,Clash of Rebellions,CORE-EN050,Ultra Rare,NearMint,1st Edition,English,1.89,2022-03-05,3.69,6.00,5.73
-all,1,0,Imduk the World Chalice Dragon,BLRR,Battles of Legend: Relentless Revenge,BLRR-EN086,Ultra Rare,NearMint,1st Edition,English,2.82,2022-03-05,0.85,1.97,1.50
-all,1,0,Infernity Doom Dragon,TSHD,The Shining Darkness,TSHD-EN042,Ultimate Rare,NearMint,Unlimited,English,25.65,2022-07-17,15.32,16.47,19.77
-all,1,0,Invoked Cocytus,FUEN,Fusion Enforcers,FUEN-EN029,Secret Rare,NearMint,1st Edition,English,1.26,2022-01-08,0.34,1.16,1.10
-all,1,0,Iron Chain Dragon,CSOC,Crossroads of Chaos,CSOC-EN040,Rare,NearMint,Unlimited,English,5.06,2022-01-08,3.23,6.00,4.74
+all,1,0,Hot Red Dragon Archfiend King Calamity,SHVI,Shining Victories,SHVI-EN097,Ultra Rare,NearMint,Unlimited,English,0.97,2022-01-08,0.89,1.47,1.36
+all,1,0,House Dragonmaid,MAGO,Maximum Gold,MAGO-EN027,Premium Gold Rare,NearMint,1st Edition,English,1.73,2022-01-08,1.50,2.60,2.24
+all,1,0,Hundred Dragon,DLCS,Dragons Of Legend: The Complete Series,DLCS-EN146,Secret Rare,NearMint,Limited,English,1.96,2022-01-08,0.90,1.90,2.02
+all,1,0,Hundred Dragon,DLCS,Dragons Of Legend: The Complete Series,DLCS-EN146,Secret Rare,NearMint,Limited,English,1.48,2022-03-07,0.90,1.90,2.02
+all,1,0,Hundred Eyes Dragon,JUMP,Shonen Jump Magazine,JUMP-EN039,Ultra Rare,NearMint,Limited,English,3.01,2022-01-08,1.00,2.48,2.38
+all,3,0,Hyozanryu,GFTP,Ghosts From The Past,GFTP-EN071,Ultra Rare,NearMint,1st Edition,English,0.24,2022-01-08,0.01,0.25,0.16
+all,1,0,"Ignister Prominence, the Blasting Dracoslayer",CORE,Clash of Rebellions,CORE-EN050,Ultra Rare,NearMint,1st Edition,English,1.89,2022-03-05,3.45,5.74,5.40
+all,1,0,Imduk the World Chalice Dragon,BLRR,Battles of Legend: Relentless Revenge,BLRR-EN086,Ultra Rare,NearMint,1st Edition,English,2.82,2022-03-05,0.79,1.89,1.63
+all,1,0,Infernity Doom Dragon,TSHD,The Shining Darkness,TSHD-EN042,Ultimate Rare,NearMint,Unlimited,English,25.65,2022-07-17,15.00,16.47,19.10
+all,1,0,Invoked Cocytus,FUEN,Fusion Enforcers,FUEN-EN029,Secret Rare,NearMint,1st Edition,English,1.26,2022-01-08,0.33,1.16,1.10
+all,1,0,Iron Chain Dragon,CSOC,Crossroads of Chaos,CSOC-EN040,Rare,NearMint,Unlimited,English,5.06,2022-01-08,4.77,7.68,5.75
 all,1,0,Iron Dragon Tiamaton,MP19,2019 Gold Sarcophagus Tin Mega Pack,MP19-EN016,Prismatic Secret Rare,NearMint,,English,0.49,2022-01-08,,,
 all,1,0,Iron Dragon Tiamaton,MP19,2019 Gold Sarcophagus Tin Mega Pack,MP19-EN016,Prismatic Secret Rare,NearMint,,English,0.45,2022-03-22,,,
-all,2,0,"Judgment, the Dragon of Heaven",BLAR,Battles Of Legend: Armageddon,BLAR-EN049,Secret Rare,NearMint,1st Edition,English,0.85,2022-01-08,0.49,1.00,0.69
-all,1,0,"Judgment, the Dragon of Heaven",JUMP,Shonen Jump Magazine,JUMP-EN089,Ultra Rare,NearMint,Limited,English,1.35,2023-01-25,0.43,2.00,0.71
-all,1,0,Kachi Kochi Dragon,YZ01,Yu-Gi-Oh! ZEXAL volume 1 Promotional Card,YZ01-EN001,Ultra Rare,NearMint,Limited,English,1.44,2022-03-05,0.30,1.40,1.38
-all,1,0,Kaiser Glider - Golden Burst,LDS3,Legendary Duelists: Season 3,LDS3-EN136,Secret Rare,NearMint,Limited,English,0.47,2023-01-25,0.10,0.65,0.34
-all,1,0,Keeper of Dragon Magic,CT15,2018 Mega-Tins,CT15-EN004,Ultra Rare,NearMint,Limited,English,1.91,2022-01-08,1.00,3.00,2.39
-all,1,0,King Dragun,DUOV,Duel Overload,DUOV-EN077,Ultra Rare,NearMint,1st Edition,English,0.39,2022-01-08,0.15,0.54,0.49
-all,1,0,"Koa'ki Meiru Drago",BLAR,Battles Of Legend: Armageddon,BLAR-EN059,Ultra Rare,NearMint,1st Edition,English,0.23,2022-01-08,0.20,0.50,0.49
-all,1,0,"Koa'ki Meiru Maximus",SOVR,Stardust Overdrive,SOVR-EN081,Ultra Rare,NearMint,Unlimited,English,0.88,2022-01-08,0.70,1.49,1.43
-all,1,0,Krystal Dragon,MVP1S,The Dark Side of Dimensions Movie Pack: Secret Edition,MVP1-ENSV2,Ultra Rare,NearMint,Limited,English,0.21,2022-01-08,0.06,0.25,0.19
-all,1,0,Lavalval Dragon,HA05,Hidden Arsenal 5 Steelswarm Invasion,HA05-EN022,Secret Rare,NearMint,1st Edition,English,0.93,2022-01-08,0.27,0.82,0.76
-all,1,0,Lavalval Salamander,GFTP,Ghosts From The Past,GFTP-EN003,Ultra Rare,NearMint,1st Edition,English,0.23,2022-01-08,0.06,0.39,0.26
-all,1,0,"Lector Pendulum, the Dracoverlord",SHVI,Shining Victories,SHVI-EN023,Ultra Rare,NearMint,Unlimited,English,0.21,2022-01-24,0.08,0.46,0.26
-all,1,0,Left Arm of the Forbidden One,YGLD,"Yugi'S Legendary Decks",YGLD-ENA21,Ultra Rare,NearMint,Unlimited,English,2.22,2022-01-08,3.28,4.05,3.94
-all,1,0,Left Leg of the Forbidden One,YGLD,"Yugi'S Legendary Decks",YGLD-ENA19,Ultra Rare,NearMint,Unlimited,English,2.64,2022-01-08,3.87,5.25,4.26
-all,1,0,Light and Darkness Dragon,STOR,Storm Of Ragnarok,STOR-ENSE1,Super Rare,NearMint,Limited,English,1.44,2022-01-08,0.69,1.24,1.21
-all,1,0,Light and Darkness Dragon,YG01,Yu-Gi-Oh! GX volume 1 Promotional Card,YG01-EN001,Secret Rare,NearMint,Limited,English,56.21,2023-01-25,49.75,71.60,67.97
-all,1,0,Light Dragon @Ignister,IGAS,Ignition Assault,IGAS-EN044,Super Rare,NearMint,1st Edition,English,0.30,2022-01-08,0.09,0.40,0.24
-all,1,0,Light End Dragon,LCGX,Legendary Collection 2 The Duel Academy Years Mega Pack,LCGX-EN189,Ultra Rare,NearMint,1st Edition,English,0.93,2022-01-08,0.55,0.87,0.93
-all,1,0,Lightpulsar Dragon,PGLD,Premium Gold,PGLD-EN039,Gold Rare,NearMint,1st Edition,English,0.93,2022-01-08,0.47,0.99,0.64
-all,1,0,"Loki, Lord of the Aesir",STOR,Storm Of Ragnarok,STOR-EN039,Ultimate Rare,NearMint,1st Edition,English,23.00,2023-01-25,17.00,23.44,20.48
-all,1,0,Lord of the Red,DRL2,Dragons of Legend 2,DRL2-EN016,Secret Rare,NearMint,1st Edition,English,1.47,2022-01-08,0.33,0.98,0.78
-all,1,0,Lubellion the Searing Dragon,SDAZ,Structure Deck: Albaz Strike,SDAZ-EN042,Ultra Rare,NearMint,1st Edition,English,0.37,2022-07-17,0.10,0.49,0.22
-all,1,0,"Ma'at",PRC1,Premium Collection Tin,PRC1-EN017,Secret Rare,NearMint,1st Edition,English,0.58,2022-07-17,0.17,0.65,0.53
-all,1,0,Magician of Black Chaos,YGLD,"Yugi'S Legendary Decks",YGLD-ENC01,Ultra Rare,NearMint,Unlimited,English,1.19,2022-01-08,0.53,0.87,0.78
-all,1,0,Magician of Black Chaos,YGLD,"Yugi'S Legendary Decks",YGLD-ENC01,Ultra Rare,NearMint,1st Edition,English,0.96,2022-01-08,0.43,1.20,1.03
-all,2,0,Magician of Black Chaos MAX,TN19,2019 Gold Sarcophagus Tin,TN19-EN002,Prismatic Secret Rare,NearMint,Limited,English,0.77,2022-01-08,2.50,3.95,3.88
-all,1,0,Magician of Chaos,DUPO,Duel Power,DUPO-EN001,Ultra Rare,NearMint,Unlimited,English,8.84,2022-07-17,1.39,3.78,2.83
-all,1,0,Magnarokket Dragon,SDRR,Structure Deck: Rokket Revolt,SDRR-EN009,Common,NearMint,1st Edition,English,0.40,2022-01-24,0.24,0.50,0.47
+all,2,0,"Judgment, the Dragon of Heaven",BLAR,Battles Of Legend: Armageddon,BLAR-EN049,Secret Rare,NearMint,1st Edition,English,0.85,2022-01-08,0.48,0.99,0.72
+all,1,0,"Judgment, the Dragon of Heaven",JUMP,Shonen Jump Magazine,JUMP-EN089,Ultra Rare,NearMint,Limited,English,1.35,2023-01-25,0.45,2.00,0.78
+all,1,0,Kachi Kochi Dragon,YZ01,Yu-Gi-Oh! ZEXAL volume 1 Promotional Card,YZ01-EN001,Ultra Rare,NearMint,Limited,English,1.44,2022-03-05,0.30,1.40,1.41
+all,1,0,Kaiser Glider - Golden Burst,LDS3,Legendary Duelists: Season 3,LDS3-EN136,Secret Rare,NearMint,Limited,English,0.47,2023-01-25,0.10,0.63,0.33
+all,1,0,Kaiser Glider - Golden Burst,LDS3,Legendary Duelists: Season 3,LDS3-EN136,Secret Rare,NearMint,Limited,English,0.35,2023-04-26,0.10,0.63,0.33
+all,1,0,Keeper of Dragon Magic,CT15,2018 Mega-Tins,CT15-EN004,Ultra Rare,NearMint,Limited,English,1.91,2022-01-08,0.95,3.00,2.42
+all,1,0,King Dragun,DUOV,Duel Overload,DUOV-EN077,Ultra Rare,NearMint,1st Edition,English,0.39,2022-01-08,0.15,0.65,0.48
+all,1,0,"Koa'ki Meiru Drago",BLAR,Battles Of Legend: Armageddon,BLAR-EN059,Ultra Rare,NearMint,1st Edition,English,0.23,2022-01-08,0.25,0.52,0.50
+all,1,0,"Koa'ki Meiru Maximus",SOVR,Stardust Overdrive,SOVR-EN081,Ultra Rare,NearMint,Unlimited,English,0.88,2022-01-08,0.70,1.49,1.40
+all,1,0,Krystal Dragon,MVP1S,The Dark Side of Dimensions Movie Pack: Secret Edition,MVP1-ENSV2,Ultra Rare,NearMint,Limited,English,0.21,2022-01-08,0.10,0.25,0.18
+all,1,0,Lavalval Dragon,HA05,Hidden Arsenal 5 Steelswarm Invasion,HA05-EN022,Secret Rare,NearMint,1st Edition,English,0.93,2022-01-08,0.27,0.82,0.78
+all,1,0,Lavalval Salamander,GFTP,Ghosts From The Past,GFTP-EN003,Ultra Rare,NearMint,1st Edition,English,0.23,2022-01-08,0.06,0.35,0.25
+all,1,0,"Lector Pendulum, the Dracoverlord",SHVI,Shining Victories,SHVI-EN023,Ultra Rare,NearMint,Unlimited,English,0.21,2022-01-24,0.08,0.49,0.25
+all,1,0,Left Arm of the Forbidden One,YGLD,"Yugi'S Legendary Decks",YGLD-ENA21,Ultra Rare,NearMint,Unlimited,English,2.22,2022-01-08,3.43,4.09,3.83
+all,1,0,Left Leg of the Forbidden One,YGLD,"Yugi'S Legendary Decks",YGLD-ENA19,Ultra Rare,NearMint,Unlimited,English,2.64,2022-01-08,3.87,5.17,4.19
+all,1,0,Light and Darkness Dragon,STOR,Storm Of Ragnarok,STOR-ENSE1,Super Rare,NearMint,Limited,English,1.44,2022-01-08,0.72,1.40,1.22
+all,1,0,Light and Darkness Dragon,YG01,Yu-Gi-Oh! GX volume 1 Promotional Card,YG01-EN001,Secret Rare,NearMint,Limited,English,56.21,2023-01-25,49.75,67.34,68.44
+all,1,0,Light and Darkness Dragon,YG01,Yu-Gi-Oh! GX volume 1 Promotional Card,YG01-EN001,Secret Rare,NearMint,Limited,English,68.44,2023-04-29,49.75,67.34,68.44
+all,1,0,Light Dragon @Ignister,IGAS,Ignition Assault,IGAS-EN044,Super Rare,NearMint,1st Edition,English,0.30,2022-01-08,0.09,0.40,0.26
+all,1,0,Light End Dragon,LCGX,Legendary Collection 2 The Duel Academy Years Mega Pack,LCGX-EN189,Ultra Rare,NearMint,1st Edition,English,0.93,2022-01-08,0.55,0.93,0.91
+all,1,0,Lightpulsar Dragon,PGLD,Premium Gold,PGLD-EN039,Gold Rare,NearMint,1st Edition,English,0.93,2022-01-08,0.40,0.99,0.62
+all,1,0,"Loki, Lord of the Aesir",STOR,Storm Of Ragnarok,STOR-EN039,Ultimate Rare,NearMint,1st Edition,English,23.00,2023-01-25,17.00,23.23,20.23
+all,1,0,Lord of the Red,DRL2,Dragons of Legend 2,DRL2-EN016,Secret Rare,NearMint,1st Edition,English,1.47,2022-01-08,0.33,0.99,0.81
+all,1,0,Lubellion the Searing Dragon,SDAZ,Structure Deck: Albaz Strike,SDAZ-EN042,Ultra Rare,NearMint,1st Edition,English,0.37,2022-07-17,0.18,0.49,0.23
+all,1,0,"Ma'at",PRC1,Premium Collection Tin,PRC1-EN017,Secret Rare,NearMint,1st Edition,English,0.58,2022-07-17,0.17,0.64,0.53
+all,1,0,Magician of Black Chaos,YGLD,"Yugi'S Legendary Decks",YGLD-ENC01,Ultra Rare,NearMint,Unlimited,English,1.19,2022-01-08,0.54,0.91,0.83
+all,1,0,Magician of Black Chaos,YGLD,"Yugi'S Legendary Decks",YGLD-ENC01,Ultra Rare,NearMint,1st Edition,English,0.96,2022-01-08,0.43,1.20,1.22
+all,2,0,Magician of Black Chaos MAX,TN19,2019 Gold Sarcophagus Tin,TN19-EN002,Prismatic Secret Rare,NearMint,Limited,English,0.77,2022-01-08,0.99,2.99,2.29
+all,1,0,Magician of Chaos,DUPO,Duel Power,DUPO-EN001,Ultra Rare,NearMint,Unlimited,English,8.84,2022-07-17,1.39,3.30,2.83
+all,1,0,Magnarokket Dragon,SDRR,Structure Deck: Rokket Revolt,SDRR-EN009,Common,NearMint,1st Edition,English,0.40,2022-01-24,0.15,0.49,0.45
 all,2,0,Mahaama the Fairy Dragon,MP21,2021 Tin Of Ancient Battles,MP21-EN218,Ultra Rare,NearMint,1st Edition,English,0.14,2022-01-08,0.05,0.25,0.13
 all,1,0,Mahaama the Fairy Dragon,MP21,2021 Tin Of Ancient Battles,MP21-EN218,Ultra Rare,NearMint,1st Edition,English,0.15,2022-03-22,0.05,0.25,0.13
-all,1,0,"Majester Paladin, the Ascending Dracoslayer",ANGU,Ancient Guardians,ANGU-EN050,Rare,NearMint,1st Edition,English,0.06,2022-01-24,0.01,0.20,0.10
-all,1,0,Majestic Red Dragon,CT07,Collectible Tin 2010,CT07-EN001,Secret Rare,NearMint,Limited,English,2.62,2022-01-08,0.99,2.91,2.06
-all,1,0,Majestic Star Dragon,CT06,Collectible Tin 2009,CT06-EN003,Secret Rare,NearMint,Limited,English,15.46,2022-01-08,2.00,5.61,7.30
-all,1,0,Malefic Blue-Eyes White Dragon,YMP1,3D Bonds Beyond Time Movie Pack,YMP1-EN002,Secret Rare,NearMint,Limited,English,1.85,2022-01-08,0.65,2.00,1.55
-all,2,0,Malefic Paradigm Dragon,BLAR,Battles Of Legend: Armageddon,BLAR-EN019,Ultra Rare,NearMint,1st Edition,English,0.31,2022-01-08,0.10,0.30,0.22
-all,1,0,Malefic Paradox Dragon,YMP1,3D Bonds Beyond Time Movie Pack,YMP1-EN007,Secret Rare,NearMint,Limited,English,3.59,2022-01-08,3.99,5.30,4.90
-all,1,0,Malefic Rainbow Dragon,YMP1,3D Bonds Beyond Time Movie Pack,YMP1-EN005,Secret Rare,NearMint,Limited,English,3.27,2022-01-08,2.00,3.59,3.29
-all,1,0,Malefic Red-Eyes Black Dragon ,YMP1,3D Bonds Beyond Time Movie Pack,YMP1-EN001,Secret Rare,NearMint,Limited,English,1.42,2022-01-08,0.46,1.24,1.09
-all,1,0,Malefic Stardust Dragon,CT08,Collectible Tin 2011,CT08-EN014,Super Rare,NearMint,Limited,English,1.96,2022-01-08,1.21,1.89,1.87
-all,1,0,Malefic Truth Dragon,JUMP,Shonen Jump Magazine,JUMP-EN048,Ultra Rare,NearMint,Limited,English,1.38,2022-01-08,0.27,1.30,1.73
-all,1,0,Mana Dragon Zirnitron,MP19,2019 Gold Sarcophagus Tin Mega Pack,MP19-EN090,Prismatic Secret Rare,NearMint,1st Edition,English,0.25,2022-01-08,0.25,0.55,0.44
-all,1,0,Masquerade the Blazing Dragon,BODE,Burst Of Destiny,BODE-EN038,Ultra Rare,NearMint,1st Edition,English,2.33,2022-01-08,2.00,5.11,3.52
-all,1,0,"Master Peace, the True Dracoslayer",MP17,2017 Mega-Tins Mega Pack,MP17-EN075,Ultra Rare,NearMint,1st Edition,English,0.24,2022-03-05,0.19,0.57,0.44
-all,1,0,Meklord Astro Dragon Asterisk,LC5D,"Legendary Collection 5D's Mega Pack",LC5D-EN166,Secret Rare,NearMint,1st Edition,English,1.44,2022-03-22,0.49,1.05,1.19
-all,1,0,Meklord Astro Dragon Triskelion,LED7,Legendary Duelists: Rage Of Ra,LED7-EN016,Ultra Rare,NearMint,1st Edition,English,0.41,2022-03-22,0.10,0.50,0.32
-all,1,0,Meteor Black Comet Dragon,GFTP,Ghosts From The Past,GFTP-EN096,Ultra Rare,NearMint,1st Edition,English,1.64,2022-01-08,0.99,2.49,2.34
+all,1,0,"Majester Paladin, the Ascending Dracoslayer",ANGU,Ancient Guardians,ANGU-EN050,Rare,NearMint,1st Edition,English,0.06,2022-01-24,0.01,0.21,0.13
+all,1,0,Majestic Red Dragon,CT07,Collectible Tin 2010,CT07-EN001,Secret Rare,NearMint,Limited,English,2.62,2022-01-08,0.99,2.66,2.15
+all,1,0,Majestic Star Dragon,CT06,Collectible Tin 2009,CT06-EN003,Secret Rare,NearMint,Limited,English,15.46,2022-01-08,2.50,5.98,7.65
+all,1,0,Malefic Blue-Eyes White Dragon,YMP1,3D Bonds Beyond Time Movie Pack,YMP1-EN002,Secret Rare,NearMint,Limited,English,1.85,2022-01-08,0.65,2.07,1.53
+all,1,0,Malefic Cyber End Dragon,GFP2,Ghosts From The Past: The 2Nd Haunting,GFP2-EN101,Ultra Rare,NearMint,1st Edition,English,0.16,2023-04-26,0.03,0.25,0.17
+all,2,0,Malefic Paradigm Dragon,BLAR,Battles Of Legend: Armageddon,BLAR-EN019,Ultra Rare,NearMint,1st Edition,English,0.31,2022-01-08,0.10,0.30,0.23
+all,1,0,Malefic Paradox Dragon,YMP1,3D Bonds Beyond Time Movie Pack,YMP1-EN007,Secret Rare,NearMint,Limited,English,3.59,2022-01-08,4.00,5.35,4.89
+all,1,0,Malefic Rainbow Dragon,YMP1,3D Bonds Beyond Time Movie Pack,YMP1-EN005,Secret Rare,NearMint,Limited,English,3.27,2022-01-08,2.00,3.63,3.24
+all,1,0,Malefic Red-Eyes Black Dragon ,YMP1,3D Bonds Beyond Time Movie Pack,YMP1-EN001,Secret Rare,NearMint,Limited,English,1.42,2022-01-08,0.46,1.12,1.18
+all,1,0,Malefic Stardust Dragon,CT08,Collectible Tin 2011,CT08-EN014,Super Rare,NearMint,Limited,English,1.96,2022-01-08,1.35,2.00,2.13
+all,1,0,Malefic Truth Dragon,JUMP,Shonen Jump Magazine,JUMP-EN048,Ultra Rare,NearMint,Limited,English,1.38,2022-01-08,0.27,1.28,1.73
+all,1,0,Mana Dragon Zirnitron,MP19,2019 Gold Sarcophagus Tin Mega Pack,MP19-EN090,Prismatic Secret Rare,NearMint,1st Edition,English,0.25,2022-01-08,0.25,0.64,0.44
+all,1,0,Masquerade the Blazing Dragon,BODE,Burst Of Destiny,BODE-EN038,Ultra Rare,NearMint,1st Edition,English,2.33,2022-01-08,1.89,5.00,3.04
+all,1,0,"Master Peace, the True Dracoslayer",MP17,2017 Mega-Tins Mega Pack,MP17-EN075,Ultra Rare,NearMint,1st Edition,English,0.24,2022-03-05,0.16,0.59,0.43
+all,1,0,Meklord Astro Dragon Asterisk,LC5D,"Legendary Collection 5D's Mega Pack",LC5D-EN166,Secret Rare,NearMint,1st Edition,English,1.44,2022-03-22,0.58,1.13,1.21
+all,1,0,Meklord Astro Dragon Triskelion,LED7,Legendary Duelists: Rage Of Ra,LED7-EN016,Ultra Rare,NearMint,1st Edition,English,0.41,2022-03-22,0.11,0.50,0.30
+all,1,0,Meteor Black Comet Dragon,GFTP,Ghosts From The Past,GFTP-EN096,Ultra Rare,NearMint,1st Edition,English,1.64,2022-01-08,1.00,2.55,1.97
 all,1,0,Meteor Black Dragon,PRC1,Premium Collection Tin,PRC1-EN004,Super Rare,NearMint,,English,0.00,2022-01-08,,,
-all,1,0,Mikazukinoyaiba,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN098,Ultra Rare,NearMint,1st Edition,English,0.61,2022-01-08,0.25,0.63,0.58
-all,1,0,Mirror Force Dragon,DRL3,Dragons of Legend: Unleashed,DRL3-EN059,Ultra Rare,NearMint,1st Edition,English,0.56,2022-01-08,0.19,0.51,0.45
-all,1,0,Mirrorjade the Iceblade Dragon,SDAZ,Structure Deck: Albaz Strike,SDAZ-EN041,Ultra Rare,NearMint,1st Edition,English,0.62,2022-07-17,0.29,0.54,0.38
-all,1,0,Montage Dragon,TDGS,The Duelist Genesis,TDGS-EN014,Ultimate Rare,NearMint,Unlimited,English,16.45,2022-01-08,6.00,9.35,8.48
-all,1,0,Montage Dragon,CT05S,Exclusive Tins 2008,CT05-ENS01,Secret Rare,NearMint,Limited,English,3.87,2022-01-08,1.58,3.00,3.91
-all,1,0,Moon Dragon Quilla,ABPF,Absolute Powerforce,ABPF-EN043,Ultimate Rare,NearMint,1st Edition,English,22.35,2022-01-08,14.95,19.53,18.70
-all,1,0,Naturia Barkion,GLD5,Gold Series 5: Haunted Mine,GLD5-EN033,Ghost/Gold Rare,NearMint,Limited,English,16.36,2022-01-08,15.98,20.00,18.36
-all,1,0,Naturia Barkion,HAC1,Hidden Arsenal Chapter 1,HAC1-EN122,Duel Terminal Ultra Parallel Rare,NearMint,1st Edition,English,0.58,2022-03-22,0.70,3.00,2.20
-all,1,0,Nekroz of Catastor,THSF,The Secret Forces,THSF-EN018,Secret Rare,NearMint,1st Edition,English,0.54,2022-03-22,0.15,0.51,0.46
-all,1,0,Nekroz of Decisive Armor,THSF,The Secret Forces,THSF-EN019,Secret Rare,NearMint,1st Edition,English,0.90,2022-01-08,0.25,0.57,0.48
-all,1,0,Neo Blue-Eyes Ultimate Dragon,MVP1S,The Dark Side of Dimensions Movie Pack: Secret Edition,MVP1-ENS01,Secret Rare,NearMint,1st Edition,English,3.62,2022-01-08,2.80,3.72,3.57
-all,1,0,Neo Galaxy-Eyes Cipher Dragon,DPDG,Duelist Pack: Dimensional Guardians,DPDG-EN039,Ultra Rare,NearMint,1st Edition,English,1.57,2022-01-08,1.68,2.98,3.11
-all,1,0,Neo Galaxy-Eyes Photon Dragon,BLLR,"Battles of Legend: Light's Revenge",BLLR-EN064,Ultra Rare,NearMint,1st Edition,English,5.33,2022-01-08,2.50,5.00,5.16
-all,1,0,Neo Kaiser Glider,TN19,2019 Gold Sarcophagus Tin,TN19-EN006,Prismatic Secret Rare,NearMint,Limited,English,0.31,2022-01-08,0.05,0.49,0.32
-all,1,0,Number 100: Numeron Dragon,DRL3,Dragons of Legend: Unleashed,DRL3-EN021,Secret Rare,NearMint,1st Edition,English,11.34,2022-07-17,1.15,3.00,2.18
-all,1,0,Number 107: Galaxy-Eyes Tachyon Dragon,MAGO,Maximum Gold,MAGO-EN062,Rare,NearMint,1st Edition,English,1.15,2022-01-08,0.50,1.15,1.06
-all,1,0,Number 107: Galaxy-Eyes Tachyon Dragon,BLLR,"Battles of Legend: Light's Revenge",BLLR-EN067,Ultra Rare,NearMint,1st Edition,English,2.25,2022-01-08,1.50,2.21,1.95
+all,1,0,Mikazukinoyaiba,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN098,Ultra Rare,NearMint,1st Edition,English,0.61,2022-01-08,0.25,0.62,0.57
+all,1,0,Mirror Force Dragon,DRL3,Dragons of Legend: Unleashed,DRL3-EN059,Ultra Rare,NearMint,1st Edition,English,0.56,2022-01-08,0.19,0.51,0.50
+all,1,0,Mirrorjade the Iceblade Dragon,SDAZ,Structure Deck: Albaz Strike,SDAZ-EN041,Ultra Rare,NearMint,1st Edition,English,0.62,2022-07-17,0.31,0.53,0.38
+all,1,0,Montage Dragon,TDGS,The Duelist Genesis,TDGS-EN014,Ultimate Rare,NearMint,Unlimited,English,16.45,2022-01-08,6.00,8.01,8.31
+all,1,0,Montage Dragon,CT05S,Exclusive Tins 2008,CT05-ENS01,Secret Rare,NearMint,Limited,English,3.87,2022-01-08,1.65,3.00,3.97
+all,1,0,Moon Dragon Quilla,ABPF,Absolute Powerforce,ABPF-EN043,Ultimate Rare,NearMint,1st Edition,English,22.35,2022-01-08,14.95,19.94,18.70
+all,1,0,Naturia Barkion,GLD5,Gold Series 5: Haunted Mine,GLD5-EN033,Ghost/Gold Rare,NearMint,Limited,English,16.36,2022-01-08,17.00,20.00,19.67
+all,1,0,Naturia Barkion,HAC1,Hidden Arsenal Chapter 1,HAC1-EN122,Duel Terminal Ultra Parallel Rare,NearMint,1st Edition,English,0.58,2022-03-22,0.70,2.28,2.42
+all,1,0,Nekroz of Catastor,THSF,The Secret Forces,THSF-EN018,Secret Rare,NearMint,1st Edition,English,0.54,2022-03-22,0.15,0.50,0.44
+all,1,0,Nekroz of Decisive Armor,THSF,The Secret Forces,THSF-EN019,Secret Rare,NearMint,1st Edition,English,0.90,2022-01-08,0.25,0.59,0.49
+all,1,0,Neo Blue-Eyes Ultimate Dragon,MVP1S,The Dark Side of Dimensions Movie Pack: Secret Edition,MVP1-ENS01,Secret Rare,NearMint,1st Edition,English,3.62,2022-01-08,2.45,3.75,3.61
+all,1,0,Neo Galaxy-Eyes Cipher Dragon,DPDG,Duelist Pack: Dimensional Guardians,DPDG-EN039,Ultra Rare,NearMint,1st Edition,English,1.57,2022-01-08,1.68,2.98,3.14
+all,1,0,Neo Galaxy-Eyes Photon Dragon,BLLR,"Battles of Legend: Light's Revenge",BLLR-EN064,Ultra Rare,NearMint,1st Edition,English,5.33,2022-01-08,2.50,4.47,5.33
+all,1,0,Neo Kaiser Glider,TN19,2019 Gold Sarcophagus Tin,TN19-EN006,Prismatic Secret Rare,NearMint,Limited,English,0.31,2022-01-08,0.05,0.48,0.29
+all,1,0,Number 100: Numeron Dragon,DRL3,Dragons of Legend: Unleashed,DRL3-EN021,Secret Rare,NearMint,1st Edition,English,11.34,2022-07-17,1.14,2.96,2.12
+all,1,0,Number 107: Galaxy-Eyes Tachyon Dragon,MAGO,Maximum Gold,MAGO-EN062,Rare,NearMint,1st Edition,English,1.15,2022-01-08,0.50,1.15,1.11
+all,1,0,Number 107: Galaxy-Eyes Tachyon Dragon,BLLR,"Battles of Legend: Light's Revenge",BLLR-EN067,Ultra Rare,NearMint,1st Edition,English,2.25,2022-01-08,1.50,2.15,2.13
 all,1,0,Number 17: Leviathan Dragon,BP01,Battle Pack: Epic Dawn,BP01-EN027,Starfoil Rare,NearMint,1st Edition,English,1.03,2022-01-08,0.42,0.92,0.59
-all,1,0,Number 20: Giga-Brilliant,ZTIN,Zexal Collection Tin,ZTIN-ENV02,Ultimate Rare,NearMint,Limited,English,0.97,2022-03-05,0.24,1.00,0.84
-all,1,0,Number 24: Dragulas the Vampiric Dragon,DLCS,Dragons Of Legend: The Complete Series,DLCS-EN118,Ultra Rare,NearMint,1st Edition,English,2.23,2022-07-17,0.10,1.60,1.56
-all,1,0,Number 38: Hope Harbinger Dragon Titanic Galaxy,GFP2,Ghosts From The Past: The 2Nd Haunting,GFP2-EN143,Ultra Rare,NearMint,1st Edition,English,1.78,2022-07-17,2.34,3.29,2.93
-all,1,0,Number 38: Hope Harbinger Dragon Titanic Galaxy,GFP2,Ghosts From The Past: The 2Nd Haunting,GFP2-EN143,Ultra Rare,NearMint,1st Edition,English,2.70,2023-01-25,2.34,3.29,2.93
-all,1,0,Number 46: Dragluon,SHSP,Shadow Specters,SHSP-EN050,Super Rare,NearMint,Unlimited,English,8.70,2023-01-25,7.50,9.64,8.71
-all,1,0,Number 57: Tri-Head Dust Dragon,NUMH,Number Hunters,NUMH-EN030,Secret Rare,NearMint,1st Edition,English,1.16,2022-01-08,0.95,1.25,1.26
+all,1,0,Number 20: Giga-Brilliant,ZTIN,Zexal Collection Tin,ZTIN-ENV02,Ultimate Rare,NearMint,Limited,English,0.97,2022-03-05,0.24,1.00,0.80
+all,1,0,Number 24: Dragulas the Vampiric Dragon,DLCS,Dragons Of Legend: The Complete Series,DLCS-EN118,Ultra Rare,NearMint,1st Edition,English,2.23,2022-07-17,0.10,1.50,1.67
+all,1,0,Number 38: Hope Harbinger Dragon Titanic Galaxy,GFP2,Ghosts From The Past: The 2Nd Haunting,GFP2-EN143,Ultra Rare,NearMint,1st Edition,English,1.78,2022-07-17,2.01,3.22,2.69
+all,1,0,Number 38: Hope Harbinger Dragon Titanic Galaxy,GFP2,Ghosts From The Past: The 2Nd Haunting,GFP2-EN143,Ultra Rare,NearMint,1st Edition,English,2.70,2023-01-25,2.01,3.22,2.69
+all,1,0,Number 46: Dragluon,SHSP,Shadow Specters,SHSP-EN050,Super Rare,NearMint,Unlimited,English,8.70,2023-01-25,7.50,9.60,8.71
+all,1,0,Number 57: Tri-Head Dust Dragon,NUMH,Number Hunters,NUMH-EN030,Secret Rare,NearMint,1st Edition,English,1.16,2022-01-08,0.95,1.30,1.28
 all,1,0,Number 57: Tri-Head Dust Dragon,NUMH,Number Hunters,NUMH-EN030,Secret Rare,NearMint,Unlimited,English,1.65,2022-01-08,1.00,1.26,1.08
-all,1,0,Number 62: Galaxy-Eyes Prime Photon Dragon,BLLR,"Battles of Legend: Light's Revenge",BLLR-EN070,Ultra Rare,NearMint,1st Edition,English,1.48,2022-01-08,0.98,2.20,2.15
-all,1,0,Number 82: Heartlandraco,PGLD,Premium Gold,PGLD-EN025,Gold Secret Rare,NearMint,1st Edition,English,3.37,2022-07-17,2.00,3.00,2.79
-all,1,0,Number 92: Heart-eartH Dragon,CBLZ,Cosmo Blazer,CBLZ-EN045,Ultra Rare,NearMint,1st Edition,English,51.40,2022-01-08,29.94,36.00,33.78
-all,1,0,Number 95: Galaxy-Eyes Dark Matter Dragon,PGL2,Premium Gold: Return of the Bling,PGL2-EN015,Gold Secret Rare,NearMint,1st Edition,English,4.69,2022-01-08,3.00,5.99,5.45
-all,1,0,Number 95: Galaxy-Eyes Dark Matter Dragon,PGL2,Premium Gold: Return of the Bling,PGL2-EN015,Gold Secret Rare,NearMint,1st Edition,English,3.60,2022-07-17,3.00,5.99,5.45
-all,1,0,Number 97: Draglubion,GFP2,Ghosts From The Past: The 2Nd Haunting,GFP2-EN145,Ultra Rare,NearMint,1st Edition,English,0.52,2022-07-17,0.29,0.78,0.65
-all,2,0,Number 99: Utopic Dragon,NECH,The New Challengers,NECH-EN099,Secret Rare,NearMint,Unlimited,English,14.74,2022-01-08,4.20,8.06,5.41
-all,1,0,Number C107: Neo Galaxy-Eyes Tachyon Dragon,PRIO,Primal Origin,PRIO-EN041,Super Rare,NearMint,1st Edition,English,2.21,2022-01-08,0.95,1.74,1.49
-all,1,0,Number C107: Neo Galaxy-Eyes Tachyon Dragon,PRIO,Primal Origin,PRIO-EN041,Ultimate Rare,NearMint,1st Edition,English,18.78,2023-01-25,14.99,21.00,20.12
-all,2,0,Number C92: Heart-eartH Chaos Dragon,BLAR,Battles Of Legend: Armageddon,BLAR-EN069,Secret Rare,NearMint,1st Edition,English,0.39,2022-01-08,0.10,0.50,0.33
+all,1,0,Number 62: Galaxy-Eyes Prime Photon Dragon,BLLR,"Battles of Legend: Light's Revenge",BLLR-EN070,Ultra Rare,NearMint,1st Edition,English,1.48,2022-01-08,0.98,2.01,1.95
+all,1,0,Number 82: Heartlandraco,PGLD,Premium Gold,PGLD-EN025,Gold Secret Rare,NearMint,1st Edition,English,3.37,2022-07-17,1.99,3.00,2.73
+all,1,0,Number 91: Thunder Spark Dragon,REDU,Return of the Duelist,REDU-EN098,Ultra Rare,NearMint,1st Edition,English,4.67,2023-04-26,4.00,5.33,4.68
+all,1,0,Number 92: Heart-eartH Dragon,CBLZ,Cosmo Blazer,CBLZ-EN045,Ultra Rare,NearMint,1st Edition,English,51.40,2022-01-08,33.99,39.44,33.86
+all,1,0,Number 95: Galaxy-Eyes Dark Matter Dragon,PGL2,Premium Gold: Return of the Bling,PGL2-EN015,Gold Secret Rare,NearMint,1st Edition,English,4.69,2022-01-08,3.00,5.98,6.07
+all,1,0,Number 95: Galaxy-Eyes Dark Matter Dragon,PGL2,Premium Gold: Return of the Bling,PGL2-EN015,Gold Secret Rare,NearMint,1st Edition,English,3.60,2022-07-17,3.00,5.98,6.07
+all,1,0,Number 97: Draglubion,GFP2,Ghosts From The Past: The 2Nd Haunting,GFP2-EN145,Ultra Rare,NearMint,1st Edition,English,0.52,2022-07-17,0.25,0.75,0.62
+all,2,0,Number 99: Utopic Dragon,NECH,The New Challengers,NECH-EN099,Secret Rare,NearMint,Unlimited,English,14.74,2022-01-08,4.50,8.06,5.34
+all,1,0,Number C107: Neo Galaxy-Eyes Tachyon Dragon,PRIO,Primal Origin,PRIO-EN041,Super Rare,NearMint,1st Edition,English,2.21,2022-01-08,0.95,1.74,1.46
+all,1,0,Number C107: Neo Galaxy-Eyes Tachyon Dragon,PRIO,Primal Origin,PRIO-EN041,Ultimate Rare,NearMint,1st Edition,English,18.78,2023-01-25,14.99,21.87,20.12
+all,2,0,Number C92: Heart-eartH Chaos Dragon,BLAR,Battles Of Legend: Armageddon,BLAR-EN069,Secret Rare,NearMint,1st Edition,English,0.39,2022-01-08,0.10,0.50,0.38
 all,1,0,Number C92: Heart-eartH Chaos Dragon,LVAL,Legacy of the Valiant,LVAL-EN050,Rare,NearMint,Unlimited,English,0.32,2022-01-08,0.25,0.49,0.32
-all,1,0,Nurse Dragonmaid,MAGO,Maximum Gold,MAGO-EN020,Premium Gold Rare,NearMint,1st Edition,English,2.20,2022-01-08,0.99,2.23,2.11
-all,1,0,Obelisk the Tormentor,BP02,Battle Pack 2: War of the Giants,BP02-EN125,Mosaic Rare,NearMint,Unlimited,English,8.57,2022-01-08,2.73,3.80,2.90
-all,1,0,Obelisk the Tormentor,SBCB,Speed Duel: Battle City Box,SBCB-EN202,Secret Rare,NearMint,1st Edition,English,2.03,2022-01-08,0.90,2.00,1.52
-all,1,0,Obelisk the Tormentor,TN19,2019 Gold Sarcophagus Tin,TN19-EN007,Prismatic Secret Rare,NearMint,Limited,English,1.27,2022-01-08,0.49,1.50,1.36
-all,1,0,Obelisk the Tormentor (original),LC01,Legendary Collection,LC01-EN001,Ultra Rare,NearMint,Limited,English,1.54,2022-01-08,0.85,1.70,1.39
-all,1,0,Odd-Eyes Absolute Dragon,SDMP,Master Of Pendulum Structure Deck,SDMP-EN042,Ultra Rare,NearMint,1st Edition,English,0.85,2022-01-08,0.50,1.10,1.10
-all,1,0,Odd-Eyes Advance Dragon,DUPO,Duel Power,DUPO-EN011,Ultra Rare,NearMint,1st Edition,English,0.92,2022-01-08,0.58,1.18,1.50
-all,1,0,Odd-Eyes Arc Pendulum Dragon,LEDD,Legendary Dragon Decks,LEDD-ENC00,Ultra Rare,NearMint,1st Edition,English,6.37,2022-01-08,4.46,6.49,6.23
-all,1,0,Odd-Eyes Dragon,YS14,Super Starter Space-Time Showdown,YS14-ENA01,Ultra Rare,NearMint,1st Edition,English,0.50,2022-01-08,0.02,0.47,0.37
-all,1,0,Odd-Eyes Gravity Dragon,BOSH,Breakers of Shadow,BOSH-EN043,Ultra Rare,NearMint,1st Edition,English,1.55,2022-01-08,3.28,3.72,3.13
-all,1,0,Odd-Eyes Lancer Dragon,BLLR,"Battles of Legend: Light's Revenge",BLLR-EN001,Ultra Rare,NearMint,1st Edition,English,0.56,2022-01-08,0.21,0.65,0.48
-all,1,0,Odd-Eyes Meteorburst Dragon,SDMP,Master Of Pendulum Structure Deck,SDMP-EN041,Ultra Rare,NearMint,1st Edition,English,0.52,2022-01-08,0.19,0.50,0.43
-all,1,0,Odd-Eyes Mirage Dragon,DRL3,Dragons of Legend: Unleashed,DRL3-EN001,Secret Rare,NearMint,1st Edition,English,1.11,2022-01-08,0.25,0.94,0.73
-all,1,0,Odd-Eyes Pendulum Dragon,CT12,2015 Mega-Tins,CT12-EN001,Platinum Secret Rare,NearMint,Limited,English,0.67,2022-01-08,0.24,0.85,0.67
-all,1,0,Odd-Eyes Persona Dragon,JUMP,Shonen Jump Magazine,JUMP-EN079,Ultra Rare,NearMint,Limited,English,10.53,2022-01-08,3.00,5.45,6.86
-all,1,0,Odd-Eyes Phantasma Dragon,BLCR,Battles Of Legend: Crystal Revenge,BLCR-EN075,Secret Rare,NearMint,1st Edition,English,0.38,2023-01-25,0.09,0.43,0.34
-all,1,0,Odd-Eyes Raging Dragon,MP17,2017 Mega-Tins Mega Pack,MP17-EN205,Ultra Rare,NearMint,1st Edition,English,2.20,2022-01-08,0.98,1.25,1.07
-all,1,0,Odd-Eyes Rebellion Dragon,CORE,Clash of Rebellions,CORE-EN051,Secret Rare,NearMint,1st Edition,English,5.85,2022-01-08,6.78,10.01,7.83
-all,1,0,Odd-Eyes Revolution Dragon,MP21,2021 Tin Of Ancient Battles,MP21-EN157,Ultra Rare,NearMint,1st Edition,English,0.95,2022-01-08,0.35,1.65,1.11
+all,1,0,Nurse Dragonmaid,MAGO,Maximum Gold,MAGO-EN020,Premium Gold Rare,NearMint,1st Edition,English,2.20,2022-01-08,1.00,2.00,1.94
+all,1,0,Obelisk the Tormentor,BP02,Battle Pack 2: War of the Giants,BP02-EN125,Mosaic Rare,NearMint,Unlimited,English,8.57,2022-01-08,3.47,3.80,2.90
+all,1,0,Obelisk the Tormentor,SBCB,Speed Duel: Battle City Box,SBCB-EN202,Secret Rare,NearMint,1st Edition,English,2.03,2022-01-08,0.99,2.09,1.33
+all,1,0,Obelisk the Tormentor,TN19,2019 Gold Sarcophagus Tin,TN19-EN007,Prismatic Secret Rare,NearMint,Limited,English,1.27,2022-01-08,0.39,1.49,1.31
+all,1,0,Obelisk the Tormentor (original),LC01,Legendary Collection,LC01-EN001,Ultra Rare,NearMint,Limited,English,1.54,2022-01-08,0.74,1.46,1.38
+all,1,0,Odd-Eyes Absolute Dragon,SDMP,Master Of Pendulum Structure Deck,SDMP-EN042,Ultra Rare,NearMint,1st Edition,English,0.85,2022-01-08,0.49,1.00,0.93
+all,1,0,Odd-Eyes Advance Dragon,DUPO,Duel Power,DUPO-EN011,Ultra Rare,NearMint,1st Edition,English,0.92,2022-01-08,0.58,1.02,1.41
+all,1,0,Odd-Eyes Arc Pendulum Dragon,LEDD,Legendary Dragon Decks,LEDD-ENC00,Ultra Rare,NearMint,1st Edition,English,6.37,2022-01-08,4.47,6.27,6.49
+all,1,0,Odd-Eyes Dragon,YS14,Super Starter Space-Time Showdown,YS14-ENA01,Ultra Rare,NearMint,1st Edition,English,0.50,2022-01-08,0.05,0.49,0.33
+all,1,0,Odd-Eyes Gravity Dragon,BOSH,Breakers of Shadow,BOSH-EN043,Ultra Rare,NearMint,1st Edition,English,1.55,2022-01-08,4.00,10.23,3.11
+all,1,0,Odd-Eyes Lancer Dragon,BLLR,"Battles of Legend: Light's Revenge",BLLR-EN001,Ultra Rare,NearMint,1st Edition,English,0.56,2022-01-08,0.21,0.66,0.50
+all,1,0,Odd-Eyes Meteorburst Dragon,SDMP,Master Of Pendulum Structure Deck,SDMP-EN041,Ultra Rare,NearMint,1st Edition,English,0.52,2022-01-08,0.24,0.50,0.44
+all,1,0,Odd-Eyes Mirage Dragon,DRL3,Dragons of Legend: Unleashed,DRL3-EN001,Secret Rare,NearMint,1st Edition,English,1.11,2022-01-08,0.25,0.92,0.71
+all,1,0,Odd-Eyes Pendulum Dragon,CT12,2015 Mega-Tins,CT12-EN001,Platinum Secret Rare,NearMint,Limited,English,0.67,2022-01-08,0.24,0.88,0.68
+all,1,0,Odd-Eyes Pendulumgraph Dragon,DIFO,Dimension Force,DIFO-EN034,Secret Rare,NearMint,1st Edition,English,2.46,2023-04-26,0.90,2.00,2.01
+all,1,0,Odd-Eyes Pendulumgraph Dragon,DIFO,Dimension Force,DIFO-EN034,Secret Rare,NearMint,1st Edition,English,2.27,2023-04-29,0.90,2.00,2.01
+all,1,0,Odd-Eyes Persona Dragon,JUMP,Shonen Jump Magazine,JUMP-EN079,Ultra Rare,NearMint,Limited,English,10.53,2022-01-08,3.00,5.00,5.73
+all,1,0,Odd-Eyes Phantasma Dragon,BLCR,Battles Of Legend: Crystal Revenge,BLCR-EN075,Secret Rare,NearMint,1st Edition,English,0.38,2023-01-25,0.09,0.43,0.37
+all,1,0,Odd-Eyes Raging Dragon,MP17,2017 Mega-Tins Mega Pack,MP17-EN205,Ultra Rare,NearMint,1st Edition,English,2.20,2022-01-08,0.99,1.47,1.10
+all,1,0,Odd-Eyes Rebellion Dragon,CORE,Clash of Rebellions,CORE-EN051,Secret Rare,NearMint,1st Edition,English,5.85,2022-01-08,6.78,10.01,8.23
+all,1,0,Odd-Eyes Rebellion Dragon Overlord,GFP2,Ghosts From The Past: The 2Nd Haunting,GFP2-EN004,Ultra Rare,NearMint,1st Edition,English,0.31,2023-04-26,0.08,0.40,0.27
+all,1,0,Odd-Eyes Rebellion Dragon Overlord,GFP2,Ghosts From The Past: The 2Nd Haunting,GFP2-EN004,Ultra Rare,NearMint,1st Edition,English,0.28,2023-04-29,0.08,0.40,0.27
+all,1,0,Odd-Eyes Revolution Dragon,MP21,2021 Tin Of Ancient Battles,MP21-EN157,Ultra Rare,NearMint,1st Edition,English,0.95,2022-01-08,0.30,1.40,0.87
 all,2,0,Odd-Eyes Saber Dragon,YS15Y,2-Player Starter Deck Yuya & Declan (UK),YS15-ENY00,Ultra Rare,NearMint,1st Edition,English,0.00,2022-01-08,,,
-all,1,0,Odd-Eyes Venom Dragon,BLLR,"Battles of Legend: Light's Revenge",BLLR-EN006,Secret Rare,NearMint,1st Edition,English,3.18,2022-01-08,0.97,2.28,1.92
-all,1,0,Odd-Eyes Vortex Dragon,DOCS,Dimension of Chaos,DOCS-EN045,Secret Rare,NearMint,1st Edition,English,4.17,2022-01-08,3.51,5.96,5.18
-all,1,0,"Odin, Father of the Aesir",STOR,Storm Of Ragnarok,STOR-EN040,Ultimate Rare,NearMint,1st Edition,English,34.13,2023-01-25,21.78,36.96,34.73
-all,1,0,Omni Dragon Brotaur,MP20,2020 Tin Of Lost Memories,MP20-EN059,Ultra Rare,NearMint,1st Edition,English,1.47,2022-01-08,0.19,1.01,1.06
-all,1,0,Orient Dragon,GENF,Generation Force,GENF-EN085,Secret Rare,NearMint,1st Edition,English,8.54,2022-07-17,5.50,6.97,6.81
-all,1,0,Outburst Dragon,GFP2,Ghosts From The Past: The 2Nd Haunting,GFP2-EN041,Ultra Rare,NearMint,1st Edition,English,0.17,2022-07-17,0.01,0.25,0.15
-all,1,0,Overmind Archfiend,EXVC,Extreme Victory,EXVC-EN044,Ultra Rare,NearMint,Unlimited,English,1.46,2022-01-08,0.99,1.54,1.51
-all,1,0,Paladin of Dark Dragon,DRL2,Dragons of Legend 2,DRL2-EN018,Secret Rare,NearMint,1st Edition,English,0.81,2022-01-08,0.19,0.75,0.61
-all,1,0,Pandemic Dragon,MVP1,The Dark Side of Dimensions Movie Pack,MVP1-EN006,Ultra Rare,NearMint,Unlimited,English,0.23,2022-01-08,0.10,0.28,0.23
-all,1,0,Parlor Dragonmaid,MYFI,Mystic Fighters,MYFI-EN020,Super Rare,NearMint,1st Edition,English,6.09,2022-01-24,6.99,7.99,7.31
-all,1,0,Parrot Dragon,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN096,Ultra Rare,NearMint,1st Edition,English,0.50,2022-01-08,0.10,0.93,0.78
-all,1,0,Phantasmal Lord Ultimitl Bishbaalkin,PGL3,Premium Gold: Infinite Gold,PGL3-EN006,Gold Secret Rare,NearMint,1st Edition,English,1.20,2022-03-05,1.18,2.27,1.66
-all,1,0,Photon Wyvern,PRC1,Premium Collection Tin,PRC1-EN015,Secret Rare,NearMint,1st Edition,English,0.32,2022-07-17,0.12,0.48,0.36
-all,1,0,Pile Armed Dragon,HAC1,Hidden Arsenal Chapter 1,HAC1-EN174,Secret Rare,NearMint,Limited,English,6.34,2022-03-22,1.56,2.78,2.55
-all,1,0,Power Tool Mecha Dragon,PGLD,Premium Gold,PGLD-EN005,Gold Secret Rare,NearMint,Unlimited,English,1.24,2022-03-05,1.25,1.70,1.82
-all,1,0,"Primal Dragon, the Primordial",GFP2,Ghosts From The Past: The 2Nd Haunting,GFP2-EN036,Ultra Rare,NearMint,1st Edition,English,0.15,2022-07-17,0.04,0.25,0.15
-all,1,0,Protector Whelp of the Destruction Swordsman,DUOV,Duel Overload,DUOV-EN008,Ultra Rare,NearMint,1st Edition,English,0.33,2022-01-24,0.25,0.58,0.35
+all,1,0,Odd-Eyes Venom Dragon,BLLR,"Battles of Legend: Light's Revenge",BLLR-EN006,Secret Rare,NearMint,1st Edition,English,3.18,2022-01-08,0.97,2.25,2.07
+all,1,0,Odd-Eyes Vortex Dragon,DOCS,Dimension of Chaos,DOCS-EN045,Secret Rare,NearMint,1st Edition,English,4.17,2022-01-08,3.70,5.60,5.12
+all,1,0,"Odin, Father of the Aesir",STOR,Storm Of Ragnarok,STOR-EN040,Ultimate Rare,NearMint,1st Edition,English,34.13,2023-01-25,33.00,38.51,34.64
+all,1,0,Omni Dragon Brotaur,MP20,2020 Tin Of Lost Memories,MP20-EN059,Ultra Rare,NearMint,1st Edition,English,1.47,2022-01-08,0.19,1.00,0.95
+all,1,0,Orient Dragon,GENF,Generation Force,GENF-EN085,Secret Rare,NearMint,1st Edition,English,8.54,2022-07-17,5.95,7.00,6.78
+all,1,0,Outburst Dragon,GFP2,Ghosts From The Past: The 2Nd Haunting,GFP2-EN041,Ultra Rare,NearMint,1st Edition,English,0.17,2022-07-17,0.01,0.25,0.13
+all,1,0,Overmind Archfiend,EXVC,Extreme Victory,EXVC-EN044,Ultra Rare,NearMint,Unlimited,English,1.46,2022-01-08,0.99,1.47,1.51
+all,1,0,Paladin of Dark Dragon,DRL2,Dragons of Legend 2,DRL2-EN018,Secret Rare,NearMint,1st Edition,English,0.81,2022-01-08,0.20,0.76,0.60
+all,1,0,Pandemic Dragon,MVP1,The Dark Side of Dimensions Movie Pack,MVP1-EN006,Ultra Rare,NearMint,Unlimited,English,0.23,2022-01-08,0.10,0.25,0.23
+all,1,0,Parlor Dragonmaid,MYFI,Mystic Fighters,MYFI-EN020,Super Rare,NearMint,1st Edition,English,6.09,2022-01-24,5.50,7.49,7.00
+all,1,0,Parrot Dragon,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN096,Ultra Rare,NearMint,1st Edition,English,0.50,2022-01-08,0.10,0.96,0.78
+all,1,0,Phantasmal Lord Ultimitl Bishbaalkin,PGL3,Premium Gold: Infinite Gold,PGL3-EN006,Gold Secret Rare,NearMint,1st Edition,English,1.20,2022-03-05,1.00,2.79,2.41
+all,1,0,Photon Wyvern,PRC1,Premium Collection Tin,PRC1-EN015,Secret Rare,NearMint,1st Edition,English,0.32,2022-07-17,0.12,0.48,0.39
+all,1,0,Pile Armed Dragon,HAC1,Hidden Arsenal Chapter 1,HAC1-EN174,Secret Rare,NearMint,Limited,English,6.34,2022-03-22,1.75,2.83,2.66
+all,1,0,Power Tool Dragon,HAC1,Hidden Arsenal Chapter 1,HAC1-EN177,Secret Rare,NearMint,Limited,English,1.88,2023-04-26,0.70,2.25,1.83
+all,1,0,Power Tool Dragon,HAC1,Hidden Arsenal Chapter 1,HAC1-EN177,Secret Rare,NearMint,Limited,English,1.80,2023-04-29,0.70,2.25,1.83
+all,1,0,Power Tool Mecha Dragon,PGLD,Premium Gold,PGLD-EN005,Gold Secret Rare,NearMint,Unlimited,English,1.24,2022-03-05,1.25,1.70,1.87
+all,1,0,"Primal Dragon, the Primordial",GFP2,Ghosts From The Past: The 2Nd Haunting,GFP2-EN036,Ultra Rare,NearMint,1st Edition,English,0.15,2022-07-17,0.04,0.25,0.14
+all,1,0,Protector Whelp of the Destruction Swordsman,DUOV,Duel Overload,DUOV-EN008,Ultra Rare,NearMint,1st Edition,English,0.33,2022-01-24,0.25,0.55,0.48
 all,1,0,Proxy Dragon,CT14,2017 Mega-Tins,CT14-EN003,Ultra Rare,NearMint,Limited,English,0.17,2022-03-22,0.01,0.30,0.16
-all,1,0,Punishment Dragon,COTD,Code of the Duelist,COTD-EN028,Ultra Rare,NearMint,1st Edition,English,1.78,2022-01-08,0.68,1.84,2.00
-all,1,0,Punishment Dragon,COTD,Code of the Duelist,COTD-EN028,Ultra Rare,NearMint,1st Edition,English,1.80,2022-07-17,0.68,1.84,2.00
-all,1,0,Quadborrel Dragon,SDRR,Structure Deck: Rokket Revolt,SDRR-EN043,Ultra Rare,NearMint,1st Edition,English,0.39,2022-01-08,0.25,0.50,0.41
-all,1,0,Quadborrel Dragon,SDRR,Structure Deck: Rokket Revolt,SDRR-EN043,Ultra Rare,NearMint,1st Edition,English,0.40,2022-01-24,0.25,0.50,0.41
-all,1,0,Quintet Magician,DUPO,Duel Power,DUPO-EN040,Ultra Rare,NearMint,1st Edition,English,14.23,2022-03-07,1.05,3.00,2.34
-all,1,0,"Rafale, Champion Fur Hire",DASA,Dark Saviors,DASA-EN023,Secret Rare,NearMint,1st Edition,English,1.76,2022-01-08,1.00,2.60,3.23
-all,1,0,"Raider's Knight",PHRA,Phantom Rage,PHRA-EN040,Ultra Rare,NearMint,1st Edition,English,2.00,2022-01-08,0.94,2.52,2.43
-all,1,0,Rainbow Dark Dragon,BLRR,Battles of Legend: Relentless Revenge,BLRR-EN054,Ultra Rare,NearMint,1st Edition,English,1.20,2022-01-08,0.75,1.16,1.07
-all,1,0,Rainbow Dragon,SGX1,Speed Duel Gx: Duel Academy Box,SGX1-ENF01,Common,NearMint,1st Edition,English,0.21,2022-07-17,0.11,0.25,0.25
-all,1,0,Rainbow Overdragon,LDS1,Legendary Duelists: Season 1,LDS1-EN101,Ultra Rare,NearMint,1st Edition,English,1.16,2022-01-08,0.76,1.56,1.33
-all,1,0,"Raviel, Lord of Phantasms",MP21,2021 Tin Of Ancient Battles,MP21-EN254,Prismatic Secret Rare,NearMint,1st Edition,English,0.63,2022-01-08,0.15,0.72,0.53
-all,1,0,"Raviel, Lord of Phantasms - Shimmering Scraper",MP21,2021 Tin Of Ancient Battles,MP21-EN248,Prismatic Secret Rare,NearMint,1st Edition,English,0.21,2022-01-08,0.10,0.44,0.30
-all,1,0,Red Dragon Archfiend,TDGS,The Duelist Genesis,TDGS-EN041,Ultimate Rare,NearMint,Unlimited,English,82.16,2022-01-08,39.46,58.64,56.49
-all,1,0,Red Dragon Archfiend/Assault Mode,CRMS,Crimson Crisis,CRMS-EN004,Ultra Rare,NearMint,1st Edition,English,21.97,2022-01-08,11.43,15.00,13.76
-all,1,0,Red Nova Dragon,CT07,Collectible Tin 2010,CT07-EN005,Secret Rare,NearMint,Limited,English,5.71,2022-01-08,1.98,3.37,3.18
-all,1,0,Red Rose Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN108,Ultra Rare,NearMint,1st Edition,English,2.91,2022-01-24,1.75,3.54,3.31
-all,1,0,Red Supernova Dragon,GFTP,Ghosts From The Past,GFTP-EN045,Ultra Rare,NearMint,1st Edition,English,2.56,2022-01-08,2.97,4.97,4.34
-all,1,0,Red Wyvern,HSRD,High-Speed Riders,HSRD-EN022,Secret Rare,NearMint,1st Edition,English,2.79,2022-01-08,0.98,2.02,1.66
-all,2,0,Red-Eyes Alternative Black Dragon,TN19,2019 Gold Sarcophagus Tin,TN19-EN005,Prismatic Secret Rare,NearMint,Limited,English,2.16,2022-01-08,1.10,2.49,2.43
-all,1,0,Red-Eyes Baby Dragon,LDS1,Legendary Duelists: Season 1,LDS1-EN010,Secret Rare,NearMint,Limited,English,12.90,2023-01-25,19.95,21.95,19.97
-all,2,0,Red-Eyes Black Dragon,LC01,Legendary Collection,LC01-EN006,Ultra Rare,NearMint,Limited,English,1.62,2022-01-08,0.30,1.00,0.97
-all,1,0,Red-Eyes Black Dragon,MAGO,Maximum Gold,MAGO-EN003,Premium Gold Rare,NearMint,1st Edition,English,4.56,2022-01-24,2.99,5.05,4.87
-all,1,0,Red-Eyes Black Dragon,MGED,Maximum Gold: El Dorado,MGED-EN003,Premium Gold Rare,NearMint,1st Edition,English,6.05,2022-01-24,2.40,3.92,2.99
-all,6,0,Red-Eyes Black Dragon,SDJ,Starter Deck Joey,SDJ-001,Ultra Rare,NearMint,Unlimited,English,9.99,2022-03-05,3.91,8.76,9.93
-all,1,0,Red-Eyes Black Dragon,MP22,"2022 Tin Of The Pharaoh's Gods",MP22-EN267,Prismatic Secret Rare,NearMint,1st Edition,English,7.32,2023-01-25,1.50,7.00,5.92
-all,1,0,Red-Eyes Black Dragon Sword,DRL2,Dragons of Legend 2,DRL2-EN012,Secret Rare,NearMint,1st Edition,English,1.36,2022-01-08,0.50,1.36,1.03
-all,1,0,Red-Eyes Black Flare Dragon,CORE,Clash of Rebellions,CORE-EN020,Super Rare,NearMint,Unlimited,English,7.13,2023-01-25,6.60,7.32,6.89
-all,1,0,Red-Eyes Black Metal Dragon,PP01,Premium Pack,PP01-EN015,Super Rare,NearMint,Unlimited,English,1.02,2022-01-08,0.40,0.95,0.81
-all,1,0,Red-Eyes Darkness Metal Dragon,DUSA,Duelist Saga,DUSA-EN068,Ultra Rare,NearMint,1st Edition,English,7.03,2022-01-08,3.00,5.24,4.23
-all,1,0,Red-Eyes Darkness Metal Dragon,ABPF,Absolute Powerforce,ABPF-ENSE2,Super Rare,NearMint,Limited,English,7.07,2022-01-08,4.09,5.50,5.23
-all,1,0,Red-Eyes Darkness Metal Dragon,MGED,Maximum Gold: El Dorado,MGED-EN009,Premium Gold Rare,NearMint,1st Edition,English,1.28,2022-01-24,0.35,1.00,0.67
-all,2,0,Red-Eyes Flare Metal Dragon,LDK2,Legendary Decks II,LDK2-ENJ41,Ultra Rare,NearMint,1st Edition,English,2.15,2022-01-08,2.99,5.62,4.48
-all,1,0,Red-Eyes Slash Dragon,LDS1,Legendary Duelists: Season 1,LDS1-EN014,Secret Rare,NearMint,Limited,English,8.02,2022-01-08,8.50,10.78,10.74
-all,1,0,Red-Eyes Toon Dragon,SHVI,Shining Victories,SHVI-EN036,Super Rare,NearMint,Unlimited,English,1.56,2022-01-08,3.19,5.25,2.93
+all,1,0,Punishment Dragon,COTD,Code of the Duelist,COTD-EN028,Ultra Rare,NearMint,1st Edition,English,1.78,2022-01-08,0.71,1.80,1.96
+all,1,0,Punishment Dragon,COTD,Code of the Duelist,COTD-EN028,Ultra Rare,NearMint,1st Edition,English,1.80,2022-07-17,0.71,1.80,1.96
+all,1,0,Quadborrel Dragon,SDRR,Structure Deck: Rokket Revolt,SDRR-EN043,Ultra Rare,NearMint,1st Edition,English,0.39,2022-01-08,0.25,0.50,0.40
+all,1,0,Quadborrel Dragon,SDRR,Structure Deck: Rokket Revolt,SDRR-EN043,Ultra Rare,NearMint,1st Edition,English,0.40,2022-01-24,0.25,0.50,0.40
+all,1,0,Quintet Magician,DUPO,Duel Power,DUPO-EN040,Ultra Rare,NearMint,1st Edition,English,14.23,2022-03-07,0.94,3.00,1.84
+all,1,0,"Rafale, Champion Fur Hire",DASA,Dark Saviors,DASA-EN023,Secret Rare,NearMint,1st Edition,English,1.76,2022-01-08,1.40,2.50,3.09
+all,1,0,"Raider's Knight",PHRA,Phantom Rage,PHRA-EN040,Ultra Rare,NearMint,1st Edition,English,2.00,2022-01-08,0.91,2.49,2.22
+all,1,0,Rainbow Dark Dragon,BLRR,Battles of Legend: Relentless Revenge,BLRR-EN054,Ultra Rare,NearMint,1st Edition,English,1.20,2022-01-08,0.73,1.09,1.04
+all,1,0,Rainbow Dragon,SGX1,Speed Duel Gx: Duel Academy Box,SGX1-ENF01,Common,NearMint,1st Edition,English,0.21,2022-07-17,0.11,0.25,0.22
+all,1,0,Rainbow Overdragon,LDS1,Legendary Duelists: Season 1,LDS1-EN101,Ultra Rare,NearMint,1st Edition,English,1.16,2022-01-08,0.57,1.53,1.35
+all,1,0,"Raviel, Lord of Phantasms",MP21,2021 Tin Of Ancient Battles,MP21-EN254,Prismatic Secret Rare,NearMint,1st Edition,English,0.63,2022-01-08,0.15,0.69,0.60
+all,1,0,"Raviel, Lord of Phantasms - Shimmering Scraper",MP21,2021 Tin Of Ancient Battles,MP21-EN248,Prismatic Secret Rare,NearMint,1st Edition,English,0.21,2022-01-08,0.08,0.43,0.33
+all,1,0,Red Dragon Archfiend,TDGS,The Duelist Genesis,TDGS-EN041,Ultimate Rare,NearMint,Unlimited,English,82.16,2022-01-08,44.90,54.43,54.43
+all,1,0,Red Dragon Archfiend/Assault Mode,CRMS,Crimson Crisis,CRMS-EN004,Ultra Rare,NearMint,1st Edition,English,21.97,2022-01-08,13.01,14.71,13.76
+all,1,0,Red Nova Dragon,CT07,Collectible Tin 2010,CT07-EN005,Secret Rare,NearMint,Limited,English,5.71,2022-01-08,2.59,4.00,3.50
+all,1,0,Red Rose Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN108,Ultra Rare,NearMint,1st Edition,English,2.91,2022-01-24,1.75,3.12,3.12
+all,1,0,Red Supernova Dragon,GFTP,Ghosts From The Past,GFTP-EN045,Ultra Rare,NearMint,1st Edition,English,2.56,2022-01-08,3.10,4.94,4.05
+all,1,0,Red Wyvern,HSRD,High-Speed Riders,HSRD-EN022,Secret Rare,NearMint,1st Edition,English,2.79,2022-01-08,0.94,1.98,1.55
+all,2,0,Red-Eyes Alternative Black Dragon,TN19,2019 Gold Sarcophagus Tin,TN19-EN005,Prismatic Secret Rare,NearMint,Limited,English,2.16,2022-01-08,1.46,2.48,2.37
+all,1,0,Red-Eyes Baby Dragon,LDS1,Legendary Duelists: Season 1,LDS1-EN010,Secret Rare,NearMint,Limited,English,12.90,2023-01-25,19.90,22.99,20.47
+all,2,0,Red-Eyes Black Dragon,LC01,Legendary Collection,LC01-EN006,Ultra Rare,NearMint,Limited,English,1.62,2022-01-08,0.30,0.99,0.86
+all,1,0,Red-Eyes Black Dragon,MAGO,Maximum Gold,MAGO-EN003,Premium Gold Rare,NearMint,1st Edition,English,4.56,2022-01-24,3.00,5.50,5.92
+all,1,0,Red-Eyes Black Dragon,MGED,Maximum Gold: El Dorado,MGED-EN003,Premium Gold Rare,NearMint,1st Edition,English,6.05,2022-01-24,2.40,3.88,3.12
+all,6,0,Red-Eyes Black Dragon,SDJ,Starter Deck Joey,SDJ-001,Ultra Rare,NearMint,Unlimited,English,9.99,2022-03-05,3.95,8.76,9.65
+all,1,0,Red-Eyes Black Dragon,MP22,"2022 Tin Of The Pharaoh's Gods",MP22-EN267,Prismatic Secret Rare,NearMint,1st Edition,English,7.32,2023-01-25,5.00,7.00,6.40
+all,1,0,Red-Eyes Black Dragon Sword,DRL2,Dragons of Legend 2,DRL2-EN012,Secret Rare,NearMint,1st Edition,English,1.36,2022-01-08,0.59,1.51,1.09
+all,1,0,Red-Eyes Black Flare Dragon,CORE,Clash of Rebellions,CORE-EN020,Super Rare,NearMint,Unlimited,English,7.13,2023-01-25,6.50,7.84,6.83
+all,1,0,Red-Eyes Black Metal Dragon,PP01,Premium Pack,PP01-EN015,Super Rare,NearMint,Unlimited,English,1.02,2022-01-08,0.40,0.99,0.73
+all,1,0,Red-Eyes Darkness Dragon,LCJW,"Legendary Collection 4 Joey's World Mega Pack",LCJW-EN039,Common,NearMint,1st Edition,English,1.19,2023-04-26,0.80,2.00,1.19
+all,1,0,Red-Eyes Darkness Metal Dragon,DUSA,Duelist Saga,DUSA-EN068,Ultra Rare,NearMint,1st Edition,English,7.03,2022-01-08,3.60,6.50,5.09
+all,1,0,Red-Eyes Darkness Metal Dragon,ABPF,Absolute Powerforce,ABPF-ENSE2,Super Rare,NearMint,Limited,English,7.07,2022-01-08,3.74,5.14,5.30
+all,1,0,Red-Eyes Darkness Metal Dragon,MGED,Maximum Gold: El Dorado,MGED-EN009,Premium Gold Rare,NearMint,1st Edition,English,1.28,2022-01-24,0.37,1.00,0.85
+all,2,0,Red-Eyes Flare Metal Dragon,LDK2,Legendary Decks II,LDK2-ENJ41,Ultra Rare,NearMint,1st Edition,English,2.15,2022-01-08,2.84,5.25,3.70
+all,1,0,Red-Eyes Retro Dragon,BOSH,Breakers of Shadow,BOSH-EN095,Super Rare,NearMint,1st Edition,English,0.51,2023-04-26,0.22,0.69,0.48
+all,1,0,Red-Eyes Slash Dragon,LDS1,Legendary Duelists: Season 1,LDS1-EN014,Secret Rare,NearMint,Limited,English,8.02,2022-01-08,8.50,11.50,10.27
+all,1,0,Red-Eyes Toon Dragon,SHVI,Shining Victories,SHVI-EN036,Super Rare,NearMint,Unlimited,English,1.56,2022-01-08,2.96,4.44,3.19
 all,1,0,Red-Eyes Zombie Dragon,SDZW,Zombie World Structure Deck,SDZW-EN001,Ultra Rare,NearMint,,English,0.00,2022-01-08,,,
-all,1,0,"Redox, Dragon Ruler of Boulders",CT10,Collectible Tin 2013,CT10-EN003,Secret Rare,NearMint,Limited,English,2.54,2022-03-05,1.76,3.15,3.14
-all,1,0,Relinquished Anima,BROL,Brothers Of Legend,BROL-EN087,Secret Rare,NearMint,1st Edition,English,1.59,2022-03-05,1.14,2.59,2.50
+all,1,0,Red-Eyes Zombie Dragon Lord,DIFO,Dimension Force,DIFO-EN039,Ultra Rare,NearMint,1st Edition,English,3.36,2023-04-26,2.00,3.74,3.76
+all,1,0,Red-Eyes Zombie Necro Dragon,GFP2,Ghosts From The Past: The 2Nd Haunting,GFP2-EN133,Ultra Rare,NearMint,1st Edition,English,0.35,2023-04-26,0.19,0.36,0.29
+all,1,0,"Redox, Dragon Ruler of Boulders",CT10,Collectible Tin 2013,CT10-EN003,Secret Rare,NearMint,Limited,English,2.54,2022-03-05,1.76,3.62,3.50
+all,1,0,Relinquished Anima,BROL,Brothers Of Legend,BROL-EN087,Secret Rare,NearMint,1st Edition,English,1.59,2022-03-05,1.14,2.60,1.93
 all,1,0,Rider of the Storm Winds,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN017,Ultra Rare,NearMint,1st Edition,English,0.29,2022-03-05,0.10,0.49,0.31
-all,1,0,Right Arm of the Forbidden One,YGLD,"Yugi'S Legendary Decks",YGLD-ENA20,Ultra Rare,NearMint,Unlimited,English,2.14,2022-01-08,3.67,4.67,4.73
-all,1,0,Right Leg of the Forbidden One,YGLD,"Yugi'S Legendary Decks",YGLD-ENA18,Ultra Rare,NearMint,Unlimited,English,1.93,2022-01-08,4.00,4.58,4.16
-all,1,0,Rokket Caliber,BODE,Burst Of Destiny,BODE-EN001,Ultra Rare,NearMint,1st Edition,English,1.37,2022-01-24,0.20,1.01,0.91
-all,1,0,Ruddy Rose Dragon,LIOV,Lightning Overdrive,LIOV-EN035,Secret Rare,NearMint,1st Edition,English,7.81,2022-07-17,1.94,4.99,4.22
-all,1,0,Rune-Eyes Pendulum Dragon,MP15,2015 Mega-Tins Mega Pack,MP15-EN220,Ultra Rare,NearMint,1st Edition,English,0.73,2022-01-08,0.34,0.99,0.84
-all,1,0,"Saffira, Queen of Dragons",DUEA,Duelist Alliance,DUEA-EN050,Ultimate Rare,NearMint,Unlimited,English,8.55,2022-01-08,4.20,7.12,5.06
+all,1,0,Right Arm of the Forbidden One,YGLD,"Yugi'S Legendary Decks",YGLD-ENA20,Ultra Rare,NearMint,Unlimited,English,2.14,2022-01-08,3.84,4.79,4.61
+all,1,0,Right Leg of the Forbidden One,YGLD,"Yugi'S Legendary Decks",YGLD-ENA18,Ultra Rare,NearMint,Unlimited,English,1.93,2022-01-08,3.97,4.85,4.30
+all,1,0,Rokket Caliber,BODE,Burst Of Destiny,BODE-EN001,Ultra Rare,NearMint,1st Edition,English,1.37,2022-01-24,0.27,1.01,0.85
+all,1,0,Ruddy Rose Dragon,LIOV,Lightning Overdrive,LIOV-EN035,Secret Rare,NearMint,1st Edition,English,7.81,2022-07-17,1.00,4.99,4.39
+all,1,0,Rune-Eyes Pendulum Dragon,MP15,2015 Mega-Tins Mega Pack,MP15-EN220,Ultra Rare,NearMint,1st Edition,English,0.73,2022-01-08,0.54,0.99,0.84
+all,1,0,"Saffira, Queen of Dragons",DUEA,Duelist Alliance,DUEA-EN050,Ultimate Rare,NearMint,Unlimited,English,8.55,2022-01-08,4.20,7.08,5.06
 all,1,0,Salamangreat Blaze Dragon,GFP2,Ghosts From The Past: The 2Nd Haunting,GFP2-EN025,Ultra Rare,NearMint,1st Edition,English,0.38,2022-07-17,0.09,0.34,0.27
-all,1,0,Samsara Dragon,GFP2,Ghosts From The Past: The 2Nd Haunting,GFP2-EN037,Ultra Rare,NearMint,1st Edition,English,0.14,2022-07-17,0.01,0.21,0.18
-all,1,0,"Samsara, Dragon of Rebirth",MP15,2015 Mega-Tins Mega Pack,MP15-EN097,Super Rare,NearMint,1st Edition,English,1.73,2022-01-08,0.30,1.39,1.50
-all,1,0,Saryuja Skull Dread,DUDE,Duel Devastator,DUDE-EN026,Ultra Rare,NearMint,1st Edition,English,0.92,2022-01-08,1.00,2.64,2.35
-all,1,0,"Sauravis, the Ancient and Ascended",DUOV,Duel Overload,DUOV-EN075,Ultra Rare,NearMint,1st Edition,English,1.16,2022-01-08,0.64,1.49,0.97
-all,1,0,"Sauravis, the Ancient and Ascended",DUOV,Duel Overload,DUOV-EN075,Ultra Rare,NearMint,1st Edition,English,1.08,2022-01-24,0.64,1.49,0.97
-all,1,0,Scarlight Red Dragon Archfiend,MP16,2016 Mega-Tins Mega Pack,MP16-EN140,Secret Rare,NearMint,1st Edition,English,2.97,2022-01-08,5.00,6.55,6.85
-all,1,0,Scrap Dragon,DREV,Duelist Revolution,DREV-EN043,Ultimate Rare,NearMint,1st Edition,English,59.03,2022-01-08,34.42,45.44,43.23
-all,1,0,Scrap Twin Dragon,STBL,Starstrike Blast,STBL-EN044,Ultra Rare,NearMint,1st Edition,English,5.71,2022-01-08,1.39,3.21,2.25
-all,1,0,Security Dragon,DUPO,Duel Power,DUPO-EN037,Ultra Rare,NearMint,1st Edition,English,2.14,2022-03-22,3.06,4.20,3.16
-all,1,0,Segmental Dragon,SDPL,Structure Deck: Powercode Link,SDPL-EN008,Ultra Rare,NearMint,1st Edition,English,0.22,2022-01-08,0.07,0.41,0.25
-all,2,0,Segmental Dragon,SDPL,Structure Deck: Powercode Link,SDPL-EN008,Ultra Rare,NearMint,1st Edition,English,0.21,2022-01-24,0.07,0.41,0.25
-all,1,0,Seiyaryu,GFTP,Ghosts From The Past,GFTP-EN070,Ultra Rare,NearMint,1st Edition,English,0.56,2022-01-08,0.09,0.49,0.34
-all,1,0,Seiyaryu,DDS,Dark Duel Stories Bundles,DDS-004,Prismatic Secret Rare,NearMint,Limited,English,9.24,2023-01-25,2.99,9.87,9.85
-all,1,0,Seleglare the Luminous Lunar Dragon,MP21,2021 Tin Of Ancient Battles,MP21-EN159,Prismatic Secret Rare,NearMint,1st Edition,English,0.27,2022-01-08,0.01,0.31,0.23
-all,1,0,Serpent Night Dragon,MRL,Magic Ruler,MRL-103,Secret Rare,NearMint,Unlimited,English,10.21,2022-01-08,5.19,9.70,9.11
-all,1,0,Shooting Majestic Star Dragon,DAMA,Dawn Of Majesty,DAMA-EN039,Secret Rare,NearMint,1st Edition,English,4.37,2022-03-05,6.50,8.90,8.30
-all,1,0,Shooting Quasar Dragon,LC05,"Legendary Collection 5D's",LC05-EN005,Ultra Rare,NearMint,Limited,English,2.60,2022-01-08,1.24,4.45,3.37
-all,1,0,Shooting Riser Dragon,JUMP,Shonen Jump Magazine,JUMP-EN085,Ultra Rare,NearMint,Limited,English,8.28,2022-01-08,4.56,10.58,4.76
-all,1,0,Shooting Star Dragon,CT07,Collectible Tin 2010,CT07-EN004,Secret Rare,NearMint,Limited,English,13.23,2022-01-08,1.22,4.68,4.20
-all,1,0,Shooting Star Dragon T.G. EX,GFTP,Ghosts From The Past,GFTP-EN044,Ultra Rare,NearMint,1st Edition,English,0.58,2022-01-08,0.21,0.71,0.55
-all,1,0,Skull Archfiend of Lightning,BP01,Battle Pack: Epic Dawn,BP01-EN006,Rare,NearMint,1st Edition,English,0.48,2022-01-08,0.24,0.56,0.55
-all,1,0,Sky Galloping Gaia the Dragon Champion,MIL1,Millennium Pack,MIL1-EN010,Super Rare,NearMint,1st Edition,English,14.76,2022-01-08,8.99,12.43,9.71
-all,1,0,Sky Striker Ace - Raye,MGED,Maximum Gold: El Dorado,MGED-EN017,Premium Gold Rare,NearMint,1st Edition,English,0.64,2022-01-08,0.10,0.52,0.29
-all,2,0,Slifer the Sky Dragon,TN19,2019 Gold Sarcophagus Tin,TN19-EN008,Prismatic Secret Rare,NearMint,Limited,English,1.57,2022-01-08,0.89,2.09,1.77
-all,1,0,Slifer the Sky Dragon,TN19,2019 Gold Sarcophagus Tin,TN19-EN008,Prismatic Secret Rare,NearMint,Limited,English,1.72,2022-03-05,0.89,2.09,1.77
-all,1,0,Slifer the Sky Dragon (original),YGLD,"Yugi'S Legendary Decks",YGLD-ENG01,Ultra Rare,NearMint,Limited,English,1.15,2022-01-08,0.80,1.67,1.35
-all,1,0,Slifer the Sky Dragon (original),LC01,Legendary Collection,LC01-EN002,Ultra Rare,NearMint,Limited,English,1.52,2022-01-08,0.70,1.88,1.49
-all,1,0,Spear Dragon,HL03,Hobby League 3,HL03-EN004,Ultra Parallel Rare,NearMint,Limited,English,2.18,2022-07-17,0.98,2.48,2.05
-all,1,0,Star Eater,MP14,2014 Mega-Tins Mega Pack,MP14-EN096,Secret Rare,NearMint,1st Edition,English,7.83,2022-01-08,6.52,8.25,7.61
-all,1,0,Stardust Chronicle Spark Dragon,YF09,"5D's volume 9 Promotional Card",YF09-EN001,Ultra Rare,NearMint,Limited,English,9.00,2022-01-08,3.99,7.33,4.17
-all,2,0,Stardust Dragon,DUPO,Duel Power,DUPO-EN103,Ultra Rare,NearMint,Limited,English,1.48,2022-01-08,0.94,1.25,1.12
-all,1,0,Stardust Dragon,CT05,Collectible Tin Series 5,CT05-EN001,Secret Rare,NearMint,Limited,English,22.93,2022-03-05,21.90,33.23,33.82
-all,1,0,Stardust Dragon/Assault Mode,DPCT3,Duelist Pack Collection Tin 2009,DPCT-EN003,Ultra Rare,NearMint,Limited,English,1.34,2022-01-08,0.34,0.99,0.65
-all,1,0,Stardust Sifr Divine Dragon,SHVI,Shining Victories,SHVI-EN096,Ultra Rare,NearMint,1st Edition,English,1.16,2022-01-08,0.50,1.11,1.10
-all,1,0,Stardust Spark Dragon,DUDE,Duel Devastator,DUDE-EN012,Ultra Rare,NearMint,1st Edition,English,0.29,2022-01-08,0.10,0.47,0.33
-all,1,0,Stardust Trail,MP22,"2022 Tin Of The Pharaoh's Gods",MP22-EN120,Ultra Rare,NearMint,1st Edition,English,0.18,2023-01-25,0.01,0.25,0.17
-all,1,0,Starliege Photon Blast Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN054,Ultra Rare,NearMint,1st Edition,English,0.78,2022-01-08,0.75,1.45,2.59
-all,1,0,Starliege Photon Blast Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN054,Ultra Rare,NearMint,1st Edition,English,0.79,2022-01-24,0.75,1.45,2.59
-all,1,0,Starliege Seyfert,MP20,2020 Tin Of Lost Memories,MP20-EN158,Ultra Rare,NearMint,1st Edition,English,2.68,2022-07-17,2.57,4.26,4.25
-all,1,0,"Starry Night, Starry Dragon",GFTP,Ghosts From The Past,GFTP-EN027,Ultra Rare,NearMint,1st Edition,English,1.16,2022-01-08,0.30,0.99,0.55
-all,1,0,Starving Venemy Dragon,BROL,Brothers Of Legend,BROL-EN034,Secret Rare,NearMint,1st Edition,English,0.31,2022-01-24,0.09,0.35,0.19
-all,2,0,Starving Venemy Lethal Dose Dragon,DUOV,Duel Overload,DUOV-EN037,Ultra Rare,NearMint,1st Edition,English,0.37,2022-01-08,0.24,0.76,0.66
-all,3,0,Starving Venom Fusion Dragon,LEDD,Legendary Dragon Decks,LEDD-ENC25,Ultra Rare,NearMint,1st Edition,English,4.44,2022-01-08,0.92,2.08,1.94
-all,1,0,Starving Venom Predapower Fusion Dragon,DIFO,Dimension Force,DIFO-EN036,Ultra Rare,NearMint,1st Edition,English,1.70,2022-07-17,0.50,1.45,1.22
-all,1,0,Striker Dragon,MP20,2020 Tin Of Lost Memories,MP20-EN204,Prismatic Secret Rare,NearMint,1st Edition,English,2.92,2022-03-05,2.30,3.44,3.31
-all,1,0,Strong Wind Dragon,RGBT,Raging Battle,RGBT-EN003,Ultra Rare,NearMint,1st Edition,English,5.03,2022-01-08,3.25,5.00,6.74
-all,1,0,Subterror Guru,BLHR,"Battles of Legend: Hero's Revenge",BLHR-EN084,Ultra Rare,NearMint,1st Edition,English,1.14,2022-03-05,0.38,1.20,1.09
-all,1,0,Summoned Skull,YAP1,Anniversary Pack,YAP1-EN003,Ultra Rare,NearMint,Limited,English,25.90,2022-07-17,14.01,24.11,25.64
-all,1,0,Sun Dragon Inti,ABPF,Absolute Powerforce,ABPF-EN042,Ultra Rare,NearMint,1st Edition,English,4.05,2022-01-08,2.14,3.03,3.40
-all,1,0,Super Anti-Kaiju War Machine Mecha-Thunder-King,SAST,Savage Strike,SAST-EN081,Secret Rare,NearMint,1st Edition,English,1.98,2023-01-25,1.00,2.05,1.78
-all,1,0,Supreme King Dragon Darkwurm,BLRR,Battles of Legend: Relentless Revenge,BLRR-EN063,Secret Rare,NearMint,1st Edition,English,8.52,2022-01-08,1.76,5.72,4.42
-all,1,0,Supreme King Z-ARC,MACR,Maximum Crisis,MACR-EN039,Secret Rare,NearMint,1st Edition,English,4.05,2022-01-08,3.59,7.20,6.63
-all,1,0,"Tempest, Dragon Ruler of Storms",CT10,Collectible Tin 2013,CT10-EN004,Secret Rare,NearMint,Limited,English,3.25,2022-01-08,1.00,3.42,2.97
+all,1,0,Samsara Dragon,GFP2,Ghosts From The Past: The 2Nd Haunting,GFP2-EN037,Ultra Rare,NearMint,1st Edition,English,0.14,2022-07-17,0.03,0.21,0.15
+all,1,0,"Samsara, Dragon of Rebirth",MP15,2015 Mega-Tins Mega Pack,MP15-EN097,Super Rare,NearMint,1st Edition,English,1.73,2022-01-08,0.30,1.39,1.51
+all,1,0,Saryuja Skull Dread,DUDE,Duel Devastator,DUDE-EN026,Ultra Rare,NearMint,1st Edition,English,0.92,2022-01-08,1.00,2.59,2.29
+all,1,0,"Sauravis, the Ancient and Ascended",DUOV,Duel Overload,DUOV-EN075,Ultra Rare,NearMint,1st Edition,English,1.16,2022-01-08,0.50,1.50,0.87
+all,1,0,"Sauravis, the Ancient and Ascended",DUOV,Duel Overload,DUOV-EN075,Ultra Rare,NearMint,1st Edition,English,1.08,2022-01-24,0.50,1.50,0.87
+all,1,0,Scarlight Red Dragon Archfiend,MP16,2016 Mega-Tins Mega Pack,MP16-EN140,Secret Rare,NearMint,1st Edition,English,2.97,2022-01-08,4.02,6.50,6.83
+all,1,0,Scrap Dragon,DREV,Duelist Revolution,DREV-EN043,Ultimate Rare,NearMint,1st Edition,English,59.03,2022-01-08,34.29,46.84,42.82
+all,1,0,Scrap Twin Dragon,STBL,Starstrike Blast,STBL-EN044,Ultra Rare,NearMint,1st Edition,English,5.71,2022-01-08,1.38,3.77,2.22
+all,1,0,Security Dragon,DUPO,Duel Power,DUPO-EN037,Ultra Rare,NearMint,1st Edition,English,2.14,2022-03-22,2.75,3.95,3.02
+all,1,0,Segmental Dragon,SDPL,Structure Deck: Powercode Link,SDPL-EN008,Ultra Rare,NearMint,1st Edition,English,0.22,2022-01-08,0.07,0.39,0.25
+all,2,0,Segmental Dragon,SDPL,Structure Deck: Powercode Link,SDPL-EN008,Ultra Rare,NearMint,1st Edition,English,0.21,2022-01-24,0.07,0.39,0.25
+all,1,0,Seiyaryu,GFTP,Ghosts From The Past,GFTP-EN070,Ultra Rare,NearMint,1st Edition,English,0.56,2022-01-08,0.09,0.49,0.26
+all,1,0,Seiyaryu,DDS,Dark Duel Stories Bundles,DDS-004,Prismatic Secret Rare,NearMint,Limited,English,9.24,2023-01-25,2.98,9.54,9.83
+all,1,0,Seleglare the Luminous Lunar Dragon,MP21,2021 Tin Of Ancient Battles,MP21-EN159,Prismatic Secret Rare,NearMint,1st Edition,English,0.27,2022-01-08,0.14,0.33,0.23
+all,1,0,Serpent Night Dragon,MRL,Magic Ruler,MRL-103,Secret Rare,NearMint,Unlimited,English,10.21,2022-01-08,5.63,10.37,9.40
+all,1,0,Shooting Majestic Star Dragon,DAMA,Dawn Of Majesty,DAMA-EN039,Secret Rare,NearMint,1st Edition,English,4.37,2022-03-05,4.96,8.48,6.45
+all,1,0,Shooting Quasar Dragon,LC05,"Legendary Collection 5D's",LC05-EN005,Ultra Rare,NearMint,Limited,English,2.60,2022-01-08,1.24,4.00,3.59
+all,1,0,Shooting Riser Dragon,JUMP,Shonen Jump Magazine,JUMP-EN085,Ultra Rare,NearMint,Limited,English,8.28,2022-01-08,4.56,9.99,5.01
+all,1,0,Shooting Star Dragon,CT07,Collectible Tin 2010,CT07-EN004,Secret Rare,NearMint,Limited,English,13.23,2022-01-08,1.00,4.60,4.75
+all,1,0,Shooting Star Dragon T.G. EX,GFTP,Ghosts From The Past,GFTP-EN044,Ultra Rare,NearMint,1st Edition,English,0.58,2022-01-08,0.21,0.70,0.59
+all,1,0,Skull Archfiend of Lightning,BP01,Battle Pack: Epic Dawn,BP01-EN006,Rare,NearMint,1st Edition,English,0.48,2022-01-08,0.24,0.55,0.60
+all,1,0,Sky Galloping Gaia the Dragon Champion,MIL1,Millennium Pack,MIL1-EN010,Super Rare,NearMint,1st Edition,English,14.76,2022-01-08,4.30,9.80,9.84
+all,1,0,Sky Striker Ace - Raye,MGED,Maximum Gold: El Dorado,MGED-EN017,Premium Gold Rare,NearMint,1st Edition,English,0.64,2022-01-08,0.10,0.54,0.31
+all,2,0,Slifer the Sky Dragon,TN19,2019 Gold Sarcophagus Tin,TN19-EN008,Prismatic Secret Rare,NearMint,Limited,English,1.57,2022-01-08,0.89,1.99,1.26
+all,1,0,Slifer the Sky Dragon,TN19,2019 Gold Sarcophagus Tin,TN19-EN008,Prismatic Secret Rare,NearMint,Limited,English,1.72,2022-03-05,0.89,1.99,1.26
+all,1,0,Slifer the Sky Dragon (original),YGLD,"Yugi'S Legendary Decks",YGLD-ENG01,Ultra Rare,NearMint,Limited,English,1.15,2022-01-08,0.79,1.69,1.30
+all,1,0,Slifer the Sky Dragon (original),LC01,Legendary Collection,LC01-EN002,Ultra Rare,NearMint,Limited,English,1.52,2022-01-08,0.70,1.50,1.41
+all,1,0,Spear Dragon,HL03,Hobby League 3,HL03-EN004,Ultra Parallel Rare,NearMint,Limited,English,2.18,2022-07-17,1.40,2.48,2.05
+all,1,0,Star Eater,MP14,2014 Mega-Tins Mega Pack,MP14-EN096,Secret Rare,NearMint,1st Edition,English,7.83,2022-01-08,7.08,8.34,7.60
+all,1,0,Stardust Chronicle Spark Dragon,YF09,"5D's volume 9 Promotional Card",YF09-EN001,Ultra Rare,NearMint,Limited,English,9.00,2022-01-08,3.99,7.18,4.21
+all,2,0,Stardust Dragon,DUPO,Duel Power,DUPO-EN103,Ultra Rare,NearMint,Limited,English,1.48,2022-01-08,0.86,1.22,1.03
+all,1,0,Stardust Dragon,CT05,Collectible Tin Series 5,CT05-EN001,Secret Rare,NearMint,Limited,English,22.93,2022-03-05,21.90,49.00,36.33
+all,1,0,Stardust Dragon/Assault Mode,DPCT3,Duelist Pack Collection Tin 2009,DPCT-EN003,Ultra Rare,NearMint,Limited,English,1.34,2022-01-08,0.33,0.99,0.68
+all,1,0,Stardust Sifr Divine Dragon,SHVI,Shining Victories,SHVI-EN096,Ultra Rare,NearMint,1st Edition,English,1.16,2022-01-08,0.50,1.11,1.06
+all,1,0,Stardust Spark Dragon,DUDE,Duel Devastator,DUDE-EN012,Ultra Rare,NearMint,1st Edition,English,0.29,2022-01-08,0.10,0.49,0.30
+all,1,0,Stardust Trail,MP22,"2022 Tin Of The Pharaoh's Gods",MP22-EN120,Ultra Rare,NearMint,1st Edition,English,0.18,2023-01-25,0.01,0.25,0.15
+all,1,0,Starliege Photon Blast Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN054,Ultra Rare,NearMint,1st Edition,English,0.78,2022-01-08,0.91,1.59,3.25
+all,1,0,Starliege Photon Blast Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN054,Ultra Rare,NearMint,1st Edition,English,0.79,2022-01-24,0.91,1.59,3.25
+all,1,0,Starliege Seyfert,MP20,2020 Tin Of Lost Memories,MP20-EN158,Ultra Rare,NearMint,1st Edition,English,2.68,2022-07-17,2.60,5.00,4.91
+all,1,0,"Starry Night, Starry Dragon",GFTP,Ghosts From The Past,GFTP-EN027,Ultra Rare,NearMint,1st Edition,English,1.16,2022-01-08,0.25,0.99,0.66
+all,1,0,Starving Venemy Dragon,BROL,Brothers Of Legend,BROL-EN034,Secret Rare,NearMint,1st Edition,English,0.31,2022-01-24,0.09,0.35,0.23
+all,2,0,Starving Venemy Lethal Dose Dragon,DUOV,Duel Overload,DUOV-EN037,Ultra Rare,NearMint,1st Edition,English,0.37,2022-01-08,0.24,0.75,0.63
+all,3,0,Starving Venom Fusion Dragon,LEDD,Legendary Dragon Decks,LEDD-ENC25,Ultra Rare,NearMint,1st Edition,English,4.44,2022-01-08,0.92,2.13,1.95
+all,1,0,Starving Venom Predapower Fusion Dragon,DIFO,Dimension Force,DIFO-EN036,Ultra Rare,NearMint,1st Edition,English,1.70,2022-07-17,0.50,1.47,1.31
+all,1,0,Striker Dragon,MP20,2020 Tin Of Lost Memories,MP20-EN204,Prismatic Secret Rare,NearMint,1st Edition,English,2.92,2022-03-05,2.30,3.54,3.39
+all,1,0,Strong Wind Dragon,RGBT,Raging Battle,RGBT-EN003,Ultra Rare,NearMint,1st Edition,English,5.03,2022-01-08,3.76,4.84,6.74
+all,1,0,Subterror Guru,BLHR,"Battles of Legend: Hero's Revenge",BLHR-EN084,Ultra Rare,NearMint,1st Edition,English,1.14,2022-03-05,0.38,1.20,1.11
+all,1,0,Summoned Skull,YAP1,Anniversary Pack,YAP1-EN003,Ultra Rare,NearMint,Limited,English,25.90,2022-07-17,17.00,24.99,23.91
+all,1,0,Sun Dragon Inti,ABPF,Absolute Powerforce,ABPF-EN042,Ultra Rare,NearMint,1st Edition,English,4.05,2022-01-08,2.15,3.13,3.40
+all,1,0,Super Anti-Kaiju War Machine Mecha-Thunder-King,SAST,Savage Strike,SAST-EN081,Secret Rare,NearMint,1st Edition,English,1.98,2023-01-25,1.00,2.48,1.76
+all,1,0,Supreme King Dragon Darkwurm,BLRR,Battles of Legend: Relentless Revenge,BLRR-EN063,Secret Rare,NearMint,1st Edition,English,8.52,2022-01-08,1.76,6.00,4.74
+all,1,0,Supreme King Z-ARC,MACR,Maximum Crisis,MACR-EN039,Secret Rare,NearMint,1st Edition,English,4.05,2022-01-08,3.59,7.00,6.33
+all,1,0,"Tempest, Dragon Ruler of Storms",CT10,Collectible Tin 2013,CT10-EN004,Secret Rare,NearMint,Limited,English,3.25,2022-01-08,1.41,4.00,3.44
 all,1,0,"Tempest, Dragon Ruler of Storms",MGED,Maximum Gold: El Dorado,MGED-EN011,Premium Gold Rare,NearMint,1st Edition,English,0.13,2022-01-24,0.09,0.27,0.19
-all,1,0,Terrorking Archfiend,DCR,Dark Crisis,DCR-072,Super Rare,NearMint,Unlimited,English,2.95,2022-03-05,0.95,1.78,1.43
-all,1,0,The Black Stone of Legend,LDK2,Legendary Decks II,LDK2-ENJ05,Ultra Rare,NearMint,Unlimited,English,2.27,2022-01-24,2.71,6.00,5.61
-all,1,0,The Chaos Creator,BLCR,Battles Of Legend: Crystal Revenge,BLCR-EN070,Secret Rare,NearMint,1st Edition,English,0.51,2023-01-25,0.15,0.62,0.47
-all,1,0,The Masked Beast,LON,Labyrinth of Nightmare,LON-001,Ultra Rare,NearMint,Unlimited,English,6.62,2022-03-05,2.25,4.61,4.89
-all,1,0,The Suppression Pluto,DLCS,Dragons Of Legend: The Complete Series,DLCS-EN106,Common,NearMint,1st Edition,English,0.17,2022-01-08,0.08,0.24,0.17
-all,1,0,The White Stone of Ancients,SHVI,Shining Victories,SHVI-EN022,Ultra Rare,NearMint,Unlimited,English,1.10,2022-01-24,0.99,1.64,1.63
-all,1,0,The White Stone of Legend,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN010,Secret Rare,NearMint,1st Edition,English,5.17,2022-03-05,2.20,4.02,3.51
-all,1,0,The Wicked Avatar,JUMP,Shonen Jump Magazine,JUMP-EN017,Ultra Rare,NearMint,Limited,English,4.55,2023-01-25,2.99,4.49,4.20
-all,1,0,The Wicked Dreadroot,JUMP,Shonen Jump Magazine,JUMP-EN018,Ultra Rare,NearMint,Limited,English,6.11,2023-01-25,2.95,5.46,5.49
-all,1,0,The Wicked Eraser,JUMP,Shonen Jump Magazine,JUMP-EN016,Ultra Rare,NearMint,Limited,English,2.36,2023-01-25,0.64,2.32,2.21
-all,1,0,The Winged Dragon of Ra,SBCB,Speed Duel: Battle City Box,SBCB-EN203,Secret Rare,NearMint,1st Edition,English,6.67,2022-01-08,5.49,8.25,8.28
-all,1,0,The Winged Dragon of Ra,TN19,2019 Gold Sarcophagus Tin,TN19-EN009,Prismatic Secret Rare,NearMint,Limited,English,2.41,2022-01-08,1.47,2.97,2.63
-all,1,0,The Winged Dragon of Ra,TN19,2019 Gold Sarcophagus Tin,TN19-EN009,Prismatic Secret Rare,NearMint,Limited,English,1.80,2022-03-05,1.47,2.97,2.63
-all,1,0,The Winged Dragon of Ra - Immortal Phoenix,DUPO,Duel Power,DUPO-EN046,Ultra Rare,NearMint,1st Edition,English,4.54,2022-01-08,2.74,3.97,3.62
-all,1,0,The Winged Dragon of Ra (original),YGLD,"Yugi'S Legendary Decks",YGLD-ENG03,Ultra Rare,NearMint,Limited,English,2.59,2022-01-08,1.19,2.56,2.44
-all,1,0,"Thor, Lord of the Aesir",STOR,Storm Of Ragnarok,STOR-EN038,Ultimate Rare,NearMint,1st Edition,English,36.16,2023-01-25,30.00,37.25,36.34
-all,1,0,Thought Ruler Archfiend,BROL,Brothers Of Legend,BROL-EN070,Ultra Rare,NearMint,1st Edition,English,0.18,2022-03-22,0.10,0.27,0.19
-all,1,0,Thousand Dragon,MRD,Metal Raiders,MRD-143,Secret Rare,NearMint,Unlimited,English,6.08,2022-03-05,3.00,7.33,7.26
-all,1,0,Thunder Dragon Colossus,SOFU,Soul Fusion,SOFU-EN037,Secret Rare,NearMint,1st Edition,English,13.07,2023-01-25,11.31,18.39,11.68
+all,1,0,Terrorking Archfiend,DCR,Dark Crisis,DCR-072,Super Rare,NearMint,Unlimited,English,2.95,2022-03-05,0.95,1.84,1.35
+all,1,0,The Black Stone of Legend,LDK2,Legendary Decks II,LDK2-ENJ05,Ultra Rare,NearMint,Unlimited,English,2.27,2022-01-24,2.71,5.99,5.73
+all,1,0,The Chaos Creator,BLCR,Battles Of Legend: Crystal Revenge,BLCR-EN070,Secret Rare,NearMint,1st Edition,English,0.51,2023-01-25,0.13,0.65,0.50
+all,1,0,The Masked Beast,LON,Labyrinth of Nightmare,LON-001,Ultra Rare,NearMint,Unlimited,English,6.62,2022-03-05,2.69,5.48,5.03
+all,1,0,The Suppression Pluto,DLCS,Dragons Of Legend: The Complete Series,DLCS-EN106,Common,NearMint,1st Edition,English,0.17,2022-01-08,0.08,0.22,0.17
+all,1,0,The White Stone of Ancients,SHVI,Shining Victories,SHVI-EN022,Ultra Rare,NearMint,Unlimited,English,1.10,2022-01-24,0.99,1.60,1.63
+all,1,0,The White Stone of Legend,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN010,Secret Rare,NearMint,1st Edition,English,5.17,2022-03-05,2.19,4.21,3.38
+all,1,0,The Wicked Avatar,JUMP,Shonen Jump Magazine,JUMP-EN017,Ultra Rare,NearMint,Limited,English,4.55,2023-01-25,2.99,4.48,3.99
+all,1,0,The Wicked Dreadroot,JUMP,Shonen Jump Magazine,JUMP-EN018,Ultra Rare,NearMint,Limited,English,6.11,2023-01-25,2.94,5.42,5.42
+all,1,0,The Wicked Eraser,JUMP,Shonen Jump Magazine,JUMP-EN016,Ultra Rare,NearMint,Limited,English,2.36,2023-01-25,0.64,2.33,2.08
+all,1,0,The Winged Dragon of Ra,SBCB,Speed Duel: Battle City Box,SBCB-EN203,Secret Rare,NearMint,1st Edition,English,6.67,2022-01-08,6.69,8.50,8.67
+all,1,0,The Winged Dragon of Ra,TN19,2019 Gold Sarcophagus Tin,TN19-EN009,Prismatic Secret Rare,NearMint,Limited,English,2.41,2022-01-08,1.48,3.00,2.48
+all,1,0,The Winged Dragon of Ra,TN19,2019 Gold Sarcophagus Tin,TN19-EN009,Prismatic Secret Rare,NearMint,Limited,English,1.80,2022-03-05,1.48,3.00,2.48
+all,1,0,The Winged Dragon of Ra - Immortal Phoenix,DUPO,Duel Power,DUPO-EN046,Ultra Rare,NearMint,1st Edition,English,4.54,2022-01-08,2.50,4.00,3.49
+all,1,0,The Winged Dragon of Ra (original),YGLD,"Yugi'S Legendary Decks",YGLD-ENG03,Ultra Rare,NearMint,Limited,English,2.59,2022-01-08,1.56,3.07,2.35
+all,1,0,"Thor, Lord of the Aesir",STOR,Storm Of Ragnarok,STOR-EN038,Ultimate Rare,NearMint,1st Edition,English,36.16,2023-01-25,30.00,36.14,36.28
+all,1,0,Thought Ruler Archfiend,BROL,Brothers Of Legend,BROL-EN070,Ultra Rare,NearMint,1st Edition,English,0.18,2022-03-22,0.09,0.28,0.24
+all,1,0,Thousand Dragon,MRD,Metal Raiders,MRD-143,Secret Rare,NearMint,Unlimited,English,6.08,2022-03-05,3.50,7.41,7.38
+all,1,0,Thunder Dragon Colossus,SOFU,Soul Fusion,SOFU-EN037,Secret Rare,NearMint,1st Edition,English,13.07,2023-01-25,11.70,19.95,12.12
 all,1,0,Thunder Dragon Thunderstormech,DUPO,Duel Power,DUPO-EN030,Ultra Rare,NearMint,1st Edition,English,0.43,2023-01-25,0.12,0.50,0.36
-all,1,0,Thunder Dragon Titan,MP19,2019 Gold Sarcophagus Tin Mega Pack,MP19-EN182,Ultra Rare,NearMint,1st Edition,English,1.75,2022-01-08,0.95,2.00,1.51
-all,1,0,Thunder Dragon Titan,MP19,2019 Gold Sarcophagus Tin Mega Pack,MP19-EN182,Ultra Rare,NearMint,1st Edition,English,2.01,2022-03-05,0.95,2.00,1.51
-all,1,0,Thunder Dragondark,MP19,2019 Gold Sarcophagus Tin Mega Pack,MP19-EN167,Prismatic Secret Rare,NearMint,1st Edition,English,6.69,2023-01-25,6.00,8.99,6.61
-all,1,0,Thunder End Dragon,PHSW,Photon Shockwave,PHSW-EN044,Ultra Rare,NearMint,1st Edition,English,9.01,2022-03-05,4.20,7.00,6.54
-all,1,0,"Tidal, Dragon Ruler of Waterfalls",CT10,Collectible Tin 2013,CT10-EN001,Secret Rare,NearMint,Limited,English,4.27,2022-01-08,2.74,5.31,6.24
-all,1,0,Tiger Dragon,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN069,Ultra Rare,NearMint,1st Edition,English,0.29,2022-01-08,0.12,0.40,0.35
-all,1,0,Timestar Magician,PEVO,Pendulum Evolution,PEVO-EN009,Ultra Rare,NearMint,1st Edition,English,0.50,2022-03-07,0.20,0.68,0.50
-all,1,0,Titaniklad the Ash Dragon,MP21,2021 Tin Of Ancient Battles,MP21-EN125,Ultra Rare,NearMint,1st Edition,English,1.47,2022-01-08,0.15,0.77,0.44
-all,1,0,Topologic Bomber Dragon,MP18,2018 Mega-Tins Mega Pack,MP18-EN065,Secret Rare,NearMint,1st Edition,English,1.15,2022-03-05,0.37,1.84,0.73
-all,1,0,Topologic Gumblar Dragon,BLRR,Battles of Legend: Relentless Revenge,BLRR-EN043,Secret Rare,NearMint,1st Edition,English,4.19,2022-03-05,1.80,4.17,2.62
-all,1,0,Tornado Dragon,MACR,Maximum Crisis,MACR-EN081,Secret Rare,NearMint,Unlimited,English,3.74,2022-01-08,2.68,3.06,2.74
-all,1,0,Trident Dragion,RGBT,Raging Battle,RGBT-EN043,Ultra Rare,NearMint,1st Edition,English,4.77,2022-01-08,4.98,6.99,6.71
+all,1,0,Thunder Dragon Titan,MP19,2019 Gold Sarcophagus Tin Mega Pack,MP19-EN182,Ultra Rare,NearMint,1st Edition,English,1.75,2022-01-08,0.90,2.00,1.48
+all,1,0,Thunder Dragon Titan,MP19,2019 Gold Sarcophagus Tin Mega Pack,MP19-EN182,Ultra Rare,NearMint,1st Edition,English,2.01,2022-03-05,0.90,2.00,1.48
+all,1,0,Thunder Dragondark,MP19,2019 Gold Sarcophagus Tin Mega Pack,MP19-EN167,Prismatic Secret Rare,NearMint,1st Edition,English,6.69,2023-01-25,6.10,10.65,8.35
+all,1,0,Thunder End Dragon,PHSW,Photon Shockwave,PHSW-EN044,Ultra Rare,NearMint,1st Edition,English,9.01,2022-03-05,4.20,6.99,6.56
+all,1,0,"Tidal, Dragon Ruler of Waterfalls",CT10,Collectible Tin 2013,CT10-EN001,Secret Rare,NearMint,Limited,English,4.27,2022-01-08,4.00,8.89,7.26
+all,1,0,Tiger Dragon,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN069,Ultra Rare,NearMint,1st Edition,English,0.29,2022-01-08,0.12,0.40,0.37
+all,1,0,Timaeus the United Dragon,BACH,Battle Of Chaos,BACH-EN003,Ultra Rare,NearMint,1st Edition,English,7.87,2023-04-19,6.50,9.96,7.55
+all,1,0,Timestar Magician,PEVO,Pendulum Evolution,PEVO-EN009,Ultra Rare,NearMint,1st Edition,English,0.50,2022-03-07,0.25,0.69,0.48
+all,1,0,Titaniklad the Ash Dragon,MP21,2021 Tin Of Ancient Battles,MP21-EN125,Ultra Rare,NearMint,1st Edition,English,1.47,2022-01-08,0.15,0.79,0.39
+all,1,0,Topologic Bomber Dragon,MP18,2018 Mega-Tins Mega Pack,MP18-EN065,Secret Rare,NearMint,1st Edition,English,1.15,2022-03-05,0.37,1.86,0.71
+all,1,0,Topologic Gumblar Dragon,BLRR,Battles of Legend: Relentless Revenge,BLRR-EN043,Secret Rare,NearMint,1st Edition,English,4.19,2022-03-05,1.99,4.15,2.41
+all,1,0,Tornado Dragon,MACR,Maximum Crisis,MACR-EN081,Secret Rare,NearMint,Unlimited,English,3.74,2022-01-08,2.68,3.06,2.77
+all,1,0,Trident Dragion,RGBT,Raging Battle,RGBT-EN043,Ultra Rare,NearMint,1st Edition,English,4.77,2022-01-08,6.99,8.89,7.12
 all,1,0,Triggering Wurm,BLRR,Battles of Legend: Relentless Revenge,BLRR-EN042,Secret Rare,NearMint,1st Edition,English,0.33,2022-01-24,0.15,0.49,0.38
-all,1,0,Tri-Horned Dragon,LCYW,"Legendary Collection 3 Yugi's World Mega Pack",LCYW-EN157,Super Rare,NearMint,1st Edition,English,3.51,2022-01-08,0.98,1.95,1.63
-all,1,0,Tri-Horned Dragon,LOB,Legend of Blue Eyes White Dragon,LOB-000,Secret Rare,NearMint,Unlimited,English,13.43,2022-03-05,10.99,15.68,14.32
-all,1,0,Triple Burst Dragon,EXFO,Extreme Force,EXFO-EN044,Ultra Rare,NearMint,1st Edition,English,4.05,2022-03-05,3.52,4.43,3.81
-all,1,0,"Trishula, Dragon of the Ice Barrier",HSRD,High-Speed Riders,HSRD-EN052,Secret Rare,NearMint,1st Edition,English,5.60,2022-01-08,5.50,7.22,6.86
-all,1,0,"Trishula, the Dragon of Icy Imprisonment",BLAR,Battles Of Legend: Armageddon,BLAR-EN048,Secret Rare,NearMint,1st Edition,English,4.37,2022-01-08,2.70,4.14,4.06
-all,1,0,"Trishula, Zero Dragon of the Ice Barrier",SDFC,Structure Deck: Freezing Chains,SDFC-EN041,Ultra Rare,NearMint,1st Edition,English,1.63,2022-01-08,0.25,1.01,1.04
-all,1,0,Twin Photon Lizard,ORCS,Order of Chaos,ORCS-EN039,Ultimate Rare,NearMint,1st Edition,English,6.07,2022-03-05,2.19,5.04,4.30
-all,1,0,Tyrant Burst Dragon,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN063,Ultra Rare,NearMint,1st Edition,English,0.32,2022-01-08,0.06,0.45,0.34
-all,1,0,Tyrant Burst Dragon,DRL2,Dragons of Legend 2,DRL2-EN004,Secret Rare,NearMint,1st Edition,English,0.62,2022-01-08,0.23,0.63,0.49
-all,1,0,Tyrant Red Dragon Archfiend,TDIL,The Dark Illusion,TDIL-EN050,Ultra Rare,NearMint,Unlimited,English,8.85,2022-01-08,14.90,16.20,
-all,1,0,Ultimaya Tzolkin,CORE,Clash of Rebellions,CORE-ENSE1,Super Rare,NearMint,Limited,English,2.28,2022-01-08,0.60,1.99,1.14
-all,1,0,"Uria, Lord of Searing Flames",MP21,2021 Tin Of Ancient Battles,MP21-EN252,Prismatic Secret Rare,NearMint,1st Edition,English,0.65,2022-01-08,0.15,0.89,0.63
-all,1,0,"Uria, Lord of Searing Flames",MP21,2021 Tin Of Ancient Battles,MP21-EN252,Prismatic Secret Rare,NearMint,1st Edition,English,3.01,2022-03-05,0.15,0.89,0.63
-all,1,0,"Vector Pendulum, the Dracoverlord",PGL3,Premium Gold: Infinite Gold,PGL3-EN041,Gold Rare,NearMint,1st Edition,English,0.62,2023-01-25,0.20,0.75,0.57
-all,1,0,Victory Dragon,JUMP,Shonen Jump Magazine,JUMP-EN011,Secret Rare,NearMint,Limited,English,11.63,2023-01-25,7.00,12.29,12.35
-all,1,0,Void Ogre Dragon,PRC1,Premium Collection Tin,PRC1-EN021,Secret Rare,NearMint,1st Edition,English,1.86,2022-01-08,1.22,2.00,1.57
-all,1,0,Water Dragon,EEN,Elemental Energy,EEN-EN015,Ultimate Rare,NearMint,1st Edition,English,129.39,2023-01-25,56.91,149.99,158.85
-all,1,0,White Dragon Ninja,ORCS,Order of Chaos,ORCS-EN084,Secret Rare,NearMint,1st Edition,English,5.12,2022-03-05,2.81,6.29,6.47
-all,1,0,White Dragon Wyverburster,BLHR,"Battles of Legend: Hero's Revenge",BLHR-EN076,Ultra Rare,NearMint,1st Edition,English,0.88,2022-01-08,0.30,0.99,0.74
-all,1,0,White Night Dragon,LCGX,Legendary Collection 2 The Duel Academy Years Mega Pack,LCGX-EN205,Ultra Rare,NearMint,Unlimited,English,1.33,2022-03-05,1.00,1.51,1.48
-all,1,0,White Rose Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN109,Ultra Rare,NearMint,1st Edition,English,1.92,2022-01-24,1.00,1.74,1.83
-all,1,0,White-Horned Dragon,GXNG,GX Next Generation,GXNG-EN001,Ultra Rare,NearMint,Limited,English,2.95,2023-01-25,0.98,2.74,3.12
-all,1,0,"Winged Dragon, Guardian of the Fortress #1",LCYW,"Legendary Collection 3 Yugi's World Mega Pack",LCYW-EN009,Ultra Rare,NearMint,Unlimited,English,4.32,2022-03-05,3.12,4.15,4.04
-all,1,0,"Wollow, Founder of the Drudge Dragons",DABL,Darkwing Blast,DABL-EN047,Super Rare,NearMint,1st Edition,English,0.52,2023-01-25,0.25,0.52,0.45
-all,1,0,World Chalice Guardragon,MP18,2018 Mega-Tins Mega Pack,MP18-EN047,Ultra Rare,NearMint,1st Edition,English,0.40,2022-07-17,0.09,0.49,0.29
-all,1,0,Worldsea Dragon Zealantis,DABL,Darkwing Blast,DABL-EN050,Secret Rare,NearMint,1st Edition,English,8.04,2023-01-25,4.99,8.00,7.03
-all,1,0,Yubel - Terror Incarnate,LCGX,Legendary Collection 2 The Duel Academy Years Mega Pack,LCGX-EN198,Secret Rare,NearMint,Unlimited,English,3.35,2023-01-25,1.62,3.75,3.51
+all,1,0,Tri-Horned Dragon,LCYW,"Legendary Collection 3 Yugi's World Mega Pack",LCYW-EN157,Super Rare,NearMint,1st Edition,English,3.51,2022-01-08,0.98,1.92,1.63
+all,1,0,Tri-Horned Dragon,LOB,Legend of Blue Eyes White Dragon,LOB-000,Secret Rare,NearMint,Unlimited,English,13.43,2022-03-05,12.45,16.65,14.29
+all,1,0,Triple Burst Dragon,EXFO,Extreme Force,EXFO-EN044,Ultra Rare,NearMint,1st Edition,English,4.05,2022-03-05,3.25,4.46,3.69
+all,1,0,"Trishula, Dragon of the Ice Barrier",HSRD,High-Speed Riders,HSRD-EN052,Secret Rare,NearMint,1st Edition,English,5.60,2022-01-08,5.26,7.41,6.94
+all,1,0,"Trishula, the Dragon of Icy Imprisonment",BLAR,Battles Of Legend: Armageddon,BLAR-EN048,Secret Rare,NearMint,1st Edition,English,4.37,2022-01-08,2.50,4.25,4.01
+all,1,0,"Trishula, Zero Dragon of the Ice Barrier",SDFC,Structure Deck: Freezing Chains,SDFC-EN041,Ultra Rare,NearMint,1st Edition,English,1.63,2022-01-08,0.25,1.11,1.20
+all,1,0,Twin Photon Lizard,ORCS,Order of Chaos,ORCS-EN039,Ultimate Rare,NearMint,1st Edition,English,6.07,2022-03-05,1.90,5.02,4.32
+all,1,0,Tyrant Burst Dragon,LCKC,Legendary Collection Kaiba Mega Pack,LCKC-EN063,Ultra Rare,NearMint,1st Edition,English,0.32,2022-01-08,0.05,0.44,0.28
+all,1,0,Tyrant Burst Dragon,DRL2,Dragons of Legend 2,DRL2-EN004,Secret Rare,NearMint,1st Edition,English,0.62,2022-01-08,0.25,0.64,0.50
+all,1,0,Tyrant Red Dragon Archfiend,TDIL,The Dark Illusion,TDIL-EN050,Ultra Rare,NearMint,Unlimited,English,8.85,2022-01-08,14.90,15.94,
+all,1,0,Ukiyoe-P.U.N.K. Amazing Dragon,GRCR,The Grand Creators,GRCR-EN008,Collectors Rare,NearMint,1st Edition,English,42.74,2023-04-19,38.99,44.98,42.65
+all,1,0,Ukiyoe-P.U.N.K. Amazing Dragon,GRCR,The Grand Creators,GRCR-EN008,Collectors Rare,NearMint,1st Edition,English,42.56,2023-04-29,38.99,44.98,42.65
+all,1,0,Ultimaya Tzolkin,CORE,Clash of Rebellions,CORE-ENSE1,Super Rare,NearMint,Limited,English,2.28,2022-01-08,0.60,2.00,1.25
+all,1,0,"Uria, Lord of Searing Flames",MP21,2021 Tin Of Ancient Battles,MP21-EN252,Prismatic Secret Rare,NearMint,1st Edition,English,0.65,2022-01-08,0.24,0.87,0.66
+all,1,0,"Uria, Lord of Searing Flames",MP21,2021 Tin Of Ancient Battles,MP21-EN252,Prismatic Secret Rare,NearMint,1st Edition,English,3.01,2022-03-05,0.24,0.87,0.66
+all,1,0,"Vector Pendulum, the Dracoverlord",PGL3,Premium Gold: Infinite Gold,PGL3-EN041,Gold Rare,NearMint,1st Edition,English,0.62,2023-01-25,0.20,0.75,0.61
+all,1,0,Victory Dragon,JUMP,Shonen Jump Magazine,JUMP-EN011,Secret Rare,NearMint,Limited,English,11.63,2023-01-25,7.32,12.37,12.24
+all,1,0,Victory Dragon,JUMP,Shonen Jump Magazine,JUMP-EN011,Secret Rare,NearMint,Limited,English,12.29,2023-04-26,7.32,12.37,12.24
+all,1,0,Void Ogre Dragon,PRC1,Premium Collection Tin,PRC1-EN021,Secret Rare,NearMint,1st Edition,English,1.86,2022-01-08,1.22,2.00,1.68
+all,1,0,Water Dragon,EEN,Elemental Energy,EEN-EN015,Ultimate Rare,NearMint,1st Edition,English,129.39,2023-01-25,56.91,147.99,158.82
+all,1,0,White Dragon Ninja,ORCS,Order of Chaos,ORCS-EN084,Secret Rare,NearMint,1st Edition,English,5.12,2022-03-05,2.81,6.33,6.13
+all,1,0,White Dragon Wyverburster,BLHR,"Battles of Legend: Hero's Revenge",BLHR-EN076,Ultra Rare,NearMint,1st Edition,English,0.88,2022-01-08,0.35,0.99,0.76
+all,1,0,White Night Dragon,LCGX,Legendary Collection 2 The Duel Academy Years Mega Pack,LCGX-EN205,Ultra Rare,NearMint,Unlimited,English,1.33,2022-03-05,1.00,1.52,1.57
+all,1,0,White Rose Dragon,LDS2,Legendary Duelists: Season 2,LDS2-EN109,Ultra Rare,NearMint,1st Edition,English,1.92,2022-01-24,0.90,1.71,1.92
+all,1,0,White-Horned Dragon,GXNG,GX Next Generation,GXNG-EN001,Ultra Rare,NearMint,Limited,English,2.95,2023-01-25,0.98,2.76,3.09
+all,1,0,"Winged Dragon, Guardian of the Fortress #1",LCYW,"Legendary Collection 3 Yugi's World Mega Pack",LCYW-EN009,Ultra Rare,NearMint,Unlimited,English,4.32,2022-03-05,3.47,4.20,3.97
+all,1,0,"Wollow, Founder of the Drudge Dragons",DABL,Darkwing Blast,DABL-EN047,Super Rare,NearMint,1st Edition,English,0.52,2023-01-25,0.22,0.50,0.41
+all,1,0,World Chalice Guardragon,MP18,2018 Mega-Tins Mega Pack,MP18-EN047,Ultra Rare,NearMint,1st Edition,English,0.40,2022-07-17,0.06,0.49,0.27
+all,1,0,Worldsea Dragon Zealantis,DABL,Darkwing Blast,DABL-EN050,Secret Rare,NearMint,1st Edition,English,8.04,2023-01-25,5.00,7.99,6.59
+all,1,0,Yubel - Terror Incarnate,LCGX,Legendary Collection 2 The Duel Academy Years Mega Pack,LCGX-EN198,Secret Rare,NearMint,Unlimited,English,3.35,2023-01-25,1.70,4.07,3.68

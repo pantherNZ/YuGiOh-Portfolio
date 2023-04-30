@@ -92,6 +92,8 @@ def load_cards(sets):
         for x in data:
             if not( x['race'] == 'Dragon' or str(x['name']).endswith('Dragon') or str(x['name']).find('Dragon ') != -1 ):
                 continue
+            if 'Monster' not in x['type']:
+                continue
             for card in x['card_sets']:
                 if card['set_rarity'] != rarity:
                     continue
@@ -132,7 +134,7 @@ def filter_cards(all_sets, new_cards, existing_cards):
             if all_sets.get(card_set):
                 if existing_rarity not in rarities_all:
                     print(f'[ERROR] Existing card with rarity found not in the rarities list: {existing_rarity}')
-                elif rarities_all.index(rarity) <= max(8, rarities_all.index(existing_rarity)):
+                elif rarities_all.index(rarity) <= max(8, rarities_all.index(existing_rarity)) and existing_rarity != 'Super Rare':
                     continue
                 else:
                     is_rarity_upgrade = True
