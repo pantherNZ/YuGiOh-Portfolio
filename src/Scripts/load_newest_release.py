@@ -41,6 +41,7 @@ rarities_all = [
 "Ultimate Rare",
 "Gold Rare",
 "Premium Gold Rare",
+"Collectors Rare",
 "Collector's Rare",
 "Ghost/Gold Rare",
 "Starlight Rare",
@@ -71,13 +72,18 @@ def load_sets():
     return sets
     
 
-def load_cards(sets):
-    last_date = datetime(2000, 1, 1)
+def load_cards(sets:dict, existing_cards:list):
+    #last_date = datetime(2000, 1, 1)
     results = []
     
-    if os.path.exists(LAST_DATE_FILE):
-        with open(LAST_DATE_FILE) as date_file:
-            last_date = datetime.strptime(date_file.readline(), '%m/%d/%Y')
+    #if os.path.exists(LAST_DATE_FILE):
+    #    with open(LAST_DATE_FILE) as date_file:
+    #        last_date = datetime.strptime(date_file.readline(), '%m/%d/%Y')
+
+    existing_cards_set = set(existing_cards)
+    existing_cards_no_set = [x[:x.rfind(' (')] for x in existing_cards]
+    existing_cards_set_no_set = set(existing_cards_no_set)
+    added = {}
 
     for rarity in rarities_query:
         #result = request(BASE_URL, '', sort='new', offset=0, num=100, startdate=last_date, enddate=current_date, rarity=rarity)
@@ -98,49 +104,46 @@ def load_cards(sets):
                 if card['set_rarity'] != rarity:
                     continue
                 set_code = card['set_code'][:card['set_code'].find('-')]
-                found = sets.get(set_code)
-                if found is None:
+                #found = sets.get(set_code)
+                #if found is None:
+                #    continue
+                #if datetime.strptime(found, '%Y-%m-%d').date() < last_date.date():
+                #    continue
+#
+                new_card_name = '{0} ({1} - {2})'.format(x['name'], set_code, rarity)
+                rarity_start = new_card_name.rfind(' - ')
+                set_start = new_card_name.rfind(' (')
+                card_set = new_card_name[set_start + 2:rarity_start]
+                rarity = new_card_name[rarity_start + 3:-1]
+                is_rarity_upgrade = False
+
+                if new_card_name in existing_cards_set:
                     continue
-                if datetime.strptime(found, '%Y-%m-%d').date() < last_date.date():
-                    continue
-                results.append('{0} ({1} - {2})'.format(x['name'], set_code, rarity))
+                
+                name = new_card_name[:set_start]
+                if name in added:
+                    if rarities_all.index(rarity) <= rarities_all.index(added[name][0]):
+                        continue
 
-    return list(set(results))
-      
+                if name in existing_cards_set_no_set:
+                    existing = existing_cards[existing_cards_no_set.index(name)]
+                    existing_rarity = existing[existing.rfind(' - ') + 3:-1]
+                    if all_sets.get(card_set):
+                        if existing_rarity not in rarities_all:
+                            print(f'[ERROR] Existing card with rarity found not in the rarities list: {existing_rarity}')
+                        elif rarities_all.index(rarity) <= max(8, rarities_all.index(existing_rarity)) and existing_rarity != 'Super Rare':
+                            continue
+                        else:
+                            is_rarity_upgrade = True
 
-def filter_cards(all_sets, new_cards, existing_cards):
-    existing_cards_set = set(existing_cards)
-    existing_cards_no_set = [x[:x.rfind(' (')] for x in existing_cards]
-    existing_cards_set_no_set = set(existing_cards_no_set)
-    added = {}
-    for x in new_cards:
-        rarity_start = x.rfind(' - ')
-        set_start = x.rfind(' (')
-        card_set = x[set_start + 2:rarity_start]
-        rarity = x[rarity_start + 3:-1]
-        is_rarity_upgrade = False
+                colour = None
+                if x['race'] != 'Dragon':
+                    colour = "yellow"
+                elif not is_rarity_upgrade:
+                    colour = "purple"
+                added[name] = (rarity, new_card_name, colour)
 
-        if x in existing_cards_set:
-            continue
-        
-        name = x[:set_start]
-        if name in added:
-            if rarities_all.index(rarity) <= rarities_all.index(added[name][0]):
-                continue
-
-        if name in existing_cards_set_no_set:
-            existing = existing_cards[existing_cards_no_set.index(name)]
-            existing_rarity = existing[existing.rfind(' - ') + 3:-1]
-            if all_sets.get(card_set):
-                if existing_rarity not in rarities_all:
-                    print(f'[ERROR] Existing card with rarity found not in the rarities list: {existing_rarity}')
-                elif rarities_all.index(rarity) <= max(8, rarities_all.index(existing_rarity)) and existing_rarity != 'Super Rare':
-                    continue
-                else:
-                    is_rarity_upgrade = True
-
-        added[name] = (rarity, x, is_rarity_upgrade)
-    return [(x[1], x[2]) for x in added.values()]
+    return ([x[1] for x in added.values()], {x[1]: x[2] for x in added.values() if x[2] != None})
 
 
 if __name__ == '__main__':
@@ -151,18 +154,15 @@ if __name__ == '__main__':
     all_sets = load_sets()
 
     existing_cards = import_to_trello.get_cards(current_list)
-    new_cards = load_cards(all_sets)
-    new_cards_data = filter_cards(all_sets, new_cards, existing_cards)
-    new_cards = [x[0] for x in new_cards_data]
+    (new_cards, colours) = load_cards(all_sets, existing_cards)
     new_cards.sort()
-    colours = {x[0]: "purple" for x in new_cards_data if not x[1]}
 
-    #import_to_trello.archive_old_cards(wants_list)
+    import_to_trello.archive_old_cards(wants_list)
 
     import_to_trello.generate_trello_cards(wants_list, new_cards, colours)
 
-    with open(LAST_DATE_FILE, 'w') as date_file:
-        date_file.write(current_date)
+    #with open(LAST_DATE_FILE, 'w') as date_file:
+    #    date_file.write(current_date)
 
-    with open(RESULTS_FILE.format(current_date.replace('/','-')), 'w') as result_file:
-        result_file.writelines(new_cards)
+    #with open(RESULTS_FILE.format(current_date.replace('/','-')), 'w') as result_file:
+    #    result_file.writelines(new_cards)
