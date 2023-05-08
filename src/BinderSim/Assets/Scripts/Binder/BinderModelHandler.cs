@@ -210,7 +210,7 @@ public class BinderModelHandler : EventReceiverInstance
 
     private void Hide()
     {
-        binderScene.SetActive( false );
+        //binderScene.SetActive( false );
     }
 
     private void Update()

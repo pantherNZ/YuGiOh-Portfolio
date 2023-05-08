@@ -8,6 +8,8 @@ public class Constants : MonoBehaviour
     private void Start()
     {
         Instance = this;
+
+        storedCardsData = storedCardsDb.text;
     }
 
     public int SaveGameVersion = 1;
@@ -21,4 +23,7 @@ public class Constants : MonoBehaviour
     public Material BaseCardMaterial;
     public Material SecretRareMaterial;
     public Material UltraRareMaterial;
+
+    [SerializeField] TextAsset storedCardsDb;
+    [HideInInspector] public string storedCardsData;
 }

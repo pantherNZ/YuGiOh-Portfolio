@@ -1,6 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+
 public class BinderLoadedEvent : IBaseEvent { }
+
 public class PageChangeRequestEvent : IBaseEvent { public PageType page; }
+
 public class OpenCardPageEvent : PageChangeRequestEvent 
 {
     public OpenCardPageEvent() { page = PageType.CardPage; }
@@ -8,6 +12,7 @@ public class OpenCardPageEvent : PageChangeRequestEvent
 }
 
 public class BinderDataUpdateEvent : IBaseEvent { public BinderData binder; }
+
 public class CardSelectedEvent : IBaseEvent 
 { 
     public CardDataRuntime card;
@@ -61,6 +66,7 @@ public class OpenInventoryPageEvent : OpenSearchPageEvent
 }
 
 public class PageFullEvent : IBaseEvent { }
+
 public class BinderFullEvent : IBaseEvent { }
 
 public class SearchEntryDragDropComplete : IBaseEvent { }
@@ -89,10 +95,8 @@ public class CardDoubleClickEvent : IBaseEvent
 
 public class UpdateAdvancedSearch : IBaseEvent
 {
-    public string searchParams;
+    public Dictionary<SearchParam, List<string>> searchParams;
     public bool searchDescending;
-    public string searchRarity;
-    public bool sortOnly;
 }
 
 public class AdvancedFiltersToggled : IBaseEvent { }

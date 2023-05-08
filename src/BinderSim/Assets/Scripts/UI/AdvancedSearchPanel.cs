@@ -18,6 +18,18 @@ public class SetInfo
     public string tcg_date;
 }
 
+public enum SearchParam
+{
+    Format,
+    Type,
+    Attribute,
+    Race,
+    Archetype,
+    Rarity,
+    Cardset,
+    Sort,
+}
+
 public class AdvancedSearchPanel : EventReceiverInstance
 {
     [SerializeField] Button applyFiltersButton;
@@ -28,14 +40,21 @@ public class AdvancedSearchPanel : EventReceiverInstance
     [SerializeField] TMPro.TMP_Dropdown attributeDropdown;
     [SerializeField] TMPro.TMP_Dropdown raceDropdown;
     [SerializeField] TMPro.TMP_Dropdown archetypeDropdown;
-    [SerializeField] TMPro.TMP_Dropdown rarityDropdown;
+    [SerializeField] TMPro.TMP_MultiDropdown rarityDropdown;
     [SerializeField] TMPro.TMP_Dropdown tcgSetDropdown;
     [SerializeField] TMPro.TMP_Dropdown sortByDropdown;
     [SerializeField] Toggle sortDescendingToggle;
 
-    private List<int> rawSavedValues = new List<int>();
+    private List<List<int>> rawSavedValues = new List<List<int>>();
     private CanvasGroup canvas;
     private bool dropdownDataRequested;
+
+    static public List<string> sortDropDownOptions = new List<string>()
+    {
+        "Name",
+        "Level",
+        "Release Date"
+    };
 
     protected override void Start()
     {
@@ -52,7 +71,7 @@ public class AdvancedSearchPanel : EventReceiverInstance
         attributeDropdown.onValueChanged.AddListener( SearchFiltersChanged );
         raceDropdown.onValueChanged.AddListener( SearchFiltersChanged );
         archetypeDropdown.onValueChanged.AddListener( SearchFiltersChanged );
-        rarityDropdown.onValueChanged.AddListener( SearchFiltersChanged );
+        rarityDropdown.onValuesChanged.AddListener( SearchFiltersChanged );
         tcgSetDropdown.onValueChanged.AddListener( SearchFiltersChanged );
         sortByDropdown.onValueChanged.AddListener( SearchFiltersChanged );
         sortDescendingToggle.onValueChanged.AddListener( x => SearchFiltersChanged( 0 ) );
@@ -194,6 +213,8 @@ public class AdvancedSearchPanel : EventReceiverInstance
             "Ultra Secret Rare"
         } );
 
+        sortByDropdown.AddOptions( sortDropDownOptions );
+
         ClearFilters();
         rawSavedValues = GenerateRawSearchParams();
 
@@ -207,7 +228,7 @@ public class AdvancedSearchPanel : EventReceiverInstance
         attributeDropdown.SetValueWithoutNotify( 0 );
         raceDropdown.SetValueWithoutNotify( 0 );
         archetypeDropdown.SetValueWithoutNotify( 0 );
-        rarityDropdown.SetValueWithoutNotify( 0 );
+        rarityDropdown.SetValuesWithoutNotify( null );
         tcgSetDropdown.SetValueWithoutNotify( 0 );
         sortByDropdown.SetValueWithoutNotify( 0 );
         sortDescendingToggle.SetIsOnWithoutNotify( false );
@@ -215,19 +236,19 @@ public class AdvancedSearchPanel : EventReceiverInstance
         SearchFiltersChanged( 0 );
     }
 
-    List<int> GenerateRawSearchParams()
+    List<List<int>> GenerateRawSearchParams()
     {
-        return new List<int>()
+        return new List<List<int>>()
         {
-            formatDropdown.value,
-            typeDropdown.value,
-            attributeDropdown.value,
-            raceDropdown.value,
-            archetypeDropdown.value,
-            rarityDropdown.value,
-            tcgSetDropdown.value,
-            sortByDropdown.value,
-            Convert.ToInt32( sortDescendingToggle.isOn )
+            //formatDropdown.value,
+            //typeDropdown.value,
+            //attributeDropdown.value,
+            //raceDropdown.value,
+            //archetypeDropdown.value,
+            rarityDropdown.values.ToList(),
+            //tcgSetDropdown.value,
+            //sortByDropdown.value,
+            //Convert.ToInt32( sortDescendingToggle.isOn )
         };
     }
 
@@ -235,21 +256,27 @@ public class AdvancedSearchPanel : EventReceiverInstance
     {
         rawSavedValues = GenerateRawSearchParams();
 
-        string searchParams = string.Empty;
-        if( formatDropdown.value != 0 ) searchParams += "&format=" + formatDropdown.options[formatDropdown.value].text.ToLower();
-        if( typeDropdown.value != 0 ) searchParams += "&type=" + typeDropdown.options[typeDropdown.value].text;
-        if( attributeDropdown.value != 0 ) searchParams += "&attribute=" + attributeDropdown.options[attributeDropdown.value].text;
-        if( raceDropdown.value != 0 ) searchParams += "&race=" + raceDropdown.options[raceDropdown.value].text;
-        if( archetypeDropdown.value != 0 ) searchParams += "&archetype=" + archetypeDropdown.options[archetypeDropdown.value].text;
-        if( tcgSetDropdown.value != 0 ) searchParams += "&cardset=" + tcgSetDropdown.options[tcgSetDropdown.value].text;
-        if( sortByDropdown.value != 0 ) searchParams += "&sort=" + sortByDropdown.options[sortByDropdown.value].text;
+        var searchParams = new Dictionary<SearchParam, List<string>>();
 
+        foreach( var search in Utility.GetEnumValues<SearchParam>() )
+            searchParams[search] = new List<string>();
+
+        //if( formatDropdown.value != 0 ) searchParams += "&format=" + formatDropdown.options[formatDropdown.value].text.ToLower();
+        //if( typeDropdown.value != 0 ) searchPBarams += "&type=" + typeDropdown.options[typeDropdown.value].text;
+        //if( attributeDropdown.value != 0 ) searchParams += "&attribute=" + attributeDropdown.options[attributeDropdown.value].text;
+        //if( raceDropdown.value != 0 ) searchParams += "&race=" + raceDropdown.options[raceDropdown.value].text;
+        //if( archetypeDropdown.value != 0 ) searchParams += "&archetype=" + archetypeDropdown.options[archetypeDropdown.value].text;
+        //
+        foreach( var value in rarityDropdown.values )
+            searchParams[SearchParam.Rarity]. Add( rarityDropdown.options[value].text );
+       //if( rarityDropdown.values.Count > 0 ) 
+       //if( tcgSetDropdown.value != 0 ) searchParams += "&cardset=" + tcgSetDropdown.options[tcgSetDropdown.value].text;
+       //if( sortByDropdown.value != 0 ) searchParams += "&sort=" + sortByDropdown.options[sortByDropdown.value].text;
+       //
         EventSystem.Instance.TriggerEvent( new UpdateAdvancedSearch()
         {
-            searchParams = Uri.EscapeUriString( searchParams ),
+            searchParams = searchParams,
             searchDescending = sortDescendingToggle.isOn,
-            searchRarity = sortByDropdown.options[sortByDropdown.value].text,
-            sortOnly = rawSavedValues[7] == 1 && rawSavedValues.Sum() == 1,
         } );
 
         SearchFiltersChanged( 0 );
@@ -261,15 +288,15 @@ public class AdvancedSearchPanel : EventReceiverInstance
         if( rawSavedValues != null )
         {
             var values = rawSavedValues.GetEnumerator();
-            formatDropdown.value = values.Current;
-            typeDropdown.value = values.MoveNextGet();
-            attributeDropdown.value = values.MoveNextGet();
-            raceDropdown.value = values.MoveNextGet();
-            archetypeDropdown.value = values.MoveNextGet();
-            rarityDropdown.value = values.MoveNextGet();
-            tcgSetDropdown.value = values.MoveNextGet();
-            sortByDropdown.value = values.MoveNextGet();
-            sortDescendingToggle.isOn = Convert.ToBoolean( values.MoveNextGet() );
+            //formatDropdown.value = values.Current;
+            //typeDropdown.value = values.MoveNextGet();
+            //attributeDropdown.value = values.MoveNextGet();
+            //raceDropdown.value = values.MoveNextGet();
+            //archetypeDropdown.value = values.MoveNextGet();
+            rarityDropdown.values = values.MoveNextGet().AsReadOnly();
+            //tcgSetDropdown.value = values.MoveNextGet();
+            //sortByDropdown.value = values.MoveNextGet();
+            //sortDescendingToggle.isOn = Convert.ToBoolean( values.MoveNextGet() );
         }
         else
         {
@@ -279,10 +306,15 @@ public class AdvancedSearchPanel : EventReceiverInstance
         canvas.ToggleVisibility();
     }
 
+    void SearchFiltersChanged( List<int> _ )
+    {
+
+    }
+
     void SearchFiltersChanged( int _ )
     {
         var newParams = GenerateRawSearchParams();
-        clearFiltersButton.interactable = newParams.Any( x => x != 0 );
+        clearFiltersButton.interactable = newParams.Any( x => !x.IsEmpty() );
         applyFiltersButton.interactable = !newParams.SequenceEqual( rawSavedValues );
     }
 

@@ -66,7 +66,6 @@
     <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\PageView_Map_Left.cs" />
     <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\PageView.cs" />
     <Compile Include="Assets\EndlessBook\Book\Scripts\Unpack.cs" />
-    <Compile Include="Assets\Scripts\Binder\YGOAPICallHandler.cs" />
     <Compile Include="Assets\EndlessBook\Book\Scripts\Page.cs" />
     <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\MimicChild.cs" />
     <Compile Include="Assets\EndlessBook\Book\Scripts\PageAnimationCompleted.cs" />
@@ -90,6 +89,7 @@
     <Compile Include="Assets\Scripts\Binder\BinderModelHandler.cs" />
     <Compile Include="Assets\Scripts\UI\CardPage.cs" />
     <Compile Include="Assets\Scripts\UI\SearchListEntry.cs" />
+    <Compile Include="Assets\Scripts\UI\DialogBox.cs" />
     <Compile Include="Assets\Scripts\UI\SearchPageSmall.cs" />
     <Compile Include="Assets\Scripts\UI\BinderListEntry.cs" />
     <Compile Include="Assets\EndlessBook\Demos\Demo 03 - Manual Page Turn\Scripts\Demo03.cs" />
@@ -102,9 +102,9 @@
     <Compile Include="Assets\Scripts\Binder\DataTypes.cs" />
     <Compile Include="Assets\Scripts\UI\GUIClickController.cs" />
     <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\PageView_Map.cs" />
+    <Compile Include="Assets\Scripts\Binder\APICallHandler.cs" />
     <Compile Include="Assets\Scripts\Misc\RequestJsonFormat.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserLinux.cs" />
-    <Compile Include="Assets\Scripts\UI\DialogBox.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

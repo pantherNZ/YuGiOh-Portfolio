@@ -146,6 +146,12 @@ def load_cards(sets:dict, existing_cards:list):
     return ([x[1] for x in added.values()], {x[1]: x[2] for x in added.values() if x[2] != None})
 
 
+def sort_results(card:str, colours:dict):
+    if card in colours:
+        return (colours[card], card)
+    return ('zzzz', card)
+
+
 if __name__ == '__main__':
     board_id = import_to_trello.get_board('Yugioh')
     wants_list = import_to_trello.get_list(board_id, 'Wants Generated')
@@ -155,7 +161,7 @@ if __name__ == '__main__':
 
     existing_cards = import_to_trello.get_cards(current_list)
     (new_cards, colours) = load_cards(all_sets, existing_cards)
-    new_cards.sort()
+    new_cards.sort(key=lambda x: sort_results(x, colours))
 
     import_to_trello.archive_old_cards(wants_list)
 

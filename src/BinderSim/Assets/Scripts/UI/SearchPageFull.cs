@@ -1,7 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Linq;
 using System.Collections;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class SearchPageFull : SearchPageBase
 {
@@ -12,6 +17,7 @@ public class SearchPageFull : SearchPageBase
     [SerializeField] GameObject entryOptionsPanel = null;
     [SerializeField] GameObject countHeaderText = null;
     [SerializeField] TMPro.TextMeshProUGUI infoMessageText = null;
+    [SerializeField] TextAsset cardsJsonData;
 
     private Vector2 buttonsSizeDelta;
     private Coroutine fadeOutCoroutine;
@@ -311,17 +317,103 @@ public class SearchPageFull : SearchPageBase
         infoMessageText.gameObject.SetActive( false );
     }
 
-    protected override void OnSearchResultReceived( ref Root data ) 
+    protected override bool FilterCard( string search, Datum card )
     {
-        if( advancedSearchData != null && advancedSearchData.searchDescending )
-            data.data.Reverse();
+        if( !base.FilterCard( search, card ) )
+            return false;
+
+        if( advancedSearchData == null )
+            return true;
+
+       if( advancedSearchData.searchParams.TryGetValue( SearchParam.Format, out var found ) )
+            if( !found.IsEmpty() && !found.Any( format => card.misc_info.Any( info => info.formats.Contains( format ) ) ) )
+                return false;
+
+        if( advancedSearchData.searchParams.TryGetValue( SearchParam.Type, out found ) )
+            if( !found.IsEmpty() && !found.Any( type => card.type == type ) )
+                return false;
+
+        if( advancedSearchData.searchParams.TryGetValue( SearchParam.Attribute, out found ) )
+            if( !found.IsEmpty() && !found.Any( attribute => card.attribute == attribute ) )
+                return false;
+
+        if( advancedSearchData.searchParams.TryGetValue( SearchParam.Race, out found ) )
+            if( !found.IsEmpty() && !found.Any( race => card.race == race ) )
+                return false;
+
+        if( advancedSearchData.searchParams.TryGetValue( SearchParam.Archetype, out found ) )
+            if( !found.IsEmpty() && !found.Any( archetype => card.archetype == archetype ) )
+                return false;
+
+        if( advancedSearchData.searchParams.TryGetValue( SearchParam.Rarity, out found ) )
+            if( !found.IsEmpty() && !found.Any( rarity => card.card_sets.Any( set => set.set_rarity == rarity ) ) )
+                return false;
+
+        if( advancedSearchData.searchParams.TryGetValue( SearchParam.Cardset, out found ) )
+            if( !found.IsEmpty() && !found.Any( cardset => card.card_sets.Any( set => set.set_name == cardset ) ) )
+                return false;
+
+        return true;
     }
 
-    protected override string SearchRequestPreModify( string search )
+    protected override void SortAndAddResults( List<CardDataRuntime> results )
     {
-        // Disallow only doing a request which contains just a sort modifier
-        if( advancedSearchData != null && ( !advancedSearchData.sortOnly || search.Length > 0 ) )
-            search += advancedSearchData.searchParams;
-        return search;
+        if( advancedSearchData == null )
+        {
+            base.SortAndAddResults( results );
+            return;
+        }
+
+        if( advancedSearchData.searchParams.TryGetValue( SearchParam.Sort, out var found ) )
+        {
+            if( found.Count != 1 )
+            {
+                base.SortAndAddResults( results );
+                return;
+            }
+
+            if( AdvancedSearchPanel.sortDropDownOptions[0] == found[0] )
+            {
+                Debug.Assert( found[0] == "Name" );
+                // Base search will search by name
+                base.SortAndAddResults( results );
+                return;
+            }
+            else if( AdvancedSearchPanel.sortDropDownOptions[1] == found[0] )
+            {
+                Debug.Assert( found[0] == "Level" );
+                results.Sort( ( x, y ) =>
+                {
+                    if( x.cardAPIData.level == y.cardAPIData.level )
+                        return 0;
+                    if( !y.cardAPIData.level.HasValue )
+                        return 1;
+                    if( !x.cardAPIData.level.HasValue )
+                        return -1;
+                    return x.cardAPIData.level.Value.CompareTo( y.cardAPIData.level.Value );
+                } );
+            }
+            else if( AdvancedSearchPanel.sortDropDownOptions[2] == found[0] )
+            {
+                Debug.Assert( found[0] == "Release Date" );
+                results.Sort( ( x, y ) =>
+                {
+                    if( x.cardAPIData.misc_info == null && y.cardAPIData.misc_info == null )
+                        return 0;
+                    if( y.cardAPIData.misc_info == null )
+                        return 1;
+                    if( x.cardAPIData.misc_info == null )
+                        return -1;
+                    return DateTime.Parse( x.cardAPIData.misc_info[0].tcg_date ).
+                        CompareTo( DateTime.Parse( y.cardAPIData.misc_info[0].tcg_date ) );
+                } );
+            }
+
+            if( advancedSearchData.searchDescending )
+                results.Reverse();
+        }
+
+        foreach( var card in results )
+            AddCard( card );
     }
 }

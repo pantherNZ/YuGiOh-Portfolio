@@ -35,7 +35,6 @@ public abstract class SearchPageBase : EventReceiverInstance
     protected SearchPageFlags flags;
     protected string replacingCardName;
     private Coroutine searchCountdownHandle;
-    private Coroutine searchRequestHandle;
     private InventoryData.Options? savedBehaviour;
 
     protected override void Start()
@@ -102,18 +101,13 @@ public abstract class SearchPageBase : EventReceiverInstance
 
     protected abstract bool ContainsHeader();
 
-    protected virtual string SearchRequestPreModify( string search )
+    private void SearchRequest( string search )
     {
-        return search;
+        SearchRequestInternal( Uri.EscapeDataString( search ) );
     }
 
-    void SearchRequest( string search )
+    private void SearchRequestInternal( string search )
     {
-        search = SearchRequestPreModify( Uri.EscapeDataString( search ) );
-
-        if( searchRequestHandle != null )
-            StopCoroutine( searchRequestHandle );
-
         var dropDownIdx = GetDropDownOptionIdx();
         var filter = GetDropDownOption();
 
@@ -121,7 +115,17 @@ public abstract class SearchPageBase : EventReceiverInstance
         {
             if( search.Length > 0 )
             {
-                searchRequestHandle = StartCoroutine( APICallHandler.Instance.SendCardSearchRequestFuzzy( search, true, OnSearchResultReceived, true ) );
+                List<Datum> searchResults = new List<Datum>();
+
+                foreach( var card in APICallHandler.Instance.cardsDatabase.data )
+                {
+                    if( FilterCard( search, card ) )
+                    {
+                        searchResults.Add( card );
+                    }
+                }
+
+                SortAndAddResults( CreateCardsFromSearchResult( searchResults ) );
             }
             else
             {
@@ -139,6 +143,8 @@ public abstract class SearchPageBase : EventReceiverInstance
             ? tempImportInventory
             : BinderPage.Instance.Inventory;
         inventory.Sort();
+
+        var results = new List<CardDataRuntime>();
 
         foreach( var( idx, card ) in inventory.Enumerate() )
         {
@@ -159,9 +165,7 @@ public abstract class SearchPageBase : EventReceiverInstance
                 ? ( card.cardAPIData.misc_info[0].beta_name ?? string.Empty )
                 : string.Empty;
 
-            if( search.Length > 0 
-                && !card.name.ToLower().Contains( search )
-                && !betaName.ToLower().Contains( search ) )
+            if( !FilterCard( search, card.cardAPIData ) )
                 continue;
 
             count++;
@@ -175,8 +179,10 @@ public abstract class SearchPageBase : EventReceiverInstance
             if( idx >= maxSearchResults )
                 break;
 
-            AddCard( card );
+            results.Add( card );
         }
+
+        SortAndAddResults( results );
 
         if( cardCountText != null )
             cardCountText.text = String.Format( "{0} Card{1}", count, count == 1 ? string.Empty : "s" );
@@ -187,63 +193,61 @@ public abstract class SearchPageBase : EventReceiverInstance
             AddCard( new CardDataRuntime() { name = "No cards found" } );
     }
 
-    void OnSearchResultReceived( string result )
+    protected virtual bool FilterCard( string search, Datum card )
     {
-        //try
-        {
-            var settings = new JsonSerializerSettings()
-            {
-                NullValueHandling = NullValueHandling.Include,
-                MissingMemberHandling = MissingMemberHandling.Ignore,
-            };
+        var betaName = card.misc_info != null && card.misc_info.Count > 0
+            ? ( card.misc_info[0].beta_name ?? string.Empty )
+            : string.Empty;
 
-            Root data = null;
+        if( !card.name.ToLower().Contains( search.ToLower() ) &&
+            !betaName.ToLower().Contains( search.ToLower() ) )
+            return false;
 
-            try
-            {
-                data = JsonConvert.DeserializeObject<Root>( result, settings );
-            }
-            catch( Exception )
-            {
-            }
-
-            if( data == null || data.data == null || data.data.IsEmpty() )
-            {
-                AddCard( new CardDataRuntime() { name = "No results found" } );
-                cardCountText?.gameObject.SetActive( false );
-            }
-            else
-            {
-                OnSearchResultReceived( ref data );
-
-                foreach( var (idx, card) in data.data.Enumerate() )
-                {
-                    // Limit to 100 results for now
-                    if( idx >= maxSearchResults )
-                        break;
-
-                    AddCard( new CardDataRuntime()
-                    {
-                        name = card.name,
-                        cardId = card.id,
-                        cardIndex = 0,
-                        cardAPIData = card,
-                        condition = CardConditions.Values.NearMint,
-                        count = 1,
-                    } );
-                }
-
-                if( cardCountText != null )
-                    cardCountText.text = String.Format( "{0} Card{1}", data.data.Count, data.data.Count == 1 ? string.Empty : "s" );
-            }
-        }
-        //catch( Exception e )
-        //{
-        //    Debug.LogError( "SearchPageBase::OnSearchResultReceived failed to deserialize json from result:" + Environment.NewLine + e.Message + Environment.NewLine + result );
-        //}
+        return true;
     }
 
-    protected virtual void OnSearchResultReceived( ref Root data ) { }
+    protected virtual void SortAndAddResults( List<CardDataRuntime> results )
+    {
+        results.Sort( ( x, y ) => string.Compare( x.name, y.name, StringComparison.Ordinal ) );
+
+        foreach( var card in results )
+            AddCard( card );
+    }
+
+    protected List<CardDataRuntime> CreateCardsFromSearchResult( List<Datum> cards )
+    {
+        if( cards == null || cards.IsEmpty() )
+        {
+            cardCountText?.gameObject.SetActive( false );
+            return new List<CardDataRuntime>() { new CardDataRuntime() { name = "No results found" } };
+        }
+        else
+        {
+            var results = new List<CardDataRuntime>( cards.Count );
+
+            foreach( var (idx, card) in cards.Enumerate() )
+            {
+                // Limit to 100 results for now
+                if( idx >= maxSearchResults )
+                    break;
+
+                results.Add( new CardDataRuntime()
+                {
+                    name = card.name,
+                    cardId = card.id,
+                    cardIndex = 0,
+                    cardAPIData = card,
+                    condition = CardConditions.Values.NearMint,
+                    count = 1,
+                } );
+            }
+
+            if( cardCountText != null )
+                cardCountText.text = String.Format( "{0} Card{1}", cards.Count, cards.Count == 1 ? string.Empty : "s" );
+
+            return results;
+        }
+    }
 
     protected GameObject GetSelectedCard()
     {
