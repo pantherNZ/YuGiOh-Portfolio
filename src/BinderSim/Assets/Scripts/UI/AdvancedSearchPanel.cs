@@ -35,19 +35,18 @@ public class AdvancedSearchPanel : EventReceiverInstance
     [SerializeField] Button applyFiltersButton;
     [SerializeField] Button clearFiltersButton;
     [SerializeField] Button cancelButton;
-    [SerializeField] TMPro.TMP_Dropdown formatDropdown;
-    [SerializeField] TMPro.TMP_Dropdown typeDropdown;
-    [SerializeField] TMPro.TMP_Dropdown attributeDropdown;
-    [SerializeField] TMPro.TMP_Dropdown raceDropdown;
-    [SerializeField] TMPro.TMP_Dropdown archetypeDropdown;
+    [SerializeField] TMPro.TMP_MultiDropdown formatDropdown;
+    [SerializeField] TMPro.TMP_MultiDropdown typeDropdown;
+    [SerializeField] TMPro.TMP_MultiDropdown attributeDropdown;
+    [SerializeField] TMPro.TMP_MultiDropdown raceDropdown;
+    [SerializeField] TMPro.TMP_MultiDropdown archetypeDropdown;
     [SerializeField] TMPro.TMP_MultiDropdown rarityDropdown;
-    [SerializeField] TMPro.TMP_Dropdown tcgSetDropdown;
+    [SerializeField] TMPro.TMP_MultiDropdown tcgSetDropdown;
     [SerializeField] TMPro.TMP_Dropdown sortByDropdown;
     [SerializeField] Toggle sortDescendingToggle;
 
     private List<List<int>> rawSavedValues = new List<List<int>>();
     private CanvasGroup canvas;
-    private bool dropdownDataRequested;
 
     static public List<string> sortDropDownOptions = new List<string>()
     {
@@ -66,13 +65,13 @@ public class AdvancedSearchPanel : EventReceiverInstance
         applyFiltersButton.onClick.AddListener( ApplyFilters );
         cancelButton.onClick.AddListener( Cancel );
 
-        formatDropdown.onValueChanged.AddListener( SearchFiltersChanged );
-        typeDropdown.onValueChanged.AddListener( SearchFiltersChanged );
-        attributeDropdown.onValueChanged.AddListener( SearchFiltersChanged );
-        raceDropdown.onValueChanged.AddListener( SearchFiltersChanged );
-        archetypeDropdown.onValueChanged.AddListener( SearchFiltersChanged );
+        formatDropdown.onValuesChanged.AddListener( SearchFiltersChanged );
+        typeDropdown.onValuesChanged.AddListener( SearchFiltersChanged );
+        attributeDropdown.onValuesChanged.AddListener( SearchFiltersChanged );
+        raceDropdown.onValuesChanged.AddListener( SearchFiltersChanged );
+        archetypeDropdown.onValuesChanged.AddListener( SearchFiltersChanged );
         rarityDropdown.onValuesChanged.AddListener( SearchFiltersChanged );
-        tcgSetDropdown.onValueChanged.AddListener( SearchFiltersChanged );
+        tcgSetDropdown.onValuesChanged.AddListener( SearchFiltersChanged );
         sortByDropdown.onValueChanged.AddListener( SearchFiltersChanged );
         sortDescendingToggle.onValueChanged.AddListener( x => SearchFiltersChanged( 0 ) );
 
@@ -223,13 +222,13 @@ public class AdvancedSearchPanel : EventReceiverInstance
 
     void ClearFilters()
     {
-        formatDropdown.SetValueWithoutNotify( 0 );
-        typeDropdown.SetValueWithoutNotify( 0 );
-        attributeDropdown.SetValueWithoutNotify( 0 );
-        raceDropdown.SetValueWithoutNotify( 0 );
-        archetypeDropdown.SetValueWithoutNotify( 0 );
+        formatDropdown.SetValuesWithoutNotify( null );
+        typeDropdown.SetValuesWithoutNotify( null );
+        attributeDropdown.SetValuesWithoutNotify( null );
+        raceDropdown.SetValuesWithoutNotify( null );
+        archetypeDropdown.SetValuesWithoutNotify( null );
         rarityDropdown.SetValuesWithoutNotify( null );
-        tcgSetDropdown.SetValueWithoutNotify( 0 );
+        tcgSetDropdown.SetValuesWithoutNotify( null );
         sortByDropdown.SetValueWithoutNotify( 0 );
         sortDescendingToggle.SetIsOnWithoutNotify( false );
 
@@ -240,15 +239,15 @@ public class AdvancedSearchPanel : EventReceiverInstance
     {
         return new List<List<int>>()
         {
-            //formatDropdown.value,
-            //typeDropdown.value,
-            //attributeDropdown.value,
-            //raceDropdown.value,
-            //archetypeDropdown.value,
+            formatDropdown.values.ToList(),
+            typeDropdown.values.ToList(),
+            attributeDropdown.values.ToList(),
+            raceDropdown.values.ToList(),
+            archetypeDropdown.values.ToList(),
             rarityDropdown.values.ToList(),
-            //tcgSetDropdown.value,
-            //sortByDropdown.value,
-            //Convert.ToInt32( sortDescendingToggle.isOn )
+            tcgSetDropdown.values.ToList(),
+            new List<int>(){ sortByDropdown.value },
+            new List<int>(){ Convert.ToInt32( sortDescendingToggle.isOn ) }
         };
     }
 
@@ -261,18 +260,30 @@ public class AdvancedSearchPanel : EventReceiverInstance
         foreach( var search in Utility.GetEnumValues<SearchParam>() )
             searchParams[search] = new List<string>();
 
-        //if( formatDropdown.value != 0 ) searchParams += "&format=" + formatDropdown.options[formatDropdown.value].text.ToLower();
-        //if( typeDropdown.value != 0 ) searchPBarams += "&type=" + typeDropdown.options[typeDropdown.value].text;
-        //if( attributeDropdown.value != 0 ) searchParams += "&attribute=" + attributeDropdown.options[attributeDropdown.value].text;
-        //if( raceDropdown.value != 0 ) searchParams += "&race=" + raceDropdown.options[raceDropdown.value].text;
-        //if( archetypeDropdown.value != 0 ) searchParams += "&archetype=" + archetypeDropdown.options[archetypeDropdown.value].text;
-        //
+        foreach( var value in formatDropdown.values )
+            searchParams[SearchParam.Format].Add( formatDropdown.options[value].text );
+
+        foreach( var value in typeDropdown.values )
+            searchParams[SearchParam.Type].Add( typeDropdown.options[value].text );
+
+        foreach( var value in attributeDropdown.values )
+            searchParams[SearchParam.Attribute].Add( attributeDropdown.options[value].text );
+
+        foreach( var value in raceDropdown.values )
+            searchParams[SearchParam.Race].Add( raceDropdown.options[value].text );
+
+        foreach( var value in archetypeDropdown.values )
+            searchParams[SearchParam.Archetype].Add( archetypeDropdown.options[value].text );
+
         foreach( var value in rarityDropdown.values )
-            searchParams[SearchParam.Rarity]. Add( rarityDropdown.options[value].text );
-       //if( rarityDropdown.values.Count > 0 ) 
-       //if( tcgSetDropdown.value != 0 ) searchParams += "&cardset=" + tcgSetDropdown.options[tcgSetDropdown.value].text;
-       //if( sortByDropdown.value != 0 ) searchParams += "&sort=" + sortByDropdown.options[sortByDropdown.value].text;
-       //
+            searchParams[SearchParam.Rarity].Add( rarityDropdown.options[value].text );
+
+        foreach( var value in tcgSetDropdown.values )
+            searchParams[SearchParam.Cardset].Add( tcgSetDropdown.options[value].text );
+
+        if( sortByDropdown.value != 0 )
+            searchParams[SearchParam.Sort].Add( sortByDropdown.options[sortByDropdown.value].text );
+       
         EventSystem.Instance.TriggerEvent( new UpdateAdvancedSearch()
         {
             searchParams = searchParams,
@@ -288,15 +299,15 @@ public class AdvancedSearchPanel : EventReceiverInstance
         if( rawSavedValues != null )
         {
             var values = rawSavedValues.GetEnumerator();
-            //formatDropdown.value = values.Current;
-            //typeDropdown.value = values.MoveNextGet();
-            //attributeDropdown.value = values.MoveNextGet();
-            //raceDropdown.value = values.MoveNextGet();
-            //archetypeDropdown.value = values.MoveNextGet();
+            formatDropdown.values = values.MoveNextGet().AsReadOnly();
+            typeDropdown.values = values.MoveNextGet().AsReadOnly();
+            attributeDropdown.values = values.MoveNextGet().AsReadOnly();
+            raceDropdown.values = values.MoveNextGet().AsReadOnly();
+            archetypeDropdown.values = values.MoveNextGet().AsReadOnly();
             rarityDropdown.values = values.MoveNextGet().AsReadOnly();
-            //tcgSetDropdown.value = values.MoveNextGet();
-            //sortByDropdown.value = values.MoveNextGet();
-            //sortDescendingToggle.isOn = Convert.ToBoolean( values.MoveNextGet() );
+            tcgSetDropdown.values = values.MoveNextGet().AsReadOnly();
+            sortByDropdown.value = values.MoveNextGet()[0];
+            sortDescendingToggle.isOn = Convert.ToBoolean( values.MoveNextGet()[0] );
         }
         else
         {
@@ -328,25 +339,15 @@ public class AdvancedSearchPanel : EventReceiverInstance
         {
             canvas.ToggleVisibility();
 
-            if( canvas.IsVisible() && !dropdownDataRequested )
+            if( canvas.IsVisible() && archetypeDropdown.options.Count <= 1 )
             {
-                dropdownDataRequested = true;
+                var archetypeOptions = APICallHandler.Instance.archetypes.ConvertAll( x => x.archetype_name.Replace( "\n", string.Empty ) );
+                archetypeOptions.Sort();
+                archetypeDropdown.AddOptions( archetypeOptions );
 
-                StartCoroutine( APICallHandler.Instance.SendGetRequest( "https://db.ygoprodeck.com/api/v7/archetypes.php", true, archetypesJson =>
-                {
-                    List<Archetype> archetypes = JsonConvert.DeserializeObject<List<Archetype>>( archetypesJson );
-                    var options = archetypes.ConvertAll( x => x.archetype_name.Replace( "\n", string.Empty ) );
-                    options.Sort();
-                    archetypeDropdown.AddOptions( options );
-                } ) );
-
-                StartCoroutine( APICallHandler.Instance.SendGetRequest( "https://db.ygoprodeck.com/api/v7/cardsets.php", true, setTypesJson =>
-                {
-                    List<SetInfo> sets = JsonConvert.DeserializeObject<List<SetInfo>>( setTypesJson );
-                    var options = sets.ConvertAll( x => x.set_name.Replace( "\n", string.Empty ) );
-                    options.Sort();
-                    tcgSetDropdown.AddOptions( options );
-                } ) );
+                var setOptions = APICallHandler.Instance.sets.ConvertAll( x => x.set_name.Replace( "\n", string.Empty ) );
+                setOptions.Sort();
+                tcgSetDropdown.AddOptions( setOptions );
             }
         }
     }

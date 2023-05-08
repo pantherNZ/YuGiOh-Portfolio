@@ -375,9 +375,7 @@ public class SearchPageFull : SearchPageBase
             if( AdvancedSearchPanel.sortDropDownOptions[0] == found[0] )
             {
                 Debug.Assert( found[0] == "Name" );
-                // Base search will search by name
-                base.SortAndAddResults( results );
-                return;
+                results.Sort( ( x, y ) => string.Compare( x.name, y.name, StringComparison.Ordinal ) );
             }
             else if( AdvancedSearchPanel.sortDropDownOptions[1] == found[0] )
             {

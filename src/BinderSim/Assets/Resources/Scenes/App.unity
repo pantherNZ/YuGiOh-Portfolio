@@ -1097,7 +1097,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 36806452}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
+  m_Script: {fileID: 11500000, guid: 009ffb9b2c7e64e4e90be0f1869ca05f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -1131,16 +1131,15 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 36806455}
   m_Template: {fileID: 1461793639}
   m_CaptionText: {fileID: 1667436050}
+  m_DefaultCaptionText: Archetype
   m_CaptionImage: {fileID: 0}
   m_Placeholder: {fileID: 0}
   m_ItemText: {fileID: 1301893981}
   m_ItemImage: {fileID: 0}
-  m_Value: 0
+  m_Values: 
   m_Options:
-    m_Options:
-    - m_Text: Archetype
-      m_Image: {fileID: 0}
-  m_OnValueChanged:
+    m_Options: []
+  m_OnValuesChanged:
     m_PersistentCalls:
       m_Calls: []
   m_AlphaFadeSpeed: 0.15
@@ -5381,7 +5380,7 @@ MonoBehaviour:
   titleText: {fileID: 1254160528}
   minimiseMaximiseButton: {fileID: 21006182}
   clearCardButton: {fileID: 1786842875893435027}
-  dialog: {fileID: 0}
+  dialog: {fileID: 489449215}
   cardEntryPrefab: {fileID: 3211222330935089154, guid: 19c1813ed8691084482013115606536e, type: 3}
   dragCardGhostPrefab: {fileID: 3211222330935089154, guid: d56d59b3a05fb8f4ba1167627853bcf7, type: 3}
   searchListPanel: {fileID: 718165441}
@@ -7937,7 +7936,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 428297830}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
+  m_Script: {fileID: 11500000, guid: 009ffb9b2c7e64e4e90be0f1869ca05f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -7971,16 +7970,15 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 428297833}
   m_Template: {fileID: 49735245}
   m_CaptionText: {fileID: 1117204836}
+  m_DefaultCaptionText: Format
   m_CaptionImage: {fileID: 0}
   m_Placeholder: {fileID: 0}
   m_ItemText: {fileID: 1712661870}
   m_ItemImage: {fileID: 0}
-  m_Value: 0
+  m_Values: 
   m_Options:
-    m_Options:
-    - m_Text: Format
-      m_Image: {fileID: 0}
-  m_OnValueChanged:
+    m_Options: []
+  m_OnValuesChanged:
     m_PersistentCalls:
       m_Calls: []
   m_AlphaFadeSpeed: 0.15
@@ -9050,7 +9048,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 480898650}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
+  m_Script: {fileID: 11500000, guid: 009ffb9b2c7e64e4e90be0f1869ca05f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -9084,16 +9082,15 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 480898653}
   m_Template: {fileID: 1162457426}
   m_CaptionText: {fileID: 565436386}
+  m_DefaultCaptionText: Set
   m_CaptionImage: {fileID: 0}
   m_Placeholder: {fileID: 0}
   m_ItemText: {fileID: 1835518133}
   m_ItemImage: {fileID: 0}
-  m_Value: 0
+  m_Values: 
   m_Options:
-    m_Options:
-    - m_Text: TCG Set
-      m_Image: {fileID: 0}
-  m_OnValueChanged:
+    m_Options: []
+  m_OnValuesChanged:
     m_PersistentCalls:
       m_Calls: []
   m_AlphaFadeSpeed: 0.15
@@ -9989,7 +9986,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 521060439}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
+  m_Script: {fileID: 11500000, guid: 009ffb9b2c7e64e4e90be0f1869ca05f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -10023,16 +10020,15 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 521060442}
   m_Template: {fileID: 285749361}
   m_CaptionText: {fileID: 1074036931}
+  m_DefaultCaptionText: Attribute
   m_CaptionImage: {fileID: 0}
   m_Placeholder: {fileID: 0}
   m_ItemText: {fileID: 1536373517}
   m_ItemImage: {fileID: 0}
-  m_Value: 0
+  m_Values: 
   m_Options:
-    m_Options:
-    - m_Text: Attribute
-      m_Image: {fileID: 0}
-  m_OnValueChanged:
+    m_Options: []
+  m_OnValuesChanged:
     m_PersistentCalls:
       m_Calls: []
   m_AlphaFadeSpeed: 0.15
@@ -11089,7 +11085,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: TCG Set
+  m_text: Set
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8e62eb952ec5231478807ec1e4e8da75, type: 2}
   m_sharedMaterial: {fileID: 4938296399936542724, guid: 8e62eb952ec5231478807ec1e4e8da75, type: 2}
@@ -16887,7 +16883,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 851357785}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
+  m_Script: {fileID: 11500000, guid: 009ffb9b2c7e64e4e90be0f1869ca05f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -16921,16 +16917,15 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 851357788}
   m_Template: {fileID: 1841661662}
   m_CaptionText: {fileID: 1041017216}
+  m_DefaultCaptionText: Race
   m_CaptionImage: {fileID: 0}
   m_Placeholder: {fileID: 0}
   m_ItemText: {fileID: 1672351017}
   m_ItemImage: {fileID: 0}
-  m_Value: 0
+  m_Values: 
   m_Options:
-    m_Options:
-    - m_Text: Race
-      m_Image: {fileID: 0}
-  m_OnValueChanged:
+    m_Options: []
+  m_OnValuesChanged:
     m_PersistentCalls:
       m_Calls: []
   m_AlphaFadeSpeed: 0.15
@@ -20681,15 +20676,7 @@ MonoBehaviour:
   m_ItemImage: {fileID: 0}
   m_Value: 0
   m_Options:
-    m_Options:
-    - m_Text: Sort By
-      m_Image: {fileID: 0}
-    - m_Text: Name
-      m_Image: {fileID: 0}
-    - m_Text: Level
-      m_Image: {fileID: 0}
-    - m_Text: Release Date
-      m_Image: {fileID: 0}
+    m_Options: []
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -25720,7 +25707,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1423793030}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
+  m_Script: {fileID: 11500000, guid: 009ffb9b2c7e64e4e90be0f1869ca05f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -25754,16 +25741,15 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1423793033}
   m_Template: {fileID: 1165362359}
   m_CaptionText: {fileID: 1719188543}
+  m_DefaultCaptionText: Type
   m_CaptionImage: {fileID: 0}
   m_Placeholder: {fileID: 0}
   m_ItemText: {fileID: 731567466}
   m_ItemImage: {fileID: 0}
-  m_Value: 0
+  m_Values: 
   m_Options:
-    m_Options:
-    - m_Text: Type
-      m_Image: {fileID: 0}
-  m_OnValueChanged:
+    m_Options: []
+  m_OnValuesChanged:
     m_PersistentCalls:
       m_Calls: []
   m_AlphaFadeSpeed: 0.15
