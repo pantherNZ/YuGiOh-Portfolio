@@ -298,7 +298,9 @@ public class AdvancedSearchPanel : EventReceiverInstance
     {
         if( rawSavedValues != null )
         {
-            var values = rawSavedValues.GetEnumerator();
+            // https://codeblog.jonskeet.uk/2010/07/27/iterate-damn-you/
+            // This is trash, why c# why
+            IEnumerator<List<int>> values = rawSavedValues.GetEnumerator();
             formatDropdown.values = values.MoveNextGet().AsReadOnly();
             typeDropdown.values = values.MoveNextGet().AsReadOnly();
             attributeDropdown.values = values.MoveNextGet().AsReadOnly();
