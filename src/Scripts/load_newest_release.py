@@ -137,10 +137,11 @@ def load_cards(sets:dict, existing_cards:list):
                             is_rarity_upgrade = True
 
                 colour = None
-                if x['race'] != 'Dragon':
-                    colour = "yellow"
-                elif not is_rarity_upgrade:
-                    colour = "purple"
+                if not is_rarity_upgrade:
+                    if x['race'] != 'Dragon':
+                        colour = "yellow"
+                    else:
+                        colour = "purple"
                 added[name] = (rarity, new_card_name, colour)
 
     return ([x[1] for x in added.values()], {x[1]: x[2] for x in added.values() if x[2] != None})
