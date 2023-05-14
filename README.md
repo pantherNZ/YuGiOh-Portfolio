@@ -19,3 +19,10 @@ Trello Project Tracker:
 https://trello.com/b/3CcGJyF1/yugioh-binder
 
 90% done, not sure how many more features I'll add other than bug fixing, polishing and general improvements etc.
+
+## Gallery
+![Img](https://github.com/pantherNZ/YuGiOh-Portfolio/blob/main/Screenshots/Binder.png)
+![Img](https://github.com/pantherNZ/YuGiOh-Portfolio/blob/main/Screenshots/Binder2.png)
+![Img](https://github.com/pantherNZ/YuGiOh-Portfolio/blob/main/Screenshots/Inventory.png)
+![Img](https://github.com/pantherNZ/YuGiOh-Portfolio/blob/main/Screenshots/Inventory2.png)
+![Img](https://github.com/pantherNZ/YuGiOh-Portfolio/blob/main/Screenshots/Search.png)
