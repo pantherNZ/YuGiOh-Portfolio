@@ -317,12 +317,15 @@ public class SearchPageFull : SearchPageBase
         infoMessageText.gameObject.SetActive( false );
     }
 
-    protected override bool FilterCard( string search, Datum card )
+    protected override bool FilterCard( string search, Datum card, bool emptySearchIsValid )
     {
-        if( !base.FilterCard( search, card ) )
+        bool hasAdvancedSearchData = advancedSearchData != null &&
+            advancedSearchData.searchParams.Any( x => !x.Value.IsEmpty() );
+
+        if( !base.FilterCard( search, card, hasAdvancedSearchData ) )
             return false;
 
-        if( advancedSearchData == null )
+        if( !hasAdvancedSearchData )
             return true;
 
        if( advancedSearchData.searchParams.TryGetValue( SearchParam.Format, out var found ) )

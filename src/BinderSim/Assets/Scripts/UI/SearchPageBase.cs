@@ -113,26 +113,17 @@ public abstract class SearchPageBase : EventReceiverInstance
 
         if( filter == InventoryData.Options.SearchOnline )
         {
-            if( search.Length > 0 )
-            {
-                List<Datum> searchResults = new List<Datum>();
+            List<Datum> searchResults = new List<Datum>();
 
-                foreach( var card in APICallHandler.Instance.cardsDatabase.data )
+            foreach( var card in APICallHandler.Instance.cardsDatabase.data )
+            {
+                if( FilterCard( search, card, false ) )
                 {
-                    if( FilterCard( search, card ) )
-                    {
-                        searchResults.Add( card );
-                    }
+                    searchResults.Add( card );
                 }
+            }
 
-                SortAndAddResults( CreateCardsFromSearchResult( searchResults ) );
-            }
-            else
-            {
-                if( cardCountText != null )
-                    cardCountText.gameObject.SetActive( false );
-                AddCard( new CardDataRuntime() { name = "No results found" } );
-            }
+            SortAndAddResults( CreateCardsFromSearchResult( searchResults ) );
             return;
         }
 
@@ -165,7 +156,7 @@ public abstract class SearchPageBase : EventReceiverInstance
                 ? ( card.cardAPIData.misc_info[0].beta_name ?? string.Empty )
                 : string.Empty;
 
-            if( !FilterCard( search, card.cardAPIData ) )
+            if( !FilterCard( search, card.cardAPIData, false ) )
                 continue;
 
             count++;
@@ -193,8 +184,11 @@ public abstract class SearchPageBase : EventReceiverInstance
             AddCard( new CardDataRuntime() { name = "No cards found" } );
     }
 
-    protected virtual bool FilterCard( string search, Datum card )
+    protected virtual bool FilterCard( string search, Datum card, bool emptySearchIsValid )
     {
+        if( search.Length == 0 )
+            return emptySearchIsValid;
+
         var betaName = card.misc_info != null && card.misc_info.Count > 0
             ? ( card.misc_info[0].beta_name ?? string.Empty )
             : string.Empty;

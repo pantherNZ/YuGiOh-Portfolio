@@ -46,6 +46,7 @@ public class AdvancedSearchPanel : EventReceiverInstance
     [SerializeField] Toggle sortDescendingToggle;
 
     private List<List<int>> rawSavedValues = new List<List<int>>();
+    private List<List<int>> defaultSavedValues = new List<List<int>>();
     private CanvasGroup canvas;
 
     static public List<string> sortDropDownOptions = new List<string>()
@@ -65,15 +66,15 @@ public class AdvancedSearchPanel : EventReceiverInstance
         applyFiltersButton.onClick.AddListener( ApplyFilters );
         cancelButton.onClick.AddListener( Cancel );
 
-        formatDropdown.onValuesChanged.AddListener( SearchFiltersChanged );
-        typeDropdown.onValuesChanged.AddListener( SearchFiltersChanged );
-        attributeDropdown.onValuesChanged.AddListener( SearchFiltersChanged );
-        raceDropdown.onValuesChanged.AddListener( SearchFiltersChanged );
-        archetypeDropdown.onValuesChanged.AddListener( SearchFiltersChanged );
-        rarityDropdown.onValuesChanged.AddListener( SearchFiltersChanged );
-        tcgSetDropdown.onValuesChanged.AddListener( SearchFiltersChanged );
-        sortByDropdown.onValueChanged.AddListener( SearchFiltersChanged );
-        sortDescendingToggle.onValueChanged.AddListener( x => SearchFiltersChanged( 0 ) );
+        formatDropdown.onValuesChanged.AddListener( _ => SearchFiltersChanged() );
+        typeDropdown.onValuesChanged.AddListener( _ => SearchFiltersChanged() );
+        attributeDropdown.onValuesChanged.AddListener( _ => SearchFiltersChanged() );
+        raceDropdown.onValuesChanged.AddListener( _ => SearchFiltersChanged() );
+        archetypeDropdown.onValuesChanged.AddListener( _ => SearchFiltersChanged() );
+        rarityDropdown.onValuesChanged.AddListener( _ => SearchFiltersChanged() );
+        tcgSetDropdown.onValuesChanged.AddListener( _ => SearchFiltersChanged() );
+        sortByDropdown.onValueChanged.AddListener( _ => SearchFiltersChanged() );
+        sortDescendingToggle.onValueChanged.AddListener( _ => SearchFiltersChanged() );
 
         formatDropdown.AddOptions( new List<string>()
         {
@@ -214,8 +215,9 @@ public class AdvancedSearchPanel : EventReceiverInstance
 
         sortByDropdown.AddOptions( sortDropDownOptions );
 
-        ClearFilters();
+        defaultSavedValues = GenerateRawSearchParams();
         rawSavedValues = GenerateRawSearchParams();
+        ClearFilters();
 
         canvas.SetVisibility( false );
     }
@@ -231,8 +233,7 @@ public class AdvancedSearchPanel : EventReceiverInstance
         tcgSetDropdown.SetValuesWithoutNotify( null );
         sortByDropdown.SetValueWithoutNotify( 0 );
         sortDescendingToggle.SetIsOnWithoutNotify( false );
-
-        SearchFiltersChanged( 0 );
+        SearchFiltersChanged();
     }
 
     List<List<int>> GenerateRawSearchParams()
@@ -290,7 +291,7 @@ public class AdvancedSearchPanel : EventReceiverInstance
             searchDescending = sortDescendingToggle.isOn,
         } );
 
-        SearchFiltersChanged( 0 );
+        SearchFiltersChanged();
         canvas.ToggleVisibility();
     }
 
@@ -301,15 +302,15 @@ public class AdvancedSearchPanel : EventReceiverInstance
             // https://codeblog.jonskeet.uk/2010/07/27/iterate-damn-you/
             // This is trash, why c# why
             IEnumerator<List<int>> values = rawSavedValues.GetEnumerator();
-            formatDropdown.values = values.MoveNextGet().AsReadOnly();
-            typeDropdown.values = values.MoveNextGet().AsReadOnly();
-            attributeDropdown.values = values.MoveNextGet().AsReadOnly();
-            raceDropdown.values = values.MoveNextGet().AsReadOnly();
-            archetypeDropdown.values = values.MoveNextGet().AsReadOnly();
-            rarityDropdown.values = values.MoveNextGet().AsReadOnly();
-            tcgSetDropdown.values = values.MoveNextGet().AsReadOnly();
-            sortByDropdown.value = values.MoveNextGet()[0];
-            sortDescendingToggle.isOn = Convert.ToBoolean( values.MoveNextGet()[0] );
+            formatDropdown.SetValuesWithoutNotify( values.MoveNextGet().AsReadOnly() );
+            typeDropdown.SetValuesWithoutNotify( values.MoveNextGet().AsReadOnly() );
+            attributeDropdown.SetValuesWithoutNotify( values.MoveNextGet().AsReadOnly() );
+            raceDropdown.SetValuesWithoutNotify( values.MoveNextGet().AsReadOnly() );
+            archetypeDropdown.SetValuesWithoutNotify( values.MoveNextGet().AsReadOnly() );
+            rarityDropdown.SetValuesWithoutNotify( values.MoveNextGet().AsReadOnly() );
+            tcgSetDropdown.SetValuesWithoutNotify( values.MoveNextGet().AsReadOnly() );
+            sortByDropdown.SetValueWithoutNotify( values.MoveNextGet()[0] );
+            sortDescendingToggle.SetIsOnWithoutNotify( Convert.ToBoolean( values.MoveNextGet()[0] ) );
         }
         else
         {
@@ -319,16 +320,18 @@ public class AdvancedSearchPanel : EventReceiverInstance
         canvas.ToggleVisibility();
     }
 
-    void SearchFiltersChanged( List<int> _ )
+    bool AreEqual( List<List<int>> a, List<List<int>> b )
     {
-
+        var addedObjects = a.Where( newObject => !b.Any( oldObject => oldObject.SequenceEqual( newObject ) ) ).ToList();
+        var removedObjects = b.Where( oldObject => !a.Any( newObject => newObject.SequenceEqual( oldObject ) ) ).ToList();
+        return addedObjects.IsEmpty() && removedObjects.IsEmpty();
     }
 
-    void SearchFiltersChanged( int _ )
+    void SearchFiltersChanged()
     {
         var newParams = GenerateRawSearchParams();
-        clearFiltersButton.interactable = newParams.Any( x => !x.IsEmpty() );
-        applyFiltersButton.interactable = !newParams.SequenceEqual( rawSavedValues );
+        clearFiltersButton.interactable = !AreEqual( newParams, defaultSavedValues );
+        applyFiltersButton.interactable = !AreEqual( newParams, rawSavedValues );
     }
 
     public override void OnEventReceived( IBaseEvent e )
