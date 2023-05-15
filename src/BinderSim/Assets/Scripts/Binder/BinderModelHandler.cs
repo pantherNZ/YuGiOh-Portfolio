@@ -135,8 +135,8 @@ public class BinderModelHandler : EventReceiverInstance
         book.SetMaterial( EndlessBook.MaterialEnum.BookPageBack, unloadedPageMaterial );
 
         // set the book closed
-        OnBookStateChanged( EndlessBook.StateEnum.ClosedFront, EndlessBook.StateEnum.ClosedFront, -1 );
-        book.SetPageNumber( 1 );
+        //OnBookStateChanged( EndlessBook.StateEnum.ClosedFront, EndlessBook.StateEnum.ClosedFront, -1 );
+        //book.SetPageNumber( 1 );
 
     }
     private void Repopulate()
@@ -210,7 +210,7 @@ public class BinderModelHandler : EventReceiverInstance
 
     private void Hide()
     {
-        //binderScene.SetActive( false );
+        binderScene.SetActive( false );
     }
 
     private void Update()
