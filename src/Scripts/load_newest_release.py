@@ -167,9 +167,3 @@ if __name__ == '__main__':
     import_to_trello.archive_old_cards(wants_list)
 
     import_to_trello.generate_trello_cards(wants_list, new_cards, colours)
-
-    #with open(LAST_DATE_FILE, 'w') as date_file:
-    #    date_file.write(current_date)
-
-    #with open(RESULTS_FILE.format(current_date.replace('/','-')), 'w') as result_file:
-    #    result_file.writelines(new_cards)
