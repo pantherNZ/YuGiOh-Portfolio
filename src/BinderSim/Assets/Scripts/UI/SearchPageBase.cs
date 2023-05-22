@@ -156,7 +156,7 @@ public abstract class SearchPageBase : EventReceiverInstance
                 ? ( card.cardAPIData.misc_info[0].beta_name ?? string.Empty )
                 : string.Empty;
 
-            if( !FilterCard( search, card.cardAPIData, false ) )
+            if( !FilterCard( search, card.cardAPIData, true ) )
                 continue;
 
             count++;

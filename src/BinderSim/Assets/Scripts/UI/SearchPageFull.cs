@@ -322,7 +322,7 @@ public class SearchPageFull : SearchPageBase
         bool hasAdvancedSearchData = advancedSearchData != null &&
             advancedSearchData.searchParams.Any( x => !x.Value.IsEmpty() );
 
-        if( !base.FilterCard( search, card, hasAdvancedSearchData ) )
+        if( !base.FilterCard( search, card, emptySearchIsValid || hasAdvancedSearchData ) )
             return false;
 
         if( !hasAdvancedSearchData )
