@@ -23,6 +23,8 @@ public class DebugScreen : MonoBehaviour
 #if !UNITY_EDITOR
         root.Destroy();
 #endif
+
+        gameObject.SetActive( false );
     }
 
     public static void AddDebugEntry( Func<string> setFunc )

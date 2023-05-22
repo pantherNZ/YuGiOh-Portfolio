@@ -38,6 +38,9 @@ public class CardPage : EventReceiverInstance
     private Image clearCardAreaImage;
     private Color clearCardAreaImageDefaultColour;
 
+    private int shaderReflectionAngleHash;
+    private float shaderReflexVal;
+
     private bool pageTurning;
 
     // Drag data
@@ -67,6 +70,8 @@ public class CardPage : EventReceiverInstance
             pageTurning = false;
             UpdateButtons();
         };
+
+        shaderReflectionAngleHash = Shader.PropertyToID( "_ReflectionAngle" );
 
         DebugScreen.AddDebugEntry( () => String.Format( "pageTurning: {0}", pageTurning ) );
         DebugScreen.AddDebugEntry( () => String.Format( "currentPage: {0}", currentPage ) );
@@ -517,6 +522,26 @@ public class CardPage : EventReceiverInstance
             ( dragging.transform as RectTransform ).anchoredPosition = Utility.GetMouseOrTouchPos() + dragOffset;
             if( Utility.IsMouseUpOrTouchEnd() )
                 StopDragging();
+        }
+
+        shaderReflexVal += Time.deltaTime;
+
+        if( currentPage > 0 && currentPage < currentbinder.data.pageCount )
+            UpdateShaderParams( currentPage - 1 );
+
+        if( currentPage >= 0 && currentPage < currentbinder.data.pageCount - 1 )
+            UpdateShaderParams( currentPage );
+    }
+
+    private void UpdateShaderParams( int page )
+    {
+        var grid = GetGrid( page );
+
+        foreach( var (pos, _) in Utility.Enumerate( currentbinder.data.cardList[page] ) )
+        {
+            var child = grid.transform.GetChild( pos );
+            var imageComponent = child.GetComponent<Image>();
+            imageComponent.material.SetFloat( shaderReflectionAngleHash, shaderReflexVal );
         }
     }
 

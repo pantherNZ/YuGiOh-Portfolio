@@ -12,6 +12,7 @@ Shader "Unlit/CardShader"
         _HoloScale( "Holo Scale", Float) = 1.0
         _HoloBrightness( "Holo Brightness", Float) = 1.0
         _HoloNoiseScale( "Holo Noise Scale", Float) = 1.0
+        _ReflectionAngle( "Reflection Angle", Float) = 0.0
     }
 
     SubShader
@@ -53,6 +54,7 @@ Shader "Unlit/CardShader"
             float _HoloScale;
             float _HoloBrightness;
             float _HoloNoiseScale;
+            float _ReflectionAngle;
 
             v2f vert(appdata v)
             {
@@ -189,7 +191,7 @@ Shader "Unlit/CardShader"
                         rainbow_uv = i.uv.x;
                     }
 
-                    rainbow_uv = frac( ( rainbow_uv * _HoloScale ) / 2.0 + _HoloOffset );
+                    rainbow_uv = frac( ( rainbow_uv * _HoloScale ) / 2.0 + _HoloOffset + sin(_ReflectionAngle));
                     float4 rainbow = float4( spectral_zucconi6( rainbow_uv ), 1.0 );
                     float4 mask = tex2D( _CardMaskTex, i.uv );
                     //rainbow *= mask;

@@ -182,10 +182,17 @@ public class BinderModelHandler : EventReceiverInstance
             rightGridCamera.gameObject.SetActive( true );
         }
 
-        if( newState == EndlessBook.StateEnum.OpenMiddle )
+        if( newState == EndlessBook.StateEnum.OpenMiddle && book.CurrentState == EndlessBook.StateEnum.OpenMiddle )
+        {
             TurnToPage( newPage );
+        }
         else
+        {
             SetState( newState );
+        }
+
+        if( book.CurrentState == EndlessBook.StateEnum.ClosedFront && book.CurrentPageNumber == 0 )
+            book.SetPageNumber( 1 );
     }
 
     private void Reinitialise()
@@ -307,8 +314,7 @@ public class BinderModelHandler : EventReceiverInstance
             Debug.Assert( colliders.Contains( hit.collider ) );
 
             // determine which page was hit
-            leftPage = book.CurrentState == EndlessBook.StateEnum.OpenBack ||
-                book.CurrentState == EndlessBook.StateEnum.ClosedBack ||
+            leftPage = book.CurrentState == EndlessBook.StateEnum.ClosedBack ||
                 ( colliders.Length > 1 && hit.collider == colliders[0] );
             var pageBound = hit.collider == colliders[0] ? colliders[0] : colliders[1];
 
@@ -558,7 +564,7 @@ public class BinderModelHandler : EventReceiverInstance
             return new Pair<EndlessBook.StateEnum, int>( EndlessBook.StateEnum.OpenFront, 0 );
 
         if( page == currentBinder.data.pageCount )
-            return new Pair<EndlessBook.StateEnum, int>( EndlessBook.StateEnum.OpenBack, 0 );
+            return new Pair<EndlessBook.StateEnum, int>( EndlessBook.StateEnum.OpenBack, page - 2 );
 
         return new Pair<EndlessBook.StateEnum, int>( EndlessBook.StateEnum.OpenMiddle, page - 1 );
     }

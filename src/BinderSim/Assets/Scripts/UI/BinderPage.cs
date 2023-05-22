@@ -344,10 +344,10 @@ public class BinderPage : EventReceiverInstance, ISavableComponent
         searchCompleteCallback = onSearchCompleteCallback;
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-        //UploadFile( gameObject.name, "OnFileUploaded", ".txt", false );
-        BrowserTextUpload( ".txt", gameObject.name, "OnFileUploadedWebGL" );
+        //UploadFile( gameObject.name, "OnFileUploaded", ".csv", false );
+        BrowserTextUpload( ".csv", gameObject.name, "OnFileUploadedWebGL" );
 #else
-        var extensions = new[] { new ExtensionFilter( "Text Files", "txt" ) };
+        var extensions = new[] { new ExtensionFilter( "CSV Files", "csv" ) };
         var paths = StandaloneFileBrowser.OpenFilePanel( "Open File", "", extensions, false );
 
         if( paths.Length > 0 && paths[0].Length > 0 )
