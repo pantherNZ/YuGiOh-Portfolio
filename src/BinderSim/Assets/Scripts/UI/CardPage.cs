@@ -541,7 +541,7 @@ public class CardPage : EventReceiverInstance
         {
             var child = grid.transform.GetChild( pos );
             var imageComponent = child.GetComponent<Image>();
-            imageComponent.material.SetFloat( shaderReflectionAngleHash, shaderReflexVal );
+            imageComponent.material.SetFloat( shaderReflectionAngleHash, Mathf.Sin( shaderReflexVal ) - 1.0f );
         }
     }
 

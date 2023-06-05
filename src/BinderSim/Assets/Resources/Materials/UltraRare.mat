@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: UltraRare
-  m_Shader: {fileID: 4800000, guid: dea584c6ff169e3468140e16d7c73f4c, type: 3}
+  m_Shader: {fileID: 4800000, guid: a72af053e36f14f448c742661157612b, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -69,10 +69,10 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _HoloBrightness: 0.8
+    - _HoloBrightness: 1.2
     - _HoloNoiseScale: 0
     - _HoloOffset: 0
-    - _HoloScale: 2.9
+    - _HoloScale: 1.5
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -80,6 +80,7 @@ Material:
     - _Quality: 0
     - _Rarity: 2
     - _Rariy: 0
+    - _ReflectionAngle: 427.29977
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
