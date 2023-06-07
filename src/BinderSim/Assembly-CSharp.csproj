@@ -86,6 +86,7 @@
     <Compile Include="Assets\Scripts\Binder\Constants.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\IStandaloneFileBrowser.cs" />
     <Compile Include="Assets\EndlessBook\Demos\Demo 02\Scripts\PageView_Front.cs" />
+    <Compile Include="Assets\Scripts\Shaders\TestShaderParams.cs" />
     <Compile Include="Assets\Scripts\Binder\BinderModelHandler.cs" />
     <Compile Include="Assets\Scripts\UI\CardPage.cs" />
     <Compile Include="Assets\Scripts\UI\SearchListEntry.cs" />
@@ -105,11 +106,11 @@
     <Compile Include="Assets\Scripts\Binder\APICallHandler.cs" />
     <Compile Include="Assets\Scripts\Misc\RequestJsonFormat.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserLinux.cs" />
-    <Compile Include="Assets\Scripts\Shaders\TestShaderParams.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\Scripts\Shaders\CardGhostRare.shader" />
     <None Include="Assets\EndlessBook\changelog.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
