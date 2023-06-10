@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: UltraRare
+  m_Name: SuperRare
   m_Shader: {fileID: 4800000, guid: a72af053e36f14f448c742661157612b, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -28,7 +28,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _CardMaskTitle:
-        m_Texture: {fileID: 2800000, guid: 651c85b1ef78c784cb017324997b6eb6, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -73,10 +73,10 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _HoloBrightness: 0.8
-    - _HoloNoiseScale: 0
+    - _HoloBrightness: 0.5
+    - _HoloNoiseScale: 1
     - _HoloOffset: 0
-    - _HoloScale: 1.5
+    - _HoloScale: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -88,7 +88,7 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _TextGreyThreshold: 0.8
+    - _TextGreyThreshold: 0
     - _UVSec: 0
     - _ViewOffset: 0
     - _ViewOffsetX: 1
@@ -97,5 +97,5 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _TextColour: {r: 1, g: 0.7406687, b: 0, a: 1}
+    - _TextColour: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

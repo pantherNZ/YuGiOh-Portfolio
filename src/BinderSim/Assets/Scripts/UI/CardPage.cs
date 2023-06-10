@@ -524,7 +524,7 @@ public class CardPage : EventReceiverInstance
                 StopDragging();
         }
 
-        shaderReflexVal += Time.deltaTime;
+        shaderReflexVal += Time.deltaTime / 20.0f;
 
         if( currentPage > 0 && currentPage < currentbinder.data.pageCount )
             UpdateShaderParams( currentPage - 1 );

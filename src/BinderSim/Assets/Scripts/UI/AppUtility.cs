@@ -27,14 +27,14 @@ public static class AppUtility
 
         switch( card.GetRarityName() )
         {
-            case "Super Rare":              return Constants.Instance.SecretRareMaterial; // TODO
-            case "Rare":                    return Constants.Instance.BaseCardMaterial; // TODO
+            case "Super Rare":              return Constants.Instance.SuperRareMaterial;
+            case "Rare":                    return Constants.Instance.BaseCardMaterial;
             case "Secret Rare":             return Constants.Instance.SecretRareMaterial;
-            case "Prismatic Secret Rare":   return Constants.Instance.SecretRareMaterial; // TODO
+            case "Prismatic Secret Rare":   return Constants.Instance.PrimasticRareMaterial;
             case "Ultra Rare":              return Constants.Instance.UltraRareMaterial;
             case "Ultimate Rare":           return Constants.Instance.UltraRareMaterial; // TODO
-            case "Ghost Rare":              return Constants.Instance.GreyscaleMaterial; // TODO
-            case "Starlight Rare":          return Constants.Instance.SecretRareMaterial; // TODO
+            case "Ghost Rare":              return Constants.Instance.GhostRareMaterial;
+            case "Starlight Rare":          return Constants.Instance.StarlightRareMaterial;
             case "Common":
             default:                        return Constants.Instance.BaseCardMaterial;
         }

@@ -23,6 +23,10 @@ public class Constants : MonoBehaviour
     public Material BaseCardMaterial;
     public Material SecretRareMaterial;
     public Material UltraRareMaterial;
+    public Material GhostRareMaterial;
+    public Material SuperRareMaterial;
+    public Material PrimasticRareMaterial;
+    public Material StarlightRareMaterial;
 
     [SerializeField] TextAsset storedCardsDb;
     [HideInInspector] public string storedCardsData;
