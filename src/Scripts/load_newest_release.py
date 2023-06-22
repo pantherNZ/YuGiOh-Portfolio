@@ -72,7 +72,7 @@ def load_sets():
     return sets
     
 
-def load_cards(sets:dict, existing_cards:list):
+def load_cards(sets:dict, existing_cards:list, card_exclusions:set):
     #last_date = datetime(2000, 1, 1)
     results = []
     
@@ -119,6 +119,9 @@ def load_cards(sets:dict, existing_cards:list):
 
                 if new_card_name in existing_cards_set:
                     continue
+
+                if new_card_name in card_exclusions:
+                    continue
                 
                 name = new_card_name[:set_start]
                 if name in added:
@@ -160,8 +163,11 @@ if __name__ == '__main__':
 
     all_sets = load_sets()
 
+    exclusions_id = import_to_trello.get_list(board_id, 'Exclusions')
+    card_exclusions = set(import_to_trello.get_cards(exclusions_id))
+
     existing_cards = import_to_trello.get_cards(current_list)
-    (new_cards, colours) = load_cards(all_sets, existing_cards)
+    (new_cards, colours) = load_cards(all_sets, existing_cards, card_exclusions)
     new_cards.sort(key=lambda x: sort_results(x, colours))
 
     import_to_trello.archive_old_cards(wants_list)
