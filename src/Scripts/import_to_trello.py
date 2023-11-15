@@ -2,20 +2,14 @@ import requests, json
 import TrelloKey
 from ratelimiter import RateLimiter
 from pathlib import Path
+from rarities_data import rarities_short_names_map
 
-FILE = 'all.csv'
 
-filename = Path(__file__).with_name(FILE)
-is_csv = FILE.endswith('.csv')
-
-colour_map = {
-    "green":"60cb4b49c8246138305d2b30",
-    "blue":"60cb4b49df8e565d55e26598",
-    "orange":"60cb4b49c8246138305d2b34",
-    "purple":"60cb4b49c8246138305d2b3a",
-    "red":"60cb4b49c8246138305d2b38",
-    "yellow":"60cb4b49c8246138305d2b32",
-}
+colour_data_file = 'labels_data.json'
+colour_data_filename = Path(__file__).with_name(colour_data_file)
+with open(colour_data_filename, 'r') as file:
+    data = json.load(file)
+    colour_map = {x['color']: x['id'] for x in data}
 
 @RateLimiter(max_calls=100, period=10)
 def trello_request(request_type:str, command:str, headers=dict(), params=dict()):
@@ -68,7 +62,17 @@ def archive_old_cards(list_id:str):
     if response.status_code == 200:
         print('SUCCESS Archiving cards')
     else:
-        print(f'[ERROR] FAILED Archiving cards: {response.reason}')
+        print(f'[ERROR] FAILED Archiving cards: {response.reason}:{response.text}')
+
+
+# output card labels
+def get_board_label_data(board_id:str):
+    print(f'Finding label data with board name: {board_id}')
+    response = trello_request('GET', f'https://api.trello.com/1/boards/{board_id}/labels')
+    data = json.loads(response.text)
+    print(f'SUCCESS board label data found and saved to {colour_data_file}')
+    with open(colour_data_filename, 'w') as file:
+        json.dump(data, file, indent=4)
 
 
 def load_cards_txt(data: list, allow_repeats:bool):
@@ -114,7 +118,7 @@ def load_cards_csv(data: list, allow_repeats:bool):
         card_data = card.split(',')
 
         if len(card_data) < 8:
-            print(f'Failed to load info for card on line {idx}: "f{card}"')
+            print(f'Failed to load info for card on line {idx}: "{card}"')
             continue
 
         num_columns = len(card_data)
@@ -122,7 +126,13 @@ def load_cards_csv(data: list, allow_repeats:bool):
         set_name = card_data[num_columns-12].strip()
         if set_name.find('-') != -1:
             set_name = set_name[set_name.find('-')]
+
         rarity = card_data[num_columns-9]
+        if rarity not in rarities_short_names_map:
+            print(f'Failed to find long name for card rarity on line {idx}: "{card}", rarity: {rarity}')
+        else:
+            rarity = rarities_short_names_map[rarity]
+     
         card_name = f'{name} ({set_name} - {rarity})'
         
         if allow_repeats:
@@ -148,7 +158,7 @@ def generate_next_trello_card(list_id:str, card_name:str, idx:int, total:int):
     
     if response.status_code != 200:
         request += '?' + '&'.join([f'{x}={y}' for (x,y) in params.items()])
-        print(f'[ERROR] FAILED adding card with name: {card_name} because: {response.reason}\nRequest: {request}')
+        print(f'[ERROR] FAILED adding card with name: {card_name} because: {response.reason}:{response.text}\nRequest: {request}')
         return None
 
     print(f'Adding card: {card_name} ({idx}/{total})')
@@ -192,10 +202,13 @@ def generate_trello_cards(list_id:str, card_names:list, colours:dict = {}):
 if __name__ == '__main__':
 
     board_id = get_board('Yugioh')
-
     list_id = get_list(board_id, 'Current')
 
     archive_old_cards(list_id)
+
+    FILE = 'all.csv'
+    is_csv = FILE.endswith('.csv')
+    filename = Path(__file__).with_name(FILE)
 
     with open(filename, 'r') as file:
         next(file)

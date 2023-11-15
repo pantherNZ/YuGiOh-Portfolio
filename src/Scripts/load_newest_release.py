@@ -1,52 +1,13 @@
 from asyncio.windows_events import NULL
-import requests, os, json, import_to_trello
+import requests, json, import_to_trello
 from urllib.parse import urlencode
 from datetime import datetime
 from ratelimiter import RateLimiter
+from rarities_data import *
 
 BASE_URL = 'https://db.ygoprodeck.com/api/v7/cardinfo.php'
 LAST_DATE_FILE = 'LastQuery.txt'
 RESULTS_FILE = 'Results_{}.txt'
-
-rarities_query = ["Ultra Rare",
-"Ultra Parallel Rare",
-"Secret Rare",
-"Extra Secret Rare",
-"Gold Secret Rare",
-"Prismatic Secret Rare",
-"Platinum Secret Rare",
-"Ultimate Rare",
-"Gold Rare",
-"Premium Gold Rare",
-"Collector's Rare",
-"Ghost/Gold Rare",
-"Starlight Rare",
-"Ghost Rare",
-"10000 Secret Rare"]
-
-rarities_all = [
-"Common",
-"Rare",
-"Super Rare",
-"Ultra Rare",
-"Ultra Parallel Rare",
-"Duel Terminal Ultra Parallel Rare",
-"Starfoil Rare",
-"Mosaic Rare",
-"Secret Rare",
-"Extra Secret Rare",
-"Gold Secret Rare",
-"Prismatic Secret Rare",
-"Platinum Secret Rare",
-"Ultimate Rare",
-"Gold Rare",
-"Premium Gold Rare",
-"Collectors Rare",
-"Collector's Rare",
-"Ghost/Gold Rare",
-"Starlight Rare",
-"Ghost Rare",
-"10000 Secret Rare"]
 
 current_date = datetime.today().strftime('%m/%d/%Y')
 
@@ -72,7 +33,7 @@ def load_sets():
     return sets
     
 
-def load_cards(sets:dict, existing_cards:list, card_exclusions:set):
+def load_cards(sets:dict, existing_cards:list, card_exclusions:set, previously_fetched_cards:set):
     #last_date = datetime(2000, 1, 1)
     results = []
     
@@ -83,6 +44,7 @@ def load_cards(sets:dict, existing_cards:list, card_exclusions:set):
     existing_cards_set = set(existing_cards)
     existing_cards_no_set = [x[:x.rfind(' (')] for x in existing_cards]
     existing_cards_set_no_set = set(existing_cards_no_set)
+    previously_fetched_cards_no_set = set([x[:x.rfind(' (')] for x in previously_fetched_cards])
     added = {}
 
     for rarity in rarities_query:
@@ -143,6 +105,8 @@ def load_cards(sets:dict, existing_cards:list, card_exclusions:set):
                 if not is_rarity_upgrade:
                     if x['race'] != 'Dragon':
                         colour = "yellow"
+                    elif name not in previously_fetched_cards_no_set:
+                        colour = "blue"
                     else:
                         colour = "purple"
                 added[name] = (rarity, new_card_name, colour)
@@ -165,9 +129,10 @@ if __name__ == '__main__':
 
     exclusions_id = import_to_trello.get_list(board_id, 'Exclusions')
     card_exclusions = set(import_to_trello.get_cards(exclusions_id))
+    previously_fetched_cards = set(import_to_trello.get_cards(wants_list))
 
     existing_cards = import_to_trello.get_cards(current_list)
-    (new_cards, colours) = load_cards(all_sets, existing_cards, card_exclusions)
+    (new_cards, colours) = load_cards(all_sets, existing_cards, card_exclusions, previously_fetched_cards)
     new_cards.sort(key=lambda x: sort_results(x, colours))
 
     import_to_trello.archive_old_cards(wants_list)
