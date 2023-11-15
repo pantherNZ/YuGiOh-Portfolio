@@ -202,6 +202,9 @@ public class BinderModelHandler : EventReceiverInstance
             savedRTs.Length == currentBinder.data.pageCount )
             return;
 
+        if( currentBinder == null || currentBinder.data == null || currentBinder.data.pageCount == 0 )
+            return;
+
         savedRTs = new RenderTexture[currentBinder.data.pageCount];
 
         var cardCountMinusFrontBack = currentBinder.data.pageCount - 2;
