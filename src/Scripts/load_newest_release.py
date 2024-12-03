@@ -109,7 +109,7 @@ def load_cards(sets:dict, existing_cards:list, card_exclusions:set, previously_f
                         colour = "blue"
                     else:
                         colour = "purple"
-                added[name] = (rarity, new_card_name, colour)
+                    added[name] = (rarity, new_card_name, colour)
 
     return ([x[1] for x in added.values()], {x[1]: x[2] for x in added.values() if x[2] != None})
 

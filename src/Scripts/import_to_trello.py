@@ -203,7 +203,7 @@ if __name__ == '__main__':
 
     board_id = get_board('Yugioh')
     list_id = get_list(board_id, 'Current')
-
+    #existing_current_cards = get_cards(list_id)
     archive_old_cards(list_id)
 
     FILE = 'all.csv'
