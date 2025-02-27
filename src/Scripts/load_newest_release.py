@@ -93,23 +93,18 @@ def load_cards(sets:dict, existing_cards:list, card_exclusions:set, previously_f
                 if name in existing_cards_set_no_set:
                     existing = existing_cards[existing_cards_no_set.index(name)]
                     existing_rarity = existing[existing.rfind(' - ') + 3:-1]
-                    if all_sets.get(card_set):
-                        if existing_rarity not in rarities_all:
-                            print(f'[ERROR] Existing card with rarity found not in the rarities list: {existing_rarity}')
-                        elif rarities_all.index(rarity) <= max(8, rarities_all.index(existing_rarity)) and existing_rarity != 'Super Rare':
-                            continue
-                        else:
-                            is_rarity_upgrade = True
+                    if existing_rarity not in rarities_all:
+                        print(f'[ERROR] Existing card with rarity found not in the rarities list: {existing_rarity}')
+                    continue
 
                 colour = None
-                if not is_rarity_upgrade:
-                    if x['race'] != 'Dragon':
-                        colour = "yellow"
-                    elif name not in previously_fetched_cards_no_set:
-                        colour = "blue"
-                    else:
-                        colour = "purple"
-                    added[name] = (rarity, new_card_name, colour)
+                if x['race'] != 'Dragon':
+                    colour = "yellow"
+                elif name not in previously_fetched_cards_no_set:
+                    colour = "blue"
+                else:
+                    colour = "purple"
+                added[name] = (rarity, new_card_name, colour)
 
     return ([x[1] for x in added.values()], {x[1]: x[2] for x in added.values() if x[2] != None})
 
